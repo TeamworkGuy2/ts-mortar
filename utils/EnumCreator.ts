@@ -84,7 +84,7 @@ module EnumCreator {
     }
 
 
-    export function initEnumClass<T>(enumClass: any, enumConstantClass: any, enumConstants: T[]) {
+    export function initEnumClass<T>(enumClass: EnumType<T>, enumConstantClass: { prototype: T }, enumConstants: T[]) {
         EnumClassImpl.call(enumClass, enumClass, enumConstantClass, enumConstants);
         Objects.extendToStatic(enumClass, EnumClassImpl, false);
         Objects.extend(enumClass, EnumConstantImpl, false);
