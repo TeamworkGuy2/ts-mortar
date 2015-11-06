@@ -1,5 +1,5 @@
 ﻿//import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
-import Functions = require("../../../TsMortar/utils/Functions");
+import Functions = require("../../../ts-mortar/utils/Functions");
 
 
 function ClassTest(arg) {

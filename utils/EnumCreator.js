@@ -52,4 +52,3 @@ var EnumCreator;
     EnumCreator.initEnumClass = initEnumClass;
 })(EnumCreator || (EnumCreator = {}));
 module.exports = EnumCreator;
-//# sourceMappingURL=EnumCreator.js.map

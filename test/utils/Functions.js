@@ -1,5 +1,4 @@
-//import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
-var Functions = require("../../../TsMortar/utils/Functions");
+var Functions = require("../../../ts-mortar/utils/Functions");
 function ClassTest(arg) {
     this.arg = arg;
 }
@@ -74,4 +73,3 @@ QUnit.test("createFuncTimer", function createFuncTimerTest(sr) {
     sr.equal(res1.wrapperFunc("c"), 2);
     sr.equal(res1.calls, 2);
 });
-//# sourceMappingURL=Functions.js.map

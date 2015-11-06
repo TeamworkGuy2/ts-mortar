@@ -1,5 +1,4 @@
-//import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
-var Arrays = require("../../../TsMortar/utils/Arrays");
+var Arrays = require("../../../ts-mortar/utils/Arrays");
 QUnit.module("Arrays", {});
 QUnit.test("addAll", function addAllTest(sr) {
     var ary1 = [1, 2, 4];
@@ -82,6 +81,11 @@ QUnit.test("fastRemoveIndex", function fastRemoveIndexTest(sr) {
     sr.deepEqual(res2.sort(), ["B", "D", "H", "J"]);
     var res3 = Arrays.fastRemoveIndex(ary.slice(), 4);
     sr.deepEqual(res3.sort(), ["B", "D", "F", "H"]);
+});
+QUnit.test("filterSplit", function filterSplitTest(sr) {
+    var res1 = Arrays.filterSplit([1, 2, 3, 4, 5], function (value, idx, ary) { return value % 2 == 0; });
+    var expected1 = { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] };
+    sr.deepEqual(res1, expected1);
 });
 QUnit.test("findAllProp", function findAllPropTest(sr) {
     var res = Arrays.findAllProp([{ name: "billy", value: 5 }, { name: "sam", value: 5 }, { name: "overhill", value: 3 }], "value", 5);
@@ -227,4 +231,3 @@ QUnit.test("unique", function uniqueTest(sr) {
     sr.deepEqual(Arrays.unique(ary), aryUnique);
     sr.deepEqual(Arrays.unique([]), []);
 });
-//# sourceMappingURL=Arrays.js.map

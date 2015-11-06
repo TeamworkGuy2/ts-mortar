@@ -243,6 +243,51 @@ module Arrays {
     }
 
 
+    /** Split an array of values into matching and non-matching arrays using a filter
+     * For example:
+     * {@code filterSplit([1, 2, 3, 4, 5], function (value, idx, ary) { return value % 2 == 0; })}
+     * returns:
+     * {@code { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] }}
+     *
+     * @param {T[]} ary: array of input values to filter
+     * @param {ArrayFilterFunc} filterFunc: the function to filter the values,
+     * true stores items in the returned 'matching' property,
+     * false stores items in the returned 'notMatching' property
+     * @return a filter result that contains the original 'all' {@code ary} and arrays of 'matching' and 'notMatching' items
+     */
+    export function filterSplit<T>(ary: T[] | ArrayLike<T>, filterFunc: FilterFunc<T>): { all: T[]; matching: T[]; notMatching: T[] } {
+        if (ary == null) { return toBiFilterResult([], [], []); }
+        if (typeof filterFunc !== "function") {
+            throw new Error("incorrect parameter 'filterFunc', must be a 'function(value: T, index: number, array: T[]): boolean'");
+        }
+
+        var matching: T[] = [];
+        var notMatching: T[] = [];
+
+        for (var i = 0, size = ary.length; i < size; i++) {
+            var value = ary[i];
+            if (filterFunc(value, i, <T[]>ary)) {
+                matching.push(value);
+            }
+            else {
+                notMatching.push(value);
+            }
+        }
+
+        return toBiFilterResult(<T[]>ary, matching, notMatching);
+    }
+
+
+    // convert an array of items and arrays containing matching and non-matching items to an {@link BiFilterResult} object
+    function toBiFilterResult<T>(all: T[], matching: T[], notMatching: T[]) {
+        return {
+            all: all,
+            matching: matching,
+            notMatching: notMatching
+        };
+    }
+
+
     /** Search for objects in an array containing a property matching a given input property.
      * For example: {@code findAllProp([ {name: "billy", value: 5}, {name: "sam", value: 5}, {name: "overhill", value: 3} ], "value", 5)}
      * returns: {@code {name: "billy", value: 5}, {name: "sam", value: 5} }

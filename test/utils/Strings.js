@@ -1,5 +1,4 @@
-//import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
-var Strings = require("../../../TsMortar/utils/Strings");
+var Strings = require("../../../ts-mortar/utils/Strings");
 QUnit.module("Strings", {});
 QUnit.test("endsWith", function endsWithTest(sr) {
     var res1 = Strings.endsWith("blue", "e");
@@ -115,4 +114,3 @@ QUnit.test("replaceAll", function replaceAllTest(sr) {
     var res1 = Strings.replaceAll("cat in the hat", "at", "ab");
     sr.equal(res1, "cab in the hab");
 });
-//# sourceMappingURL=Strings.js.map

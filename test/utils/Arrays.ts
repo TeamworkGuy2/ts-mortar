@@ -1,5 +1,5 @@
 ﻿//import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
-import Arrays = require("../../../TsMortar/utils/Arrays");
+import Arrays = require("../../../ts-mortar/utils/Arrays");
 
 
 QUnit.module("Arrays", {
@@ -127,6 +127,13 @@ QUnit.test("fastRemoveIndex", function fastRemoveIndexTest(sr) {
 
     var res3 = Arrays.fastRemoveIndex(ary.slice(), 4);
     sr.deepEqual(res3.sort(), ["B", "D", "F", "H"]);
+});
+
+
+QUnit.test("filterSplit", function filterSplitTest(sr) {
+    var res1 = Arrays.filterSplit([1, 2, 3, 4, 5], function (value, idx, ary) { return value % 2 == 0; });
+    var expected1 = { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] };
+    sr.deepEqual(res1, expected1);
 });
 
 
