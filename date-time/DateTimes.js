@@ -1,17 +1,17 @@
 var DateTimes;
 (function (DateTimes) {
     DateTimes.MS_PER_DAY = 1000 * 60 * 60 * 24;
-    var DotNetJsonDate = (function () {
-        function DotNetJsonDate() {
-        }
-        DotNetJsonDate.parseDotNetJson = function (value) {
+    var DotNetJsonDate;
+    (function (DotNetJsonDate) {
+        function parseDotNetJson(value) {
             if (!value) {
                 return new Date();
             }
             var time = Timestamp.parseDotNetJson(value);
             return new Date(time);
-        };
-        DotNetJsonDate.toDotNetJsonTimestamp = function (date, includeOffset) {
+        }
+        DotNetJsonDate.parseDotNetJson = parseDotNetJson;
+        function toDotNetJson(date, includeOffset) {
             if (includeOffset === void 0) { includeOffset = true; }
             if (date == null) {
                 date = new Date();
@@ -31,26 +31,26 @@ var DateTimes;
             }
             var dateStr = '/Date(' + date.getTime() + tz + ')/';
             return dateStr;
-        };
-        return DotNetJsonDate;
-    })();
-    DateTimes.DotNetJsonDate = DotNetJsonDate;
-    var Dates = (function () {
-        function Dates() {
         }
-        Dates.getDayMinutes = function (date) {
+        DotNetJsonDate.toDotNetJson = toDotNetJson;
+    })(DotNetJsonDate = DateTimes.DotNetJsonDate || (DateTimes.DotNetJsonDate = {}));
+    var Dates;
+    (function (Dates) {
+        function getDayMinutes(date) {
             var dt = new Date(date.getTime());
             return dt.getHours() * 60 + dt.getMinutes();
-        };
-        Dates.toDisplayDate = function (date, separator) {
+        }
+        Dates.getDayMinutes = getDayMinutes;
+        function toDisplayDate(date, separator) {
             if (separator === void 0) { separator = "/"; }
             var dt = new Date(date.getTime());
             var d = dt.getDate();
             var mon = dt.getMonth() + 1;
             var y = dt.getFullYear();
             return (mon <= 9 ? '0' + mon : '' + mon) + separator + (d <= 9 ? '0' + d : '' + d) + separator + y;
-        };
-        Dates.toDisplayDateTime = function (date, includingMidnight) {
+        }
+        Dates.toDisplayDate = toDisplayDate;
+        function toDisplayDateTime(date, includingMidnight) {
             var dt = new Date(date.getTime());
             var hrs = dt.getHours();
             var mins = dt.getMinutes();
@@ -65,16 +65,16 @@ var DateTimes;
             return Dates.toDisplayDate(date) +
                 ' ' + (hrs <= 9 ? '0' + hrs : '' + hrs) +
                 ':' + (mins <= 9 ? '0' + mins : '' + mins) + ' ' + ampm;
-        };
-        Dates.dayDiff = function (dtLeft, dtRight, incrementAtMidnight) {
+        }
+        Dates.toDisplayDateTime = toDisplayDateTime;
+        function dayDiff(dtLeft, dtRight, incrementAtMidnight) {
             if (incrementAtMidnight === void 0) { incrementAtMidnight = false; }
             var daysDiff = ((dtLeft.getTime() - dtRight.getTime()) / DateTimes.MS_PER_DAY);
             var dateDiff = (incrementAtMidnight ? Math.floor(daysDiff) : Math.round(daysDiff));
             return dateDiff;
-        };
-        return Dates;
-    })();
-    DateTimes.Dates = Dates;
+        }
+        Dates.dayDiff = dayDiff;
+    })(Dates = DateTimes.Dates || (DateTimes.Dates = {}));
     var Timestamp = (function () {
         function Timestamp() {
         }
@@ -85,16 +85,23 @@ var DateTimes;
             enumerable: true,
             configurable: true
         });
-        Timestamp.now = function () {
+        return Timestamp;
+    })();
+    DateTimes.Timestamp = Timestamp;
+    var Timestamp;
+    (function (Timestamp) {
+        function now() {
             var now = new Date();
             var offset = now.getTimezoneOffset() * 60 * 1000;
             return (now.getTime() + offset);
-        };
-        Timestamp.toDate = function (timestamp, isUtc) {
+        }
+        Timestamp.now = now;
+        function toDate(timestamp, isUtc) {
             if (isUtc === void 0) { isUtc = true; }
             return new Date(timestamp - (isUtc ? Timestamp.currentTimezoneOffsetMillis : 0));
-        };
-        Timestamp.parseDotNetJson = function (dateString, ignoreTimezoneAssumeUtc) {
+        }
+        Timestamp.toDate = toDate;
+        function parseDotNetJson(dateString, ignoreTimezoneAssumeUtc) {
             if (ignoreTimezoneAssumeUtc === void 0) { ignoreTimezoneAssumeUtc = true; }
             if (!dateString) {
                 return Date.now();
@@ -120,26 +127,30 @@ var DateTimes;
             }
             var time = parseInt(dateObj[0], 10) + timeZoneOffsetMs;
             return time;
-        };
-        Timestamp.toDotNetJson = function (timestamp, isUtc, includeOffset) {
+        }
+        Timestamp.parseDotNetJson = parseDotNetJson;
+        function toDotNetJson(timestamp, isUtc, includeOffset) {
             if (isUtc === void 0) { isUtc = true; }
             if (includeOffset === void 0) { includeOffset = true; }
-            return DotNetJsonDate.toDotNetJsonTimestamp(Timestamp.toDate(timestamp, isUtc), includeOffset);
-        };
-        Timestamp.toUtcDotNetJson = function (timestamp) {
-            return DotNetJsonDate.toDotNetJsonTimestamp(new Date(timestamp + Timestamp.currentTimezoneOffsetMillis));
-        };
-        Timestamp.getDayMinutes = function (timestamp) {
+            return DotNetJsonDate.toDotNetJson(Timestamp.toDate(timestamp, isUtc), includeOffset);
+        }
+        Timestamp.toDotNetJson = toDotNetJson;
+        function toUtcDotNetJson(timestamp) {
+            return DotNetJsonDate.toDotNetJson(new Date(timestamp + Timestamp.currentTimezoneOffsetMillis));
+        }
+        Timestamp.toUtcDotNetJson = toUtcDotNetJson;
+        function getDayMinutes(timestamp) {
             return Dates.getDayMinutes(new Date(timestamp));
-        };
-        Timestamp.toDisplayDate = function (timestamp) {
-            return Dates.toDisplayDate(new Date(timestamp));
-        };
-        Timestamp.toDisplayDateTime = function (timestamp, includingMidnight) {
+        }
+        Timestamp.getDayMinutes = getDayMinutes;
+        function toDisplayDate(timestamp, separator) {
+            return Dates.toDisplayDate(new Date(timestamp), separator);
+        }
+        Timestamp.toDisplayDate = toDisplayDate;
+        function toDisplayDateTime(timestamp, includingMidnight) {
             return Dates.toDisplayDateTime(new Date(timestamp), includingMidnight);
-        };
-        return Timestamp;
-    })();
-    DateTimes.Timestamp = Timestamp;
+        }
+        Timestamp.toDisplayDateTime = toDisplayDateTime;
+    })(Timestamp = DateTimes.Timestamp || (DateTimes.Timestamp = {}));
 })(DateTimes || (DateTimes = {}));
 module.exports = DateTimes;

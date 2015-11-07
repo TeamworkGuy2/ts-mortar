@@ -82,10 +82,6 @@ var Objects;
         return null;
     }
     Objects.coalesce = coalesce;
-    function orNull(obj) {
-        return obj == null ? null : obj;
-    }
-    Objects.orNull = orNull;
     function getProp(obj, propertyName) {
         if (obj == null) {
             return null;

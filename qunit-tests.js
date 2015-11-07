@@ -30,6 +30,14 @@ testRunner.run({
     tests: "./test/utils/Numbers.js"
 }, callback);
 testRunner.run({
+    code: "./utils/Objects",
+    tests: "./test/utils/Objects.js"
+}, callback);
+testRunner.run({
     code: "./utils/Strings",
     tests: "./test/utils/Strings.js"
+}, callback);
+testRunner.run({
+    code: "./date-time/DateTimes",
+    tests: "./test/date-time/DateTimes.js"
 }, callback);

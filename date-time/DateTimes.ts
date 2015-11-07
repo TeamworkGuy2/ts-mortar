@@ -12,7 +12,7 @@ module DateTimes {
 
     /** .NET web service JSON representation of the C# 'DateTime' data type
      */
-    export class DotNetJsonDate {
+    export module DotNetJsonDate {
 
         /** Parses a date string in the format returned by .NET web service
          * it returns date in its time zone, so we have to convert it to UTC and then to JS time zone
@@ -20,7 +20,7 @@ module DateTimes {
          * Can be null, in which case the current date/time is returned.
          * @return a new date object created from the {@code value}
          */
-        static parseDotNetJson(value: string): Date {
+        export function parseDotNetJson(value: string): Date {
             if (!value) {
                 return new Date();
             }
@@ -35,7 +35,7 @@ module DateTimes {
          * @param date: the date to convert.  Or null to use the current date/time.
          * @return a .NET web service date-time string representation
          */
-        static toDotNetJsonTimestamp(date?: Date, includeOffset: boolean = true): string {
+        export function toDotNetJson(date?: Date, includeOffset: boolean = true): string {
             if (date == null) {
                 date = new Date();
             }
@@ -65,13 +65,13 @@ module DateTimes {
 
     /** Javascript 'Date' type conversion/manipulation
      */
-    export class Dates {
+    export module Dates {
 
         /** Get minutes of the day (0 - 1439) from a date. The date is in the current timezone.
          * @param date: the date to get the minute of the day from
          * @return the number of minutes that have elapsed since the last midnight of the timestamp
          */
-        static getDayMinutes(date: Date): number {
+        export function getDayMinutes(date: Date): number {
             var dt = new Date(date.getTime());
             return dt.getHours() * 60 + dt.getMinutes();
         }
@@ -82,7 +82,7 @@ module DateTimes {
          * @param [separator='/']: optional separator such as '/' or '-' to separate the 'mm', 'dd', and 'yyyy' portions of the returned date string
          * @return the date represented by the timestamp in the format 'mm/dd/yyyy'
          */
-        static toDisplayDate(date: Date, separator: string = "/"): string {
+        export function toDisplayDate(date: Date, separator: string = "/"): string {
             var dt = new Date(date.getTime());
             var d = dt.getDate();
             var mon = dt.getMonth() + 1;
@@ -96,7 +96,7 @@ module DateTimes {
          * @param [includingMidnight=false]: if true AND date is midnight, returns only the 'mm/dd/yyyy' portion of the date representation
          * @return the date-time representated by the timestamp in the format 'mm/dd/yyyy hh:mm am/pm'
          */
-        static toDisplayDateTime(date: Date, includingMidnight?: boolean): string {
+        export function toDisplayDateTime(date: Date, includingMidnight?: boolean): string {
             var dt = new Date(date.getTime());
             var hrs = dt.getHours();
             var mins = dt.getMinutes();
@@ -118,7 +118,7 @@ module DateTimes {
          * @param [incrementAtMidnight=false]: if true, assumes dtRight's time is midnight and counts from dtRight's date
          * (i.e.if {@code incrementAtMidnight == true } then 2001-3-15 2:43 is the same day as 2001-3-15 19:39, even though the dates are more than 12 hours apart)
          */
-        static dayDiff(dtLeft: Date, dtRight: Date, incrementAtMidnight: boolean = false): number {
+        export function dayDiff(dtLeft: Date, dtRight: Date, incrementAtMidnight: boolean = false): number {
             var daysDiff = ((dtLeft.getTime() - dtRight.getTime()) / DateTimes.MS_PER_DAY);
             var dateDiff = (incrementAtMidnight ? Math.floor(daysDiff) : Math.round(daysDiff)); // TODO this does not handle leap years or non-gregorian calendar days
             return dateDiff;
@@ -129,8 +129,6 @@ module DateTimes {
 
 
 
-    /** Unix epoch timestamp conversion/manipulation
-     */
     export class Timestamp {
         private static _timezoneOffsetMillis: number;
 
@@ -141,11 +139,18 @@ module DateTimes {
             return Timestamp._timezoneOffsetMillis || (Timestamp._timezoneOffsetMillis = new Date().getTimezoneOffset() * 60 * 1000);
         }
 
+    }
+
+
+    /** Unix epoch timestamp conversion/manipulation
+     */
+    export module Timestamp {
+
 
         /**
          * @return the current UTC time as Unix millisecond timestamp
          */
-        static now(): number {
+        export function now(): number {
             var now = new Date();
             var offset = now.getTimezoneOffset() * 60 * 1000; // x 1 minute as milliseconds
             return (now.getTime() + offset); // TODO workaround for .NET web services returning local timestamps
@@ -158,7 +163,7 @@ module DateTimes {
          * it is a local timezone timestamp and apply the correct offset to it
          * @return the date created from the timestamp
          */
-        static toDate(timestamp: number, isUtc: boolean = true): Date {
+        export function toDate(timestamp: number, isUtc: boolean = true): Date {
             // if UTC, apply a reverse timezone offset since {@code new Date()} automatically assumes the timestamp is local
             return new Date(timestamp - (isUtc ? Timestamp.currentTimezoneOffsetMillis : 0));
         }
@@ -172,7 +177,7 @@ module DateTimes {
          * embeded timezone from the date string or apply no timezone offset if there is none
          * @return the epoch millisecond timestamp value of the input {@code dateString}
          */
-        static parseDotNetJson(dateString: string | number, ignoreTimezoneAssumeUtc: boolean = true/*TODO workaround for .NET web services returning local timestamps*/): number {
+        export function parseDotNetJson(dateString: string | number, ignoreTimezoneAssumeUtc: boolean = true/*TODO workaround for .NET web services returning local timestamps*/): number {
             if (!dateString) {
                 return Date.now();
             }
@@ -210,16 +215,16 @@ module DateTimes {
          * @param [includeOffset=true]: flag indicating whether offset portion of the timestamp should be included (normally false for UTC dates)
          * @return the string representation of the date to pass to service calls
          */
-        static toDotNetJson(timestamp: number, isUtc: boolean = true, includeOffset: boolean = true): string {
-            return DotNetJsonDate.toDotNetJsonTimestamp(Timestamp.toDate(timestamp, isUtc), includeOffset);
+        export function toDotNetJson(timestamp: number, isUtc: boolean = true, includeOffset: boolean = true): string {
+            return DotNetJsonDate.toDotNetJson(Timestamp.toDate(timestamp, isUtc), includeOffset);
         }
 
 
         /** Convert a UTC timestamp to an un-offset .NET web service timestamp by applying the reverse of the
          * current local timezone offset to the timestamp so when the server converts it to UTC it converts back to the input date
          */
-        static toUtcDotNetJson(timestamp: number): string {
-            return DotNetJsonDate.toDotNetJsonTimestamp(new Date(timestamp + Timestamp.currentTimezoneOffsetMillis));
+        export function toUtcDotNetJson(timestamp: number): string {
+            return DotNetJsonDate.toDotNetJson(new Date(timestamp + Timestamp.currentTimezoneOffsetMillis));
         }
 
 
@@ -227,7 +232,7 @@ module DateTimes {
          * @param timestamp: the timestamp to get the minute of the day from
          * @return the number of minutes that have elapsed since the last midnight of the timestamp's date
          */
-        static getDayMinutes(timestamp: number): number {
+        export function getDayMinutes(timestamp: number): number {
             return Dates.getDayMinutes(new Date(timestamp));
         }
 
@@ -236,8 +241,8 @@ module DateTimes {
          * @param timestamp: the timestamp to convert to a date
          * @return the date represented by the timestamp in the format 'mm/dd/yyyy'
          */
-        static toDisplayDate(timestamp: number): string {
-            return Dates.toDisplayDate(new Date(timestamp));
+        export function toDisplayDate(timestamp: number, separator?: string): string {
+            return Dates.toDisplayDate(new Date(timestamp), separator);
         }
 
 
@@ -245,7 +250,7 @@ module DateTimes {
          * @param timestamp: the timestamp to convert to a date-time string
          * @return the date-time representated by the timestamp in the format 'mm/dd/yyyy hh:mm am/pm'
          */
-        static toDisplayDateTime(timestamp: number, includingMidnight?: boolean): string {
+        export function toDisplayDateTime(timestamp: number, includingMidnight?: boolean): string {
             return Dates.toDisplayDateTime(new Date(timestamp), includingMidnight);
         }
 

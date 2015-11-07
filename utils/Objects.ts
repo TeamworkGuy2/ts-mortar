@@ -16,7 +16,7 @@ module Objects {
      * to retrieve from the object
      * @return the values associated with {@code keys} or {@code Object.keys(obj)}
      */
-    export function values<T>(obj: { [id: string]: T } | { [id: number]: T }, keys?: string[]): T[] {
+    export function values<T>(obj: { [id: string]: T } | { [id: number]: T } | any, keys?: string[]): T[] {
         if (keys != null && !Array.isArray(keys)) {
             throw new Error("incorrect usage (" + obj + ", " + keys + "), expected (Object obj, Array<String> [keys])");
         }
@@ -25,7 +25,7 @@ module Objects {
         }
 
         var size = keys.length;
-        var results: T[] = new Array(size);
+        var results: any[] = new Array(size);
         for (var i = 0; i < size; i++) {
             results[i] = obj[keys[i]];
         }
@@ -45,7 +45,7 @@ module Objects {
      * @return the non-null values associated with {@code keys} or the
      * non-null values associated with {@code Object.keys(obj)}
      */
-    export function valuesNotNull<T>(obj: { [id: string]: T } | { [id: number]: T }, keys?: string[]): T[] {
+    export function valuesNotNull<T>(obj: { [id: string]: T } | { [id: number]: T } | any, keys?: string[]): T[] {
         if (keys != null && !Array.isArray(keys)) {
             throw new Error("incorrect usage (" + obj + ", " + keys + "), expected (Object obj, Array<String> [keys])");
         }
@@ -139,15 +139,6 @@ module Objects {
             }
         }
         return null;
-    }
-
-
-    /** convert undefined values to null
-     * @param obj: the object to return if not null
-     * @return the {@code obj} if it is not null, else null
-     */
-    export function orNull<T>(obj: T): T {
-        return obj == null ? null : obj;
     }
 
 
