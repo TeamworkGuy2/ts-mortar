@@ -16,7 +16,7 @@ module Objects {
      * to retrieve from the object
      * @return the values associated with {@code keys} or {@code Object.keys(obj)}
      */
-    export function values<T>(obj: { [id: string]: T } | { [id: number]: T } | any, keys?: string[]): T[] {
+    export function values<T>(obj: { [id: string]: T } | { [id: number]: T }, keys?: string[]): T[] {
         if (keys != null && !Array.isArray(keys)) {
             throw new Error("incorrect usage (" + obj + ", " + keys + "), expected (Object obj, Array<String> [keys])");
         }
@@ -45,7 +45,7 @@ module Objects {
      * @return the non-null values associated with {@code keys} or the
      * non-null values associated with {@code Object.keys(obj)}
      */
-    export function valuesNotNull<T>(obj: { [id: string]: T } | { [id: number]: T } | any, keys?: string[]): T[] {
+    export function valuesNotNull<T>(obj: { [id: string]: T } | { [id: number]: T }, keys?: string[]): T[] {
         if (keys != null && !Array.isArray(keys)) {
             throw new Error("incorrect usage (" + obj + ", " + keys + "), expected (Object obj, Array<String> [keys])");
         }

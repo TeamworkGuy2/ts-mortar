@@ -43,7 +43,7 @@ QUnit.module("Objects", {
 
 
 QUnit.test("values", function valuesTest(sr) {
-    var res1 = Objects.values(item, itemKeys);
+    var res1 = Objects.values(<{ [id: string]: any }>item, itemKeys);
     sr.deepEqual(res1, itemValues);
 
     var res2 = Objects.values(nums, numsKeys);
@@ -62,7 +62,7 @@ QUnit.test("valuesNotNull", function valuesNotNullTest(sr) {
         vals.push(item[keys[i]]);
     }
 
-    var res1 = Objects.valuesNotNull(item);
+    var res1 = Objects.valuesNotNull(<{ [id: string]: any }>item);
     sr.deepEqual(res1, vals);
 
     var res2 = Objects.valuesNotNull({ a: undefined, b: null, c: 0, d: false, e: "true", f: 2 }, ["a", "b", "c", "d"]);
