@@ -216,7 +216,7 @@ QUnit.test("sortNumeric", function sortNumericTest(sr) {
 QUnit.test("spliceArray", function spliceArrayTest(sr) {
     var origAry = [1, 2, 8, 9, 6];
     var insertAry = [3, 4, 5];
-    var res = Arrays.spliceArray(origAry, insertAry, 2, 2);
+    var res = Arrays.splice(origAry, insertAry, 2, 2);
     sr.deepEqual(res, [1, 2, 3, 4, 5, 6]);
 });
 QUnit.test("union", function unionTest(sr) {

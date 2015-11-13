@@ -700,7 +700,7 @@ module Arrays {
      * @param [deleteCount=0]: the number of elements to not copy from {@code origAry} starting at {@code index}
      * @return the {@code origAry} or a new array containing the contents of {@code origAry} and {@code insertAry}
      */
-    export function spliceArray<T>(origAry: T[], insertAry: T[], index: number, deleteCount: number = 0): T[] {
+    export function splice<T>(origAry: T[], insertAry: T[], index: number, deleteCount: number = 0): T[] {
         if (origAry == null || insertAry == null || !Array.isArray(origAry) || !Array.isArray(insertAry) || index === undefined) {
             if (origAry == null && insertAry == null) {
                 return null;

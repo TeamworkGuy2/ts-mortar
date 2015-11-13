@@ -446,7 +446,7 @@ var Arrays;
         return ary;
     }
     Arrays.sortNumeric = sortNumeric;
-    function spliceArray(origAry, insertAry, index, deleteCount) {
+    function splice(origAry, insertAry, index, deleteCount) {
         if (deleteCount === void 0) { deleteCount = 0; }
         if (origAry == null || insertAry == null || !Array.isArray(origAry) || !Array.isArray(insertAry) || index === undefined) {
             if (origAry == null && insertAry == null) {
@@ -479,7 +479,7 @@ var Arrays;
         }
         return tmp;
     }
-    Arrays.spliceArray = spliceArray;
+    Arrays.splice = splice;
     function union(ary1, ary2) {
         if (ary1 == null || ary2 == null) {
             if (ary1 == null && ary2 != null) {
