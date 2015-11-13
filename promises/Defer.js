@@ -1,4 +1,4 @@
-/// <reference path="../tsDefinitions/lib/Q.d.ts" />
+/// <reference path="../definitions/lib/Q.d.ts" />
 var Q = require("q");
 var Defer = (function () {
     function Defer() {

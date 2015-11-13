@@ -1,4 +1,4 @@
-﻿/// <reference path="../tsDefinitions/lib/Q.d.ts" />
+﻿/// <reference path="../definitions/lib/Q.d.ts" />
 import Q = require("q");
 
 /** Defer - functions for strongly typed promise/deferred handling
