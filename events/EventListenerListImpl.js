@@ -1,4 +1,9 @@
 var Arrays = require("../utils/Arrays");
+/** A listener/event handler class - manages a list of listener functions and allows events to be sent to the listeners
+ * @author TeamworkGuy2
+ * @param <E> the event type
+ * @param <L> the listener function signature
+ */
 var EventListenerListImpl = (function () {
     function EventListenerListImpl() {
         this.reset();
@@ -42,6 +47,9 @@ var EventListenerListImpl = (function () {
         EventListenerListImpl.checkCallback(cb, "fire events success");
         this.listenerRemovedCallback = cb;
     };
+    /** Add a listener function that is called whenever a new customer is added to the bid via the UI
+     * @param {Function(customer, bidId)} listener: a listener function that is passed the new customer added to the bid
+     */
     EventListenerListImpl.prototype.addListener = function (listener) {
         this.addNTimeListener(listener);
     };
@@ -62,6 +70,9 @@ var EventListenerListImpl = (function () {
             this.listenerAddedCallback(listener);
         }
     };
+    /** Remove a listener function from being called whenever a new customer is added to a bid via the UI
+     * @param {Function} listener: a listener that was previously registered with this GenericEventListenerHandler via {code addListener(listener)}
+     */
     EventListenerListImpl.prototype.removeListener = function (listener) {
         if (typeof listener !== "function") {
             throw new Error("cannot remove listener " + listener);
@@ -79,6 +90,12 @@ var EventListenerListImpl = (function () {
             this.listenerRemovedCallback(listener);
         }
     };
+    /**
+     * @param event: the event to pass to the event listener functions
+     * @param customListenerCaller: a function call that takes a listener and event and should fire that event to the listener,
+     * overrides this handler default behavior {@code listener.apply(thisArg, args);}
+     * @param customListenerCallsDoneCb: if provided, a function to call when all the listeners have been called, in place of 'this.fireEventsSuccessCallback'
+     */
     EventListenerListImpl.prototype.fireEvent = function (event, customListenerCaller, customListenerCallsDoneCb) {
         var that = this;
         var errorOccurred = false;
@@ -131,6 +148,7 @@ var EventListenerListImpl = (function () {
             }
         }
     };
+    /** Check if a function argument is a non-null function */
     EventListenerListImpl.checkCallback = function (cb, msg) {
         if (typeof cb !== "function") {
             throw new Error(msg + " callback '" + cb + "' must be a function");

@@ -1,5 +1,8 @@
 var Defer = require("../promises/Defer");
 var EventListenerListImpl = require("./EventListenerListImpl");
+/** An event listener list for asynchronous event listeners (i.e. the listeners perform asynchronous operations)
+ * manages a list of listener functions and allows events to be sent to the listeners
+ */
 var AsyncEventListenerHandler = (function () {
     function AsyncEventListenerHandler() {
         this.eventHandler = new EventListenerListImpl();
@@ -7,6 +10,7 @@ var AsyncEventListenerHandler = (function () {
     AsyncEventListenerHandler.prototype.reset = function () {
         this.eventHandler.reset();
     };
+    // have to proxy all the methods because TypeScript 'extends ...' doesn't work with our gulp compilation process
     AsyncEventListenerHandler.prototype.getListeners = function () {
         return this.eventHandler.getListeners();
     };
@@ -49,6 +53,9 @@ var AsyncEventListenerHandler = (function () {
     AsyncEventListenerHandler.prototype.removeListenerAt = function (index) {
         this.eventHandler.removeListenerAt(index);
     };
+    /**
+     * @param event: the event object being fired to listeners
+     */
     AsyncEventListenerHandler.prototype.fireEvent = function (event, customListenerCaller, customListenerCallsDoneCb) {
         var fireEventsSuccessCallback = this.getFireEventsSuccessCallback();
         var fireEventsFailureCallback = this.getFireEventsFailureCallback();

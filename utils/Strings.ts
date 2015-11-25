@@ -113,6 +113,16 @@ module Strings {
     }
 
 
+    /** Clamps the maximum length of a string, unlike the mathmatical clamp() function, there is no minimum length
+     * @param str: the string to clamp
+     * @param maxLen: the max length of the string
+     * @param ellipsis: an optional string to append to the returned string if it is clamped, this string is appended in addition to the 'maxLen'
+     */
+    export function clamp(str: string, maxLen: number, ellipsis: string = ""): string {
+        return str && str.length > maxLen ? str.substring(0, maxLen - ellipsis.length) + ellipsis : str;
+    }
+
+
     export function padZeroLeft(value, maxDigits: number, padChar: string = '0'): string {
         return Strings.padLeft(value, maxDigits, padChar);
     }

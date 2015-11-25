@@ -1,3 +1,4 @@
+//import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
 var Strings = require("../../../ts-mortar/utils/Strings");
 QUnit.module("Strings", {});
 QUnit.test("endsWith", function endsWithTest(sr) {
@@ -73,6 +74,14 @@ QUnit.test("looseEqual", function looseEqualTest(sr) {
     sr.equal(res3, true);
     var res4 = Strings.looseEqual(" \na\n", "A\t");
     sr.equal(res4, true);
+});
+QUnit.test("clamp", function clampTest(sr) {
+    var inputs = ["123", "1234", "12345"];
+    var expect = ["123", "1234", "1..."];
+    for (var i = 0, size = inputs.length; i < size; i++) {
+        var res = Strings.clamp(inputs[i], 4, "...");
+        sr.equal(res, expect[i], "" + i);
+    }
 });
 QUnit.test("padZeroLeft", function padZeroLeftTest(sr) {
     var res1 = Strings.padZeroLeft(123, 5);

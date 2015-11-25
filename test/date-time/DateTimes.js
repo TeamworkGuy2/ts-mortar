@@ -1,3 +1,4 @@
+//import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
 var DateTimes = require("../../../ts-mortar/date-time/DateTimes");
 function testDotNetJson(sr) {
     var date = new Date(2000, 0, 27);
@@ -42,7 +43,7 @@ QUnit.test("DateTimes.Dates.toDisplayDateTime", function toDisplayDateTimeTest(s
 });
 QUnit.test("DateTimes.Dates.dayDiff", function dayDiffTest(sr) {
     var oldDate = new Date(2000, 0, 27);
-    var newDate = new Date(2000, 2, 1);
+    var newDate = new Date(2000, 2, 1); // Jan 27 to Mar 1 = 34 days
     var res1 = DateTimes.Dates.dayDiff(newDate, oldDate);
     sr.equal(res1, 34);
 });

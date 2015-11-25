@@ -113,6 +113,17 @@ QUnit.test("looseEqual", function looseEqualTest(sr) {
 });
 
 
+QUnit.test("clamp", function clampTest(sr) {
+    var inputs = ["123", "1234", "12345"];
+    var expect = ["123", "1234", "1..."];
+
+    for (var i = 0, size = inputs.length; i < size; i++) {
+        var res = Strings.clamp(inputs[i], 4, "...");
+        sr.equal(res, expect[i], "" + i);
+    }
+});
+
+
 QUnit.test("padZeroLeft", function padZeroLeftTest(sr) {
     var res1 = Strings.padZeroLeft(123, 5);
     sr.equal(res1, "00123");

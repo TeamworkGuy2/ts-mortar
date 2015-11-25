@@ -1,3 +1,8 @@
+/** A generic event queue object with queueChangeEvent() and fireExistingEvents() functions
+ * @author TeamworkGuy2
+ * @param <E> the event type
+ * @param <L> the listener function signature
+ */
 var EventQueueImpl = (function () {
     function EventQueueImpl(eventHandler, eventValidator) {
         this.tempEventCount = 0;
@@ -18,6 +23,7 @@ var EventQueueImpl = (function () {
             }
         }
         this.eventHandler = eventHandler;
+        /** callback functions that are called when eventHandler finish fireEvent() */
         this.eventHandler.setFireEventsSuccessCallback(fireEventsSuccess);
         this.eventHandler.setFireEventsFailureCallback(fireEventsFailure);
         this.eventValidator = (typeof eventValidator === "function" ? eventValidator : null);
@@ -31,16 +37,25 @@ var EventQueueImpl = (function () {
         }
         this.eventHandler.reset();
     };
+    /** @return {EventListenerHandler} this event queue's event handler */
     EventQueueImpl.prototype.getEventHandler = function () {
         return this.eventHandler;
     };
     EventQueueImpl.prototype.hasQueuedEvents = function () {
         return this.events.length > 0;
     };
+    /**
+     * @see #queueChangeEvent
+     * @see #fireExistingEvents
+     */
     EventQueueImpl.prototype.queueAndFireChangeEvent = function (event, doneCb) {
         this.queueChangeEvent(event);
         this.fireExistingEvents(doneCb);
     };
+    /** Add an event to this change handler's queue of current events, the event is fired after any
+     * currently pending events and before any future events are fired using this function.
+     * However, none of these calls are made until {@code fireExistingEvents()} is called
+     */
     EventQueueImpl.prototype.queueChangeEvent = function (event) {
         if (event == null) {
             throw new Error("cannot queue null event");
@@ -50,6 +65,9 @@ var EventQueueImpl = (function () {
         }
         this.events.push(event);
     };
+    /** Fire all current events in this event queue and call {@code doneCb} when
+     * all the event listeners have completed
+     */
     EventQueueImpl.prototype.fireExistingEvents = function (doneCb) {
         this.tempDoneCb = doneCb;
         this.tempEventCount = this.events.length;

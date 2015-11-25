@@ -1,3 +1,4 @@
+//import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
 var Numbers = require("../../../ts-mortar/utils/Numbers");
 QUnit.module("Numbers", {});
 QUnit.test("isNumeric", function isNumericTest(sr) {
@@ -60,5 +61,6 @@ QUnit.test("format", function formatTest(sr) {
     sr.equal(res1, "1,234,568");
 });
 QUnit.test("formatNumeric", function formatNumericTest(sr) {
+    // same/alias for format()
     sr.equal(true, true);
 });

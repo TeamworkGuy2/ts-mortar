@@ -1,3 +1,4 @@
+//import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
 var Arrays = require("../../../ts-mortar/utils/Arrays");
 QUnit.module("Arrays", {});
 QUnit.test("addAll", function addAllTest(sr) {
