@@ -1,6 +1,6 @@
 {
   "name": "ts-mortar",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "dependencies": {
     "q": "^1.1.2"
   },

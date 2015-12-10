@@ -19,3 +19,8 @@ utility for creating and managing 'Q' type promises.
 
 ####utils/
 simplify array, function, number, object, string, and enum operations. 
+Arrays - includes functions for manipulating an array like a list (i.e. addAll, removeIndex, removeValue, clear, containsAll), comparisons (i.e. looseEqual, unique, diff, filterSplit), and object searching (i.e. findProp, findAllProp, indexOfProp, setAllProp). 
+Functions - applyFunc(), callFunc(), createFuncTimer(), tryCatch(), lazyGetter() which take functions and and wrap them to provide additional functionality, such as checking if a function is null before calling it, catching errors thrown by a function, timing how long a function takes to run, etc. 
+Numbers - isNumeric(), isNullOrZero(), roundTo(), format() mostly for converting numbers to and from a user displayable format. 
+Objects - assign(), clone(), extend(), has*Props(), values() for copying objects and getting/checking properties. 
+Strings - clamp(), padLeft/Right(), trimLeading/Trailing(), isNullOrEmpty(), isNullOrWhiteSpace(), isCharAtDigit/LowerCase/UpperCase(), and replaceAll() which are fairly self explanatory. 
