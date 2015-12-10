@@ -142,6 +142,96 @@ module Objects {
     }
 
 
+    export function cloneDeep<T>(source: T): T {
+        if (source == null) { throw new TypeError("cloneDeep() source cannot be null"); }
+
+        if (Array.isArray(source)) {
+            var srcAry = <any[]><any>source;
+            var res = [];
+            for (var i = 0, size = srcAry.length; i < size; i++) {
+                var srcItem = srcAry[i];
+                res[i] = (srcItem !== null && typeof srcItem === "object") ? cloneDeep(srcItem) : srcItem;
+            }
+            return <T><any>res;
+        }
+        else {
+            var target = {};
+            var srcKeys = Object.keys(source);
+            for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
+                var keyI = srcKeys[ii];
+                var srcProp = source[keyI];
+                if (srcProp !== undefined) {
+                    target[keyI] = (srcProp !== null && typeof srcProp === "object") ? cloneDeep(srcProp) : srcProp;
+                }
+            }
+            return <T>target;
+        }
+    }
+
+
+    export function clone<T>(source: T): T {
+        if (source == null) { throw new TypeError("clone() source cannot be null"); }
+
+        if (Array.isArray(source)) {
+            var res = [];
+            Array.prototype.push.apply(res, source);
+            return <T><any>res;
+        }
+        else {
+            return <T>assign({}, source);
+        }
+    }
+
+
+    /** Assign source object properties to a target object.
+     * If 'sources' contains multiple objects with the same property, the property from the last object in 'sources' takes preceedence.
+     * Example: {@code assign({ a: "Q", b: 2 }, { a: "Z", b: "B", c: 3 })
+     * returns {@code { a: "Z", b: "B", c: 3 }}
+     *
+     * @param target the object to add/overwrite the properties to
+     * @param sources the object to copy properties from
+     */
+    export function assign(target: any, source: any) {
+        if (target == null) { throw new TypeError("assign() target cannot be null"); }
+
+        var srcKeys = Object.keys(source);
+        for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
+            var keyI = srcKeys[ii];
+            var srcProp = source[keyI];
+            if (srcProp !== undefined) {
+                target[keyI] = srcProp;
+            }
+        }
+        return target;
+    }
+
+
+    /** Assign source object properties to a target object.
+     * If 'sources' contains multiple objects with the same property, the property from the last object in 'sources' takes preceedence.
+     * Example: {@code assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3 }, { a: "A", d: 4 }])
+     * returns {@code { a: "A", b: "B", c: 3, d: 4 }}
+     *
+     * @param target the object to add/overwrite the properties to
+     * @param sources the objects to copy properties from
+     */
+    export function assignAll(target: any, sources: any[]) {
+        if (target == null) { throw new TypeError("assign() target cannot be null"); }
+
+        for (var i = 0, size = sources.length; i < size; i++) {
+            var src = sources[i];
+            var srcKeys = Object.keys(src);
+            for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
+                var keyI = srcKeys[ii];
+                var srcProp = src[keyI];
+                if (srcProp !== undefined) {
+                    target[keyI] = srcProp;
+                }
+            }
+        }
+        return target;
+    }
+
+
     /** Get a property from an object without the risk of an undefined error.
      * Return null if either the object or the property are null or undefined.
      * Example: {@code getProp(undefined, "alpha")}

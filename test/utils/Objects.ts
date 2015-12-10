@@ -24,7 +24,6 @@ var nums: { [id: string]: number } = {
 var numsKeys: string[] = [];
 var numsValues: number[] = [];
 
-
 (function () {
     itemKeys = Object.keys(item);
     for (var i = 0, size = itemKeys.length; i < size; i++) {
@@ -118,6 +117,98 @@ QUnit.test("coalesce", function coalesceTest(sr) {
 
     var res3 = Objects.coalesce();
     sr.equal(res3, null);
+});
+
+
+QUnit.test("clone", function getPropTest(sr) {
+    var src1 = {
+        a: "A",
+        b: { 1: 1, 2: 2, 3: 3 },
+        c: {
+            c1: [1, 2, 4, 8],
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
+        },
+    };
+    var src1a = {
+        a: "A",
+        b: { 1: 1, 2: 2, 3: 3 },
+        c: {
+            c1: [1, 2, 4, 8],
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
+        },
+    };
+    var src1b = {
+        a: "A",
+        b: { 1: 1, 2: 2, 3: 3 },
+        c: {
+            c1: [1, 2, 4, 8],
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
+        },
+    };
+
+    var res1 = Objects.clone(src1a);
+    src1a.a = null;
+    sr.deepEqual(res1, src1);
+
+    var res1 = Objects.clone(src1b);
+    src1b.c.c1 = null;
+    sr.notDeepEqual(res1, src1);
+});
+
+
+QUnit.test("cloneDeep", function getPropTest(sr) {
+    var src1 = {
+        a: "A",
+        b: { 1: 1, 2: 2, 3: 3 },
+        c: {
+            c1: [1, 2, 4, 8],
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
+        },
+    };
+    var src1a = {
+        a: "A",
+        b: { 1: 1, 2: 2, 3: 3 },
+        c: {
+            c1: [1, 2, 4, 8],
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
+        },
+    };
+    var src1b = {
+        a: "A",
+        b: { 1: 1, 2: 2, 3: 3 },
+        c: {
+            c1: [1, 2, 4, 8],
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
+        },
+    };
+
+    var res1 = Objects.cloneDeep(src1a);
+    src1a.a = null;
+    sr.deepEqual(res1, src1);
+
+    var res1 = Objects.cloneDeep(src1b);
+    src1b.c.c1 = null;
+    sr.deepEqual(res1, src1);
+});
+
+
+QUnit.test("assign", function getPropTest(sr) {
+    var src1 = Objects.assign({ a: "Q", b: 2 }, { a: "Z", b: "B", c: 3 });
+    var res1 = { a: "Z", b: "B", c: 3 };
+    sr.deepEqual(src1, res1);
+});
+
+
+QUnit.test("assignAll", function getPropTest(sr) {
+    var src1 = Objects.assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3 }, { a: "A", d: 4 }]);
+    var res1 = { a: "A", b: "B", c: 3, d: 4 };
+    sr.deepEqual(src1, res1);
 });
 
 
