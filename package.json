@@ -1,6 +1,7 @@
 {
   "name": "ts-mortar",
-  "version": "0.3.3",
+  "version": "0.3.4",
+  "description": "TypeScript lodash/underscore like utilities, focused on array add/remove/search, string is/contains/modification, and object values/clone/hasProps/getProps.",
   "dependencies": {
     "q": "^1.1.2"
   },

@@ -158,11 +158,19 @@ QUnit.test("assign", function getPropTest(sr) {
     var src1 = Objects.assign({ a: "Q", b: 2 }, { a: "Z", b: "B", c: 3 });
     var res1 = { a: "Z", b: "B", c: 3 };
     sr.deepEqual(src1, res1);
+    // test explicit keys
+    var src2 = Objects.assign({ a: "Q", b: 2 }, { a: "Z", b: "B", c: 3 }, ["a", "c"]);
+    var res2 = { a: "Z", b: 2, c: 3 };
+    sr.deepEqual(src2, res2);
 });
 QUnit.test("assignAll", function getPropTest(sr) {
     var src1 = Objects.assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3 }, { a: "A", d: 4 }]);
     var res1 = { a: "A", b: "B", c: 3, d: 4 };
     sr.deepEqual(src1, res1);
+    // test explicit keys
+    var src2 = Objects.assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3, d: "!" }, { b: 2 }, { a: "A", d: 4 }], [["a", "b", "c"], null, ["d"]]);
+    var res2 = { a: "Z", b: 2, c: 3, d: 4 };
+    sr.deepEqual(src2, res2);
 });
 QUnit.test("getProp", function getPropTest(sr) {
     var res1 = Objects.getProp(undefined, "alpha");

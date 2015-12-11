@@ -169,7 +169,7 @@ module Objects {
     }
 
 
-    export function clone<T>(source: T): T {
+    export function clone<T>(source: T, srcKeys?: string[]): T {
         if (source == null) { throw new TypeError("clone() source cannot be null"); }
 
         if (Array.isArray(source)) {
@@ -178,7 +178,7 @@ module Objects {
             return <T><any>res;
         }
         else {
-            return <T>assign({}, source);
+            return <T>assign({}, source, srcKeys);
         }
     }
 
@@ -191,10 +191,10 @@ module Objects {
      * @param target the object to add/overwrite the properties to
      * @param sources the object to copy properties from
      */
-    export function assign(target: any, source: any) {
+    export function assign(target: any, source: any, srcKeys?: string[]) {
         if (target == null) { throw new TypeError("assign() target cannot be null"); }
 
-        var srcKeys = Object.keys(source);
+        srcKeys = srcKeys || Object.keys(source);
         for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
             var keyI = srcKeys[ii];
             var srcProp = source[keyI];
@@ -214,12 +214,12 @@ module Objects {
      * @param target the object to add/overwrite the properties to
      * @param sources the objects to copy properties from
      */
-    export function assignAll(target: any, sources: any[]) {
+    export function assignAll(target: any, sources: any[], srcsKeys?: string[][]) {
         if (target == null) { throw new TypeError("assign() target cannot be null"); }
 
         for (var i = 0, size = sources.length; i < size; i++) {
             var src = sources[i];
-            var srcKeys = Object.keys(src);
+            var srcKeys = (srcsKeys && srcsKeys[i]) || Object.keys(src);
             for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
                 var keyI = srcKeys[ii];
                 var srcProp = src[keyI];

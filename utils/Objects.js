@@ -164,7 +164,7 @@ var Objects;
         }
     }
     Objects.cloneDeep = cloneDeep;
-    function clone(source) {
+    function clone(source, srcKeys) {
         if (source == null) {
             throw new TypeError("clone() source cannot be null");
         }
@@ -174,7 +174,7 @@ var Objects;
             return res;
         }
         else {
-            return assign({}, source);
+            return assign({}, source, srcKeys);
         }
     }
     Objects.clone = clone;
@@ -186,11 +186,11 @@ var Objects;
      * @param target the object to add/overwrite the properties to
      * @param sources the object to copy properties from
      */
-    function assign(target, source) {
+    function assign(target, source, srcKeys) {
         if (target == null) {
             throw new TypeError("assign() target cannot be null");
         }
-        var srcKeys = Object.keys(source);
+        srcKeys = srcKeys || Object.keys(source);
         for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
             var keyI = srcKeys[ii];
             var srcProp = source[keyI];
@@ -209,13 +209,13 @@ var Objects;
      * @param target the object to add/overwrite the properties to
      * @param sources the objects to copy properties from
      */
-    function assignAll(target, sources) {
+    function assignAll(target, sources, srcsKeys) {
         if (target == null) {
             throw new TypeError("assign() target cannot be null");
         }
         for (var i = 0, size = sources.length; i < size; i++) {
             var src = sources[i];
-            var srcKeys = Object.keys(src);
+            var srcKeys = (srcsKeys && srcsKeys[i]) || Object.keys(src);
             for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
                 var keyI = srcKeys[ii];
                 var srcProp = src[keyI];
