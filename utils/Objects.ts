@@ -1,4 +1,5 @@
-﻿/** Object utility functions, includes:
+﻿
+/** Object utility functions, includes:
  * - extend(...) and extendToStatic(...) for extending '.prototype' and object properties
  * - values() counterpart to Object.keys()
  * - has*Properties() various functions for checking if 0 or more properties match a given condition
@@ -294,7 +295,7 @@ module Objects {
      * @param allowChildToOverride: true to keep existing {@code classChild} properties, false to overwrite
      * child properties with parent properties when classParent and classChild have properties with the same name
      */
-    export function extend(classChild: any, classParent: any, allowChildToOverride: boolean = true): void {
+    export function extend(classChild: any, classParent: any, allowChildToOverride: boolean, deepExtend: boolean = false): void {
         if (classParent.prototype == null) {
             throw new Error(classParent + ", does not have the property '.prototype'");
         }
@@ -304,14 +305,13 @@ module Objects {
 
         for (var key in childProto) {
             if (childProto.hasOwnProperty(key)) {
-                if (allowChildToOverride && newChildProto.hasOwnProperty(key)) {
-                    // keep child property
-                }
-                else {
+                var parentConflicts = newChildProto.hasOwnProperty(key) || (deepExtend && key in newChildProto);
+                if ((parentConflicts && allowChildToOverride) || !parentConflicts) {
                     newChildProto[key] = childProto[key];
                 }
             }
         }
+
         Object.defineProperty(classChild.prototype, "constructor", {
             value: classChild
         });
@@ -329,7 +329,7 @@ module Objects {
      * a {@code classChild} property, false to ignore the parent property and keep the classChild property
      * @see #extend()
      */
-    export function extendToStatic(classChild: any, classParent: any, allowChildToOverride: boolean = true, throwErrorIfOverwrites: boolean = true): void {
+    export function extendToStatic(classChild: any, classParent: any, allowChildToOverride: boolean, throwErrorIfOverwrites: boolean = true): void {
         var parentProto = classParent.prototype;
         for (var key in parentProto) {
             if (parentProto.hasOwnProperty(key)) {

@@ -14,12 +14,12 @@ var EnumCreator;
         EnumClassImpl.prototype.values = function () {
             return this.enumConstants;
         };
-        EnumClassImpl.prototype.parse = function (name) {
+        EnumClassImpl.prototype.parse = function (name, throwErrorIfNotEnum) {
             var enumVal = null;
             if (this.enumClass.hasOwnProperty(name)) {
                 enumVal = this.enumClass[name];
             }
-            if (enumVal === null) {
+            if (enumVal === null && throwErrorIfNotEnum) {
                 throw new Error("enum constant '" + name + "' is not a member of enum '" + this.enumClass + "'");
             }
             return enumVal;
@@ -44,10 +44,11 @@ var EnumCreator;
         EnumConstantImpl.call(enumConst, name);
     }
     EnumCreator.initEnumConst = initEnumConst;
-    function initEnumClass(enumClass, enumConstantClass, enumConstants) {
+    function initEnumClass(enumClass, enumConstantClass, enumConstantsGetter) {
+        Objects.extend(enumClass, EnumConstantImpl, false, true);
+        var enumConstants = enumConstantsGetter();
         EnumClassImpl.call(enumClass, enumClass, enumConstantClass, enumConstants);
         Objects.extendToStatic(enumClass, EnumClassImpl, false);
-        Objects.extend(enumClass, EnumConstantImpl, false);
     }
     EnumCreator.initEnumClass = initEnumClass;
 })(EnumCreator || (EnumCreator = {}));

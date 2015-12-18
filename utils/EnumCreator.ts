@@ -8,7 +8,7 @@ module EnumCreator {
 
         values(): T[];
 
-        parse(name: string): T;
+        parse(name: string, throwErrorIfNotEnum?: boolean): T;
     }
 
 
@@ -44,12 +44,12 @@ module EnumCreator {
         }
 
 
-        public parse(name: string): T {
+        public parse(name: string, throwErrorIfNotEnum?: boolean): T {
             var enumVal: T = null;
             if (this.enumClass.hasOwnProperty(name)) {
                 enumVal = this.enumClass[name];
             }
-            if (enumVal === null) {
+            if (enumVal === null && throwErrorIfNotEnum) {
                 throw new Error("enum constant '" + name + "' is not a member of enum '" + this.enumClass + "'");
             }
             return enumVal;
@@ -84,10 +84,11 @@ module EnumCreator {
     }
 
 
-    export function initEnumClass<T>(enumClass: EnumType<T>, enumConstantClass: { prototype: T }, enumConstants: T[]) {
+    export function initEnumClass<T>(enumClass: EnumType<T>, enumConstantClass: { prototype: T }, enumConstantsGetter: () => T[]) {
+        Objects.extend(enumClass, EnumConstantImpl, false, true);
+        var enumConstants = enumConstantsGetter();
         EnumClassImpl.call(enumClass, enumClass, enumConstantClass, enumConstants);
         Objects.extendToStatic(enumClass, EnumClassImpl, false);
-        Objects.extend(enumClass, EnumConstantImpl, false);
     }
 
 }

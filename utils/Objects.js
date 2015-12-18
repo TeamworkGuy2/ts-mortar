@@ -290,8 +290,8 @@ var Objects;
      * @param allowChildToOverride: true to keep existing {@code classChild} properties, false to overwrite
      * child properties with parent properties when classParent and classChild have properties with the same name
      */
-    function extend(classChild, classParent, allowChildToOverride) {
-        if (allowChildToOverride === void 0) { allowChildToOverride = true; }
+    function extend(classChild, classParent, allowChildToOverride, deepExtend) {
+        if (deepExtend === void 0) { deepExtend = false; }
         if (classParent.prototype == null) {
             throw new Error(classParent + ", does not have the property '.prototype'");
         }
@@ -300,9 +300,8 @@ var Objects;
         classChild.prototype = newChildProto;
         for (var key in childProto) {
             if (childProto.hasOwnProperty(key)) {
-                if (allowChildToOverride && newChildProto.hasOwnProperty(key)) {
-                }
-                else {
+                var parentConflicts = newChildProto.hasOwnProperty(key) || (deepExtend && key in newChildProto);
+                if ((parentConflicts && allowChildToOverride) || !parentConflicts) {
                     newChildProto[key] = childProto[key];
                 }
             }
@@ -324,7 +323,6 @@ var Objects;
      * @see #extend()
      */
     function extendToStatic(classChild, classParent, allowChildToOverride, throwErrorIfOverwrites) {
-        if (allowChildToOverride === void 0) { allowChildToOverride = true; }
         if (throwErrorIfOverwrites === void 0) { throwErrorIfOverwrites = true; }
         var parentProto = classParent.prototype;
         for (var key in parentProto) {
