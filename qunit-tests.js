@@ -17,44 +17,31 @@ testRunner.setup({
         testing: true
     }
 });
-//testRunner.run({
-//    code: "./utils/Arrays",
-//    tests: "./test/utils/ArraysTest.js"
-//}, callback);
-//
-//
+testRunner.run({
+    code: "./utils/Arrays",
+    tests: "./test/utils/ArraysTest.js"
+}, callback);
 testRunner.run({
     code: "./utils/EnumCreator",
     tests: "./test/utils/EnumCreatorTest.js"
 }, callback);
-//
-//
-//testRunner.run({
-//    code: "./utils/Functions",
-//    tests: "./test/utils/FunctionsTest.js"
-//}, callback);
-//
-//
-//testRunner.run({
-//    code: "./utils/Numbers",
-//    tests: "./test/utils/NumbersTest.js"
-//}, callback);
-//
-//
-//testRunner.run({
-//    code: "./utils/Objects",
-//    tests: "./test/utils/ObjectsTest.js"
-//}, callback);
-//
-//
-//testRunner.run({
-//    code: "./utils/Strings",
-//    tests: "./test/utils/StringsTest.js"
-//}, callback);
-//
-//
-//testRunner.run({
-//    code: "./date-time/DateTimes",
-//    tests: "./test/date-time/DateTimesTest.js"
-//}, callback);
-// 
+testRunner.run({
+    code: "./utils/Functions",
+    tests: "./test/utils/FunctionsTest.js"
+}, callback);
+testRunner.run({
+    code: "./utils/Numbers",
+    tests: "./test/utils/NumbersTest.js"
+}, callback);
+testRunner.run({
+    code: "./utils/Objects",
+    tests: "./test/utils/ObjectsTest.js"
+}, callback);
+testRunner.run({
+    code: "./utils/Strings",
+    tests: "./test/utils/StringsTest.js"
+}, callback);
+testRunner.run({
+    code: "./date-time/DateTimes",
+    tests: "./test/date-time/DateTimesTest.js"
+}, callback);

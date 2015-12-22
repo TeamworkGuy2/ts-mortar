@@ -220,6 +220,18 @@ QUnit.test("spliceArray", function spliceArrayTest(sr) {
     var res = Arrays.splice(origAry, insertAry, 2, 2);
     sr.deepEqual(res, [1, 2, 3, 4, 5, 6]);
 });
+QUnit.test("swap", function swapTest(sr) {
+    var res = Arrays.swap(["A", "B", "C", "D"], 0, 1);
+    sr.deepEqual(res, ["B", "A", "C", "D"]);
+    var res = Arrays.swap(["A", "B", "C", "D"], 1, 2);
+    sr.deepEqual(res, ["A", "C", "B", "D"]);
+    var res = Arrays.swap(["A", "B", "C", "D"], 2, 3);
+    sr.deepEqual(res, ["A", "B", "D", "C"]);
+    var res = Arrays.swap(["A", "B", "C", "D"], 2, 2);
+    sr.deepEqual(res, ["A", "B", "C", "D"]);
+    var res = Arrays.swap(["A", "B", "C", "D"], 0, 2);
+    sr.deepEqual(res, ["C", "B", "A", "D"]);
+});
 QUnit.test("union", function unionTest(sr) {
     var ary1 = ["A", "B", "C", "D", "1"];
     var ary2 = ["B", "C", "D", "2"];

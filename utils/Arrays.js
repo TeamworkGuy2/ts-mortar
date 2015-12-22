@@ -699,6 +699,21 @@ var Arrays;
         return tmp;
     }
     Arrays.splice = splice;
+    /** Swap two elements in an array
+     * For example: {@code swap(["A", "B", "C", "D"], 1, 2)}
+     * returns: {@code ["A", "C", "B", "D"]}
+     *
+     * @param ary: the array of elements
+     * @param i1: the first index of the two indexes to swap
+     * @param i2: the second index of the two indexes to swap
+     */
+    function swap(ary, i1, i2) {
+        var tmp = ary[i2];
+        ary[i2] = ary[i1];
+        ary[i1] = tmp;
+        return ary;
+    }
+    Arrays.swap = swap;
     /** Return elements that exist in two arrays.
      * For example: {@code union([1, 2, 3, 4, 5, "A"], [1, 2, 4, "A"])}
      * returns: {@code [1, 2, 4, "A"]}
