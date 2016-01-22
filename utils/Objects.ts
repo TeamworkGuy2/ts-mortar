@@ -307,7 +307,13 @@ module Objects {
             if (childProto.hasOwnProperty(key)) {
                 var parentConflicts = newChildProto.hasOwnProperty(key) || (deepExtend && key in newChildProto);
                 if ((parentConflicts && allowChildToOverride) || !parentConflicts) {
-                    newChildProto[key] = childProto[key];
+                    var descriptor = Object.getOwnPropertyDescriptor(childProto, key);
+                    if (descriptor.get || descriptor.set) {
+                        Object.defineProperty(newChildProto, key, descriptor);
+                    }
+                    else {
+                        newChildProto[key] = childProto[key];
+                    }
                 }
             }
         }
@@ -337,9 +343,18 @@ module Objects {
                     if (throwErrorIfOverwrites) {
                         throw new Error("child object '" + classChild + "' already has a property named '" + key + "', cannot inherit from parent '" + classParent + "'");
                     }
+                    else {
+                        // do nothing, allow child to keep it's override property
+                    }
                 }
                 else {
-                    classChild[key] = parentProto[key];
+                    var descriptor = Object.getOwnPropertyDescriptor(parentProto, key);
+                    if (descriptor.get || descriptor.set) {
+                        Object.defineProperty(classChild, key, descriptor);
+                    }
+                    else {
+                        classChild[key] = parentProto[key];
+                    }
                 }
             }
         }
