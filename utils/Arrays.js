@@ -18,8 +18,11 @@ var Arrays;
         return src;
     }
     Arrays.addAllTransform = addAllTransform;
+    /** Given an array or an object, return the array, or a new array containing the object as it's only element
+     * @param data the object or array
+     * @param [copyToNewAry=false] if the data is an array, copy the items into a new array
+     */
     function asArray(data, copyToNewAry) {
-        if (copyToNewAry === void 0) { copyToNewAry = false; }
         if (Array.isArray(data)) {
             return copyToNewAry ? data.slice() : data;
         }
@@ -28,6 +31,20 @@ var Arrays;
         }
     }
     Arrays.asArray = asArray;
+    /** Given an array or an object, return true if it is an object or an array containing one element, false if the array is empty or contains more than 1 element
+     * @param data the object or array
+     */
+    function isOneItem(data) {
+        return Array.isArray(data) ? data.length === 1 : true;
+    }
+    Arrays.isOneItem = isOneItem;
+    /** Given an array or an object, return the object or the first element if the array contains 1 element, else return null if the array is empty or contains more than 1 element
+     * @param data the object or array
+     */
+    function getIfOneItem(data) {
+        return Array.isArray(data) ? (data.length === 1 ? data[0] : null) : data;
+    }
+    Arrays.getIfOneItem = getIfOneItem;
     /** Perform a binary search of a property in an array of values and return the index
      * for example: {@code binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "key", 14)}
      * returns: {@code 2} indicating that the 3rd array element matches

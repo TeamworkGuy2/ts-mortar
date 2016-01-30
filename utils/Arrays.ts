@@ -42,13 +42,33 @@ module Arrays {
     }
 
 
-    export function asArray<T>(data: T | T[], copyToNewAry: boolean = false): T[] {
+    /** Given an array or an object, return the array, or a new array containing the object as it's only element
+     * @param data the object or array
+     * @param [copyToNewAry=false] if the data is an array, copy the items into a new array
+     */
+    export function asArray<T>(data: T | T[], copyToNewAry?: boolean): T[] {
         if (Array.isArray(data)) {
             return copyToNewAry ? (<T[]>data).slice() : <T[]>data;
         }
         else {
             return [<T>data];
         }
+    }
+
+
+    /** Given an array or an object, return true if it is an object or an array containing one element, false if the array is empty or contains more than 1 element
+     * @param data the object or array
+     */
+    export function isOneItem<T>(data: T | T[]): boolean {
+        return Array.isArray(data) ? data.length === 1 : true;
+    }
+
+
+    /** Given an array or an object, return the object or the first element if the array contains 1 element, else return null if the array is empty or contains more than 1 element
+     * @param data the object or array
+     */
+    export function getIfOneItem<T>(data: T | T[]): T {
+        return Array.isArray(data) ? (data.length === 1 ? data[0] : null) : data;
     }
 
 

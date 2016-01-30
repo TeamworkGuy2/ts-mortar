@@ -20,6 +20,22 @@ QUnit.test("asArray", function asArrayTest(sr) {
     var res = Arrays.asArray([obj1]);
     sr.deepEqual(res, [obj1]);
 });
+QUnit.test("isOneItem", function isOneItemTest(sr) {
+    sr.equal(Arrays.isOneItem(null), true);
+    sr.equal(Arrays.isOneItem(21), true);
+    sr.equal(Arrays.isOneItem([null]), true);
+    sr.equal(Arrays.isOneItem(["abc"]), true);
+    sr.equal(Arrays.isOneItem([]), false);
+    sr.equal(Arrays.isOneItem([1, 2]), false);
+});
+QUnit.test("getIfOneItem", function getIfOneItemTest(sr) {
+    sr.equal(Arrays.getIfOneItem(null), null);
+    sr.equal(Arrays.getIfOneItem(21), 21);
+    sr.equal(Arrays.getIfOneItem([null]), null);
+    sr.equal(Arrays.getIfOneItem(["abc"]), "abc");
+    sr.equal(Arrays.getIfOneItem([]), null);
+    sr.equal(Arrays.getIfOneItem([1, 2]), null);
+});
 QUnit.test("binarySearch", function binarySearchTest(sr) {
     var ary1 = [{ p: 2 }, { p: 4 }, { p: 6 }, { p: 8 }, { p: 10 }];
     var idx1 = Arrays.binarySearch(ary1, "p", 8);
