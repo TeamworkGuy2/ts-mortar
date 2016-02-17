@@ -83,6 +83,33 @@ module Functions {
     }
 
 
+    /** Create a function that calls another function with 1 pre-specified argument and returns the result
+     */
+    export function wrap1Arg<A1, T>(func: (arg: A1) => T, arg1: A1): () => T {
+        return function funcWrapper1() {
+            return func(arg1);
+        };
+    }
+
+
+    /** Create a function that calls another function with 2 pre-specified arguments and returns the result
+     */
+    export function wrap2Arg<A1, A2, T>(func: (arg1: A1, arg2: A2) => T, arg1: A1, arg2: A2): () => T {
+        return function funcWrapper2() {
+            return func(arg1, arg2);
+        };
+    }
+
+
+    /** Create a function that calls another function with 3 pre-specified arguments and returns the result
+     */
+    export function wrap3Arg<A1, A2, A3, T>(func: (arg1: A1, arg2: A2, arg3: A3) => T, arg1: A1, arg2: A2, arg3: A3): () => T {
+        return function funcWrapper3() {
+            return func(arg1, arg2, arg3);
+        };
+    }
+
+
     /** Creates a new function that wraps a given function.
      * Useful for logging performance, number of calls, etc.
      * @param func: the function to call each time this function is called

@@ -102,6 +102,27 @@ QUnit.test("lazyGetter2Arg", function lazyGetter2ArgTest(sr) {
 });
 
 
+QUnit.test("wrap1Arg", function wrap1ArgTest(sr) {
+    var func1 = Functions.wrap1Arg((a: number) => a * a, 3);
+
+    sr.equal(func1(), 9);
+});
+
+
+QUnit.test("wrap2Arg", function wrap2ArgTest(sr) {
+    var func2 = Functions.wrap2Arg((a: number, b: number) => a * a + b * b, 3, 2);
+
+    sr.equal(func2(), 13);
+});
+
+
+QUnit.test("wrap3Arg", function wrap3ArgTest(sr) {
+    var func3 = Functions.wrap3Arg((a: number, b: number, c: number) => a * a + b * b + c * c, 3, 2, 1);
+
+    sr.equal(func3(), 14);
+});
+
+
 QUnit.test("createFuncTimer", function createFuncTimerTest(sr) {
     var i = 0;
     var allowCalls = true;

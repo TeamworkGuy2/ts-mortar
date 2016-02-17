@@ -79,6 +79,30 @@ var Functions;
         };
     }
     Functions.lazyGetter2Arg = lazyGetter2Arg;
+    /** Create a function that calls another function with 1 pre-specified argument and returns the result
+     */
+    function wrap1Arg(func, arg1) {
+        return function funcWrapper1() {
+            return func(arg1);
+        };
+    }
+    Functions.wrap1Arg = wrap1Arg;
+    /** Create a function that calls another function with 2 pre-specified arguments and returns the result
+     */
+    function wrap2Arg(func, arg1, arg2) {
+        return function funcWrapper2() {
+            return func(arg1, arg2);
+        };
+    }
+    Functions.wrap2Arg = wrap2Arg;
+    /** Create a function that calls another function with 3 pre-specified arguments and returns the result
+     */
+    function wrap3Arg(func, arg1, arg2, arg3) {
+        return function funcWrapper3() {
+            return func(arg1, arg2, arg3);
+        };
+    }
+    Functions.wrap3Arg = wrap3Arg;
     /** Creates a new function that wraps a given function.
      * Useful for logging performance, number of calls, etc.
      * @param func: the function to call each time this function is called
