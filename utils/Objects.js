@@ -353,5 +353,18 @@ var Objects;
         }
     }
     Objects.extendToStatic = extendToStatic;
+    /** Given a map of key/values, return a new map containing those keys and values inverted.
+     * Example: {@code { a: b, key: 123 }}
+     * returns: {@code { b: a, 123: key }}
+     * @param srcMap the object to invert
+     */
+    function invert(srcMap) {
+        var inverseMap = Object.keys(srcMap).reduce(function (map, name) {
+            map[srcMap[name]] = name;
+            return map;
+        }, {});
+        return inverseMap;
+    }
+    Objects.invert = invert;
 })(Objects || (Objects = {}));
 module.exports = Objects;

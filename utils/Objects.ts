@@ -360,6 +360,20 @@ module Objects {
         }
     }
 
+
+    /** Given a map of key/values, return a new map containing those keys and values inverted.
+     * Example: {@code { a: b, key: 123 }}
+     * returns: {@code { b: a, 123: key }}
+     * @param srcMap the object to invert
+     */
+    export function invert(srcMap: any) {
+        var inverseMap = Object.keys(srcMap).reduce((map, name) => {
+            map[srcMap[name]] = name;
+            return map;
+        }, <{ [key: string]: string }>{});
+        return inverseMap;
+    }
+
 }
 
 export = Objects;

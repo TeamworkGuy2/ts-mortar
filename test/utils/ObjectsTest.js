@@ -233,3 +233,24 @@ QUnit.test("extendToStatic", function extendToStaticTest(sr) {
     Objects.extendToStatic(Child, Parent, true, false);
     sr.equal(Child["num"](), 2);
 });
+QUnit.test("invertMap", function invertMapTest(sr) {
+    var date = new Date();
+    var a = {
+        "Abc": 123,
+        "key": "value",
+        "01": 10,
+        55: 44
+    };
+    var aInvert = {
+        "123": "Abc",
+        "value": "key",
+        "10": "01",
+        "44": "55"
+    };
+    sr.deepEqual(Objects.invert(a), aInvert);
+    var b = {};
+    b[date.toString()] = date;
+    var bInvert = {};
+    bInvert[date.toString()] = date.toString();
+    sr.deepEqual(Objects.invert(b), bInvert);
+});
