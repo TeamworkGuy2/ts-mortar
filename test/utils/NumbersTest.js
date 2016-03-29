@@ -1,3 +1,4 @@
+"use strict";
 //import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
 var Numbers = require("../../../ts-mortar/utils/Numbers");
 QUnit.module("Numbers", {});

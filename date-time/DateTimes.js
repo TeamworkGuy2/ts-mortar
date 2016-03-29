@@ -1,3 +1,4 @@
+"use strict";
 /** DateTimes - contains static sub-modules for date and time operations, including:
  * - Date: working with JS 'Date' objects and
  * - Timestamp: working with integer millisecond epoch offsets
@@ -126,7 +127,7 @@ var DateTimes;
             configurable: true
         });
         return Timestamp;
-    })();
+    }());
     DateTimes.Timestamp = Timestamp;
     /** Unix epoch timestamp conversion/manipulation
      */

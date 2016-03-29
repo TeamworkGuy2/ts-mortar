@@ -30,9 +30,6 @@ QUnit.test("callFunc", function callFuncTest(sr) {
 
     var res2 = Functions.callFunc(inst.test, inst, 1, 2, 3);
     sr.deepEqual(res2, ["ct", 1, 2, 3]);
-
-    var res2 = Functions.callFunc(inst.test, null, 1, 2, 3);
-    sr.deepEqual(res2, [undefined, 1, 2, 3]);
 });
 
 
@@ -50,9 +47,6 @@ QUnit.test("applyFunc", function applyFuncTest(sr) {
 
     var res2 = Functions.applyFunc(inst.test, inst, [1, 2, 3]);
     sr.deepEqual(res2, ["ct", 1, 2, 3]);
-
-    var res2 = Functions.applyFunc(inst.test, null, [1, 2, 3]);
-    sr.deepEqual(res2, [undefined, 1, 2, 3]);
 });
 
 

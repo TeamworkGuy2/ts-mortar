@@ -34,7 +34,7 @@ module Arrays {
     }
 
 
-    export function addAllTransform<T, U>(src: T[], toAdd: U[], transformer: (item: U) => T): T[] {
+    export function addAllTransform<E, U>(src: E[], toAdd: U[], transformer: (item: U) => E): E[] {
         for (var i = 0, size = toAdd.length; i < size; i++) {
             src.push(transformer(toAdd[i]));
         }
@@ -46,12 +46,12 @@ module Arrays {
      * @param data the object or array
      * @param [copyToNewAry=false] if the data is an array, copy the items into a new array
      */
-    export function asArray<T>(data: T | T[], copyToNewAry?: boolean): T[] {
+    export function asArray<E>(data: E | E[], copyToNewAry?: boolean): E[] {
         if (Array.isArray(data)) {
-            return copyToNewAry ? (<T[]>data).slice() : <T[]>data;
+            return copyToNewAry ? (<E[]>data).slice() : <E[]>data;
         }
         else {
-            return [<T>data];
+            return [<E>data];
         }
     }
 
@@ -59,7 +59,7 @@ module Arrays {
     /** Given an array or an object, return true if it is an object or an array containing one element, false if the array is empty or contains more than 1 element
      * @param data the object or array
      */
-    export function isOneItem<T>(data: T | T[]): boolean {
+    export function isOneItem<E>(data: E | E[]): boolean {
         return Array.isArray(data) ? data.length === 1 : true;
     }
 
@@ -67,7 +67,7 @@ module Arrays {
     /** Given an array or an object, return the object or the first element if the array contains 1 element, else return null if the array is empty or contains more than 1 element
      * @param data the object or array
      */
-    export function getIfOneItem<T>(data: T | T[]): T {
+    export function getIfOneItem<E>(data: E | E[]): E {
         return Array.isArray(data) ? (data.length === 1 ? data[0] : null) : data;
     }
 
@@ -80,7 +80,7 @@ module Arrays {
      * returns: {@code -3} indicating that no matching element was found,
      * but if a matching element did exist in the array, it would be at index 3
      */
-    export function binarySearch<T>(ary: T[], comparatorPropName: string, searchValue: any): number {
+    export function binarySearch<E>(ary: E[], comparatorPropName: string, searchValue: any): number {
         var low = 0;
         var high = ary.length - 1;
 
@@ -112,8 +112,8 @@ module Arrays {
 
     /** Returns a new array containing the elements from {@code ary1} followed by the elements from {@code ary2}
      */
-    export function concat<T>(ary1: T[], ary2: T[]): T[] {
-        var res: T[] = [];
+    export function concat<E>(ary1: E[], ary2: E[]): E[] {
+        var res: E[] = [];
         Array.prototype.push.apply(res, ary1);
         Array.prototype.push.apply(res, ary2);
         return res;
@@ -125,7 +125,7 @@ module Arrays {
      * @param searchFor: the values to search for
      * @return true if all of {@code searchFor} values are contained in {@code ary}
      */
-    export function containsAll<T extends number | string | boolean>(ary: T[], searchFor: T[]): boolean {
+    export function containsAll<E extends number | string | boolean>(ary: E[], searchFor: E[]): boolean {
         if (ary == null || searchFor == null) { return false; }
         for (var i = 0, size = searchFor.length; i < size; i++) {
             if (ary.indexOf(searchFor[i]) < 0) {
@@ -158,7 +158,7 @@ module Arrays {
      * @return with 'added' and 'removed' arrays of values from {@code ary1} and {@code ary2}
      * @see looseDiff()
      */
-    export function diff<T>(ary1: T[], ary2: T[]): { added: T[]; removed: T[] } {
+    export function diff<E>(ary1: E[], ary2: E[]): { added: E[]; removed: E[] } {
         if (ary1 == null || ary2 == null || !Array.isArray(ary1) || !Array.isArray(ary2)) {
             if (ary1 == null && ary2 == null) {
                 return { added: [], removed: [] };
@@ -182,8 +182,8 @@ module Arrays {
             }
         }
 
-        var added: T[] = [];
-        var removed: T[] = [];
+        var added: E[] = [];
+        var removed: E[] = [];
         var ary2Used: boolean[] = [];
         var ary1Size = ary1.length;
         var ary2Size = ary2.length;
@@ -269,24 +269,24 @@ module Arrays {
      * returns:
      * {@code { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] }}
      *
-     * @param {T[]} ary: array of input values to filter
+     * @param {E[]} ary: array of input values to filter
      * @param {ArrayFilterFunc} filterFunc: the function to filter the values,
      * true stores items in the returned 'matching' property,
      * false stores items in the returned 'notMatching' property
      * @return a filter result that contains the original 'all' {@code ary} and arrays of 'matching' and 'notMatching' items
      */
-    export function filterSplit<T>(ary: T[] | ArrayLike<T>, filterFunc: FilterFunc<T>): { all: T[]; matching: T[]; notMatching: T[] } {
+    export function filterSplit<E>(ary: E[] | ArrayLike<E>, filterFunc: FilterFunc<E>): { all: E[]; matching: E[]; notMatching: E[] } {
         if (ary == null) { return toBiFilterResult([], [], []); }
         if (typeof filterFunc !== "function") {
-            throw new Error("incorrect parameter 'filterFunc', must be a 'function(value: T, index: number, array: T[]): boolean'");
+            throw new Error("incorrect parameter 'filterFunc', must be a 'function(value: E, index: number, array: E[]): boolean'");
         }
 
-        var matching: T[] = [];
-        var notMatching: T[] = [];
+        var matching: E[] = [];
+        var notMatching: E[] = [];
 
         for (var i = 0, size = ary.length; i < size; i++) {
             var value = ary[i];
-            if (filterFunc(value, i, <T[]>ary)) {
+            if (filterFunc(value, i, <E[]>ary)) {
                 matching.push(value);
             }
             else {
@@ -294,12 +294,12 @@ module Arrays {
             }
         }
 
-        return toBiFilterResult(<T[]>ary, matching, notMatching);
+        return toBiFilterResult(<E[]>ary, matching, notMatching);
     }
 
 
     // convert an array of items and arrays containing matching and non-matching items to an {@link BiFilterResult} object
-    function toBiFilterResult<T>(all: T[], matching: T[], notMatching: T[]) {
+    function toBiFilterResult<E>(all: E[], matching: E[], notMatching: E[]) {
         return {
             all: all,
             matching: matching,
@@ -319,9 +319,9 @@ module Arrays {
      * @return an array of objects containing properties named 'propName' with values equal to 'propValue',
      * returns a new empty array if no matching object was found
      */
-    export function findAllProp<T>(ary: T[] | ArrayLike < T >, propName: string, propValue: any): T[] {
+    export function findMatchingProps<E>(ary: E[] | ArrayLike<E>, propName: string, propValue: any): E[] {
         if (ary == null || propName == null || propValue === undefined) { return null; }
-        var res: T[] = [];
+        var res: E[] = [];
         for (var i = 0, size = ary.length; i < size; i++) {
             if (ary[i][propName] === propValue) {
                 res.push(ary[i]);
@@ -331,43 +331,22 @@ module Arrays {
     }
 
 
-    /** Search for an object in an array containing a property matching a given input property.
-     * For example: {@code findProp([ {name: "billy", value: 5}, {name: "sam", value: 5} ], "value", 5)}
-     * returns: {@code {name: "billy", value: 5} }
-     * because the matching object has a property "value" with a value of 12
-     *
-     * @param ary: the array to search
-     * @param propName: the name of the property to search for on each object
-     * @param propValue: the property value to compare
-     * @return the object from {@code ary} with a matching property, {@code null} if no matching object was found
-     */
-    export function findProp<T>(ary: T[] | ArrayLike < T >, propName: string, propValue: any): T {
-        if (ary == null || propName == null || propValue === undefined) { return null; }
-        for (var i = 0, size = ary.length; i < size; i++) {
-            if (ary[i][propName] === propValue) {
-                return ary[i];
-            }
-        }
-        return null;
-    }
-
-
-    /** Find the first matching value in an array using a filter function.
+    /** Return the first matching value in an array using a filter function, null if no matches.
      * Optional: throw an exception if more than one result is found.
-     * For example: {@code findOne([ {key: 27, value: "A"}, {key: 46, value: "B"}, {key: 84, value: "C"}, {key: 84, value: "D"} ], function (obj) { return obj.key === 84; })}
+     * For example: {@code first([ {key: 27, value: "A"}, {key: 46, value: "B"}, {key: 84, value: "C"}, {key: 84, value: "D"} ], function (obj) { return obj.key === 84; })}
      * returns: {@code {key: 84, value: "C"} }
      *
      * @param ary: the array of values to search
      * @param filter: the filter to apply to {@code ary}
-     * @return the first matching value from the input array, or null if a result cannot be found
+     * @return the first (lowest index) value passed to 'filter' from 'ary' that returns true, or null if a match cannot be found
      */
-    export function findOne<T>(ary: T[] | ArrayLike<T>, filter: FilterFunc<T>, ensureOne: boolean = false): T {
+    export function first<E>(ary: E[] | ArrayLike<E>, filter: FilterFunc<E>, ensureOne: boolean = false): E {
         if (ary == null || filter == null) { return null; }
-        var result: T = null;
+        var result: E = null;
         var resultCount = 0;
 
         for (var i = 0, size = ary.length; i < size; i++) {
-            if (filter(ary[i], i, <T[]>ary) === true) {
+            if (filter(ary[i], i, <E[]>ary) === true) {
                 if (resultCount === 0) {
                     result = ary[i];
                     if (!ensureOne) {
@@ -387,27 +366,26 @@ module Arrays {
     }
 
 
-    /** Find first matching value in an array.
+    /** Search for an object in an array containing a property matching a given input property.
      * Optional: throw an exception if more than one result is found.
-     * For example: {@code findOneByProp([ {name: "billy", value: 4}, {name: "sam", value: 5}, {name: "will", value: 5} ], "value", 5)}
+     * For example: {@code firstProp([ {name: "billy", value: 4}, {name: "sam", value: 5}, {name: "will", value: 5} ], "value", 5)}
      * returns: {@code {name: "sam", value: 5} }
-     * Or example: {@code findOneByProp([ {name: "billy", value: 4}, {name: "sam", value: 4}, {name: "will", value: 5} ], "value", 5, true)}
-     * throws an error because the value appears more than once
+     * Or example: {@code firstProp([ {name: "billy", value: 4}, {name: "sam", value: 4}, {name: "will", value: 5} ], "value", 5, true)}
+     * throws an error because the value appears more than once and the 'ensureOne' parameter = true
      *
      * @param ary: the array of values to search
-     * @param searchPropName: the name of the property in each {@code ary} element to compare to {@code searchPropValue},
-     * or null to compare array values to {@code searchPropValue} (i.e. Array.prototype.indexOf())
-     * @param searchPropValue: the property value to compare
-     * @return the first matching value from the input array, or null if a result cannot be found
+     * @param propName: the name of the property  to search for on each object
+     * @param propValue: the property value to compare
+     * @return the first (lowest index) matching value from the input array, or null if a result cannot be found
      */
-    export function findOneByProp<T>(ary: T[] | ArrayLike<T>, searchPropName: string, searchPropValue: any, ensureOne: boolean = false): T {
-        if (ary == null || searchPropName == null) { return null; }
-        var result: T = null;
+    export function firstProp<E>(ary: E[] | ArrayLike<E>, propName: string, propValue: any, ensureOne: boolean = false): E {
+        if (ary == null || propName == null) { return null; }
+        var result: E = null;
         var resultCount = 0;
 
         for (var i = 0, size = ary.length; i < size; i++) {
             var obj = ary[i];
-            if (obj != null && obj[searchPropName] === searchPropValue) {
+            if (obj != null && obj[propName] === propValue) {
                 if (resultCount === 0) {
                     result = obj;
                     if (!ensureOne) {
@@ -416,7 +394,7 @@ module Arrays {
                     }
                 }
                 resultCount++;
-                throw new Error("found multiple results for '" + searchPropName + "'='" + searchPropValue + "', expected to find one");
+                throw new Error("found multiple results for '" + propName + "'='" + propValue + "', expected to find one");
             }
         }
 
@@ -427,32 +405,12 @@ module Arrays {
     }
 
 
-    /** Return the first value in an array that matches a filter, null if no matches
-     * @param ary: the array of values to search
-     * @param filterFunc: the filter to apply
-     * @return the lowest-index value passed to {@code filterFunc} from {@code ary} that returns true, null if no value returns true
-     */
-    export function first<T>(ary: T[], filterFunc: FilterFunc<T>): T {
-        if (ary == null) { return null; }
-        if (typeof filterFunc !== "function") {
-            throw new Error("incorrect parameter 'filterFunc', must be a 'function(value, index, array): boolean'");
-        }
-
-        for (var i = 0, size = ary.length; i < size; i++) {
-            if (filterFunc(ary[i], i, ary) == true) {
-                return ary[i];
-            }
-        }
-        return null;
-    }
-
-
     /** Get a property from each object in an array of objects
      * @param ary: the array of objects
      * @param propName: the name of the property to get
      * @return an array of the specified property from each object in {@code ary}
      */
-    export function getAllProp(ary: any[] | ArrayLike<any>, propName: string): any[] {
+    export function pluck(ary: any[] | ArrayLike<any>, propName: string): any[] {
         if (ary == null || propName == null) { return []; }
         var results = new Array(ary.length);
         for (var i = ary.length - 1; i > -1; i--) {
@@ -466,7 +424,7 @@ module Arrays {
      * @param ary the array to check
      * @return true if the array is not null and has a length greater than 0
      */
-    export function hasItems<T>(ary: T | T[] | ArrayLike<T>): ary is T[] {
+    export function hasItems<E>(ary: E | E[] | ArrayLike<E>): ary is E[] {
         return ary != null && (<any[]>ary).length > 0;
     }
 
@@ -481,7 +439,7 @@ module Arrays {
      * @param propValue: the property value to compare
      * @return the array index of an object with a matching property, -1 if no matching object was found
      */
-    export function indexOfProp<T>(ary: T[] | ArrayLike<T>, propName: string, propValue: any): number {
+    export function indexOfProp<E>(ary: E[] | ArrayLike<E>, propName: string, propValue: any): number {
         if (ary == null || propName == null || propValue === undefined) { return -1; }
         for (var i = 0, size = ary.length; i < size; i++) {
             if (ary[i][propName] === propValue) { return i; }
@@ -495,7 +453,7 @@ module Arrays {
      * @param filterFunc: the filter to apply
      * @return the highest-index value passed to {@code filterFunc} from {@code ary} that returns true, null if no value returns true
      */
-    export function last<T>(ary: T[], filterFunc: FilterFunc<T>): T {
+    export function last<E>(ary: E[], filterFunc: FilterFunc<E>): E {
         if (ary == null) { return null; }
         if (typeof filterFunc !== "function") {
             throw new Error("incorrect parameter 'filterFunc', must be a 'function(value, index, array): boolean'");
@@ -520,7 +478,7 @@ module Arrays {
      * @param propValue: the property value to compare
      * @return the array index of an object with a matching property, -1 if no matching object was found
      */
-    export function lastIndexOfProp<T>(ary: T[] | ArrayLike<T>, propName: string, propValue: any): number {
+    export function lastIndexOfProp<E>(ary: E[] | ArrayLike<E>, propName: string, propValue: any): number {
         if (ary == null || propName == null || propValue === undefined) { return -1; }
         for (var i = ary.length - 1; i > -1; i--) {
             if (ary[i][propName] === propValue) { return i; }
@@ -539,7 +497,7 @@ module Arrays {
      * @return of values that exist in only one of the input arrays
      * @see diff()
      */
-    export function looseDiff<T>(ary1: T[], ary2: T[]): T[] {
+    export function looseDiff<E>(ary1: E[], ary2: E[]): E[] {
         var diffRes = diff(ary1, ary2);
         var looseDiff = Array.prototype.concat.apply(diffRes.added, diffRes.removed);
         return looseDiff;
@@ -558,7 +516,7 @@ module Arrays {
      * @return true if both arrays contain the same elements in any order, or if both arrays are null.
      * False if one or more elements differ between the two arrays
      */
-    export function looseEqual<T>(ary1: T[], ary2: T[]): boolean {
+    export function looseEqual<E>(ary1: E[], ary2: E[]): boolean {
         if (ary1 == null || ary2 == null || !Array.isArray(ary1) || !Array.isArray(ary2)) {
             if (ary1 == null && ary2 == null) {
                 return true;
@@ -650,7 +608,7 @@ module Arrays {
     /** Remove the first instance of a matching value from an array
      * @return the removed index or -1 if the value could not be found
      */
-    export function removeValue<T>(ary: T[], value: T): number {
+    export function removeValue<E>(ary: E[], value: E): number {
         var idx = ary.indexOf(value);
         if (idx > -1) {
             removeIndex(ary, idx);
@@ -667,7 +625,7 @@ module Arrays {
      * @param index: the index of the value to remove
      * @return the {@code ary} with the value at {@code index} removed
      */
-    export function removeIndex<T>(ary: T[], index: number): T[] {
+    export function removeIndex<E>(ary: E[], index: number): E[] {
         if (ary == null) { return ary; }
         var size = ary.length;
         if (ary.length < 1 || index < 0 || index >= ary.length) { return ary; }
@@ -720,7 +678,7 @@ module Arrays {
      * @param [deleteCount=0]: the number of elements to not copy from {@code origAry} starting at {@code index}
      * @return the {@code origAry} or a new array containing the contents of {@code origAry} and {@code insertAry}
      */
-    export function splice<T>(origAry: T[], insertAry: T[], index: number, deleteCount: number = 0): T[] {
+    export function splice<E>(origAry: E[], insertAry: E[], index: number, deleteCount: number = 0): E[] {
         if (origAry == null || insertAry == null || !Array.isArray(origAry) || !Array.isArray(insertAry) || index === undefined) {
             if (origAry == null && insertAry == null) {
                 return null;
@@ -737,7 +695,7 @@ module Arrays {
             return origAry;
         }
 
-        var tmp: T[];
+        var tmp: E[];
 
         // add to the end of the array
         if (index === origAry.length && deleteCount === 0) {
@@ -769,7 +727,7 @@ module Arrays {
      * @param i1: the first index of the two indexes to swap
      * @param i2: the second index of the two indexes to swap
      */
-    export function swap<T>(ary: T[], i1: number, i2: number): T[] {
+    export function swap<E>(ary: E[], i1: number, i2: number): E[] {
         var tmp = ary[i2];
         ary[i2] = ary[i1];
         ary[i1] = tmp;
@@ -785,7 +743,7 @@ module Arrays {
      * @param ary2: the second array
      * @return an array of shared elements between {@code ary1} and {@code ary2}
      */
-    export function union<T>(ary1: T[], ary2: T[]): T[] {
+    export function union<E>(ary1: E[], ary2: E[]): E[] {
         if (ary1 == null || ary2 == null) {
             if (ary1 == null && ary2 != null) {
                 return ary2.slice();
@@ -798,7 +756,7 @@ module Arrays {
             }
         }
 
-        var results: T[] = [];
+        var results: E[] = [];
         for (var i = 0, size = ary1.length; i < size; i++) {
             var idx = ary2.indexOf(ary1[i]);
             if (idx > -1) {
@@ -816,7 +774,7 @@ module Arrays {
      * @param ary: an array of values
      * @return a new array of values containing the original array's unique values
      */
-    export function unique<T>(ary: T[]): T[] {
+    export function unique<E>(ary: E[]): E[] {
         if (ary == null || ary.length < 2) { return ary || null; }
         ary = ary.sort();
         var res = [ary[0]];
@@ -826,6 +784,30 @@ module Arrays {
             }
         }
         return res;
+    }
+
+
+    /** Find the maximum value in an array of numbers
+     * @param ary the array of numbers to search
+     */
+    export function max(ary: number[]): number {
+        var max = Number.NEGATIVE_INFINITY;
+        for (var i = 0, size = ary.length; i < size; i++) {
+            max = ary[i] > max ? ary[i] : max;
+        }
+        return max;
+    }
+
+
+    /** Find the minimum value in an array of numbers
+     * @param ary the array of numbers to search
+     */
+    export function min(ary: number[]): number {
+        var min = Number.POSITIVE_INFINITY;
+        for (var i = 0, size = ary.length; i < size; i++) {
+            min = ary[i] < min ? ary[i] : min;
+        }
+        return min;
     }
 
 }

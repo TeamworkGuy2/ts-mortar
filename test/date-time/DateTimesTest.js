@@ -1,3 +1,4 @@
+"use strict";
 //import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
 var DateTimes = require("../../../ts-mortar/date-time/DateTimes");
 function testDotNetJson(sr) {

@@ -1,3 +1,4 @@
+"use strict";
 /** Helper functions for calling/composing functions
  */
 var Functions;

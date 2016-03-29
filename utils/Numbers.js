@@ -1,3 +1,4 @@
+"use strict";
 /** Util functions for converting numeric values to and from other formats
  */
 var Numbers;

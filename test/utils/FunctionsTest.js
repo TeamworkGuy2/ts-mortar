@@ -1,3 +1,4 @@
+"use strict";
 //import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
 var Functions = require("../../../ts-mortar/utils/Functions");
 function ClassTest(arg) {
@@ -17,8 +18,6 @@ QUnit.test("callFunc", function callFuncTest(sr) {
     sr.deepEqual(res1, ["ct", "a", "b", undefined]);
     var res2 = Functions.callFunc(inst.test, inst, 1, 2, 3);
     sr.deepEqual(res2, ["ct", 1, 2, 3]);
-    var res2 = Functions.callFunc(inst.test, null, 1, 2, 3);
-    sr.deepEqual(res2, [undefined, 1, 2, 3]);
 });
 QUnit.test("applyFunc", function applyFuncTest(sr) {
     function ClassTest(arg) {
@@ -32,8 +31,6 @@ QUnit.test("applyFunc", function applyFuncTest(sr) {
     sr.deepEqual(res1, ["ct", "a", "b", undefined]);
     var res2 = Functions.applyFunc(inst.test, inst, [1, 2, 3]);
     sr.deepEqual(res2, ["ct", 1, 2, 3]);
-    var res2 = Functions.applyFunc(inst.test, null, [1, 2, 3]);
-    sr.deepEqual(res2, [undefined, 1, 2, 3]);
 });
 QUnit.test("tryCatch", function tryCatchTest(sr) {
     var res1 = Functions.tryCatch(function try1(a, b) { return [this.alpha, a, b]; }, function catch1(err) { return err; }, { alpha: 11, beta: 42 }, ["a", "b", "c"]);

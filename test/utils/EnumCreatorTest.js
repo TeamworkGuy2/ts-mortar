@@ -1,3 +1,4 @@
+"use strict";
 //import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
 var EnumCreator = require("../../../ts-mortar/utils/EnumCreator");
 var TestEnum = (function () {
@@ -20,7 +21,7 @@ var TestEnum = (function () {
         ]; });
     }());
     return TestEnum;
-})();
+}());
 QUnit.module("EnumCreator", {});
 QUnit.test("name()", function nameTest(sr) {
     sr.equal(TestEnum.A.id, 1);

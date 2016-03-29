@@ -1,3 +1,4 @@
+"use strict";
 var Arrays = require("../utils/Arrays");
 /** A listener/event handler class - manages a list of listener functions and allows events to be sent to the listeners
  * @author TeamworkGuy2
@@ -158,5 +159,5 @@ var EventListenerListImpl = (function () {
         return new EventListenerListImpl();
     };
     return EventListenerListImpl;
-})();
+}());
 module.exports = EventListenerListImpl;

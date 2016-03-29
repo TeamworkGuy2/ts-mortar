@@ -1,3 +1,4 @@
+"use strict";
 /** Object utility functions, includes:
  * - extend(...) and extendToStatic(...) for extending '.prototype' and object properties
  * - values() counterpart to Object.keys()

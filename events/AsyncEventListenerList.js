@@ -1,3 +1,4 @@
+"use strict";
 var Defer = require("../promises/Defer");
 var EventListenerListImpl = require("./EventListenerListImpl");
 /** An event listener list for asynchronous event listeners (i.e. the listeners perform asynchronous operations)
@@ -80,5 +81,5 @@ var AsyncEventListenerHandler = (function () {
         });
     };
     return AsyncEventListenerHandler;
-})();
+}());
 module.exports = AsyncEventListenerHandler;

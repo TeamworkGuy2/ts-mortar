@@ -1,3 +1,4 @@
+"use strict";
 var Arrays;
 (function (Arrays) {
     Arrays.EMPTY_ARRAY = Object.freeze([]);
@@ -230,7 +231,7 @@ var Arrays;
      * returns:
      * {@code { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] }}
      *
-     * @param {T[]} ary: array of input values to filter
+     * @param {E[]} ary: array of input values to filter
      * @param {ArrayFilterFunc} filterFunc: the function to filter the values,
      * true stores items in the returned 'matching' property,
      * false stores items in the returned 'notMatching' property
@@ -241,7 +242,7 @@ var Arrays;
             return toBiFilterResult([], [], []);
         }
         if (typeof filterFunc !== "function") {
-            throw new Error("incorrect parameter 'filterFunc', must be a 'function(value: T, index: number, array: T[]): boolean'");
+            throw new Error("incorrect parameter 'filterFunc', must be a 'function(value: E, index: number, array: E[]): boolean'");
         }
         var matching = [];
         var notMatching = [];
@@ -276,7 +277,7 @@ var Arrays;
      * @return an array of objects containing properties named 'propName' with values equal to 'propValue',
      * returns a new empty array if no matching object was found
      */
-    function findAllProp(ary, propName, propValue) {
+    function findMatchingProps(ary, propName, propValue) {
         if (ary == null || propName == null || propValue === undefined) {
             return null;
         }
@@ -288,39 +289,17 @@ var Arrays;
         }
         return res;
     }
-    Arrays.findAllProp = findAllProp;
-    /** Search for an object in an array containing a property matching a given input property.
-     * For example: {@code findProp([ {name: "billy", value: 5}, {name: "sam", value: 5} ], "value", 5)}
-     * returns: {@code {name: "billy", value: 5} }
-     * because the matching object has a property "value" with a value of 12
-     *
-     * @param ary: the array to search
-     * @param propName: the name of the property to search for on each object
-     * @param propValue: the property value to compare
-     * @return the object from {@code ary} with a matching property, {@code null} if no matching object was found
-     */
-    function findProp(ary, propName, propValue) {
-        if (ary == null || propName == null || propValue === undefined) {
-            return null;
-        }
-        for (var i = 0, size = ary.length; i < size; i++) {
-            if (ary[i][propName] === propValue) {
-                return ary[i];
-            }
-        }
-        return null;
-    }
-    Arrays.findProp = findProp;
-    /** Find the first matching value in an array using a filter function.
+    Arrays.findMatchingProps = findMatchingProps;
+    /** Return the first matching value in an array using a filter function, null if no matches.
      * Optional: throw an exception if more than one result is found.
-     * For example: {@code findOne([ {key: 27, value: "A"}, {key: 46, value: "B"}, {key: 84, value: "C"}, {key: 84, value: "D"} ], function (obj) { return obj.key === 84; })}
+     * For example: {@code first([ {key: 27, value: "A"}, {key: 46, value: "B"}, {key: 84, value: "C"}, {key: 84, value: "D"} ], function (obj) { return obj.key === 84; })}
      * returns: {@code {key: 84, value: "C"} }
      *
      * @param ary: the array of values to search
      * @param filter: the filter to apply to {@code ary}
-     * @return the first matching value from the input array, or null if a result cannot be found
+     * @return the first (lowest index) value passed to 'filter' from 'ary' that returns true, or null if a match cannot be found
      */
-    function findOne(ary, filter, ensureOne) {
+    function first(ary, filter, ensureOne) {
         if (ensureOne === void 0) { ensureOne = false; }
         if (ary == null || filter == null) {
             return null;
@@ -345,30 +324,29 @@ var Arrays;
         }
         return null;
     }
-    Arrays.findOne = findOne;
-    /** Find first matching value in an array.
+    Arrays.first = first;
+    /** Search for an object in an array containing a property matching a given input property.
      * Optional: throw an exception if more than one result is found.
-     * For example: {@code findOneByProp([ {name: "billy", value: 4}, {name: "sam", value: 5}, {name: "will", value: 5} ], "value", 5)}
+     * For example: {@code firstProp([ {name: "billy", value: 4}, {name: "sam", value: 5}, {name: "will", value: 5} ], "value", 5)}
      * returns: {@code {name: "sam", value: 5} }
-     * Or example: {@code findOneByProp([ {name: "billy", value: 4}, {name: "sam", value: 4}, {name: "will", value: 5} ], "value", 5, true)}
-     * throws an error because the value appears more than once
+     * Or example: {@code firstProp([ {name: "billy", value: 4}, {name: "sam", value: 4}, {name: "will", value: 5} ], "value", 5, true)}
+     * throws an error because the value appears more than once and the 'ensureOne' parameter = true
      *
      * @param ary: the array of values to search
-     * @param searchPropName: the name of the property in each {@code ary} element to compare to {@code searchPropValue},
-     * or null to compare array values to {@code searchPropValue} (i.e. Array.prototype.indexOf())
-     * @param searchPropValue: the property value to compare
-     * @return the first matching value from the input array, or null if a result cannot be found
+     * @param propName: the name of the property  to search for on each object
+     * @param propValue: the property value to compare
+     * @return the first (lowest index) matching value from the input array, or null if a result cannot be found
      */
-    function findOneByProp(ary, searchPropName, searchPropValue, ensureOne) {
+    function firstProp(ary, propName, propValue, ensureOne) {
         if (ensureOne === void 0) { ensureOne = false; }
-        if (ary == null || searchPropName == null) {
+        if (ary == null || propName == null) {
             return null;
         }
         var result = null;
         var resultCount = 0;
         for (var i = 0, size = ary.length; i < size; i++) {
             var obj = ary[i];
-            if (obj != null && obj[searchPropName] === searchPropValue) {
+            if (obj != null && obj[propName] === propValue) {
                 if (resultCount === 0) {
                     result = obj;
                     if (!ensureOne) {
@@ -377,7 +355,7 @@ var Arrays;
                     }
                 }
                 resultCount++;
-                throw new Error("found multiple results for '" + searchPropName + "'='" + searchPropValue + "', expected to find one");
+                throw new Error("found multiple results for '" + propName + "'='" + propValue + "', expected to find one");
             }
         }
         if (resultCount === 1) {
@@ -385,33 +363,13 @@ var Arrays;
         }
         return null;
     }
-    Arrays.findOneByProp = findOneByProp;
-    /** Return the first value in an array that matches a filter, null if no matches
-     * @param ary: the array of values to search
-     * @param filterFunc: the filter to apply
-     * @return the lowest-index value passed to {@code filterFunc} from {@code ary} that returns true, null if no value returns true
-     */
-    function first(ary, filterFunc) {
-        if (ary == null) {
-            return null;
-        }
-        if (typeof filterFunc !== "function") {
-            throw new Error("incorrect parameter 'filterFunc', must be a 'function(value, index, array): boolean'");
-        }
-        for (var i = 0, size = ary.length; i < size; i++) {
-            if (filterFunc(ary[i], i, ary) == true) {
-                return ary[i];
-            }
-        }
-        return null;
-    }
-    Arrays.first = first;
+    Arrays.firstProp = firstProp;
     /** Get a property from each object in an array of objects
      * @param ary: the array of objects
      * @param propName: the name of the property to get
      * @return an array of the specified property from each object in {@code ary}
      */
-    function getAllProp(ary, propName) {
+    function pluck(ary, propName) {
         if (ary == null || propName == null) {
             return [];
         }
@@ -421,7 +379,7 @@ var Arrays;
         }
         return results;
     }
-    Arrays.getAllProp = getAllProp;
+    Arrays.pluck = pluck;
     /**
      * @param ary the array to check
      * @return true if the array is not null and has a length greater than 0
@@ -782,5 +740,27 @@ var Arrays;
         return res;
     }
     Arrays.unique = unique;
+    /** Find the maximum value in an array of numbers
+     * @param ary the array of numbers to search
+     */
+    function max(ary) {
+        var max = Number.NEGATIVE_INFINITY;
+        for (var i = 0, size = ary.length; i < size; i++) {
+            max = ary[i] > max ? ary[i] : max;
+        }
+        return max;
+    }
+    Arrays.max = max;
+    /** Find the minimum value in an array of numbers
+     * @param ary the array of numbers to search
+     */
+    function min(ary) {
+        var min = Number.POSITIVE_INFINITY;
+        for (var i = 0, size = ary.length; i < size; i++) {
+            min = ary[i] < min ? ary[i] : min;
+        }
+        return min;
+    }
+    Arrays.min = min;
 })(Arrays || (Arrays = {}));
 module.exports = Arrays;

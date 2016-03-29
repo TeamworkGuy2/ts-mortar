@@ -1,3 +1,4 @@
+"use strict";
 /** A generic event queue object with queueChangeEvent() and fireExistingEvents() functions
  * @author TeamworkGuy2
  * @param <E> the event type
@@ -77,5 +78,5 @@ var EventQueueImpl = (function () {
         }
     };
     return EventQueueImpl;
-})();
+}());
 module.exports = EventQueueImpl;

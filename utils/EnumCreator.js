@@ -1,3 +1,4 @@
+"use strict";
 var Objects = require("./Objects");
 var EnumCreator;
 (function (EnumCreator) {
@@ -25,7 +26,7 @@ var EnumCreator;
             return enumVal;
         };
         return EnumClassImpl;
-    })();
+    }());
     EnumCreator.EnumClassImpl = EnumClassImpl;
     var EnumConstantImpl = (function () {
         function EnumConstantImpl(name) {
@@ -38,7 +39,7 @@ var EnumCreator;
             return this._name;
         };
         return EnumConstantImpl;
-    })();
+    }());
     EnumCreator.EnumConstantImpl = EnumConstantImpl;
     function initEnumConst(enumConst, name) {
         EnumConstantImpl.call(enumConst, name);

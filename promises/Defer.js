@@ -1,3 +1,4 @@
+"use strict";
 /// <reference path="../definitions/lib/Q.d.ts" />
 var Q = require("q");
 /** Defer - functions for strongly typed promise/deferred handling
@@ -217,5 +218,5 @@ var Defer = (function () {
         return cachedPromiseResolver;
     };
     return Defer;
-})();
+}());
 module.exports = Defer;

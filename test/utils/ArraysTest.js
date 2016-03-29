@@ -1,3 +1,4 @@
+"use strict";
 //import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
 var Arrays = require("../../../ts-mortar/utils/Arrays");
 QUnit.module("Arrays", {});
@@ -104,50 +105,36 @@ QUnit.test("filterSplit", function filterSplitTest(sr) {
     var expected1 = { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] };
     sr.deepEqual(res1, expected1);
 });
-QUnit.test("findAllProp", function findAllPropTest(sr) {
-    var res = Arrays.findAllProp([{ name: "billy", value: 5 }, { name: "sam", value: 5 }, { name: "overhill", value: 3 }], "value", 5);
+QUnit.test("findMatchingsProp", function findMatchingPropsTest(sr) {
+    var res = Arrays.findMatchingProps([{ name: "billy", value: 5 }, { name: "sam", value: 5 }, { name: "overhill", value: 3 }], "value", 5);
     var expect = [{ name: "billy", value: 5 }, { name: "sam", value: 5 }];
     sr.deepEqual(res, expect);
 });
-QUnit.test("findProp", function findPropTest(sr) {
-    var res = Arrays.findProp([{ name: "billy", value: 5 }, { name: "sam", value: 5 }], "value", 5);
+QUnit.test("firstProp", function firstPropTest(sr) {
+    var res = Arrays.firstProp([{ name: "billy", value: 5 }, { name: "sam", value: 5 }], "value", 5);
     var expect = { name: "billy", value: 5 };
     sr.deepEqual(res, expect);
 });
-QUnit.test("findOne", function findOneTest(sr) {
+QUnit.test("first", function firstTest(sr) {
     var ary = [{ key: 27, value: "A" }, { key: 46, value: "B" }, { key: 84, value: "C" }, { key: 84, value: "D" }];
     var expect = { key: 84, value: "C" };
-    var res1 = Arrays.findOne(ary, function (obj) { return obj.key === 84; }, false);
+    var res1 = Arrays.first(ary, function (obj) { return obj.key === 84; }, false);
     sr.deepEqual(res1, expect);
-    try {
-        var res2 = Arrays.findOne(ary, function (obj) { return obj.key === 84; }, true);
-        sr.equal(false, true, "find one should have thrown an error");
-    }
-    catch (err) {
-        sr.equal(true, true);
-    }
+    var ary2 = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
+    var res2 = Arrays.first(ary2, function (t1, t2) { return t1.id == "D"; });
+    sr.equal(res2, ary2[1]);
+    sr.throws(function () { return Arrays.first(ary, function (obj) { return obj.key === 84; }, true); });
 });
-QUnit.test("findOneByProp", function findOneByPropTest(sr) {
+QUnit.test("firstProp", function firstPropTest(sr) {
     var ary1 = [{ name: "billy", value: 4 }, { name: "sam", value: 5 }, { name: "will", value: 5 }];
     var expect1 = { name: "sam", value: 5 };
-    var res1 = Arrays.findOneByProp(ary1, "value", 5, false);
+    var res1 = Arrays.firstProp(ary1, "value", 5, false);
     sr.deepEqual(res1, expect1);
-    try {
-        var res2 = Arrays.findOneByProp(ary1, "value", 5, true);
-        sr.equal(false, true, "find one by prop should have thrown an error");
-    }
-    catch (err) {
-        sr.equal(true, true);
-    }
+    sr.throws(function () { return Arrays.firstProp(ary1, "value", 5, true); });
 });
-QUnit.test("first", function firstTest(sr) {
+QUnit.test("pluck", function pluckTest(sr) {
     var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
-    var res = Arrays.first(ary, function (t1, t2) { return t1.id == "D"; });
-    sr.equal(res, ary[1]);
-});
-QUnit.test("getAllProp", function getAllPropTest(sr) {
-    var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
-    var res = Arrays.getAllProp(ary, "id");
+    var res = Arrays.pluck(ary, "id");
     sr.deepEqual(res, ["B", "D", "D", "F"]);
 });
 QUnit.test("hasItems", function hasItemsTest(sr) {
@@ -259,4 +246,14 @@ QUnit.test("unique", function uniqueTest(sr) {
     var aryUnique = ["B", "D", "F"];
     sr.deepEqual(Arrays.unique(ary), aryUnique);
     sr.deepEqual(Arrays.unique([]), []);
+});
+QUnit.test("max", function maxTest(sr) {
+    sr.equal(Arrays.max([NaN, 0, -0]), 0);
+    sr.equal(Arrays.max([-1, 0, -2]), 0);
+    sr.equal(Arrays.max([0, 2, 4]), 4);
+});
+QUnit.test("min", function minTest(sr) {
+    sr.equal(Arrays.min([NaN, 0, -0]), -0);
+    sr.equal(Arrays.min([1, 0, 2]), 0);
+    sr.equal(Arrays.min([-2, 2, 4]), -2);
 });

@@ -1,3 +1,4 @@
+"use strict";
 var Strings;
 (function (Strings) {
     /** Check if a string ends with a specific suffix
