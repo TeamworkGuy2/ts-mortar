@@ -166,6 +166,16 @@ QUnit.test("looseDiff", function looseDiffTest(sr) {
     var res = Arrays.looseDiff(ary1, ary2);
     sr.deepEqual(res.sort(function (a, b) { return a - b; }), [1, 3, 4]);
 });
+QUnit.test("equal", function equalTest(sr) {
+    var res1 = Arrays.equal(["A", 23, true], ["A", 23, true]);
+    sr.equal(res1, true);
+    var res2 = Arrays.equal(["A", 23, true], ["A", 13]);
+    sr.equal(res2, false);
+    var res3 = Arrays.equal(null, null);
+    sr.equal(res3, false);
+    var res4 = Arrays.equal([], []);
+    sr.equal(res4, true);
+});
 QUnit.test("looseEqual", function looseEqualTest(sr) {
     var res1 = Arrays.looseEqual([26, "Alpha", 5], [5, 26, "Alpha"]);
     sr.equal(res1, true);

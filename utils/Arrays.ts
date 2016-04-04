@@ -504,6 +504,28 @@ module Arrays {
     }
 
 
+    /** Check if two arrays are equal, element by element
+     * For example: {@code equal(["A", 23, true], ["A", 23, true])}
+     * returns: {@code true}
+     * Or example: {@code equal(["A", 23, true], ["A", 13])}
+     * returns: {@code false}
+     *
+     * @param ary1: the first array to compare
+     * @param ary2: the second array to compare
+     */
+    export function equal<E>(ary1: E[], ary2: E[]): boolean {
+        if (ary1 == null || ary2 == null || ary1.length !== ary2.length) {
+            return false;
+        }
+        for (var i = 0, size = ary1.length; i < size; i++) {
+            if (ary1[i] !== ary2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     /** Check whether two arrays are equal, ignoring the order of the elements in each array.
      * elements are compared using strict (i.e. '===') equality.
      * For example: {@code looseEqual([26, "Alpha", 5], [5, 26, "Alpha"])}
