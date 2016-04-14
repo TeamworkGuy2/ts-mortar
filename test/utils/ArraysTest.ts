@@ -378,10 +378,16 @@ QUnit.test("union", function unionTest(sr) {
 
 
 QUnit.test("unique", function uniqueTest(sr) {
-    var ary = ["B", "D", "D", "F"];
-    var aryUnique = ["B", "D", "F"];
+    var ary1 = ["B", "D", "D", "A", "F", "A"];
+    var aryUnique1 = ["B", "D", "A", "F"];
 
-    sr.deepEqual(Arrays.unique(ary), aryUnique);
+    sr.deepEqual(Arrays.unique(ary1), aryUnique1);
+
+    var ary2 = [55, 2, 12, 8, 12, 0, 2];
+    var aryUnique2 = [55, 2, 12, 8, 0];
+
+    sr.deepEqual(Arrays.unique(ary2), aryUnique2);
+
     sr.deepEqual(Arrays.unique([]), []);
 });
 

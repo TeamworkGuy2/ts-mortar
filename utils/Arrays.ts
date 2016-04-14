@@ -798,7 +798,6 @@ module Arrays {
      */
     export function unique<E>(ary: E[]): E[] {
         if (ary == null || ary.length < 2) { return ary || null; }
-        ary = ary.sort();
         var res = [ary[0]];
         for (var i = 1, size = ary.length; i < size; i++) {
             if (res.indexOf(ary[i]) === -1) {
