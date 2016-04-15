@@ -192,7 +192,9 @@ module Objects {
      * @param target the object to add/overwrite the properties to
      * @param sources the object to copy properties from
      */
-    export function assign(target: any, source: any, srcKeys?: string[]) {
+    export function assign<T1, T2>(target: T1, source: T2): T1 & T2;
+    export function assign(target: any, source: any, srcKeys: string[]): any;
+    export function assign(target: any, source: any, srcKeys?: string[]): any {
         if (target == null) { throw new TypeError("assign() target cannot be null"); }
 
         srcKeys = srcKeys || Object.keys(source);

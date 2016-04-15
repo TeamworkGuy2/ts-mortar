@@ -179,14 +179,6 @@ var Objects;
         }
     }
     Objects.clone = clone;
-    /** Assign source object properties to a target object.
-     * If 'sources' contains multiple objects with the same property, the property from the last object in 'sources' takes preceedence.
-     * Example: {@code assign({ a: "Q", b: 2 }, { a: "Z", b: "B", c: 3 })
-     * returns {@code { a: "Z", b: "B", c: 3 }}
-     *
-     * @param target the object to add/overwrite the properties to
-     * @param sources the object to copy properties from
-     */
     function assign(target, source, srcKeys) {
         if (target == null) {
             throw new TypeError("assign() target cannot be null");

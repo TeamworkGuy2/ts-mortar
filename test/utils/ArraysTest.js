@@ -264,9 +264,23 @@ QUnit.test("max", function maxTest(sr) {
     sr.equal(Arrays.max([NaN, 0, -0]), 0);
     sr.equal(Arrays.max([-1, 0, -2]), 0);
     sr.equal(Arrays.max([0, 2, 4]), 4);
+    sr.equal(Arrays.max([5, 5]), 5);
+});
+QUnit.test("maxValueIndex", function maxValueIndexTest(sr) {
+    sr.equal(Arrays.maxValueIndex([NaN, 0, -0]), 1);
+    sr.equal(Arrays.maxValueIndex([-1, 0, -2]), 1);
+    sr.equal(Arrays.maxValueIndex([0, 2, 4]), 2);
+    sr.equal(Arrays.maxValueIndex([5, 5]), 0);
 });
 QUnit.test("min", function minTest(sr) {
-    sr.equal(Arrays.min([NaN, 0, -0]), -0);
+    sr.equal(Arrays.min([NaN, 0, -0]), 0);
     sr.equal(Arrays.min([1, 0, 2]), 0);
     sr.equal(Arrays.min([-2, 2, 4]), -2);
+    sr.equal(Arrays.min([-5, -5]), -5);
+});
+QUnit.test("minValueIndex", function minValueIndexTest(sr) {
+    sr.equal(Arrays.minValueIndex([NaN, 0, -0]), 1);
+    sr.equal(Arrays.minValueIndex([1, 0, 2]), 1);
+    sr.equal(Arrays.minValueIndex([-2, 2, 4]), 0);
+    sr.equal(Arrays.minValueIndex([-5, -5]), 0);
 });

@@ -341,14 +341,23 @@ module Arrays {
      * @return the first (lowest index) value passed to 'filter' from 'ary' that returns true, or null if a match cannot be found
      */
     export function first<E>(ary: E[] | ArrayLike<E>, filter: FilterFunc<E>, ensureOne: boolean = false): E {
-        if (ary == null || filter == null) { return null; }
-        var result: E = null;
+        var idx = firstIndex(<E[]>ary, filter, ensureOne);
+        return idx < 0 ? null : ary[idx];
+    }
+
+
+    /** Return the index of the first matching value in an array using a filter function, null if no matches.
+     * @see #first()
+     */
+    export function firstIndex<E>(ary: E[] | ArrayLike<E>, filter: FilterFunc<E>, ensureOne: boolean = false): number {
+        if (ary == null || filter == null) { return -1; }
+        var resultIdx: number = -1;
         var resultCount = 0;
 
         for (var i = 0, size = ary.length; i < size; i++) {
             if (filter(ary[i], i, <E[]>ary) === true) {
                 if (resultCount === 0) {
-                    result = ary[i];
+                    resultIdx = i;
                     if (!ensureOne) {
                         resultCount++;
                         break;
@@ -360,9 +369,32 @@ module Arrays {
         }
 
         if (resultCount === 1) {
-            return result;
+            return resultIdx;
         }
-        return null;
+        return -1;
+    }
+
+
+    export function last<E>(ary: E[] | ArrayLike<E>, filterFunc: FilterFunc<E>): E {
+        var idx = lastIndex(<E[]>ary, filterFunc);
+        return idx < 0 ? null : ary[idx];
+    }
+
+
+    /** Return the last value in an array that matches a filter, null if no matches
+     * @param ary: the array of values to search
+     * @param filterFunc: the filter to apply
+     * @return the highest-index value passed to {@code filterFunc} from {@code ary} that returns true, null if no value returns true
+     */
+    export function lastIndex<E>(ary: E[] | ArrayLike<E>, filterFunc: FilterFunc<E>): number {
+        if (ary == null) { return -1; }
+
+        for (var i = ary.length - 1; i > -1; i--) {
+            if (filterFunc(ary[i], i, <E[]>ary) == true) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 
@@ -445,26 +477,6 @@ module Arrays {
             if (ary[i][propName] === propValue) { return i; }
         }
         return -1;
-    }
-
-
-    /** Return the last value in an array that matches a filter, null if no matches
-     * @param ary: the array of values to search
-     * @param filterFunc: the filter to apply
-     * @return the highest-index value passed to {@code filterFunc} from {@code ary} that returns true, null if no value returns true
-     */
-    export function last<E>(ary: E[], filterFunc: FilterFunc<E>): E {
-        if (ary == null) { return null; }
-        if (typeof filterFunc !== "function") {
-            throw new Error("incorrect parameter 'filterFunc', must be a 'function(value, index, array): boolean'");
-        }
-
-        for (var i = ary.length - 1; i > -1; i--) {
-            if (filterFunc(ary[i], i, ary) == true) {
-                return ary[i];
-            }
-        }
-        return null;
     }
 
 
@@ -820,6 +832,22 @@ module Arrays {
     }
 
 
+    /** Find the maximum value in an array of numbers
+     * @param ary the array of numbers to search
+     */
+    export function maxValueIndex(ary: number[]): number {
+        var max = Number.NEGATIVE_INFINITY;
+        var maxI = -1;
+        for (var i = 0, size = ary.length; i < size; i++) {
+            if (ary[i] > max) {
+                max = ary[i];
+                maxI = i;
+            }
+        }
+        return maxI;
+    }
+
+
     /** Find the minimum value in an array of numbers
      * @param ary the array of numbers to search
      */
@@ -829,6 +857,22 @@ module Arrays {
             min = ary[i] < min ? ary[i] : min;
         }
         return min;
+    }
+
+
+    /** Find the minimum value in an array of numbers
+     * @param ary the array of numbers to search
+     */
+    export function minValueIndex(ary: number[]): number {
+        var min = Number.POSITIVE_INFINITY;
+        var minI = -1;
+        for (var i = 0, size = ary.length; i < size; i++) {
+            if (ary[i] < min) {
+                min = ary[i];
+                minI = i;
+            }
+        }
+        return minI;
     }
 
 }

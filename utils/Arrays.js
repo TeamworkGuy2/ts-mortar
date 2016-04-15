@@ -301,15 +301,24 @@ var Arrays;
      */
     function first(ary, filter, ensureOne) {
         if (ensureOne === void 0) { ensureOne = false; }
+        var idx = firstIndex(ary, filter, ensureOne);
+        return idx < 0 ? null : ary[idx];
+    }
+    Arrays.first = first;
+    /** Return the index of the first matching value in an array using a filter function, null if no matches.
+     * @see #first()
+     */
+    function firstIndex(ary, filter, ensureOne) {
+        if (ensureOne === void 0) { ensureOne = false; }
         if (ary == null || filter == null) {
-            return null;
+            return -1;
         }
-        var result = null;
+        var resultIdx = -1;
         var resultCount = 0;
         for (var i = 0, size = ary.length; i < size; i++) {
             if (filter(ary[i], i, ary) === true) {
                 if (resultCount === 0) {
-                    result = ary[i];
+                    resultIdx = i;
                     if (!ensureOne) {
                         resultCount++;
                         break;
@@ -320,11 +329,33 @@ var Arrays;
             }
         }
         if (resultCount === 1) {
-            return result;
+            return resultIdx;
         }
-        return null;
+        return -1;
     }
-    Arrays.first = first;
+    Arrays.firstIndex = firstIndex;
+    function last(ary, filterFunc) {
+        var idx = lastIndex(ary, filterFunc);
+        return idx < 0 ? null : ary[idx];
+    }
+    Arrays.last = last;
+    /** Return the last value in an array that matches a filter, null if no matches
+     * @param ary: the array of values to search
+     * @param filterFunc: the filter to apply
+     * @return the highest-index value passed to {@code filterFunc} from {@code ary} that returns true, null if no value returns true
+     */
+    function lastIndex(ary, filterFunc) {
+        if (ary == null) {
+            return -1;
+        }
+        for (var i = ary.length - 1; i > -1; i--) {
+            if (filterFunc(ary[i], i, ary) == true) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    Arrays.lastIndex = lastIndex;
     /** Search for an object in an array containing a property matching a given input property.
      * Optional: throw an exception if more than one result is found.
      * For example: {@code firstProp([ {name: "billy", value: 4}, {name: "sam", value: 5}, {name: "will", value: 5} ], "value", 5)}
@@ -410,26 +441,6 @@ var Arrays;
         return -1;
     }
     Arrays.indexOfProp = indexOfProp;
-    /** Return the last value in an array that matches a filter, null if no matches
-     * @param ary: the array of values to search
-     * @param filterFunc: the filter to apply
-     * @return the highest-index value passed to {@code filterFunc} from {@code ary} that returns true, null if no value returns true
-     */
-    function last(ary, filterFunc) {
-        if (ary == null) {
-            return null;
-        }
-        if (typeof filterFunc !== "function") {
-            throw new Error("incorrect parameter 'filterFunc', must be a 'function(value, index, array): boolean'");
-        }
-        for (var i = ary.length - 1; i > -1; i--) {
-            if (filterFunc(ary[i], i, ary) == true) {
-                return ary[i];
-            }
-        }
-        return null;
-    }
-    Arrays.last = last;
     /** Search for the last index of an object with a specified property in an array
      * For example: {@code lastIndexOfPropValue([ {text: "john's bid", value: 12}, {text: "test bid", value: 12} ], "value", 12)}
      * returns: {@code 1}
@@ -771,6 +782,21 @@ var Arrays;
         return max;
     }
     Arrays.max = max;
+    /** Find the maximum value in an array of numbers
+     * @param ary the array of numbers to search
+     */
+    function maxValueIndex(ary) {
+        var max = Number.NEGATIVE_INFINITY;
+        var maxI = -1;
+        for (var i = 0, size = ary.length; i < size; i++) {
+            if (ary[i] > max) {
+                max = ary[i];
+                maxI = i;
+            }
+        }
+        return maxI;
+    }
+    Arrays.maxValueIndex = maxValueIndex;
     /** Find the minimum value in an array of numbers
      * @param ary the array of numbers to search
      */
@@ -782,5 +808,20 @@ var Arrays;
         return min;
     }
     Arrays.min = min;
+    /** Find the minimum value in an array of numbers
+     * @param ary the array of numbers to search
+     */
+    function minValueIndex(ary) {
+        var min = Number.POSITIVE_INFINITY;
+        var minI = -1;
+        for (var i = 0, size = ary.length; i < size; i++) {
+            if (ary[i] < min) {
+                min = ary[i];
+                minI = i;
+            }
+        }
+        return minI;
+    }
+    Arrays.minValueIndex = minValueIndex;
 })(Arrays || (Arrays = {}));
 module.exports = Arrays;
