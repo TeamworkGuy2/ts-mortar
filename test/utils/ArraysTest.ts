@@ -338,15 +338,24 @@ QUnit.test("sortNumeric", function sortNumericTest(sr) {
 
     var res2 = Arrays.sortNumeric(ary.slice(), true);
     sr.deepEqual(res2, [5, 4, 3, 2, 1]);
+
+    var res3 = Arrays.sortNumeric([1, 1]);
+    sr.deepEqual(res3, [1, 1]);
 });
 
 
-QUnit.test("spliceArray", function spliceArrayTest(sr) {
-    var origAry = [1, 2, 8, 9, 6];
-    var insertAry = [3, 4, 5];
+QUnit.test("splice", function spliceTest(sr) {
+    var origAry = [0, 1, 1, 5];
+    var insertAry = [10, 15, 20];
 
-    var res = Arrays.splice(origAry, insertAry, 2, 2);
-    sr.deepEqual(res, [1, 2, 3, 4, 5, 6]);
+    var res = Arrays.splice(origAry, insertAry, 2, 1);
+    sr.deepEqual(res, [0, 1, 10, 15, 20, 5]);
+
+    var res2 = Arrays.splice([2, 3], [0, 1], 0, 0);
+    sr.deepEqual(res2, [0, 1, 2, 3]);
+
+    var res2 = Arrays.splice([0, 1], [2, 3], 2, 0);
+    sr.deepEqual(res2, [0, 1, 2, 3]);
 });
 
 

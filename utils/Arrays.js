@@ -661,8 +661,8 @@ var Arrays;
     }
     Arrays.sortNumeric = sortNumeric;
     /** Create an array containing the contents of two arrays.
-     * For example: {@code spliceArray([0, 1, 1, 5], [1, 2, 3], 2, 1)}
-     * returns: {@code [0, 1, 1, 2, 3, 5]}
+     * For example: {@code spliceArray([0, 1, 1, 5], [10, 15, 20], 2, 1)}
+     * returns: {@code [0, 1, 10, 15, 20, 5]}
      *
      * @param origAry: the initial array to copy
      * @param insertAry: the array to insert into {@code origAry}
@@ -670,7 +670,7 @@ var Arrays;
      * @param [deleteCount=0]: the number of elements to not copy from {@code origAry} starting at {@code index}
      * @return the {@code origAry} or a new array containing the contents of {@code origAry} and {@code insertAry}
      */
-    function splice(origAry, insertAry, index, deleteCount) {
+    function splice(origAry, insertAry, index, deleteCount, copyToNewAry) {
         if (deleteCount === void 0) { deleteCount = 0; }
         if (origAry == null || insertAry == null || !Array.isArray(origAry) || !Array.isArray(insertAry) || index === undefined) {
             if (origAry == null && insertAry == null) {
@@ -691,6 +691,16 @@ var Arrays;
         if (index === origAry.length && deleteCount === 0) {
             tmp = origAry;
             Array.prototype.push.apply(tmp, insertAry);
+            if (copyToNewAry) {
+                tmp = tmp.slice();
+            }
+        }
+        else if (index === 0 && deleteCount === 0) {
+            tmp = origAry;
+            Array.prototype.unshift.apply(tmp, insertAry);
+            if (copyToNewAry) {
+                tmp = tmp.slice();
+            }
         }
         else {
             tmp = [];
