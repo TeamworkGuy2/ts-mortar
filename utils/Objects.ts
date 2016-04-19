@@ -128,21 +128,10 @@ module Objects {
     }
 
 
-    /** Return the first non-null argument
-     * @param arguments: an list of parameters to search through
-     * @return the first argument that is not null, or null if all of the arguments are null
+    /** Create a deep copy of a source object.
+     * NOTE: symbols, built-in types (such as array buffer, regex, etc.), and prototypes are not copied
+     * @param source the object to copy
      */
-    export function coalesce<T>(...args: T[]): T {
-        for (var i = 0, size = args.length; i < size; i++) {
-            var arg = args[i];
-            if (arg != null) {
-                return arg;
-            }
-        }
-        return null;
-    }
-
-
     export function cloneDeep<T>(source: T): T {
         if (source == null) { throw new TypeError("cloneDeep() source cannot be null"); }
 
@@ -170,17 +159,45 @@ module Objects {
     }
 
 
-    export function clone<T>(source: T, srcKeys?: string[]): T {
+    /** Create a shallow copy of a source object (only copy the object's property/element references).
+     * NOTE: built-in types (such as array buffer, regex, etc.) are not copied, only objects and arrays are currently copied
+     * @param source the object to copy
+     * @param srcKeys optional list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
+     */
+    export function clone<T>(source: T): T;
+    export function clone(source: any, srcKeys?: string[]): any;
+    export function clone(source: any, srcKeys?: string[]): any {
         if (source == null) { throw new TypeError("clone() source cannot be null"); }
 
         if (Array.isArray(source)) {
             var res = [];
             Array.prototype.push.apply(res, source);
-            return <T><any>res;
+            return res;
         }
         else {
-            return <T>assign({}, source, srcKeys);
+            return assign({}, source, srcKeys);
         }
+    }
+
+
+    /** Create a copy of a map (object where all properties are the same type) using a copy function for the properties.
+     * @param source the source map
+     * @param srcKeys optional list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
+     * @param propCopier (optional) function used to copy each of the properties from the source map
+     */
+    export function cloneMap(source: any, srcKeys?: string[], propCopier?: (prop: any) => any): any {
+        if (source == null) { throw new TypeError("cloneMap() source cannot be null"); }
+
+        var target = {};
+        srcKeys = srcKeys || Object.keys(source);
+        for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
+            var keyI = srcKeys[ii];
+            var srcProp = source[keyI];
+            if (srcProp !== undefined) {
+                target[keyI] = propCopier == null ? srcProp : propCopier(srcProp);
+            }
+        }
+        return target;
     }
 
 
@@ -218,7 +235,7 @@ module Objects {
      * @param sources the objects to copy properties from
      */
     export function assignAll(target: any, sources: any[], srcsKeys?: string[][]) {
-        if (target == null) { throw new TypeError("assign() target cannot be null"); }
+        if (target == null) { throw new TypeError("assignAll() target cannot be null"); }
 
         for (var i = 0, size = sources.length; i < size; i++) {
             var src = sources[i];

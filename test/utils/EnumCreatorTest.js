@@ -23,19 +23,19 @@ var TestEnum = (function () {
     return TestEnum;
 }());
 QUnit.module("EnumCreator", {});
-QUnit.test("name()", function nameTest(sr) {
+QUnit.test("name", function nameTest(sr) {
     sr.equal(TestEnum.A.id, 1);
     sr.equal(TestEnum.A.name(), "A");
 });
-QUnit.test("values()", function valuesTest(sr) {
+QUnit.test("values", function valuesTest(sr) {
     sr.equal(TestEnum.values().length, 3);
     sr.deepEqual(TestEnum.values().map(function (a) { return a.name(); }), ["A", "B", "C"]);
 });
-QUnit.test("isInstance()", function isInstanceTest(sr) {
+QUnit.test("isInstance", function isInstanceTest(sr) {
     sr.equal(TestEnum.isInstance(TestEnum.B), true);
     sr.equal(TestEnum.isInstance({ _name: "B", value: 2 }), false);
 });
-QUnit.test("parse()", function parseTest(sr) {
+QUnit.test("parse", function parseTest(sr) {
     sr.equal(TestEnum.parse("B", false), TestEnum.B);
     sr.equal(TestEnum.parse("1", false), null);
 });

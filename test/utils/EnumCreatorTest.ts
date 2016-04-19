@@ -36,7 +36,7 @@ QUnit.module("EnumCreator", {
 });
 
 
-QUnit.test("name()", function nameTest(sr) {
+QUnit.test("name", function nameTest(sr) {
 
     sr.equal(TestEnum.A.id, 1);
 
@@ -44,7 +44,7 @@ QUnit.test("name()", function nameTest(sr) {
 });
 
 
-QUnit.test("values()", function valuesTest(sr) {
+QUnit.test("values", function valuesTest(sr) {
 
     sr.equal(TestEnum.values().length, 3);
 
@@ -52,7 +52,7 @@ QUnit.test("values()", function valuesTest(sr) {
 });
 
 
-QUnit.test("isInstance()", function isInstanceTest(sr) {
+QUnit.test("isInstance", function isInstanceTest(sr) {
 
     sr.equal(TestEnum.isInstance(TestEnum.B), true);
 
@@ -60,7 +60,7 @@ QUnit.test("isInstance()", function isInstanceTest(sr) {
 });
 
 
-QUnit.test("parse()", function parseTest(sr) {
+QUnit.test("parse", function parseTest(sr) {
 
     sr.equal(TestEnum.parse("B", false), TestEnum.B);
 

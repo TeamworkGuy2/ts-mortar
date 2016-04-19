@@ -77,13 +77,13 @@ QUnit.test("hasMatchingProps", function hasMatchingPropsTest(sr) {
     var res3 = Objects.hasMatchingProps(item, itemKeys, function (v) { return true; }, itemKeys.length + 1);
     sr.equal(res3, false);
 });
-QUnit.test("coalesce", function coalesceTest(sr) {
-    var res1 = Objects.coalesce(null, false, 1, {});
-    sr.equal(res1, false);
-    var res2 = Objects.coalesce(1, {});
-    sr.equal(res2, 1);
-    var res3 = Objects.coalesce();
-    sr.equal(res3, null);
+QUnit.test("cloneMap", function coalesceTest(sr) {
+    var res1 = Objects.cloneMap({ sub: 123, sup: 312, arc: "a" }, null, function (prop) { return prop.toString().substr(0, 2); });
+    sr.deepEqual(res1, { sub: "12", sup: "31", arc: "a" });
+    var res2 = Objects.cloneMap({ a: {}, b: "ab", c: true }, null, function (prop) { return prop.toString(); });
+    sr.deepEqual(res2, { a: "[object Object]", b: "ab", c: "true" });
+    var res3 = Objects.cloneMap({}, null, null);
+    sr.deepEqual(res3, {});
 });
 QUnit.test("clone", function getPropTest(sr) {
     var src1 = {

@@ -3,14 +3,25 @@ All notable changes to this project will be documented in this file.
 This project 'tries' to adhere to [Semantic Versioning](http://semver.org/).
 
 
-### [0.4.5](N/A) - 2016-04-16
+--------
+### [0.5.0](N/A) - 2016-04-18
 #### Added
-A CHANGELOG.md covering all previous releases after being reminded about the need for change longs on http://keepachangelog.com/
+* Objects.cloneMap() similar to assign() or clone(), but designed to copy maps (containing properties all of the same type) using a property clone function
+
+#### Removed
+* Objects.coalesce() too general and found to rarely be used this way in practice
+
+
+--------
+### [0.4.5](https://github.com/TeamworkGuy2/ts-mortar/commit/6e75bea9a62e32ac36bec27de103f7d3d2beaa67) - 2016-04-16
+#### Added
+A CHANGELOG.md covering all previous releases after being reminded about the need for change logs from http://keepachangelog.com/
 
 #### Changed
 * Arrays.splice() 'copyToNewAry' optional parameter, corner case optimization for insertions at the beginning of an array, and clearer documentation example
 
 
+--------
 ### [0.4.4](https://github.com/TeamworkGuy2/ts-mortar/commit/3e5494a5b41943458c11a2ac9b92ff43de448b7c) - 2016-04-15
 #### Added
 * Arrays firstIndex() which is used by first(), lastIndex() which is used by last(), and maxValueIndex() and minValueIndex() to augment max() and min(), and test cases
@@ -19,16 +30,19 @@ A CHANGELOG.md covering all previous releases after being reminded about the nee
 * Added Objects.assign() TypeScript overloads to return a type more specific than 'any' when possible
 
 
+--------
 ### [0.4.3](https://github.com/TeamworkGuy2/ts-mortar/commit/936fd7bfef9542125c583b3807527186d37267b6) - 2016-04-14
 #### Fixed
 * Arrays.unique() was sorting the input array when it didn't need to, and since the input array wasn't copied before sorting, it was modifying the caller's original array
 
 
+--------
 ### [0.4.2](https://github.com/TeamworkGuy2/ts-mortar/commit/4679b42aeaf06a9e287be9cd11127a8af4a9afb2) - 2016-04-05
 #### Changed
-* Flattend the project folder so it wasn't inside a sub-folder of the project root and moved .d.ts definition files to separate definitions library
+* Flattened the project folder so it wasn't inside a sub-folder of the project root and moved .d.ts definition files to separate definitions library
 
 
+--------
 ### [0.4.1](https://github.com/TeamworkGuy2/ts-mortar/commit/059609f1bbe734d673d4d5145dedc919682e77fd) - 2016-04-04
 #### Added
 * Arrays.equal() and test cases
@@ -40,6 +54,7 @@ A CHANGELOG.md covering all previous releases after being reminded about the nee
 * Old .js test files that were forgotten after test files were renamed with *Test suffix
 
 
+--------
 ### [0.4.0](https://github.com/TeamworkGuy2/ts-mortar/commit/92a3fddc387e29d4a65739fdd1837c14a54b4042) - 2016-03-29
 #### Added
 * Arrays max() and min() for numeric arrays
@@ -52,31 +67,37 @@ Renamed Arrays functions:
 * findOne() -> first() and removed duplicate first() which had less optional parameters to customize behavior
 
 
+--------
 ### [0.3.10](https://github.com/TeamworkGuy2/ts-mortar/commit/b684268593e2dcbb915a85b5190c042983f0815a) - 2016-03-19
 #### Added
 * Objects.invert() and test cases
 
 
+--------
 ### [0.3.9](https://github.com/TeamworkGuy2/ts-mortar/commit/46eda81694cd4c72cbcb149b9a9b07695b45d234) - 2016-02-17
 #### Added
 * Functions wrap1Arg(), wrap2Arg(), and wrap3Arg() functions that creates a function that calls another function with baked in arguments
 
 
+--------
 ### [0.3.8](https://github.com/TeamworkGuy2/ts-mortar/commit/6e686931104e0a44e47cfb631f8e0d6b29bd89d6) - 2016-01-30
 #### Added
 * Arrays isOneItem() and getIfOneItem() and test cases
 
 
+--------
 ### [0.3.7](https://github.com/TeamworkGuy2/ts-mortar/commit/dfe7b80c56a802a9f254a144f46df0a719fa41c7) - 2016-01-22
 #### Fixed
 * Objects.extend() to support get and set properties using Object.defineProperty()
 
 
+--------
 ### [0.3.6](https://github.com/TeamworkGuy2/ts-mortar/commit/5f2d79c145be136ed13f8c784cc116c5f819ed28) - 2015-12-22
 #### Added
 * Arrays.swap() and test cases
 
 
+--------
 ### [0.3.5](https://github.com/TeamworkGuy2/ts-mortar/commit/1bc4dab8b8218aa8a4de25ac1e109421ba79e098) - 2015-12-18
 #### Added
 * EnumCreator test cases
@@ -92,16 +113,19 @@ Renamed Arrays functions:
 * Added EnumCreator flag to throw an error if an enum constant is missing
 
 
+--------
 ### [0.3.4](https://github.com/TeamworkGuy2/ts-mortar/commit/810f3cf9858565f7139b1e374dd6909de07b1d4a) - 2015-12-11
 #### Changed
 * Added optional 'keys' (string[]) parameters to clone(), assign(), and assignAll() to only assign or clone certain properties from the source object
 
 
+--------
 ### [0.3.3](https://github.com/TeamworkGuy2/ts-mortar/commit/ad8aa03b2482e242ea1b4915dcb56693a28cdd92) - 2015-12-10
 #### Added
 * Added Objects assign() and assignAll() for copying properties from one object to another, clone() and cloneDeep() to copy objects, and test cases
 
 
+--------
 ### [0.3.2](https://github.com/TeamworkGuy2/ts-mortar/commit/911d5a062599b07131b484bc46c22201ac31b8a0) - 2015-11-25
 #### Added
 * Strings.clamp() to chop string to a max length and test cases
@@ -110,6 +134,7 @@ Renamed Arrays functions:
 Added comments back to compiled .js files
 
 
+--------
 ### [0.3.1](https://github.com/TeamworkGuy2/ts-mortar/commit/448a09cf467a7aae79770383dd04b3668dc3b666) - 2015-11-13
 #### Changed
 Renamed /tsDefinitions/ -> /definitions/ folder for .d.ts files
@@ -118,11 +143,13 @@ Renamed /tsDefinitions/ -> /definitions/ folder for .d.ts files
 Did not commit '.d.ts' files, since these are just files copied from the [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) project
 
 
+--------
 ### [0.3.0](https://github.com/TeamworkGuy2/ts-mortar/commit/92b2220139720dff4812b58a16aa0646afb9d1fd#diff-b9cfc7f2cdf78a7f4b91a753d10865a2) - 2015-11-13
 #### Changed
 * Renamed Arrays spliceArray() -> splice()
 
 
+--------
 ### [0.2.0](https://github.com/TeamworkGuy2/ts-mortar/commit/58395f4304afa2a6d5763aef8952d90ca0d41ba5#diff-b9cfc7f2cdf78a7f4b91a753d10865a2) - 2015-11-10
 #### Added
 Simple event handlers in new /events/ sub folder, including:
@@ -133,11 +160,13 @@ Simple event handlers in new /events/ sub folder, including:
 * events.d.ts - interface definitions for EventQueue and ListenerList
 
 
+--------
 ### [0.1.1](https://github.com/TeamworkGuy2/ts-mortar/commit/4838a0fbf3bc0d74bd249330245333a7a46ce89a) - 2015-11-10
 #### Changed
 * Narrowed Objects.values() parameter types
 
 
+--------
 ### [0.1.0](https://github.com/TeamworkGuy2/ts-mortar/commit/68b049e306cbbd78f62d5217830ed59b59f5d988#diff-b9cfc7f2cdf78a7f4b91a753d10865a2) - 2015-11-7
 #### Added
 * qunit tests for utils/Objects and date-time/DateTimes
@@ -151,6 +180,7 @@ Simple event handlers in new /events/ sub folder, including:
 * Objects.orNull() because it's so simple to type 'value != null ? value : null' or even 'value || null'
 
 
+--------
 ### [0.0.3](https://github.com/TeamworkGuy2/ts-mortar/commit/06f6c81d10fc376982f771e88d8307c0fd4b99fb) - 2015-11-6
 #### Changed
 Added EnumCreator.initEnumClass() strongly typed function parameters
@@ -159,6 +189,7 @@ Added EnumCreator.initEnumClass() strongly typed function parameters
 Old unused Dates.js file that was accidential commited
 
 
+--------
 ### [0.0.2](https://github.com/TeamworkGuy2/ts-mortar/commit/39401de4a5793baaf063e31a5a088de06c7a7ad9) - 2015-11-6
 #### Added
 * DateTimes.ts: parseDotNetJson(), toDotNetJsonTimestamp(), getDayMinutes(), toDisplayDate(), toDisplayDateTime(), dayDiff(), currentTimezoneOffsetMillis(), now(), toDate(), parseDotNetJson(), toDotNetJson(), toUtcDotNetJson(), getDayMinutes(), toDisplayDate(), toDisplayDateTime()
@@ -170,6 +201,7 @@ Old unused Dates.js file that was accidential commited
 Renamed project folder from TsMortar -> ts-mortar
 
 
+--------
 ### [0.0.1](https://github.com/TeamworkGuy2/ts-mortar/commit/02a1f2dc9e4c3aedff32822a9a6e568b068572de) - 2015-11-05
 #### Added
 Initial commit including:
