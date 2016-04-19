@@ -185,6 +185,9 @@ module Objects {
      * @param srcKeys optional list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
      * @param propCopier (optional) function used to copy each of the properties from the source map
      */
+    export function cloneMap<T>(source: T): T;
+    export function cloneMap<T, R>(source: { [key: string]: T }, srcKeys?: string[], propCopier?: (prop: T) => R): { [key: string]: R };
+    export function cloneMap(source: any, srcKeys?: string[], propCopier?: (prop: any) => any): any;
     export function cloneMap(source: any, srcKeys?: string[], propCopier?: (prop: any) => any): any {
         if (source == null) { throw new TypeError("cloneMap() source cannot be null"); }
 

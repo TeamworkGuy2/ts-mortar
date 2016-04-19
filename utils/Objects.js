@@ -165,11 +165,6 @@ var Objects;
         }
     }
     Objects.clone = clone;
-    /** Create a copy of a map (object where all properties are the same type) using a copy function for the properties.
-     * @param source the source map
-     * @param srcKeys optional list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
-     * @param propCopier (optional) function used to copy each of the properties from the source map
-     */
     function cloneMap(source, srcKeys, propCopier) {
         if (source == null) {
             throw new TypeError("cloneMap() source cannot be null");

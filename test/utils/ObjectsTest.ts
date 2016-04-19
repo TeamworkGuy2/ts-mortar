@@ -115,8 +115,11 @@ QUnit.test("cloneMap", function coalesceTest(sr) {
     var res2 = Objects.cloneMap({ a: {}, b: "ab", c: true }, null, (prop) => prop.toString());
     sr.deepEqual(res2, { a: "[object Object]", b: "ab", c: "true" });
 
-    var res3 = Objects.cloneMap({ }, null, null);
-    sr.deepEqual(res3, { });
+    var res3 = Objects.cloneMap({ a: {}, b: "ab", c: true, d: 1010 }, ["a", "c"], (prop) => JSON.parse(JSON.stringify(prop)));
+    sr.deepEqual(res3, { a: {}, c: true });
+
+    var res4 = Objects.cloneMap({ });
+    sr.deepEqual(res4, { });
 });
 
 
