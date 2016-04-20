@@ -4,6 +4,18 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
+### [0.5.2](N/A) - 2016-04-20
+#### Added
+* Objects.cloneDeep() support for Date type
+
+
+--------
+### [0.5.1](https://github.com/TeamworkGuy2/ts-mortar/commit/ba0f8f82fad3e6f718c9d23cfaeddbe77f08f17b) - 2016-04-18
+#### Changed
+* Improved Objects.cloneMap() overloaded virtual TypeScript signatures
+
+
+--------
 ### [0.5.0](https://github.com/TeamworkGuy2/ts-mortar/commit/0e15ae5d209215062be0bc69e167b776fbe521b0) - 2016-04-18
 #### Added
 * Objects.cloneMap() similar to assign() or clone(), but designed to copy maps (containing properties all of the same type) using a property clone function

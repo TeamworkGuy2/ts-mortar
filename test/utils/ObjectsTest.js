@@ -29,6 +29,7 @@ var numsValues = [];
         numsValues.push(nums[numsKeys[i]]);
     }
 }());
+function dateA() { return new Date(1999, 5, 4, 3, 2, 1, 0); }
 QUnit.module("Objects", {});
 QUnit.test("values", function valuesTest(sr) {
     var res1 = Objects.values(item, itemKeys);
@@ -80,12 +81,13 @@ QUnit.test("hasMatchingProps", function hasMatchingPropsTest(sr) {
 QUnit.test("cloneMap", function coalesceTest(sr) {
     var res1 = Objects.cloneMap({ sub: 123, sup: 312, arc: "a" }, null, function (prop) { return prop.toString().substr(0, 2); });
     sr.deepEqual(res1, { sub: "12", sup: "31", arc: "a" });
-    var res2 = Objects.cloneMap({ a: {}, b: "ab", c: true }, null, function (prop) { return prop.toString(); });
-    sr.deepEqual(res2, { a: "[object Object]", b: "ab", c: "true" });
-    var res3 = Objects.cloneMap({ a: {}, b: "ab", c: true, d: 1010 }, ["a", "c"], function (prop) { return JSON.parse(JSON.stringify(prop)); });
-    sr.deepEqual(res3, { a: {}, c: true });
-    var res4 = Objects.cloneMap({});
-    sr.deepEqual(res4, {});
+    var res2 = Objects.cloneMap({ a: {}, b: 2.4, c: true }, null, function (prop) { return typeof prop === "number" ? prop * 2 : prop.toString(); });
+    sr.deepEqual(res2, { a: "[object Object]", b: 4.8, c: "true" });
+    var objA = {};
+    var res3 = Objects.cloneMap({ a: objA, b: false, c: 4.8, e: true }, ["a", "c", "e"], function (prop) { return prop; });
+    sr.deepEqual(res3, { a: objA, c: 4.8, e: true });
+    var res4 = Objects.cloneMap(objA);
+    sr.deepEqual(res4, objA);
 });
 QUnit.test("clone", function getPropTest(sr) {
     var src1 = {
@@ -93,7 +95,7 @@ QUnit.test("clone", function getPropTest(sr) {
         b: { 1: 1, 2: 2, 3: 3 },
         c: {
             c1: [1, 2, 4, 8],
-            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: true, values: [false, 1.3, "t", "a"] } }] },
             c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
         },
     };
@@ -102,7 +104,7 @@ QUnit.test("clone", function getPropTest(sr) {
         b: { 1: 1, 2: 2, 3: 3 },
         c: {
             c1: [1, 2, 4, 8],
-            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: true, values: [false, 1.3, "t", "a"] } }] },
             c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
         },
     };
@@ -111,51 +113,60 @@ QUnit.test("clone", function getPropTest(sr) {
         b: { 1: 1, 2: 2, 3: 3 },
         c: {
             c1: [1, 2, 4, 8],
-            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: true, values: [false, 1.3, "t", "a"] } }] },
             c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
         },
     };
     var res1 = Objects.clone(src1a);
     src1a.a = null;
     sr.deepEqual(res1, src1);
-    var res1 = Objects.clone(src1b);
+    var res2 = Objects.clone(src1b);
     src1b.c.c1 = null;
-    sr.notDeepEqual(res1, src1);
+    sr.notDeepEqual(res2, src1);
 });
 QUnit.test("cloneDeep", function getPropTest(sr) {
     var src1 = {
         a: "A",
-        b: { 1: 1, 2: 2, 3: 3 },
+        b: { 1: 1, 2: 2, 3: 3, date: dateA() },
         c: {
             c1: [1, 2, 4, 8],
-            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: [false, 1.3, "t", "a"] } }] },
             c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
         },
     };
     var src1a = {
         a: "A",
-        b: { 1: 1, 2: 2, 3: 3 },
+        b: { 1: 1, 2: 2, 3: 3, date: dateA() },
         c: {
             c1: [1, 2, 4, 8],
-            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: [false, 1.3, "t", "a"] } }] },
             c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
         },
     };
     var src1b = {
         a: "A",
-        b: { 1: 1, 2: 2, 3: 3 },
+        b: { 1: 1, 2: 2, 3: 3, date: dateA() },
         c: {
             c1: [1, 2, 4, 8],
-            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: ["b", "e", "t", "a"] } }] },
+            c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: [false, 1.3, "t", "a"] } }] },
             c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
         },
     };
     var res1 = Objects.cloneDeep(src1a);
+    var res2 = Objects.cloneDeep(src1b);
+    // check copied dates, first modify the original object dates, then ensure the copies match the original
+    src1a.b.date.setUTCFullYear(2025, 11, 25);
+    src1b.b.date.setUTCFullYear(2025, 11, 25);
+    sr.equal(res1.b.date.toISOString(), src1.b.date.toISOString());
+    sr.equal(res2.b.date.toISOString(), src1.b.date.toISOString());
+    // convert the dates to timestamps since deepEqual doesn't compare dates properly
+    res1.b.date = res1.b.date.toISOString();
+    res2.b.date = res2.b.date.toISOString();
+    src1.b.date = src1.b.date.toISOString();
     src1a.a = null;
     sr.deepEqual(res1, src1);
-    var res1 = Objects.cloneDeep(src1b);
     src1b.c.c1 = null;
-    sr.deepEqual(res1, src1);
+    sr.deepEqual(res2, src1);
 });
 QUnit.test("assign", function getPropTest(sr) {
     var src1 = Objects.assign({ a: "Q", b: 2 }, { a: "Z", b: "B", c: 3 });

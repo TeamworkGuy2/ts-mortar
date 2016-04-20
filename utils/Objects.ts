@@ -144,6 +144,9 @@ module Objects {
             }
             return <T><any>res;
         }
+        else if (Object.prototype.toString.call(source) === "[object Date]") {
+            return <T><any>new Date((<any>source).getTime());
+        }
         else {
             var target = {};
             var srcKeys = Object.keys(source);
@@ -193,8 +196,8 @@ module Objects {
 
         var target = {};
         srcKeys = srcKeys || Object.keys(source);
-        for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
-            var keyI = srcKeys[ii];
+        for (var i = 0, size = srcKeys.length; i < size; i++) {
+            var keyI = srcKeys[i];
             var srcProp = source[keyI];
             if (srcProp !== undefined) {
                 target[keyI] = propCopier == null ? srcProp : propCopier(srcProp);

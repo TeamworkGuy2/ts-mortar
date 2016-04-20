@@ -137,6 +137,9 @@ var Objects;
             }
             return res;
         }
+        else if (Object.prototype.toString.call(source) === "[object Date]") {
+            return new Date(source.getTime());
+        }
         else {
             var target = {};
             var srcKeys = Object.keys(source);
@@ -171,8 +174,8 @@ var Objects;
         }
         var target = {};
         srcKeys = srcKeys || Object.keys(source);
-        for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
-            var keyI = srcKeys[ii];
+        for (var i = 0, size = srcKeys.length; i < size; i++) {
+            var keyI = srcKeys[i];
             var srcProp = source[keyI];
             if (srcProp !== undefined) {
                 target[keyI] = propCopier == null ? srcProp : propCopier(srcProp);
