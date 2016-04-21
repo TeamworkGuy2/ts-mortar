@@ -258,13 +258,13 @@ QUnit.test("invert", function invertTest(sr) {
     sr.deepEqual(Objects.invert(b), bInvert);
 });
 QUnit.test("map", function mapTest(sr) {
-    var res1 = Objects.map({ sub: 123, sup: 312, arc: "a" }, null, function (prop) { return prop.toString().substr(0, 2); });
+    var res1 = Objects.map({ sub: 123, sup: 312, arc: "a" }, null, function (key, value) { return value.toString().substr(0, 2); });
     sr.deepEqual(res1, { sub: "12", sup: "31", arc: "a" });
-    var res2 = Objects.map({ a: {}, b: 2.4, c: true }, function (prop) { return typeof prop === "number" ? prop * 2 : prop.toString(); });
-    sr.deepEqual(res2, { a: "[object Object]", b: 4.8, c: "true" });
+    var res2 = Objects.map({ a: {}, b: 2.4, c: true }, function (key, value) { return typeof value === "number" ? value * 2 : key + ": " + value.toString(); });
+    sr.deepEqual(res2, { a: "a: [object Object]", b: 4.8, c: "c: true" });
     var objA = {};
-    var res3 = Objects.map({ a: objA, b: false, c: 4.8, e: true }, ["a", "c", "e"], function (prop) { return prop; });
-    sr.deepEqual(res3, { a: objA, c: 4.8, e: true });
+    var res3 = Objects.map({ a: objA, b: false, c: 4.8, e: false }, ["a", "c", "e"], function (key, value) { return value != false ? value : undefined; });
+    sr.deepEqual(res3, { a: objA, c: 4.8 });
     var res4 = Objects.map(objA);
     sr.deepEqual(res4, objA);
     sr.deepEqual(Objects.map(null), null);

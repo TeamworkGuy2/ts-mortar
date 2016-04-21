@@ -379,18 +379,19 @@ module Objects {
     /** Create a copy of a map (object where all properties are the same type) using a copy function for the properties.
      * @param source the source map
      * @param [srcKeys] optional list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
-     * @param [mapFunc] optional function used to copy each of the properties from the source map
+     * @param [mapFunc] optional function used to copy each of the properties from the source map, the return value is used as the new value for each property,
+     * if undefined is returned, that property is not written to the returned object
      * @return a new object containing the transformed properties
      */
     export function map<T>(source: T): T;
-    export function map<T, R>(source: { [key: string]: T }, srcKeys: string[], mapFunc?: (prop: T) => R): { [key: string]: R };
-    export function map<T, R>(source: { [key: string]: T }, mapFunc?: (prop: T) => R): { [key: string]: R };
-    export function map(source: any, mapFunc?: (prop: any) => any): any;
-    export function map(source: any, srcKeys: string[], mapFunc?: (prop: any) => any): any
-    export function map(source: any, srcKeys?: string[] | ((prop: any) => any), mapFunc?: (prop: any) => any): any {
+    export function map<T, R>(source: { [key: string]: T }, srcKeys: string[], mapFunc?: (key: string, value: T) => R): { [key: string]: R };
+    export function map<T, R>(source: { [key: string]: T }, mapFunc?: (key: string, value: T) => R): { [key: string]: R };
+    export function map(source: any, mapFunc?: (key: string, value: any) => any): any;
+    export function map(source: any, srcKeys: string[], mapFunc?: (key: string, value: any) => any): any
+    export function map(source: any, srcKeys?: string[] | ((key: string, value: any) => any), mapFunc?: (key: string, value: any) => any): any {
         if (source == null) { return null; }
         if (typeof srcKeys === "function") {
-            mapFunc = <(prop: any) => any>srcKeys;
+            mapFunc = <(key: string, value: any) => any>srcKeys;
             srcKeys = null;
         }
 
@@ -400,8 +401,9 @@ module Objects {
         for (var i = 0, size = keys.length; i < size; i++) {
             var key = keys[i];
             var prop = source[key];
-            if (prop !== undefined) {
-                target[key] = mapFunc == null ? prop : mapFunc(prop);
+            var propRes = mapFunc == null || prop === undefined ? prop : mapFunc(key, prop);
+            if (propRes !== undefined) {
+                target[key] = propRes;
             }
         }
 

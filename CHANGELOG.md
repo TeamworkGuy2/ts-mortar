@@ -4,7 +4,14 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.5.3](N/A) - 2016-04-20
+### [0.5.4](N/A) - 2016-04-21
+#### Changed
+* Objects.map() 'mapFunc' callback arguments changed from (value) to (key, value)
+* Objects.map() 'mapFunc' callback can now return undefined to skip properties
+
+
+--------
+### [0.5.3](https://github.com/TeamworkGuy2/ts-mortar/commit/dcdd7531087a69701eaca049a74d494d4ccca306) - 2016-04-20
 #### Added
 * Arrays.map() - to transform an array
 * Objects.toArray() - converts each of the properties in an object to a value using a mapping function and returns them as an array

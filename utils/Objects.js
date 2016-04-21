@@ -361,8 +361,9 @@ var Objects;
         for (var i = 0, size = keys.length; i < size; i++) {
             var key = keys[i];
             var prop = source[key];
-            if (prop !== undefined) {
-                target[key] = mapFunc == null ? prop : mapFunc(prop);
+            var propRes = mapFunc == null || prop === undefined ? prop : mapFunc(key, prop);
+            if (propRes !== undefined) {
+                target[key] = propRes;
             }
         }
         return target;
