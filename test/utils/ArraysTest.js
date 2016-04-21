@@ -182,6 +182,18 @@ QUnit.test("looseEqual", function looseEqualTest(sr) {
     var res2 = Arrays.looseEqual([34, "A", "QA"], [7, 34, "A"]);
     sr.equal(res2, false);
 });
+QUnit.test("map", function mapTest(sr) {
+    var ary = [1, 2, 3, 4, 5, 6];
+    var res1 = Arrays.map(ary, function (v, i) { return v + i; });
+    sr.deepEqual(res1, [1, 3, 5, 7, 9, 11]);
+    var res2 = Arrays.map(ary, function (v, i) { return i + "_" + v; });
+    sr.deepEqual(res2, ["0_1", "1_2", "2_3", "3_4", "4_5", "5_6"]);
+    var i = 0;
+    var res3 = Arrays.map(ary, function (v) { return { value: v, position: i++ }; });
+    sr.deepEqual(res3, [{ value: 1, position: 0 }, { value: 2, position: 1 }, { value: 3, position: 2 }, { value: 4, position: 3 }, { value: 5, position: 4 }, { value: 6, position: 5 }]);
+    var res4 = Arrays.map(null, function () { return null; });
+    sr.deepEqual(res4, []);
+});
 QUnit.test("mapFilter", function mapFilterTest(sr) {
     var ary = [1, 2, 3, 4, 5, 6];
     var res = Arrays.mapFilter(ary, function (val, res) { return res.isValid = (val % 2 === 1); });

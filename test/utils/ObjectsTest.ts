@@ -111,23 +111,6 @@ QUnit.test("hasMatchingProps", function hasMatchingPropsTest(sr) {
 });
 
 
-QUnit.test("cloneMap", function coalesceTest(sr) {
-    var res1 = Objects.cloneMap({ sub: 123, sup: 312, arc: "a" }, null, (prop) => prop.toString().substr(0, 2));
-    sr.deepEqual(res1, { sub: "12", sup: "31", arc: "a" });
-
-    var res2 = Objects.cloneMap({ a: {}, b: 2.4, c: true }, null, (prop) => typeof prop === "number" ? prop * 2 : prop.toString());
-    sr.deepEqual(res2, { a: "[object Object]", b: 4.8, c: "true" });
-
-    var objA = {};
-    var res3 = <any>Objects.cloneMap({ a: objA, b: false, c: 4.8, e: true }, ["a", "c", "e"], (prop) => prop);
-
-    sr.deepEqual(res3, { a: objA, c: 4.8, e: true });
-
-    var res4 = Objects.cloneMap(objA);
-    sr.deepEqual(res4, objA);
-});
-
-
 QUnit.test("clone", function getPropTest(sr) {
     var src1 = {
         a: "A",
@@ -330,23 +313,23 @@ QUnit.test("extendToStatic", function extendToStaticTest(sr) {
 });
 
 
-QUnit.test("invertMap", function invertMapTest(sr) {
+QUnit.test("invert", function invertTest(sr) {
     var date = new Date();
 
-    var a = {
+    var src1 = {
         "Abc": 123,
         "key": "value",
         "01": 10,
         55: 44
     };
-    var aInvert = {
+    var src1Invert = {
         "123": "Abc",
         "value": "key",
         "10": "01",
         "44": "55"
     };
 
-    sr.deepEqual(Objects.invert(a), aInvert);
+    sr.deepEqual(Objects.invert(src1), src1Invert);
 
     var b = {};
     b[date.toString()] = date;
@@ -354,4 +337,41 @@ QUnit.test("invertMap", function invertMapTest(sr) {
     bInvert[date.toString()] = date.toString();
 
     sr.deepEqual(Objects.invert(b), bInvert);
+});
+
+
+QUnit.test("map", function mapTest(sr) {
+    var res1 = Objects.map({ sub: 123, sup: 312, arc: "a" }, null, (prop) => prop.toString().substr(0, 2));
+    sr.deepEqual(res1, { sub: "12", sup: "31", arc: "a" });
+
+    var res2 = Objects.map({ a: {}, b: 2.4, c: true }, (prop) => typeof prop === "number" ? prop * 2 : prop.toString());
+    sr.deepEqual(res2, { a: "[object Object]", b: 4.8, c: "true" });
+
+    var objA = {};
+    var res3 = <any>Objects.map({ a: objA, b: false, c: 4.8, e: true }, ["a", "c", "e"], (prop) => prop);
+
+    sr.deepEqual(res3, { a: objA, c: 4.8, e: true });
+
+    var res4 = Objects.map(objA);
+    sr.deepEqual(res4, objA);
+
+    sr.deepEqual(Objects.map(null), null);
+});
+
+
+QUnit.test("toArray", function toArrayTest(sr) {
+    var src = {
+        "key": "value",
+        "Abc": true,
+        "01": 10,
+        55: dateA()
+    };
+
+    var res1 = Objects.toArray(src, ["key", "Abc", "01", "55"], (k, v) => typeof v === "number" ? v * 2 : v.toString());
+    sr.deepEqual(res1, ["value", "true", 20, dateA().toString()]);
+
+    var res2 = Objects.toArray({ n: "21" }, (k, v) => parseFloat(v.toString().split("").reverse().join("")));
+    sr.deepEqual(res2, [12]);
+
+    sr.deepEqual(Objects.toArray(null, () => null), []);
 });

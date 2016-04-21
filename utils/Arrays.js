@@ -537,6 +537,24 @@ var Arrays;
         return matchingCount == ary2.length;
     }
     Arrays.looseEqual = looseEqual;
+    /** Transforms the elements of an array into a new array
+     * For example: {@code map([1, 2, 3, 4], (value) => value % 3)}
+     * returns: {@code [1, 2, 0, 1]}
+     *
+     * @param ary: the array to map
+     * @return a new array with each index containing the result of passing the original 'ary' element at that index through the 'mapFunc', or an empty array if the 'ary' is null
+     */
+    function map(ary, mapFunc) {
+        if (ary == null) {
+            return [];
+        }
+        var res = [];
+        for (var i = 0, size = ary.length; i < size; i++) {
+            res.push(mapFunc(ary[i], i, ary));
+        }
+        return res;
+    }
+    Arrays.map = map;
     /** Maps and filters an array in one operation by passing a two field object to the map-filter
      * function as a destination 'out' parameter like C#'s 'out' parameters
      * For example: {@code mapFilter([1, 2, 3, 4, 5, 6, 7], function (value, dstOut) { dstOut.isValid = (value % 3 !== 0); })}

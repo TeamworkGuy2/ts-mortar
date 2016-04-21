@@ -183,30 +183,6 @@ module Objects {
     }
 
 
-    /** Create a copy of a map (object where all properties are the same type) using a copy function for the properties.
-     * @param source the source map
-     * @param srcKeys optional list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
-     * @param propCopier (optional) function used to copy each of the properties from the source map
-     */
-    export function cloneMap<T>(source: T): T;
-    export function cloneMap<T, R>(source: { [key: string]: T }, srcKeys?: string[], propCopier?: (prop: T) => R): { [key: string]: R };
-    export function cloneMap(source: any, srcKeys?: string[], propCopier?: (prop: any) => any): any;
-    export function cloneMap(source: any, srcKeys?: string[], propCopier?: (prop: any) => any): any {
-        if (source == null) { throw new TypeError("cloneMap() source cannot be null"); }
-
-        var target = {};
-        srcKeys = srcKeys || Object.keys(source);
-        for (var i = 0, size = srcKeys.length; i < size; i++) {
-            var keyI = srcKeys[i];
-            var srcProp = source[keyI];
-            if (srcProp !== undefined) {
-                target[keyI] = propCopier == null ? srcProp : propCopier(srcProp);
-            }
-        }
-        return target;
-    }
-
-
     /** Assign source object properties to a target object.
      * If 'sources' contains multiple objects with the same property, the property from the last object in 'sources' takes preceedence.
      * Example: {@code assign({ a: "Q", b: 2 }, { a: "Z", b: "B", c: 3 })
@@ -397,6 +373,69 @@ module Objects {
             return map;
         }, <{ [key: string]: string }>{});
         return inverseMap;
+    }
+
+
+    /** Create a copy of a map (object where all properties are the same type) using a copy function for the properties.
+     * @param source the source map
+     * @param [srcKeys] optional list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
+     * @param [mapFunc] optional function used to copy each of the properties from the source map
+     * @return a new object containing the transformed properties
+     */
+    export function map<T>(source: T): T;
+    export function map<T, R>(source: { [key: string]: T }, srcKeys: string[], mapFunc?: (prop: T) => R): { [key: string]: R };
+    export function map<T, R>(source: { [key: string]: T }, mapFunc?: (prop: T) => R): { [key: string]: R };
+    export function map(source: any, mapFunc?: (prop: any) => any): any;
+    export function map(source: any, srcKeys: string[], mapFunc?: (prop: any) => any): any
+    export function map(source: any, srcKeys?: string[] | ((prop: any) => any), mapFunc?: (prop: any) => any): any {
+        if (source == null) { return null; }
+        if (typeof srcKeys === "function") {
+            mapFunc = <(prop: any) => any>srcKeys;
+            srcKeys = null;
+        }
+
+        var target = {};
+        var keys = <string[]>srcKeys || Object.keys(source);
+
+        for (var i = 0, size = keys.length; i < size; i++) {
+            var key = keys[i];
+            var prop = source[key];
+            if (prop !== undefined) {
+                target[key] = mapFunc == null ? prop : mapFunc(prop);
+            }
+        }
+
+        return target;
+    }
+
+
+    /** Convert an object to an array by iterating over the properties and transforming each property using a mapping function
+     * @param obj the object to transform
+     * @param [srcKeys] optional list of property names to transform, if present, only these properties are transformed, else all of the properties on 'obj' are transformed
+     * @param mapFunc the function that transforms a property name and value to a new value
+     * @return an array of the resulting properties generated using the 'mapFunc'
+     */
+    export function toArray<T, R>(obj: { [key: string]: T }, mapFunc: (key: string, value: T, index: number, propertyNames: string[], obj: { [key: string]: T }) => R): R[];
+    export function toArray<T, R>(obj: { [key: string]: T }, srcKeys: string[], mapFunc: (key: string, value: T, index: number, propertyNames: string[], obj: { [key: string]: T }) => R): R[];
+    export function toArray<R>(obj: any, mapFunc: (key: string, value: any, index: number, propertyNames: string[], obj: any) => R): R[];
+    export function toArray<R>(obj: any, srcKeys: string[], mapFunc: (key: string, value: any, index: number, propertyNames: string[], obj: any) => R): R[];
+    export function toArray<R>(obj: any, srcKeys: string[] | ((key: string, value: any, index: number, propertyNames: string[], obj: any) => R), mapFunc?: (key: string, value: any, index: number, propertyNames: string[], obj: any) => R): R[] {
+        if (obj == null) { return []; }
+        if (typeof srcKeys === "function") {
+            mapFunc = <(key: string, value: any, index: number, propertyNames: string[], obj: any) => R>srcKeys;
+            srcKeys = null;
+        }
+
+        var res = [];
+        var keys = <string[]>srcKeys || Object.keys(obj);
+
+        for (var i = 0, size = keys.length; i < size; i++) {
+            var key = keys[i];
+            var prop = obj[key];
+            res[i] = mapFunc(key, prop, i, keys, obj);
+        }
+
+        return res;
     }
 
 }

@@ -4,7 +4,17 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.5.2](N/A) - 2016-04-20
+### [0.5.3](N/A) - 2016-04-20
+#### Added
+* Arrays.map() - to transform an array
+* Objects.toArray() - converts each of the properties in an object to a value using a mapping function and returns them as an array
+
+#### Changed
+* Renamed Objects cloneMap() -> map(), map now returns null when 'source' is null rather than throwing an error
+
+
+--------
+### [0.5.2](https://github.com/TeamworkGuy2/ts-mortar/commit/6ef1d72ce358649816330f640563588c6ba691a6) - 2016-04-19
 #### Added
 * Objects.cloneDeep() support for Date type
 

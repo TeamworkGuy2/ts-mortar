@@ -168,22 +168,6 @@ var Objects;
         }
     }
     Objects.clone = clone;
-    function cloneMap(source, srcKeys, propCopier) {
-        if (source == null) {
-            throw new TypeError("cloneMap() source cannot be null");
-        }
-        var target = {};
-        srcKeys = srcKeys || Object.keys(source);
-        for (var i = 0, size = srcKeys.length; i < size; i++) {
-            var keyI = srcKeys[i];
-            var srcProp = source[keyI];
-            if (srcProp !== undefined) {
-                target[keyI] = propCopier == null ? srcProp : propCopier(srcProp);
-            }
-        }
-        return target;
-    }
-    Objects.cloneMap = cloneMap;
     function assign(target, source, srcKeys) {
         if (target == null) {
             throw new TypeError("assign() target cannot be null");
@@ -364,5 +348,43 @@ var Objects;
         return inverseMap;
     }
     Objects.invert = invert;
+    function map(source, srcKeys, mapFunc) {
+        if (source == null) {
+            return null;
+        }
+        if (typeof srcKeys === "function") {
+            mapFunc = srcKeys;
+            srcKeys = null;
+        }
+        var target = {};
+        var keys = srcKeys || Object.keys(source);
+        for (var i = 0, size = keys.length; i < size; i++) {
+            var key = keys[i];
+            var prop = source[key];
+            if (prop !== undefined) {
+                target[key] = mapFunc == null ? prop : mapFunc(prop);
+            }
+        }
+        return target;
+    }
+    Objects.map = map;
+    function toArray(obj, srcKeys, mapFunc) {
+        if (obj == null) {
+            return [];
+        }
+        if (typeof srcKeys === "function") {
+            mapFunc = srcKeys;
+            srcKeys = null;
+        }
+        var res = [];
+        var keys = srcKeys || Object.keys(obj);
+        for (var i = 0, size = keys.length; i < size; i++) {
+            var key = keys[i];
+            var prop = obj[key];
+            res[i] = mapFunc(key, prop, i, keys, obj);
+        }
+        return res;
+    }
+    Objects.toArray = toArray;
 })(Objects || (Objects = {}));
 module.exports = Objects;
