@@ -128,6 +128,7 @@ var Objects;
         if (source == null) {
             throw new TypeError("cloneDeep() source cannot be null");
         }
+        var srcType;
         if (Array.isArray(source)) {
             var srcAry = source;
             var res = [];
@@ -137,10 +138,10 @@ var Objects;
             }
             return res;
         }
-        else if (Object.prototype.toString.call(source) === "[object Date]") {
+        else if ((srcType = Object.prototype.toString.call(source)) === "[object Date]") {
             return new Date(source.getTime());
         }
-        else {
+        else if (srcType === "[object Object]") {
             var target = {};
             var srcKeys = Object.keys(source);
             for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
@@ -152,6 +153,7 @@ var Objects;
             }
             return target;
         }
+        return source;
     }
     Objects.cloneDeep = cloneDeep;
     function clone(source, srcKeys) {

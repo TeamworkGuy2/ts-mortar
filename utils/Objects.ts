@@ -134,6 +134,7 @@ module Objects {
      */
     export function cloneDeep<T>(source: T): T {
         if (source == null) { throw new TypeError("cloneDeep() source cannot be null"); }
+        var srcType: string;
 
         if (Array.isArray(source)) {
             var srcAry = <any[]><any>source;
@@ -144,10 +145,10 @@ module Objects {
             }
             return <T><any>res;
         }
-        else if (Object.prototype.toString.call(source) === "[object Date]") {
+        else if ((srcType = Object.prototype.toString.call(source)) === "[object Date]") {
             return <T><any>new Date((<any>source).getTime());
         }
-        else {
+        else if(srcType === "[object Object]") {
             var target = {};
             var srcKeys = Object.keys(source);
             for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
@@ -159,6 +160,7 @@ module Objects {
             }
             return <T>target;
         }
+        return source;
     }
 
 

@@ -111,7 +111,7 @@ QUnit.test("hasMatchingProps", function hasMatchingPropsTest(sr) {
 });
 
 
-QUnit.test("clone", function getPropTest(sr) {
+QUnit.test("clone", function cloneTest(sr) {
     var src1 = {
         a: "A",
         b: { 1: 1, 2: 2, 3: 3 },
@@ -150,7 +150,7 @@ QUnit.test("clone", function getPropTest(sr) {
 });
 
 
-QUnit.test("cloneDeep", function getPropTest(sr) {
+QUnit.test("cloneDeep", function cloneDeepTest(sr) {
     var src1 = {
         a: "A",
         b: { 1: 1, 2: 2, 3: 3, date: dateA() },
@@ -199,10 +199,17 @@ QUnit.test("cloneDeep", function getPropTest(sr) {
 
     src1b.c.c1 = null;
     sr.deepEqual(res2, src1);
+
+    // check primitives
+    sr.equal(Objects.cloneDeep("mtr1"), "mtr1");
+    sr.equal(Objects.cloneDeep(28947), 28947);
+    sr.equal(Objects.cloneDeep(-81), -81);
+    sr.equal(Objects.cloneDeep(false), false);
+    sr.equal(Objects.cloneDeep(true), true);
 });
 
 
-QUnit.test("assign", function getPropTest(sr) {
+QUnit.test("assign", function assignTest(sr) {
     var src1 = Objects.assign({ a: "Q", b: 2 }, { a: "Z", b: "B", c: 3 });
     var res1 = { a: "Z", b: "B", c: 3 };
     sr.deepEqual(src1, res1);
@@ -214,7 +221,7 @@ QUnit.test("assign", function getPropTest(sr) {
 });
 
 
-QUnit.test("assignAll", function getPropTest(sr) {
+QUnit.test("assignAll", function assignAllTest(sr) {
     var src1 = Objects.assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3 }, { a: "A", d: 4 }]);
     var res1 = { a: "A", b: "B", c: 3, d: 4 };
     sr.deepEqual(src1, res1);

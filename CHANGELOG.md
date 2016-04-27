@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.5.4](N/A) - 2016-04-21
+### [0.5.5](N/A) - 2016-04-27
+#### Changed
+* Fixed Objects.cloneDeep() bug copying strings
+
+
+--------
+### [0.5.4](https://github.com/TeamworkGuy2/ts-mortar/commit/f321270ec08a763dce3bfd6414217d42943bacea) - 2016-04-21
 #### Changed
 * Objects.map() 'mapFunc' callback arguments changed from (value) to (key, value)
 * Objects.map() 'mapFunc' callback can now return undefined to skip properties
