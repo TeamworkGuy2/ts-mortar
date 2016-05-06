@@ -1,5 +1,9 @@
 "use strict";
 var Objects = require("./Objects");
+/** A class for creating Java/C# like enums from objects.
+ * Can create enum classes with EnumCreator.initEnumClass(EnumClass, EnumClass, enumInstancesConstructorFunc)
+ * And create enum instances by calling EnumCreator.EnumConstantImpl.call(this, nameString) in the enum instance constructor
+ */
 var EnumCreator;
 (function (EnumCreator) {
     var EnumClassImpl = (function () {

@@ -22,7 +22,6 @@ module Arrays {
     export var EMPTY_ARRAY: any[] = Object.freeze([]);
 
 
-
     /** Add all of the values in {@code toAdd} to the {@code src} array
      * @return the source array
      */
@@ -142,9 +141,7 @@ module Arrays {
         if (ary == null) {
             return;
         }
-        for (var i = 0, size = ary.length; i < size; i++) {
-            ary.pop();
-        }
+        ary.length = 0;
     }
 
 
@@ -270,12 +267,12 @@ module Arrays {
      * {@code { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] }}
      *
      * @param {E[]} ary: array of input values to filter
-     * @param {ArrayFilterFunc} filterFunc: the function to filter the values,
+     * @param {FilterFunc} filterFunc: the function to filter the values,
      * true stores items in the returned 'matching' property,
      * false stores items in the returned 'notMatching' property
      * @return a filter result that contains the original 'all' {@code ary} and arrays of 'matching' and 'notMatching' items
      */
-    export function filterSplit<E>(ary: E[] | ArrayLike<E>, filterFunc: FilterFunc<E>): { all: E[]; matching: E[]; notMatching: E[] } {
+    export function filterSplit<E>(ary: E[] | ArrayLike<E>, filterFunc: (value: E, index: number, array: E[]) => boolean): { all: E[]; matching: E[]; notMatching: E[] } {
         if (ary == null) { return toBiFilterResult([], [], []); }
         if (typeof filterFunc !== "function") {
             throw new Error("incorrect parameter 'filterFunc', must be a 'function(value: E, index: number, array: E[]): boolean'");
@@ -340,7 +337,7 @@ module Arrays {
      * @param filter: the filter to apply to {@code ary}
      * @return the first (lowest index) value passed to 'filter' from 'ary' that returns true, or null if a match cannot be found
      */
-    export function first<E>(ary: E[] | ArrayLike<E>, filter: FilterFunc<E>, ensureOne: boolean = false): E {
+    export function first<E>(ary: E[] | ArrayLike<E>, filter: (value: E, index: number, array: E[]) => boolean, ensureOne: boolean = false): E {
         var idx = firstIndex(<E[]>ary, filter, ensureOne);
         return idx < 0 ? null : ary[idx];
     }
@@ -349,7 +346,7 @@ module Arrays {
     /** Return the index of the first matching value in an array using a filter function, null if no matches.
      * @see #first()
      */
-    export function firstIndex<E>(ary: E[] | ArrayLike<E>, filter: FilterFunc<E>, ensureOne: boolean = false): number {
+    export function firstIndex<E>(ary: E[] | ArrayLike<E>, filter: (value: E, index: number, array: E[]) => boolean, ensureOne: boolean = false): number {
         if (ary == null || filter == null) { return -1; }
         var resultIdx: number = -1;
         var resultCount = 0;
@@ -375,7 +372,7 @@ module Arrays {
     }
 
 
-    export function last<E>(ary: E[] | ArrayLike<E>, filterFunc: FilterFunc<E>): E {
+    export function last<E>(ary: E[] | ArrayLike<E>, filterFunc: (value: E, index: number, array: E[]) => boolean): E {
         var idx = lastIndex(<E[]>ary, filterFunc);
         return idx < 0 ? null : ary[idx];
     }
@@ -386,7 +383,7 @@ module Arrays {
      * @param filterFunc: the filter to apply
      * @return the highest-index value passed to {@code filterFunc} from {@code ary} that returns true, null if no value returns true
      */
-    export function lastIndex<E>(ary: E[] | ArrayLike<E>, filterFunc: FilterFunc<E>): number {
+    export function lastIndex<E>(ary: E[] | ArrayLike<E>, filterFunc: (value: E, index: number, array: E[]) => boolean): number {
         if (ary == null) { return -1; }
 
         for (var i = ary.length - 1; i > -1; i--) {
@@ -525,7 +522,7 @@ module Arrays {
      * @param ary1: the first array to compare
      * @param ary2: the second array to compare
      */
-    export function equal<E>(ary1: E[], ary2: E[]): boolean {
+    export function equal<E>(ary1: E[] | ArrayLike<E>, ary2: E[] | ArrayLike<E>): boolean {
         if (ary1 == null || ary2 == null || ary1.length !== ary2.length) {
             return false;
         }
@@ -640,7 +637,7 @@ module Arrays {
      * null returned values are not stored in the returned array, allowing the function to filter
      * @return an array of non-null mapped result values
      */
-    export function mapFilterNotNull<T, R>(ary: T[], mapFunc: MapFunc<T, R>): R[] {
+    export function mapFilterNotNull<T, R>(ary: T[], mapFunc: (value: T, index: number, array: T[]) => R): R[] {
         if (ary == null) { return []; }
         if (typeof mapFunc !== "function") {
             throw new Error("incorrect parameter 'mapFilterFunc', must be a 'function(value): Object'");
@@ -679,7 +676,9 @@ module Arrays {
      * @param index: the index of the value to remove
      * @return the {@code ary} with the value at {@code index} removed
      */
-    export function removeIndex<E>(ary: E[], index: number): E[] {
+    export function removeIndex<E>(ary: E[], index: number): E[];
+    export function removeIndex<E>(ary: ArrayLike<E>, index: number): ArrayLike<E>;
+    export function removeIndex<E>(ary: E[] | ArrayLike<E>, index: number): E[] | ArrayLike<E> {
         if (ary == null) { return ary; }
         var size = ary.length;
         if (ary.length < 1 || index < 0 || index >= ary.length) { return ary; }
@@ -791,7 +790,9 @@ module Arrays {
      * @param i1: the first index of the two indexes to swap
      * @param i2: the second index of the two indexes to swap
      */
-    export function swap<E>(ary: E[], i1: number, i2: number): E[] {
+    export function swap<E>(ary: E[], i1: number, i2: number): E[]
+    export function swap<E>(ary: ArrayLike<E>, i1: number, i2: number): ArrayLike<E>;
+    export function swap<E>(ary: E[] | ArrayLike<E>, i1: number, i2: number): E[] | ArrayLike<E> {
         var tmp = ary[i2];
         ary[i2] = ary[i1];
         ary[i1] = tmp;

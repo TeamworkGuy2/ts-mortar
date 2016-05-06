@@ -112,6 +112,10 @@ QUnit.test("clone", function cloneTest(sr) {
     var res2 = Objects.clone(src1b);
     src1b.c.c1 = null;
     sr.notDeepEqual(res2, src1);
+    var now = new Date();
+    sr.deepEqual(Objects.clone("a"), "a");
+    sr.deepEqual(Objects.clone(12), 12);
+    sr.deepEqual(Objects.clone(now).getTime(), now.getTime());
 });
 QUnit.test("cloneDeep", function cloneDeepTest(sr) {
     var src1 = {
@@ -180,12 +184,6 @@ QUnit.test("assignAll", function assignAllTest(sr) {
     var src2 = Objects.assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3, d: "!" }, { b: 2 }, { a: "A", d: 4 }], [["a", "b", "c"], null, ["d"]]);
     var res2 = { a: "Z", b: 2, c: 3, d: 4 };
     sr.deepEqual(src2, res2);
-});
-QUnit.test("getProp", function getPropTest(sr) {
-    var res1 = Objects.getProp(undefined, "alpha");
-    sr.equal(res1, null);
-    var res2 = Objects.getProp({ alpha: 342, beta: "B" }, "beta");
-    sr.equal(res2, "B");
 });
 QUnit.test("getProps", function getPropsTest(sr) {
     var res1 = Objects.getProps(undefined, ["alpha", "beta"]);

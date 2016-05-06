@@ -133,7 +133,7 @@ module Objects {
      * @param source the object to copy
      */
     export function cloneDeep<T>(source: T): T {
-        if (source == null) { throw new TypeError("cloneDeep() source cannot be null"); }
+        if (source == null) { return source; }
         var srcType: string;
 
         if (Array.isArray(source)) {
@@ -148,7 +148,7 @@ module Objects {
         else if ((srcType = Object.prototype.toString.call(source)) === "[object Date]") {
             return <T><any>new Date((<any>source).getTime());
         }
-        else if(srcType === "[object Object]") {
+        else if (srcType === "[object Object]") {
             var target = {};
             var srcKeys = Object.keys(source);
             for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
@@ -172,16 +172,21 @@ module Objects {
     export function clone<T>(source: T): T;
     export function clone(source: any, srcKeys?: string[]): any;
     export function clone(source: any, srcKeys?: string[]): any {
-        if (source == null) { throw new TypeError("clone() source cannot be null"); }
+        if (source == null) { return source; }
+        var srcType: string;
 
         if (Array.isArray(source)) {
             var res = [];
             Array.prototype.push.apply(res, source);
             return res;
         }
-        else {
+        else if ((srcType = Object.prototype.toString.call(source)) === "[object Date]") {
+            return new Date((<any>source).getTime());
+        }
+        else if (srcType === "[object Object]") {
             return assign({}, source, srcKeys);
         }
+        return source;
     }
 
 
@@ -233,24 +238,6 @@ module Objects {
             }
         }
         return target;
-    }
-
-
-    /** Get a property from an object without the risk of an undefined error.
-     * Return null if either the object or the property are null or undefined.
-     * Example: {@code getProp(undefined, "alpha")}
-     * returns: {@code null}
-     * Or example: {@code getProp({ alpha: 342 }, "alpha")}
-     * returns: {@code 342}
-     *
-     * @param obj: the object to retrieve the property from
-     * @param propertyName: the name of the object property to retrieve
-     * @return the property retrieved from the object if both the object and property are not null, else null
-     */
-    export function getProp(obj: any, propertyName: string): any {
-        if (obj == null) { return null; }
-        var prop = obj[propertyName];
-        return prop == null ? null : prop;
     }
 
 

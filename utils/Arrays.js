@@ -112,9 +112,7 @@ var Arrays;
         if (ary == null) {
             return;
         }
-        for (var i = 0, size = ary.length; i < size; i++) {
-            ary.pop();
-        }
+        ary.length = 0;
     }
     Arrays.clear = clear;
     /** Return the difference between two arrays as elements added and removed from the first array.
@@ -232,7 +230,7 @@ var Arrays;
      * {@code { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] }}
      *
      * @param {E[]} ary: array of input values to filter
-     * @param {ArrayFilterFunc} filterFunc: the function to filter the values,
+     * @param {FilterFunc} filterFunc: the function to filter the values,
      * true stores items in the returned 'matching' property,
      * false stores items in the returned 'notMatching' property
      * @return a filter result that contains the original 'all' {@code ary} and arrays of 'matching' and 'notMatching' items
@@ -624,14 +622,6 @@ var Arrays;
         return idx;
     }
     Arrays.removeValue = removeValue;
-    /** Remove an index from an array
-     * For example: {@code removeIndex(["Alpha", "Beta", "Gamma"], 1)}
-     * returns: {@code ["Alpha", "Gamma"]}
-     *
-     * @param ary: the array to remove an index from
-     * @param index: the index of the value to remove
-     * @return the {@code ary} with the value at {@code index} removed
-     */
     function removeIndex(ary, index) {
         if (ary == null) {
             return ary;
@@ -734,14 +724,6 @@ var Arrays;
         return tmp;
     }
     Arrays.splice = splice;
-    /** Swap two elements in an array
-     * For example: {@code swap(["A", "B", "C", "D"], 1, 2)}
-     * returns: {@code ["A", "C", "B", "D"]}
-     *
-     * @param ary: the array of elements
-     * @param i1: the first index of the two indexes to swap
-     * @param i2: the second index of the two indexes to swap
-     */
     function swap(ary, i1, i2) {
         var tmp = ary[i2];
         ary[i2] = ary[i1];

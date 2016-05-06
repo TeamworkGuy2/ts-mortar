@@ -4,7 +4,17 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.5.5](N/A) - 2016-04-27
+### [0.6.0](N/A) - 2016-05-06
+#### Changed
+* Added Objects.clone() support for Date and primitives
+* Arrays.clear() now uses ES5 'ary.length = 0' syntax
+
+#### Removed
+* Removed Objects.getProp() since it serves little purpose
+
+
+--------
+### [0.5.5](https://github.com/TeamworkGuy2/ts-mortar/commit/d95891b90b1ec577613f0fb737739136e06ccd4b) - 2016-04-27
 #### Changed
 * Fixed Objects.cloneDeep() bug copying strings
 

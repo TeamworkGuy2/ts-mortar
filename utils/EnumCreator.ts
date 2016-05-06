@@ -1,5 +1,9 @@
 ﻿import Objects = require("./Objects");
 
+/** A class for creating Java/C# like enums from objects.
+ * Can create enum classes with EnumCreator.initEnumClass(EnumClass, EnumClass, enumInstancesConstructorFunc)
+ * And create enum instances by calling EnumCreator.EnumConstantImpl.call(this, nameString) in the enum instance constructor
+ */
 module EnumCreator {
 
     export interface EnumType<T> {
