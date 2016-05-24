@@ -106,6 +106,23 @@ var Arrays;
         return true;
     }
     Arrays.containsAll = containsAll;
+    /** Check whether any of the values in the second array are contained in the first array
+     * @param ary: the array of values
+     * @param searchFor: the values to search for
+     * @return true if any of {@code searchFor} values are contained in {@code ary}
+     */
+    function containsAny(ary, searchFor) {
+        if (ary == null || searchFor == null) {
+            return false;
+        }
+        for (var i = 0, size = searchFor.length; i < size; i++) {
+            if (ary.indexOf(searchFor[i]) > -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+    Arrays.containsAny = containsAny;
     /** Remove all values from an array
      */
     function clear(ary) {

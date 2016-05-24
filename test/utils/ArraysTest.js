@@ -69,6 +69,24 @@ QUnit.test("containsAll", function containsAllTest(sr) {
     var searchObjs2 = ["B", "D", "H", "K"];
     var res2 = Arrays.containsAll(ary, searchObjs2);
     sr.equal(res2, false);
+    var searchObjs3 = [];
+    var res3 = Arrays.containsAll(ary, searchObjs3);
+    sr.equal(res3, true);
+});
+QUnit.test("containsAny", function containsAnyTest(sr) {
+    var ary = ["B", "D", "F", "H", "J"];
+    var searchObjs1 = ["B", "Z"];
+    var res1 = Arrays.containsAny(ary, searchObjs1);
+    sr.equal(res1, true);
+    var searchObjs2 = ["X", "Y", "Z", "J"];
+    var res2 = Arrays.containsAny(ary, searchObjs2);
+    sr.equal(res2, true);
+    var searchObjs3 = [];
+    var res3 = Arrays.containsAny(ary, searchObjs3);
+    sr.equal(res3, false);
+    var searchObjs4 = ["A", "Q"];
+    var res4 = Arrays.containsAny(ary, searchObjs4);
+    sr.equal(res4, false);
 });
 QUnit.test("clear", function clearTest(sr) {
     var ary = [1, 2, 4];

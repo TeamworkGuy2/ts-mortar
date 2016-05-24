@@ -4,7 +4,21 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.6.0](N/A) - 2016-05-06
+### [0.7.0](N/A) - 2016-05-24
+#### Added
+* Added Array.containsAny()
+
+#### Changed
+* Defer and tspromises.d.ts have moved to the new ts-promise-tasks library
+* Renamed EventListenerListImpl -> EventListenerList
+* Renamed EventQueueImpl -> EventQueue
+
+#### Removed
+* Defer and tspromises.d.ts have moved to the new ts-promise-tasks library
+
+
+--------
+### [0.6.0](https://github.com/TeamworkGuy2/ts-mortar/commit/89016d26dcd0e0ddb4ce6db10046c9d8907c2c6f) - 2016-05-06
 #### Changed
 * Added Objects.clone() support for Date and primitives
 * Arrays.clear() now uses ES5 'ary.length = 0' syntax

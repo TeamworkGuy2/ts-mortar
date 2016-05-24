@@ -1,12 +1,12 @@
 "use strict";
-var Defer = require("../promises/Defer");
-var EventListenerListImpl = require("./EventListenerListImpl");
+var Q = require("q");
+var EventListenerList = require("./EventListenerList");
 /** An event listener list for asynchronous event listeners (i.e. the listeners perform asynchronous operations)
  * manages a list of listener functions and allows events to be sent to the listeners
  */
 var AsyncEventListenerHandler = (function () {
     function AsyncEventListenerHandler() {
-        this.eventHandler = new EventListenerListImpl();
+        this.eventHandler = new EventListenerList();
     }
     AsyncEventListenerHandler.prototype.reset = function () {
         this.eventHandler.reset();
@@ -60,13 +60,13 @@ var AsyncEventListenerHandler = (function () {
     AsyncEventListenerHandler.prototype.fireEvent = function (event, customListenerCaller, customListenerCallsDoneCb) {
         var fireEventsSuccessCallback = this.getFireEventsSuccessCallback();
         var fireEventsFailureCallback = this.getFireEventsFailureCallback();
-        var defs = [];
+        var dfds = [];
         this.eventHandler.fireEvent(event, function asyncListenerCaller(listener, event, index, size) {
-            var def = Defer.newDefer();
-            defs.push(def.promise);
-            listener(def, event[0]);
+            var dfd = Q.defer();
+            dfds.push(dfd.promise);
+            listener(dfd, event[0]);
         }, function asyncListenerAwaiter() {
-            Defer.when(defs).done(function (results) {
+            Q.all(dfds).done(function (results) {
                 if (typeof fireEventsSuccessCallback === "function") {
                     fireEventsSuccessCallback(results);
                 }

@@ -1,4 +1,4 @@
-﻿import EventListenerListImpl = require("./EventListenerListImpl");
+﻿import EventListenerList = require("./EventListenerList");
 
 /** An event handler that handles a single event, i.e. similar to jquery.ready(...).
  * Listeners that are added before the event occurs are called when the event occurs.
@@ -7,12 +7,12 @@
  * @param <E> the type of event that occurs
  */
 class SingularEventHandler<E> {
-    private eventHandler: EventListenerListImpl<E, Events.Listener<E>>;
+    private eventHandler: EventListenerList<E, Events.Listener<E>>;
     private resolved = false;
     private resolvedEvent: E;
 
 
-    constructor(eventHandler: EventListenerListImpl<E, Events.Listener<E>>) {
+    constructor(eventHandler: EventListenerList<E, Events.Listener<E>>) {
         var that = this;
         this.eventHandler = eventHandler;
         // if the event is resolved, don't add the event listener, fire the event to the listener immediately
@@ -33,7 +33,7 @@ class SingularEventHandler<E> {
 
 
     /** @return this event queue's event handler */
-    public getEventHandler(): EventListenerListImpl<E, Events.Listener<E>> {
+    public getEventHandler(): EventListenerList<E, Events.Listener<E>> {
         return this.eventHandler;
     }
 

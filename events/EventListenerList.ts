@@ -30,12 +30,12 @@ class EventListenerListImpl<E, L extends (...args: any[]) => void> implements Ev
     }
 
 
-    getListeners(): L[] {
+    public getListeners(): L[] {
         return this.listeners;
     }
 
 
-    getFireEventsSuccessCallback(): (res: any[]) => void {
+    public getFireEventsSuccessCallback(): (res: any[]) => void {
         return this.fireEventsSuccessCallback;
     }
 
@@ -46,7 +46,7 @@ class EventListenerListImpl<E, L extends (...args: any[]) => void> implements Ev
     }
 
 
-    getFireEventsFailureCallback(): (err) => void {
+    public getFireEventsFailureCallback(): (err) => void {
         return this.fireEventsFailureCallback;
     }
 
@@ -57,7 +57,7 @@ class EventListenerListImpl<E, L extends (...args: any[]) => void> implements Ev
     }
 
 
-    getListenerAddedCallback(): (listener: L) => void {
+    public getListenerAddedCallback(): (listener: L) => void {
         return this.listenerAddedCallback;
     }
 
@@ -69,7 +69,7 @@ class EventListenerListImpl<E, L extends (...args: any[]) => void> implements Ev
 
 
 
-    getListenerRemovedCallback(): (listener: L) => void {
+    public getListenerRemovedCallback(): (listener: L) => void {
         return this.listenerRemovedCallback;
     }
 
