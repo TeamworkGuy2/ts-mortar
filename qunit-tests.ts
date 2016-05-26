@@ -2,12 +2,11 @@
 /// <reference path="../definitions/node/node-modules-custom.d.ts" />
 /// <reference path="../definitions/lib/qunit.d.ts" />
 /// <reference path="../definitions/lib/Q.d.ts" />
-var gutil = require("gulp-util");
 var testRunner = require("qunit");
 
 
 function callback() {
-    gutil.log("done a test: " + JSON.stringify(arguments));
+    console.log("done a test: ", JSON.stringify(arguments));
 }
 
 

@@ -1,12 +1,11 @@
 {
   "name": "ts-mortar",
-  "version": "0.7.1",
-  "description": "TypeScript utility similar to lodash/underscore, focused on array: add, remove, search, filter; string: is, contains, modification; and object: values, clone, hasProps, getProps.",
+  "version": "0.7.2",
+  "description": "TypeScript utility similar to lodash/underscore, focused on array: add, remove, search, filter; string: is, contains, modification; and object: values, clone, hasProps, getProps, extend, map, toArray.",
   "dependencies": {
     "q": "^1.1.2"
   },
   "devDependencies": {
-    "gulp-util": "~3.0.7",
     "qunit": "~0.9.1",
     "typescript": "~1.8.9"
   }

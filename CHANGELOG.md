@@ -4,7 +4,14 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.7.1](N/A) - 2016-05-25
+### [0.7.2](N/A) - 2016-05-26
+#### Changed
+* EnumCreator.initEnumClass() return signature improved and added optional memberVisitor parameter
+* Renamed EnumCreator EnumConstantImpl -> EnumMemberImpl
+
+
+--------
+### [0.7.1](https://github.com/TeamworkGuy2/ts-mortar/commit/4e27b557c432b8d646cca0201c512d1852a964e0) - 2016-05-25
 #### Changed
 * EnumCreator refactored to support an easier way of creating enums
 
