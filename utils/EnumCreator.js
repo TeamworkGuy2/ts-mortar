@@ -6,54 +6,73 @@ var Objects = require("./Objects");
  */
 var EnumCreator;
 (function (EnumCreator) {
-    var EnumClassImpl = (function () {
-        function EnumClassImpl(enumClass, enumConstantClass, enumConstants) {
+    var EnumClass = (function () {
+        function EnumClass(enumClass, enumConstantClass, enumConstants) {
             this.enumClass = enumClass;
             this.enumConstantClass = enumConstantClass;
             this.enumConstants = enumConstants;
         }
-        EnumClassImpl.prototype.isInstance = function (obj) {
+        EnumClass.prototype.isInstance = function (obj) {
             return obj != null && (obj.constructor != null &&
                 ((obj.constructor.name === this.enumConstantClass.name) || (obj instanceof this.enumConstantClass)));
         };
-        EnumClassImpl.prototype.values = function () {
+        EnumClass.prototype.values = function () {
             return this.enumConstants;
         };
-        EnumClassImpl.prototype.parse = function (name, throwErrorIfNotEnum) {
-            var enumVal = null;
-            if (this.enumClass.hasOwnProperty(name)) {
-                enumVal = this.enumClass[name];
-            }
-            if (enumVal === null && throwErrorIfNotEnum) {
-                throw new Error("enum constant '" + name + "' is not a member of enum '" + this.enumClass + "'");
+        EnumClass.prototype.tryParse = function (name) {
+            var enumVal = this.enumClass[name];
+            return enumVal;
+        };
+        EnumClass.prototype.parse = function (name) {
+            var enumVal = this.tryParse(name);
+            if (enumVal == null) {
+                throw new Error("enum '" + this.enumClass + "' does not contain a member named '" + name + "'");
             }
             return enumVal;
         };
-        return EnumClassImpl;
+        return EnumClass;
     }());
-    EnumCreator.EnumClassImpl = EnumClassImpl;
+    EnumCreator.EnumClass = EnumClass;
     var EnumConstantImpl = (function () {
-        function EnumConstantImpl(name) {
-            this._name = name;
+        function EnumConstantImpl(name, ordinal) {
+            this.name = name;
+            this.ordinal = ordinal;
         }
-        EnumConstantImpl.prototype.name = function () {
-            return this._name;
-        };
         EnumConstantImpl.prototype.toString = function () {
-            return this._name;
+            return this.name;
         };
         return EnumConstantImpl;
     }());
     EnumCreator.EnumConstantImpl = EnumConstantImpl;
-    function initEnumConst(enumConst, name) {
-        EnumConstantImpl.call(enumConst, name);
+    function asMember(enumMember) {
+        return enumMember;
     }
-    EnumCreator.initEnumConst = initEnumConst;
-    function initEnumClass(enumClass, enumConstantClass, enumConstantsGetter) {
-        Objects.extend(enumClass, EnumConstantImpl, false, true);
-        var enumConstants = enumConstantsGetter();
-        EnumClassImpl.call(enumClass, enumClass, enumConstantClass, enumConstants);
-        Objects.extendToStatic(enumClass, EnumClassImpl, false);
+    function initEnumMember(enumMember, name, ordinal) {
+        EnumConstantImpl.call(enumMember, name, ordinal);
+        return enumMember;
+    }
+    EnumCreator.initEnumMember = initEnumMember;
+    function initEnumClass(enumClass, enumMemberClass, enumMembersCreator, names, getName) {
+        // extend the enum member type
+        Objects.extend(enumMemberClass, EnumConstantImpl, false, true);
+        var membersAry = [];
+        var enumMembers = enumMembersCreator(asMember);
+        // setup the enum members
+        names = names || Object.keys(enumMembers);
+        for (var i = 0, size = names.length; i < size; i++) {
+            var key = names[i];
+            var enumMember = enumMembers[key];
+            var resName = getName ? getName(key, enumMember) : key;
+            var ordinal = i;
+            var newMember = initEnumMember(enumMember, resName, ordinal);
+            enumClass[resName] = newMember;
+            membersAry.push(newMember);
+        }
+        membersAry.sort(function (a, b) { return a.ordinal - b.ordinal; });
+        // extend the enum class
+        EnumClass.call(enumClass, enumClass, enumMemberClass, membersAry);
+        Objects.extendToStatic(enumClass, EnumClass, false);
+        return enumClass;
     }
     EnumCreator.initEnumClass = initEnumClass;
 })(EnumCreator || (EnumCreator = {}));

@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.7.0](N/A) - 2016-05-24
+### [0.7.1](N/A) - 2016-05-25
+#### Changed
+* EnumCreator refactored to support an easier way of creating enums
+
+
+--------
+### [0.7.0](https://github.com/TeamworkGuy2/ts-mortar/commit/705e3fef1e5ebc922b6142b6a1d057aa259d3c15) - 2016-05-24
 #### Added
 * Added Array.containsAny()
 

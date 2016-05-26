@@ -1,35 +1,24 @@
 ﻿//import QUnit = require("qunit"); // implicitly setup by 'qunit-tests' in root of project, run using node.js
 import EnumCreator = require("../../../ts-mortar/utils/EnumCreator");
 
-class TestEnum implements EnumCreator.EnumConstant {
-    static A: TestEnum = null;
-    static B: TestEnum = null;
-    static C: TestEnum = null;
-
-    private static Cctor = (function () {
-        EnumCreator.initEnumClass(TestEnum, TestEnum, () => [
-            TestEnum.A = new TestEnum("A", 1),
-            TestEnum.B = new TestEnum("B", 2),
-            TestEnum.C = new TestEnum("C", 4)
-        ]);
-    } ());
-
-    static isInstance(obj): boolean { return null; }
-    static values(): TestEnum[] { return null; }
-    static parse(name: string, throwErrorIfNotEnum?: boolean): TestEnum { return null; }
-
-    public name(): string { return null; }
+class TestEnumBase {
+    public type: string;
 
 
-    public id: number;
-
-
-    constructor(name: string, id: number) {
-        EnumCreator.EnumConstantImpl.call(this, name);
-        this.id = id;
+    constructor(type: string) {
+        this.type = type;
     }
-
 }
+
+var TestEnum = EnumCreator.initEnumClass(TestEnumBase, TestEnumBase, (toMember) => {
+    return {
+        A: toMember(new TestEnumBase("number")),
+        B: toMember(new TestEnumBase("string")),
+        C: toMember(new TestEnumBase("Tuple<number, string, number>")),
+    };
+});
+
+type Te = typeof TestEnum;
 
 
 QUnit.module("EnumCreator", {
@@ -38,9 +27,9 @@ QUnit.module("EnumCreator", {
 
 QUnit.test("name", function nameTest(sr) {
 
-    sr.equal(TestEnum.A.id, 1);
+    sr.equal(TestEnum.A.type, "number");
 
-    sr.equal(TestEnum.A.name(), "A");
+    sr.equal(TestEnum.A.name, "A");
 });
 
 
@@ -48,7 +37,7 @@ QUnit.test("values", function valuesTest(sr) {
 
     sr.equal(TestEnum.values().length, 3);
 
-    sr.deepEqual(TestEnum.values().map((a) => a.name()), ["A", "B", "C"]);
+    sr.deepEqual(TestEnum.values().map((a) => a.name), ["A", "B", "C"]);
 });
 
 
@@ -62,7 +51,16 @@ QUnit.test("isInstance", function isInstanceTest(sr) {
 
 QUnit.test("parse", function parseTest(sr) {
 
-    sr.equal(TestEnum.parse("B", false), TestEnum.B);
+    sr.equal(TestEnum.tryParse("B"), TestEnum.B);
 
-    sr.equal(TestEnum.parse("1", false), null);
+    sr.equal(TestEnum.tryParse("1"), null);
+
+    sr.equal(TestEnum.parse("C"), TestEnum.C);
+
+    try {
+        sr.equal(TestEnum.parse("1"), null);
+        sr.ok(false, "expected enum.parse to fail");
+    } catch (err) {
+        sr.ok(true);
+    }
 });

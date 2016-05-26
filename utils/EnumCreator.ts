@@ -12,19 +12,23 @@ module EnumCreator {
 
         values(): T[];
 
-        parse(name: string, throwErrorIfNotEnum?: boolean): T;
+        tryParse(name: string): T;
+
+        parse(name: string): T;
     }
 
 
-    export interface EnumConstant {
+    export interface EnumMember {
 
-        name(): string;
+        name: string;
+
+        ordinal: number;
 
         toString(): string;
     }
 
 
-    export class EnumClassImpl<T> implements EnumType<T> {
+    export class EnumClass<T> implements EnumType<T> {
         private enumConstants: T[];
         private enumClass: any;
         private enumConstantClass: any;
@@ -48,13 +52,16 @@ module EnumCreator {
         }
 
 
-        public parse(name: string, throwErrorIfNotEnum?: boolean): T {
-            var enumVal: T = null;
-            if (this.enumClass.hasOwnProperty(name)) {
-                enumVal = this.enumClass[name];
-            }
-            if (enumVal === null && throwErrorIfNotEnum) {
-                throw new Error("enum constant '" + name + "' is not a member of enum '" + this.enumClass + "'");
+        public tryParse(name: string): T {
+            var enumVal = this.enumClass[name];
+            return enumVal;
+        }
+    
+
+        public parse(name: string): T {
+            var enumVal = this.tryParse(name);
+            if (enumVal == null) {
+                throw new Error("enum '" + this.enumClass + "' does not contain a member named '" + name + "'");
             }
             return enumVal;
         }
@@ -62,37 +69,61 @@ module EnumCreator {
     }
 
 
-    export class EnumConstantImpl implements EnumConstant {
-        private _name: string;
+    export class EnumConstantImpl implements EnumMember {
+        public name: string;
+        public ordinal: number;
 
 
-        constructor(name: string) {
-            this._name = name;
-        }
-
-
-        public name() {
-            return this._name;
+        constructor(name: string, ordinal: number) {
+            this.name = name;
+            this.ordinal = ordinal;
         }
 
 
         public toString() {
-            return this._name;
+            return this.name;
         }
 
     }
 
 
-    export function initEnumConst(enumConst: any, name: string) {
-        EnumConstantImpl.call(enumConst, name);
+    function asMember<T>(enumMember: T): T & EnumMember {
+        return <T & EnumMember>enumMember;
     }
 
 
-    export function initEnumClass<T>(enumClass: EnumType<T>, enumConstantClass: { prototype: T }, enumConstantsGetter: () => T[]) {
-        Objects.extend(enumClass, EnumConstantImpl, false, true);
-        var enumConstants = enumConstantsGetter();
-        EnumClassImpl.call(enumClass, enumClass, enumConstantClass, enumConstants);
-        Objects.extendToStatic(enumClass, EnumClassImpl, false);
+    export function initEnumMember<T>(enumMember: T, name: string, ordinal: number): T & EnumMember {
+        EnumConstantImpl.call(enumMember, name, ordinal);
+        return <T & EnumMember>enumMember;
+    }
+
+
+    export function initEnumClass<E, T, R>(enumClass: E, enumMemberClass: { prototype: T }, enumMembersCreator: (memberCreator: (member: T) => T & EnumMember) => R, names?: string[],
+            getName?: (name: string, enumConst: T) => string): R & EnumClass<T & EnumMember> {
+        // extend the enum member type
+        Objects.extend(enumMemberClass, EnumConstantImpl, false, true);
+
+        var membersAry: (T & EnumConstantImpl)[] = [];
+        var enumMembers = enumMembersCreator(asMember);
+
+        // setup the enum members
+        names = names || Object.keys(enumMembers);
+        for (var i = 0, size = names.length; i < size; i++) {
+            var key = names[i];
+            var enumMember: T = enumMembers[key];
+            var resName = getName ? getName(key, enumMember) : key;
+            var ordinal = i;
+            var newMember = initEnumMember(enumMember, resName, ordinal);
+            enumClass[resName] = newMember;
+            membersAry.push(newMember);
+        }
+
+        membersAry.sort((a, b) => a.ordinal - b.ordinal);
+        // extend the enum class
+        EnumClass.call(enumClass, enumClass, enumMemberClass, membersAry);
+        Objects.extendToStatic(enumClass, EnumClass, false);
+
+        return <R & EnumClass<T & EnumMember>><any>enumClass;
     }
 
 }
