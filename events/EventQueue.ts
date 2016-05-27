@@ -4,7 +4,7 @@
  * @param <E> the event type
  * @param <L> the listener function signature
  */
-class EventQueueImpl<E, L extends (...args: any[]) => void> implements Events.EventQueue<E, L> {
+class EventQueue<E, L extends (...args: any[]) => void> implements Events.EventQueue<E, L> {
     eventHandler: Events.ListenerList<E, L>;
     /** temporary callbacks to call when fireExistingEventsSuccess or fireExistingEventsFailure run */
     tempDoneCb: () => void;
@@ -103,4 +103,4 @@ class EventQueueImpl<E, L extends (...args: any[]) => void> implements Events.Ev
 
 }
 
-export = EventQueueImpl;
+export = EventQueue;

@@ -4,7 +4,14 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.7.2](N/A) - 2016-05-26
+### [0.7.3](N/A) - 2016-05-27
+#### Changed
+* EnumCreator.initEnumClass() 'memberVisitor' parameter can optionally return null/void
+* Renamed a few classes internally to match their file names
+
+
+--------
+### [0.7.2](https://github.com/TeamworkGuy2/ts-mortar/commit/650307f4e70c17c6820bc348e51e922f448a3dc6) - 2016-05-26
 #### Changed
 * EnumCreator.initEnumClass() return signature improved and added optional memberVisitor parameter
 * Renamed EnumCreator EnumConstantImpl -> EnumMemberImpl

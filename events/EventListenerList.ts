@@ -5,7 +5,7 @@
  * @param <E> the event type
  * @param <L> the listener function signature
  */
-class EventListenerListImpl<E, L extends (...args: any[]) => void> implements Events.ListenerList<E, L> {
+class EventListenerList<E, L extends (...args: any[]) => void> implements Events.ListenerList<E, L> {
     private listeners: L[];
     /** keeps track of the number of times that each listeners function can be called before it should be removed, -1 indicates infinite calls */
     private listenerCallsUntilRemoval: number[];
@@ -41,7 +41,7 @@ class EventListenerListImpl<E, L extends (...args: any[]) => void> implements Ev
 
 
     public setFireEventsSuccessCallback(cb: (res: any[]) => void) {
-        EventListenerListImpl.checkCallback(cb, "fire events success");
+        EventListenerList.checkCallback(cb, "fire events success");
         this.fireEventsSuccessCallback = cb;
     }
 
@@ -52,7 +52,7 @@ class EventListenerListImpl<E, L extends (...args: any[]) => void> implements Ev
 
    
     public setFireEventsFailureCallback(cb: (err) => void) {
-        EventListenerListImpl.checkCallback(cb, "fire events failure");
+        EventListenerList.checkCallback(cb, "fire events failure");
         this.fireEventsFailureCallback = cb;
     }
 
@@ -63,7 +63,7 @@ class EventListenerListImpl<E, L extends (...args: any[]) => void> implements Ev
 
 
     public setListenerAddedCallback(cb: (listener: L) => void) {
-        EventListenerListImpl.checkCallback(cb, "fire events success");
+        EventListenerList.checkCallback(cb, "fire events success");
         this.listenerAddedCallback = cb;
     }
 
@@ -75,7 +75,7 @@ class EventListenerListImpl<E, L extends (...args: any[]) => void> implements Ev
 
 
     public setListenerRemovedCallback(cb: (listener: L) => void) {
-        EventListenerListImpl.checkCallback(cb, "fire events success");
+        EventListenerList.checkCallback(cb, "fire events success");
         this.listenerRemovedCallback = cb;
     }
 
@@ -208,9 +208,9 @@ class EventListenerListImpl<E, L extends (...args: any[]) => void> implements Ev
 
 
     public static newInst<E1, L1 extends (...args: any[]) => void>() {
-        return new EventListenerListImpl<E1, L1>();
+        return new EventListenerList<E1, L1>();
     }
 
 }
 
-export = EventListenerListImpl;
+export = EventListenerList;

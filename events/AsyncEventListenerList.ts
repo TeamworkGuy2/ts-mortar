@@ -4,7 +4,7 @@ import EventListenerList = require("./EventListenerList");
 /** An event listener list for asynchronous event listeners (i.e. the listeners perform asynchronous operations)
  * manages a list of listener functions and allows events to be sent to the listeners
  */
-class AsyncEventListenerHandler<E> implements Events.ListenerList<E, Events.AsyncListener<E>> {
+class AsyncEventListenerList<E> implements Events.ListenerList<E, Events.AsyncListener<E>> {
     private eventHandler: EventListenerList<E, Events.AsyncListener<E>>;
 
 
@@ -105,4 +105,4 @@ class AsyncEventListenerHandler<E> implements Events.ListenerList<E, Events.Asyn
 
 }
 
-export = AsyncEventListenerHandler;
+export = AsyncEventListenerList;

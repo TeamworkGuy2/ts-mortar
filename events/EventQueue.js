@@ -4,8 +4,8 @@
  * @param <E> the event type
  * @param <L> the listener function signature
  */
-var EventQueueImpl = (function () {
-    function EventQueueImpl(eventHandler, eventValidator) {
+var EventQueue = (function () {
+    function EventQueue(eventHandler, eventValidator) {
         this.tempEventCount = 0;
         this.events = [];
         var that = this;
@@ -32,24 +32,24 @@ var EventQueueImpl = (function () {
         this.queueChangeEvent = this.queueChangeEvent.bind(this);
         this.fireExistingEvents = this.fireExistingEvents.bind(this);
     }
-    EventQueueImpl.prototype.reset = function () {
+    EventQueue.prototype.reset = function () {
         if (this.hasQueuedEvents()) {
             console.error("reseting event queue with events still in queue", this.events);
         }
         this.eventHandler.reset();
     };
     /** @return {EventListenerHandler} this event queue's event handler */
-    EventQueueImpl.prototype.getEventHandler = function () {
+    EventQueue.prototype.getEventHandler = function () {
         return this.eventHandler;
     };
-    EventQueueImpl.prototype.hasQueuedEvents = function () {
+    EventQueue.prototype.hasQueuedEvents = function () {
         return this.events.length > 0;
     };
     /**
      * @see #queueChangeEvent
      * @see #fireExistingEvents
      */
-    EventQueueImpl.prototype.queueAndFireChangeEvent = function (event, doneCb) {
+    EventQueue.prototype.queueAndFireChangeEvent = function (event, doneCb) {
         this.queueChangeEvent(event);
         this.fireExistingEvents(doneCb);
     };
@@ -57,7 +57,7 @@ var EventQueueImpl = (function () {
      * currently pending events and before any future events are fired using this function.
      * However, none of these calls are made until {@code fireExistingEvents()} is called
      */
-    EventQueueImpl.prototype.queueChangeEvent = function (event) {
+    EventQueue.prototype.queueChangeEvent = function (event) {
         if (event == null) {
             throw new Error("cannot queue null event");
         }
@@ -69,7 +69,7 @@ var EventQueueImpl = (function () {
     /** Fire all current events in this event queue and call {@code doneCb} when
      * all the event listeners have completed
      */
-    EventQueueImpl.prototype.fireExistingEvents = function (doneCb) {
+    EventQueue.prototype.fireExistingEvents = function (doneCb) {
         this.tempDoneCb = doneCb;
         this.tempEventCount = this.events.length;
         while (this.events.length > 0) {
@@ -77,6 +77,6 @@ var EventQueueImpl = (function () {
             this.getEventHandler().fireEvent(event);
         }
     };
-    return EventQueueImpl;
+    return EventQueue;
 }());
-module.exports = EventQueueImpl;
+module.exports = EventQueue;

@@ -128,7 +128,7 @@ module EnumCreator {
      * @param [memberVisitor] optional function to transform each enum member
      */
     export function initEnumClass<E, T, R>(enumClass: E, enumMemberClass: { prototype: T }, enumMembersCreator: (memberCreator: (member: T) => T & EnumMember) => R, names?: string[],
-            getName?: (name: string, enumConst: T) => string, memberVisitor?: (member: T & EnumMember) => (T & EnumMember)): R & E & EnumClass<T & EnumMember> {
+            getName?: (name: string, enumConst: T) => string, memberVisitor?: (member: T & EnumMember) => void | (T & EnumMember)): R & E & EnumClass<T & EnumMember> {
         // extend the enum member type
         Objects.extend(enumMemberClass, EnumMemberImpl, false, true);
 
@@ -146,7 +146,7 @@ module EnumCreator {
             if (memberVisitor != null) {
                 var res = memberVisitor(newMember);
                 if (res != null) {
-                    newMember = res;
+                    newMember = <T & EnumMember>res;
                 }
             }
             enumClass[resName] = newMember;
