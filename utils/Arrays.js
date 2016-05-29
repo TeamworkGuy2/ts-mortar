@@ -133,6 +133,8 @@ var Arrays;
     }
     Arrays.clear = clear;
     /** Return the difference between two arrays as elements added and removed from the first array.
+     * Items which only exist in 'ary1' are called 'removed'.
+     * Items which only exist in 'ary2' are called 'added'.
      * For example: {@code ary1 = [1, 2, 3]} and {@code ary2 = [2, 4]}
      * returns: {@code { added: [4], removed: [1, 3]}},
      * which are the values to add and remove from {@code ary1} to convert it to {@code ary2}
@@ -142,7 +144,7 @@ var Arrays;
      * @return with 'added' and 'removed' arrays of values from {@code ary1} and {@code ary2}
      * @see looseDiff()
      */
-    function diff(ary1, ary2) {
+    function diffParts(ary1, ary2) {
         if (ary1 == null || ary2 == null || !Array.isArray(ary1) || !Array.isArray(ary2)) {
             if (ary1 == null && ary2 == null) {
                 return { added: [], removed: [] };
@@ -199,7 +201,7 @@ var Arrays;
             removed: removed
         };
     }
-    Arrays.diff = diff;
+    Arrays.diffParts = diffParts;
     /** Remove the first matching value from an array without creating a new array of splicing the array.
      * NOTE: the returned order of the array's elements is not defined.
      * @param ary: the array of values to search and remove the matching value from
@@ -478,7 +480,7 @@ var Arrays;
         return -1;
     }
     Arrays.lastIndexOfProp = lastIndexOfProp;
-    /** Get the difference between two arrays.
+    /** Get the difference between two arrays. Also known as the Symmetric Difference (https://en.wikipedia.org/wiki/Symmetric_difference)
      * For example: {@code ary1 = [1, 2, 3]} and {@code ary2 = [2, 4]}
      * returns: {@code [4, 1, 3]}
      * which represents the differences between {@code ary1} and {@code ary2} (note: the returned array order is undefined)
@@ -488,12 +490,12 @@ var Arrays;
      * @return of values that exist in only one of the input arrays
      * @see diff()
      */
-    function looseDiff(ary1, ary2) {
-        var diffRes = diff(ary1, ary2);
+    function diff(ary1, ary2) {
+        var diffRes = diffParts(ary1, ary2);
         var looseDiff = Array.prototype.concat.apply(diffRes.added, diffRes.removed);
         return looseDiff;
     }
-    Arrays.looseDiff = looseDiff;
+    Arrays.diff = diff;
     /** Check if two arrays are equal, element by element
      * For example: {@code equal(["A", 23, true], ["A", 23, true])}
      * returns: {@code true}

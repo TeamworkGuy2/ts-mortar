@@ -4,7 +4,15 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.7.3](N/A) - 2016-05-27
+### [0.8.0](N/A) - 2016-05-29
+#### Changed
+* Renamed Arrays.diff() -> diffParts()
+* Renamed Arrays.looseDiff() -> diff()
+* Switched unit testing library from qunit to chai and mocha
+
+
+--------
+### [0.7.3](https://github.com/TeamworkGuy2/ts-mortar/commit/dffab43dd890b7ca23b136b45cfdccc5377d3794) - 2016-05-27
 #### Changed
 * EnumCreator.initEnumClass() 'memberVisitor' parameter can optionally return null/void
 * Renamed a few classes internally to match their file names

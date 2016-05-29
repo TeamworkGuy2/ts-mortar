@@ -162,6 +162,8 @@ module Arrays {
 
 
     /** Return the difference between two arrays as elements added and removed from the first array.
+     * Items which only exist in 'ary1' are called 'removed'.
+     * Items which only exist in 'ary2' are called 'added'.
      * For example: {@code ary1 = [1, 2, 3]} and {@code ary2 = [2, 4]}
      * returns: {@code { added: [4], removed: [1, 3]}},
      * which are the values to add and remove from {@code ary1} to convert it to {@code ary2}
@@ -171,7 +173,7 @@ module Arrays {
      * @return with 'added' and 'removed' arrays of values from {@code ary1} and {@code ary2}
      * @see looseDiff()
      */
-    export function diff<E>(ary1: E[], ary2: E[]): { added: E[]; removed: E[] } {
+    export function diffParts<E>(ary1: E[], ary2: E[]): { added: E[]; removed: E[] } {
         if (ary1 == null || ary2 == null || !Array.isArray(ary1) || !Array.isArray(ary2)) {
             if (ary1 == null && ary2 == null) {
                 return { added: [], removed: [] };
@@ -512,7 +514,7 @@ module Arrays {
     }
 
 
-    /** Get the difference between two arrays.
+    /** Get the difference between two arrays. Also known as the Symmetric Difference (https://en.wikipedia.org/wiki/Symmetric_difference)
      * For example: {@code ary1 = [1, 2, 3]} and {@code ary2 = [2, 4]}
      * returns: {@code [4, 1, 3]}
      * which represents the differences between {@code ary1} and {@code ary2} (note: the returned array order is undefined)
@@ -522,8 +524,8 @@ module Arrays {
      * @return of values that exist in only one of the input arrays
      * @see diff()
      */
-    export function looseDiff<E>(ary1: E[], ary2: E[]): E[] {
-        var diffRes = diff(ary1, ary2);
+    export function diff<E>(ary1: E[], ary2: E[]): E[] {
+        var diffRes = diffParts(ary1, ary2);
         var looseDiff = Array.prototype.concat.apply(diffRes.added, diffRes.removed);
         return looseDiff;
     }
