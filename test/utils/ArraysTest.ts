@@ -10,6 +10,9 @@ var asr = chai.assert;
 
 suite("Arrays", function ArraysTest() {
 
+    var numSort = (a, b) => a - b;
+
+
     test("addAll", function addAllTest() {
         var ary1 = [1, 2, 4];
         var ary2 = [8, 16];
@@ -144,11 +147,12 @@ suite("Arrays", function ArraysTest() {
 
 
     test("diffParts", function diffPartsTest() {
-        var ary1 = [1, 2, 3];
-        var ary2 = [2, 4];
-
-        var res = Arrays.diffParts(ary1, ary2);
+        var res = Arrays.diffParts([1, 2, 3], [2, 4]);
         asr.deepEqual(res, { added: [4], removed: [1, 3] });
+
+        // duplicate values in input are treated as unique
+        var res2 = Arrays.diffParts([1, 1, 2, 5, 6], [3, 3, 4, 5]);
+        asr.deepEqual(res2, { added: [3, 3, 4], removed: [1, 1, 2, 6] });
     });
 
 
@@ -274,11 +278,15 @@ suite("Arrays", function ArraysTest() {
 
 
     test("diff", function diffTest() {
-        var ary1 = [1, 2, 3];
-        var ary2 = [2, 4];
+        var res = Arrays.diff([1, 2, 3], [2, 4]);
+        asr.deepEqual(res.sort(numSort), [1, 3, 4]);
 
-        var res = Arrays.diff(ary1, ary2);
-        asr.deepEqual(res.sort((a, b) => a - b), [1, 3, 4]);
+        // duplicate values in input are treated as unique
+        var res2 = Arrays.diff([1, 1, 2, 5], [2, 2, 4, 3, 3, 5]);
+        asr.deepEqual(res2.sort(numSort), [1, 1, 2, 3, 3, 4]);
+
+        var res3 = Arrays.diff([1, 4], []);
+        asr.deepEqual(res3.sort(numSort), [1, 4]);
     });
 
 

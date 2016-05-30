@@ -46,8 +46,8 @@ var Arrays;
         return Array.isArray(data) ? (data.length === 1 ? data[0] : null) : data;
     }
     Arrays.getIfOneItem = getIfOneItem;
-    /** Perform a binary search of a property in an array of values and return the index
-     * for example: {@code binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "key", 14)}
+    /** Perform a binary search of a property in an array of values and return the index.
+     * For example: {@code binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "key", 14)}
      * returns: {@code 2} indicating that the 3rd array element matches
      *
      * for example: {@code binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "id", 13)}
@@ -135,6 +135,7 @@ var Arrays;
     /** Return the difference between two arrays as elements added and removed from the first array.
      * Items which only exist in 'ary1' are called 'removed'.
      * Items which only exist in 'ary2' are called 'added'.
+     * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
      * For example: {@code ary1 = [1, 2, 3]} and {@code ary2 = [2, 4]}
      * returns: {@code { added: [4], removed: [1, 3]}},
      * which are the values to add and remove from {@code ary1} to convert it to {@code ary2}
@@ -480,7 +481,8 @@ var Arrays;
         return -1;
     }
     Arrays.lastIndexOfProp = lastIndexOfProp;
-    /** Get the difference between two arrays. Also known as the Symmetric Difference (https://en.wikipedia.org/wiki/Symmetric_difference)
+    /** Get the difference between two arrays. Also known as the Symmetric Difference (https://en.wikipedia.org/wiki/Symmetric_difference).
+     * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
      * For example: {@code ary1 = [1, 2, 3]} and {@code ary2 = [2, 4]}
      * returns: {@code [4, 1, 3]}
      * which represents the differences between {@code ary1} and {@code ary2} (note: the returned array order is undefined)

@@ -5,6 +5,7 @@ var chai = require("chai");
 var Arrays = require("../../../ts-mortar/utils/Arrays");
 var asr = chai.assert;
 suite("Arrays", function ArraysTest() {
+    var numSort = function (a, b) { return a - b; };
     test("addAll", function addAllTest() {
         var ary1 = [1, 2, 4];
         var ary2 = [8, 16];
@@ -98,10 +99,10 @@ suite("Arrays", function ArraysTest() {
         asr.equal(ary.length, 0);
     });
     test("diffParts", function diffPartsTest() {
-        var ary1 = [1, 2, 3];
-        var ary2 = [2, 4];
-        var res = Arrays.diffParts(ary1, ary2);
+        var res = Arrays.diffParts([1, 2, 3], [2, 4]);
         asr.deepEqual(res, { added: [4], removed: [1, 3] });
+        var res2 = Arrays.diffParts([1, 1, 2, 5, 6], [3, 3, 4, 5]);
+        asr.deepEqual(res2, { added: [3, 3, 4], removed: [1, 1, 2, 6] });
     });
     test("fastRemove", function fastRemoveTest() {
         var ary = ["B", "D", "F", "H", "J"];
@@ -182,10 +183,12 @@ suite("Arrays", function ArraysTest() {
         asr.equal(res, 2);
     });
     test("diff", function diffTest() {
-        var ary1 = [1, 2, 3];
-        var ary2 = [2, 4];
-        var res = Arrays.diff(ary1, ary2);
-        asr.deepEqual(res.sort(function (a, b) { return a - b; }), [1, 3, 4]);
+        var res = Arrays.diff([1, 2, 3], [2, 4]);
+        asr.deepEqual(res.sort(numSort), [1, 3, 4]);
+        var res2 = Arrays.diff([1, 1, 2, 5], [2, 2, 4, 3, 3, 5]);
+        asr.deepEqual(res2.sort(numSort), [1, 1, 2, 3, 3, 4]);
+        var res3 = Arrays.diff([1, 4], []);
+        asr.deepEqual(res3.sort(numSort), [1, 4]);
     });
     test("equal", function equalTest() {
         var res1 = Arrays.equal(["A", 23, true], ["A", 23, true]);

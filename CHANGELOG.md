@@ -4,7 +4,7 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.8.0](N/A) - 2016-05-29
+### [0.8.0](https://github.com/TeamworkGuy2/ts-mortar/commit/b29c971bff796abe4ece08a8f45d741a27023ee6) - 2016-05-29
 #### Changed
 * Renamed Arrays.diff() -> diffParts()
 * Renamed Arrays.looseDiff() -> diff()
