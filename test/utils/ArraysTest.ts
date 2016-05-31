@@ -358,6 +358,18 @@ suite("Arrays", function ArraysTest() {
     });
 
 
+    test("removeAll", function removeAllTest() {
+        var res1 = Arrays.removeAll([2, 5, 3, 1, 4, 5], [5, 1]);
+        asr.deepEqual(res1.sort(numSort), [2, 3, 4, 5]);
+
+        var res2 = Arrays.removeAll([2, 3, 1, 3, 2], [2, 2, 3], true);
+        asr.deepEqual(res2.sort(numSort), [1, 3]);
+
+        var res2 = Arrays.removeAll([2, 1], null);
+        asr.deepEqual(res2.sort(numSort), [1, 2]);
+    });
+
+
     test("removeValue", function removeValueTest() {
         var ary1 = ["A", "B", "C", "D"];
         Arrays.removeValue(ary1, "B");

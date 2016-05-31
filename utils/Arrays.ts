@@ -22,7 +22,7 @@ module Arrays {
     export var EMPTY_ARRAY: any[] = Object.freeze([]);
 
 
-    /** Add all of the values in {@code toAdd} to the {@code src} array
+    /** Add all of the values in 'toAdd' to the 'src' array
      * @return the source array
      */
     export function addAll<E>(src: E[], toAdd: E[]): E[] {
@@ -72,11 +72,11 @@ module Arrays {
 
 
     /** Perform a binary search of a property in an array of values and return the index.
-     * For example: {@code binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "key", 14)}
-     * returns: {@code 2} indicating that the 3rd array element matches
+     * For example: binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "key", 14)
+     * returns: 2 indicating that the 3rd array element matches
      *
-     * for example: {@code binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "id", 13)}
-     * returns: {@code -3} indicating that no matching element was found,
+     * For example: binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "id", 13)
+     * returns: -3 indicating that no matching element was found,
      * but if a matching element did exist in the array, it would be at index 3
      */
     export function binarySearch<E>(ary: E[], comparatorPropName: string, searchValue: any): number {
@@ -109,7 +109,7 @@ module Arrays {
     }
 
 
-    /** Returns a new array containing the elements from {@code ary1} followed by the elements from {@code ary2}
+    /** Returns a new array containing the elements from 'ary1' followed by the elements from 'ary2'
      */
     export function concat<E>(ary1: E[], ary2: E[]): E[] {
         var res: E[] = [];
@@ -122,7 +122,7 @@ module Arrays {
     /** Check whether all of the values in the second array are contained in the first array
      * @param ary: the array of values
      * @param searchFor: the values to search for
-     * @return true if all of {@code searchFor} values are contained in {@code ary}
+     * @return true if all of 'searchFor' values are contained in 'ary'
      */
     export function containsAll<E>(ary: E[], searchFor: E[]): boolean {
         if (ary == null || searchFor == null) { return false; }
@@ -138,7 +138,7 @@ module Arrays {
     /** Check whether any of the values in the second array are contained in the first array
      * @param ary: the array of values
      * @param searchFor: the values to search for
-     * @return true if any of {@code searchFor} values are contained in {@code ary}
+     * @return true if any of 'searchFor' values are contained in 'ary'
      */
     export function containsAny<E>(ary: E[], searchFor: E[]): boolean {
         if (ary == null || searchFor == null) { return false; }
@@ -165,13 +165,14 @@ module Arrays {
      * Items which only exist in 'ary1' are called 'removed'.
      * Items which only exist in 'ary2' are called 'added'.
      * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
-     * For example: {@code ary1 = [1, 2, 3]} and {@code ary2 = [2, 4]}
-     * returns: {@code { added: [4], removed: [1, 3]}},
-     * which are the values to add and remove from {@code ary1} to convert it to {@code ary2}
+     *
+     * For example: diffParts([1, 2, 3], [2, 4])
+     * returns: { added: [4], removed: [1, 3]},
+     * which are the values to add and remove from 'ary1' to convert it to 'ary2'
      *
      * @param ary1: the master/original array to base differences on
      * @param ary2: the branch/new array to find differences in
-     * @return with 'added' and 'removed' arrays of values from {@code ary1} and {@code ary2}
+     * @return with 'added' and 'removed' arrays of values from 'ary1' and 'ary2'
      * @see looseDiff()
      */
     export function diffParts<E>(ary1: E[], ary2: E[]): { added: E[]; removed: E[] } {
@@ -203,7 +204,7 @@ module Arrays {
         var ary2Used: boolean[] = [];
         var ary1Size = ary1.length;
         var ary2Size = ary2.length;
-        // keep track of each element in {@code ary2} that does not exist in {@code ary1}
+        // keep track of each element in 'ary2' that does not exist in 'ary1'
         for (var i = 0; i < ary1Size; i++) {
             var elem1 = ary1[i];
             var matchingIdx2 = -1;
@@ -213,7 +214,7 @@ module Arrays {
                     break;
                 }
             }
-            // items that only exist in {@code ary1} are 'removed'
+            // items that only exist in 'ary1' are 'removed'
             if (matchingIdx2 === -1) {
                 removed.push(ary1[i]);
             }
@@ -222,7 +223,7 @@ module Arrays {
             }
         }
 
-        // items that only exist in {@code ary2} are 'added'
+        // items that only exist in 'ary2' are 'added'
         for (var ii = 0; ii < ary2Size; ii++) {
             if (!ary2Used[ii]) {
                 added.push(ary2[ii]);
@@ -240,7 +241,7 @@ module Arrays {
      * NOTE: the returned order of the array's elements is not defined.
      * @param ary: the array of values to search and remove the matching value from
      * @param value: the value to search for and remove
-     * @return {@code ary} of values with the first matching instance of {@code value} removed,
+     * @return 'ary' of values with the first matching instance of 'value' removed,
      * values are compared based on strict equality '===='
      */
     export function fastRemove<E>(ary: E[], value: E): E[] {
@@ -263,7 +264,7 @@ module Arrays {
      * NOTE: the returned order of the array's elements is not defined.
      * @param ary: the array of values to remove the index value from
      * @param index: the index of the value to remove from the array
-     * @return {@code ary} of values with the specified index removed
+     * @return 'ary' of values with the specified index removed
      */
     export function fastRemoveIndex<E>(ary: E[], index: number): E[] {
         var aryLen = ary != null ? ary.length : 0;
@@ -280,16 +281,14 @@ module Arrays {
 
 
     /** Split an array of values into matching and non-matching arrays using a filter
-     * For example:
-     * {@code filterSplit([1, 2, 3, 4, 5], function (value, idx, ary) { return value % 2 == 0; })}
-     * returns:
-     * {@code { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] }}
+     * For example: filterSplit([1, 2, 3, 4, 5], function (value, idx, ary) { return value % 2 == 0; })
+     * returns: { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] }
      *
      * @param {E[]} ary: array of input values to filter
      * @param {FilterFunc} filterFunc: the function to filter the values,
      * true stores items in the returned 'matching' property,
      * false stores items in the returned 'notMatching' property
-     * @return a filter result that contains the original 'all' {@code ary} and arrays of 'matching' and 'notMatching' items
+     * @return a filter result object contains the original array 'all' and arrays of 'matching' and 'notMatching' items
      */
     export function filterSplit<E>(ary: E[] | ArrayLike<E>, filterFunc: (value: E, index: number, array: E[]) => boolean): { all: E[]; matching: E[]; notMatching: E[] } {
         if (ary == null) { return toBiFilterResult([], [], []); }
@@ -314,7 +313,7 @@ module Arrays {
     }
 
 
-    // convert an array of items and arrays containing matching and non-matching items to an {@link BiFilterResult} object
+    // convert an array of items and arrays containing matching and non-matching items to an 'BiFilterResult' object
     function toBiFilterResult<E>(all: E[], matching: E[], notMatching: E[]) {
         return {
             all: all,
@@ -325,8 +324,8 @@ module Arrays {
 
 
     /** Search for objects in an array containing a property matching a given input property.
-     * For example: {@code findAllProp([ {name: "billy", value: 5}, {name: "sam", value: 5}, {name: "overhill", value: 3} ], "value", 5)}
-     * returns: {@code {name: "billy", value: 5}, {name: "sam", value: 5} }
+     * For example: findAllProp([ {name: "billy", value: 5}, {name: "sam", value: 5}, {name: "overhill", value: 3} ], "value", 5)
+     * returns: {name: "billy", value: 5}, {name: "sam", value: 5}
      * because the matching object has a property "value" with a value of 5
      *
      * @param ary: the array to search
@@ -349,11 +348,11 @@ module Arrays {
 
     /** Return the first matching value in an array using a filter function, null if no matches.
      * Optional: throw an exception if more than one result is found.
-     * For example: {@code first([ {key: 27, value: "A"}, {key: 46, value: "B"}, {key: 84, value: "C"}, {key: 84, value: "D"} ], function (obj) { return obj.key === 84; })}
-     * returns: {@code {key: 84, value: "C"} }
+     * For example: first([ {key: 27, value: "A"}, {key: 46, value: "B"}, {key: 84, value: "C"}, {key: 84, value: "D"} ], function (obj) { return obj.key === 84; })
+     * returns: {key: 84, value: "C"}
      *
      * @param ary: the array of values to search
-     * @param filter: the filter to apply to {@code ary}
+     * @param filter: the filter to apply to 'ary'
      * @return the first (lowest index) value passed to 'filter' from 'ary' that returns true, or null if a match cannot be found
      */
     export function first<E>(ary: E[] | ArrayLike<E>, filter: (value: E, index: number, array: E[]) => boolean, ensureOne: boolean = false): E {
@@ -400,7 +399,7 @@ module Arrays {
     /** Return the last value in an array that matches a filter, null if no matches
      * @param ary: the array of values to search
      * @param filterFunc: the filter to apply
-     * @return the highest-index value passed to {@code filterFunc} from {@code ary} that returns true, null if no value returns true
+     * @return the highest-index value passed to 'filterFunc' from 'ary' that returns true, null if no value returns true
      */
     export function lastIndex<E>(ary: E[] | ArrayLike<E>, filterFunc: (value: E, index: number, array: E[]) => boolean): number {
         if (ary == null) { return -1; }
@@ -416,9 +415,9 @@ module Arrays {
 
     /** Search for an object in an array containing a property matching a given input property.
      * Optional: throw an exception if more than one result is found.
-     * For example: {@code firstProp([ {name: "billy", value: 4}, {name: "sam", value: 5}, {name: "will", value: 5} ], "value", 5)}
-     * returns: {@code {name: "sam", value: 5} }
-     * Or example: {@code firstProp([ {name: "billy", value: 4}, {name: "sam", value: 4}, {name: "will", value: 5} ], "value", 5, true)}
+     * For example: firstProp([ {name: "billy", value: 4}, {name: "sam", value: 5}, {name: "will", value: 5} ], "value", 5)
+     * returns: {name: "sam", value: 5}
+     * Or example: firstProp([ {name: "billy", value: 4}, {name: "sam", value: 4}, {name: "will", value: 5} ], "value", 5, true)
      * throws an error because the value appears more than once and the 'ensureOne' parameter = true
      *
      * @param ary: the array of values to search
@@ -456,7 +455,7 @@ module Arrays {
     /** Get a property from each object in an array of objects
      * @param ary: the array of objects
      * @param propName: the name of the property to get
-     * @return an array of the specified property from each object in {@code ary}
+     * @return an array of the specified property from each object in 'ary'
      */
     export function pluck(ary: any[] | ArrayLike<any>, propName: string): any[] {
         if (ary == null || propName == null) { return []; }
@@ -478,8 +477,8 @@ module Arrays {
 
 
     /** Search for the index of an object with a specified property in an array.
-     * For example: {@code indexOfPropValue([ {name: "billy", value: 12}, {name: "sam", value: 12} ], "value", 12)}
-     * returns: {@code 0}
+     * For example: indexOfPropValue([ {name: "billy", value: 12}, {name: "sam", value: 12} ], "value", 12)
+     * returns: 0
      * because the first object with the property "value" with a value of 12 was at index 0
      *
      * @param ary: the array to search
@@ -497,8 +496,8 @@ module Arrays {
 
 
     /** Search for the last index of an object with a specified property in an array
-     * For example: {@code lastIndexOfPropValue([ {text: "john's bid", value: 12}, {text: "test bid", value: 12} ], "value", 12)}
-     * returns: {@code 1}
+     * For example: lastIndexOfPropValue([ {text: "john's bid", value: 12}, {text: "test bid", value: 12} ], "value", 12)
+     * returns: 1
      * because the last object with the property "value" with a value of 12 was at index 1
      *
      * @param ary: the array to search
@@ -517,9 +516,9 @@ module Arrays {
 
     /** Get the difference between two arrays. Also known as the Symmetric Difference (https://en.wikipedia.org/wiki/Symmetric_difference).
      * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
-     * For example: {@code ary1 = [1, 2, 3]} and {@code ary2 = [2, 4]}
-     * returns: {@code [4, 1, 3]}
-     * which represents the differences between {@code ary1} and {@code ary2} (note: the returned array order is undefined)
+     * For example: diff([1, 2, 3], [2, 4])
+     * returns: [4, 1, 3]
+     * which represents the differences between 'ary1' and 'ary2' (note: the returned array order is undefined)
      *
      * @param ary1: the first array to compare
      * @param ary2: the second array to compare
@@ -534,10 +533,10 @@ module Arrays {
 
 
     /** Check if two arrays are equal, element by element
-     * For example: {@code equal(["A", 23, true], ["A", 23, true])}
-     * returns: {@code true}
-     * Or example: {@code equal(["A", 23, true], ["A", 13])}
-     * returns: {@code false}
+     * For example: equal(["A", 23, true], ["A", 23, true])
+     * returns: true
+     * Or example: equal(["A", 23, true], ["A", 13])
+     * returns: false
      *
      * @param ary1: the first array to compare
      * @param ary2: the second array to compare
@@ -557,10 +556,10 @@ module Arrays {
 
     /** Check whether two arrays are equal, ignoring the order of the elements in each array.
      * elements are compared using strict (i.e. '===') equality.
-     * For example: {@code looseEqual([26, "Alpha", 5], [5, 26, "Alpha"])}
-     * returns: {@code true}
-     * Or example: {@code looseEqual([34, "A", "QA"], [7, 34, "A"])}
-     * returns: {@code false}
+     * For example: looseEqual([26, "Alpha", 5], [5, 26, "Alpha"])
+     * returns: true
+     * Or example: looseEqual([34, "A", "QA"], [7, 34, "A"])
+     * returns: false
      *
      * @param ary1: the first array to compare
      * @param ary1: the second array to compare
@@ -595,8 +594,8 @@ module Arrays {
 
 
     /** Transforms the elements of an array into a new array
-     * For example: {@code map([1, 2, 3, 4], (value) => value % 3)}
-     * returns: {@code [1, 2, 0, 1]}
+     * For example: map([1, 2, 3, 4], (value) => value % 3)
+     * returns: [1, 2, 0, 1]
      *
      * @param ary: the array to map
      * @return a new array with each index containing the result of passing the original 'ary' element at that index through the 'mapFunc', or an empty array if the 'ary' is null
@@ -616,10 +615,10 @@ module Arrays {
 
     /** Maps and filters an array in one operation by passing a two field object to the map-filter
      * function as a destination 'out' parameter like C#'s 'out' parameters
-     * For example: {@code mapFilter([1, 2, 3, 4, 5, 6, 7], function (value, dstOut) { dstOut.isValid = (value % 3 !== 0); })}
-     * returns: {@code [1, 2, 4, 5, 7]}
-     * Or example: {@code mapFilter(['A', 'B', 'C', 'D', 'C', 'A', 'B'], function (value, dstOut) { dstOut.isValid = (value !== 'D'); dstOut.value = value.toLowerCase(); })}
-     * returns: {@ ['a', 'b', 'c', 'c', 'a', 'b']}
+     * For example: mapFilter([1, 2, 3, 4, 5, 6, 7], function (value, dstOut) { dstOut.isValid = (value % 3 !== 0); })
+     * returns: [1, 2, 4, 5, 7]
+     * Or example: mapFilter(['A', 'B', 'C', 'D', 'C', 'A', 'B'], function (value, dstOut) { dstOut.isValid = (value !== 'D'); dstOut.value = value.toLowerCase(); })
+     * returns: ['a', 'b', 'c', 'c', 'a', 'b']
      *
      * @param ary: the array AND filter to map
      * @param mapFilterFunc: since JS and TS don't have 'out' parameters
@@ -651,9 +650,9 @@ module Arrays {
     }
 
 
-    /** Like {@see #mapFilter()} except null return values are filtered out instead of using an two parameter 'out' style object with an 'isValid' flag
+    /** Like #mapFilter() except null return values are filtered out instead of using an two parameter 'out' style object with an 'isValid' flag
      * @param the array of values to map-filter
-     * @param mapFunc: the {@link Array#map()} style function to transform input values,
+     * @param mapFunc: the Array#map() style function to transform input values,
      * null returned values are not stored in the returned array, allowing the function to filter
      * @return an array of non-null mapped result values
      */
@@ -676,6 +675,61 @@ module Arrays {
     }
 
 
+    /** Remove all of the specified values from this list.
+     * The removal is done in place.
+     * For example: removeAll([1, 2, 3, 4, 5, 5], [1, 5])
+     * returns: [2, 3, 4, 5]
+     * For example removeAll([1, 2, 2, 3, 3], [2, 2, 3], true)
+     * returns [3, 1]
+     * NOTE: the return order is not ordered if you pass true as the 'fastRemove' parameter
+     *
+     * @param ary the array to remove items from
+     * @param toRemove the items to search for and remove
+     * @param [fastRemove=false] optional flag indicating whether this function is allowed to reorder the input array's elements
+     * @return the same input 'ary'
+     */
+    export function removeAll<E>(ary: E[], toRemove: E[], fastRemove?: boolean): E[] {
+        if (ary == null || toRemove == null) { return ary; }
+
+        var idx: number;
+        if (fastRemove) {
+            // remove all matches by swapping them to the end of the array and shrinking the array
+            for (var i = 0, size = toRemove.length; i < size; i++) {
+                if ((idx = ary.indexOf(toRemove[i])) > -1) {
+                    Arrays.fastRemoveIndex(ary, idx);
+                }
+            }
+        }
+        else {
+            // find the indices to remove
+            var indicesToSkip: number[] = [];
+            for (var i = 0, size = toRemove.length; i < size; i++) {
+                if ((idx = ary.indexOf(toRemove[i])) > -1) {
+                    indicesToSkip.push(idx);
+                }
+            }
+            // rebuild the array without the items to remove
+            if (indicesToSkip.length > 0) {
+                var newI = 0;
+                var nextSkipIndexI = 0;
+                var nextSkipIndex = indicesToSkip[nextSkipIndexI];
+                for (var i = 0, size = ary.length; i < size; i++) {
+                    if (i === nextSkipIndex) {
+                        nextSkipIndexI++;
+                        nextSkipIndex = indicesToSkip[nextSkipIndexI];
+                    }
+                    else {
+                        ary[newI] = ary[i];
+                        newI++;
+                    }
+                }
+                ary.length = ary.length - indicesToSkip.length;
+            }
+        }
+        return ary;
+    }
+
+
     /** Remove the first instance of a matching value from an array
      * @return the removed index or -1 if the value could not be found
      */
@@ -689,12 +743,12 @@ module Arrays {
 
 
     /** Remove an index from an array
-     * For example: {@code removeIndex(["Alpha", "Beta", "Gamma"], 1)}
-     * returns: {@code ["Alpha", "Gamma"]}
+     * For example: removeIndex(["Alpha", "Beta", "Gamma"], 1)
+     * returns: ["Alpha", "Gamma"]
      *
      * @param ary: the array to remove an index from
      * @param index: the index of the value to remove
-     * @return the {@code ary} with the value at {@code index} removed
+     * @return the 'ary' with the value at 'index' removed
      */
     export function removeIndex<E>(ary: E[], index: number): E[];
     export function removeIndex<E>(ary: ArrayLike<E>, index: number): ArrayLike<E>;
@@ -716,7 +770,7 @@ module Arrays {
      * Useful for clearing a specific property to false or null.
      * @param ary: the array of objects
      * @param propName: the name of the property to set
-     * @param propValue: the value to assigned to each object's {@code propName} property
+     * @param propValue: the value to assigned to each object's 'propName' property
      */
     export function setAllProp(ary: any[] | ArrayLike<any>, propName: string, propValue: any): void {
         if (ary == null || propName == null) { return; }
@@ -742,14 +796,14 @@ module Arrays {
 
 
     /** Create an array containing the contents of two arrays.
-     * For example: {@code spliceArray([0, 1, 1, 5], [10, 15, 20], 2, 1)}
-     * returns: {@code [0, 1, 10, 15, 20, 5]}
+     * For example: spliceArray([0, 1, 1, 5], [10, 15, 20], 2, 1)
+     * returns: [0, 1, 10, 15, 20, 5]
      *
      * @param origAry: the initial array to copy
-     * @param insertAry: the array to insert into {@code origAry}
-     * @param index: the {@code origAry} index at which to insert the elements from {@code insertAry}
-     * @param [deleteCount=0]: the number of elements to not copy from {@code origAry} starting at {@code index}
-     * @return the {@code origAry} or a new array containing the contents of {@code origAry} and {@code insertAry}
+     * @param insertAry: the array to insert into 'origAry'
+     * @param index: the 'origAry' index at which to insert the elements from 'insertAry'
+     * @param [deleteCount=0]: the number of elements to not copy from 'origAry' starting at 'index'
+     * @return the 'origAry' or a new array containing the contents of 'origAry' and 'insertAry'
      */
     export function splice<E>(origAry: E[], insertAry: E[], index: number, deleteCount: number = 0, copyToNewAry?: boolean): E[] {
         if (origAry == null || insertAry == null || !Array.isArray(origAry) || !Array.isArray(insertAry) || index === undefined) {
@@ -803,8 +857,8 @@ module Arrays {
 
 
     /** Swap two elements in an array
-     * For example: {@code swap(["A", "B", "C", "D"], 1, 2)}
-     * returns: {@code ["A", "C", "B", "D"]}
+     * For example: swap(["A", "B", "C", "D"], 1, 2)
+     * returns: ["A", "C", "B", "D"]
      *
      * @param ary: the array of elements
      * @param i1: the first index of the two indexes to swap
@@ -821,12 +875,12 @@ module Arrays {
 
 
     /** Return elements that exist in two arrays.
-     * For example: {@code union([1, 2, 3, 4, 5, "A"], [1, 2, 4, "A"])}
-     * returns: {@code [1, 2, 4, "A"]}
+     * For example: union([1, 2, 3, 4, 5, "A"], [1, 2, 4, "A"])
+     * returns: [1, 2, 4, "A"]
      *
      * @param ary1: the first array
      * @param ary2: the second array
-     * @return an array of shared elements between {@code ary1} and {@code ary2}
+     * @return an array of shared elements between 'ary1' and 'ary2'
      */
     export function union<E>(ary1: E[], ary2: E[]): E[] {
         if (ary1 == null || ary2 == null) {
@@ -852,9 +906,9 @@ module Arrays {
     }
 
 
-    /** Returns the unique values of an array as defined by the {@linke Array#indexOf()} operator.
-     * For example: {@code toUnique(["alpha", "beta", "charlie", "alpha", "beta"])}
-     * returns: {@code ["alpha", "beta", "charlie"]}
+    /** Returns the unique values of an array as defined by the Array#indexOf() operator.
+     * For example: toUnique(["alpha", "beta", "charlie", "alpha", "beta"])
+     * returns: ["alpha", "beta", "charlie"]
      *
      * @param ary: an array of values
      * @return a new array of values containing the original array's unique values

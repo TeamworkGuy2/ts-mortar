@@ -101,6 +101,7 @@ suite("Arrays", function ArraysTest() {
     test("diffParts", function diffPartsTest() {
         var res = Arrays.diffParts([1, 2, 3], [2, 4]);
         asr.deepEqual(res, { added: [4], removed: [1, 3] });
+        // duplicate values in input are treated as unique
         var res2 = Arrays.diffParts([1, 1, 2, 5, 6], [3, 3, 4, 5]);
         asr.deepEqual(res2, { added: [3, 3, 4], removed: [1, 1, 2, 6] });
     });
@@ -185,6 +186,7 @@ suite("Arrays", function ArraysTest() {
     test("diff", function diffTest() {
         var res = Arrays.diff([1, 2, 3], [2, 4]);
         asr.deepEqual(res.sort(numSort), [1, 3, 4]);
+        // duplicate values in input are treated as unique
         var res2 = Arrays.diff([1, 1, 2, 5], [2, 2, 4, 3, 3, 5]);
         asr.deepEqual(res2.sort(numSort), [1, 1, 2, 3, 3, 4]);
         var res3 = Arrays.diff([1, 4], []);
@@ -236,6 +238,14 @@ suite("Arrays", function ArraysTest() {
         var ary = [1, 2, "B", null, undefined, "C"];
         var res = Arrays.mapFilterNotNull(ary, function (t) { return t; });
         asr.deepEqual(res, [1, 2, "B", "C"]);
+    });
+    test("removeAll", function removeAllTest() {
+        var res1 = Arrays.removeAll([2, 5, 3, 1, 4, 5], [5, 1]);
+        asr.deepEqual(res1.sort(numSort), [2, 3, 4, 5]);
+        var res2 = Arrays.removeAll([2, 3, 1, 3, 2], [2, 2, 3], true);
+        asr.deepEqual(res2.sort(numSort), [1, 3]);
+        var res2 = Arrays.removeAll([2, 1], null);
+        asr.deepEqual(res2.sort(numSort), [1, 2]);
     });
     test("removeValue", function removeValueTest() {
         var ary1 = ["A", "B", "C", "D"];

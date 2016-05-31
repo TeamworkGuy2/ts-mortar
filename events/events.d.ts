@@ -1,4 +1,5 @@
-﻿
+﻿/// <reference path="../../definitions/lib/Q.d.ts" />
+
 declare module Events {
 
     export interface Listener<E> {

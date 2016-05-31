@@ -4,7 +4,19 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.8.0](https://github.com/TeamworkGuy2/ts-mortar/commit/b29c971bff796abe4ece08a8f45d741a27023ee6) - 2016-05-29
+### [0.8.1](N/A) - 2016-05-31
+#### Added
+* Arrays.removeAll()
+
+#### Changed
+* Remove {@code } blocks in documentation, since this is a javadoc style and Visual Studio doesn't parse it leading to ugle documentation preview snippets
+
+#### Fixed
+* Added missing Q.d.ts reference to events.d.ts now that reference imported by qunit-tests.ts no longer exists
+
+
+--------
+### [0.8.0](https://github.com/TeamworkGuy2/ts-mortar/commit/eb599a718b133e2c691266416f499c06b3b099c8) - 2016-05-29
 #### Changed
 * Renamed Arrays.diff() -> diffParts()
 * Renamed Arrays.looseDiff() -> diff()
