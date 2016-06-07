@@ -4,7 +4,20 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.8.1](N/A) - 2016-05-31
+### [0.9.0](N/A) - 2016-06-07
+#### Added
+* Functions.partial() as a general replacement for wrap*Arg() functions
+
+#### Changed
+* Added Functions.lazyField return function optional 'refetch' parameter
+
+#### Removed
+* Functions wrap1Arg(), wrap2Arg(), wrap3Arg(), use Functions.partial() instead
+* Functions lazyGetter1Arg() and lazyGetter2Arg() in favor of properly scoping your cached data, since it's not intuitive to have a function which ignores it's input parameters on subsequent calls
+
+
+--------
+### [0.8.1](https://github.com/TeamworkGuy2/ts-mortar/commit/24479bd30f9d0d2ed4c67df51107899ace781d4c) - 2016-05-31
 #### Added
 * Arrays.removeAll()
 

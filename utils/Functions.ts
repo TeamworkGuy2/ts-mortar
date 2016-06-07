@@ -6,12 +6,12 @@ module Functions {
     export var NO_OP: () => void = function () { };
 
 
-    export function callFunc<T>(func: (...args) => T, thisArg: any, ...args: any[]): T {
+    export function callFunc<T>(func: (...args: any[]) => T, thisArg: any, ...args: any[]): T {
         return applyFunc(func, thisArg, args);
     }
 
 
-    export function applyFunc<T>(func: (...args) => T, thisArg: any, args: any[]): T {
+    export function applyFunc<T>(func: (...args: any[]) => T, thisArg: any, args: any[]): T {
         if (typeof func === "function") {
             return func.apply(thisArg, args);
         }
@@ -19,7 +19,7 @@ module Functions {
     }
 
 
-    export function tryCatch<T>(tryFunc: (...args) => T, catchFunc: (err) => (void | T), thisArg?: any, args?: any[]): T {
+    export function tryCatch<T>(tryFunc: (...args: any[]) => T, catchFunc: (err) => (void | T), thisArg?: any, args?: any[]): T {
         var res = null;
         if (typeof tryFunc === "function") {
             try {
@@ -43,11 +43,12 @@ module Functions {
     /** Create a function that lazily returns a computed value
      * @param initializer: the function that initializes the lazy field and returns it (this function will only be called once)
      * @return a function that returns the cached value returned by the {@code initializer} function
+     * with an optiona 'refetch' parameter which, if true, forces the initializer to be called again
      */
-    export function lazyField<T>(initializer: () => T): () => T {
+    export function lazyField<T>(initializer: () => T): ((refetch?: boolean) => T) {
         var value = null;
-        return function lazyInitializer() {
-            if (value == null) {
+        return function lazyInitializer(refetch?: boolean) {
+            if (value == null || refetch === true) {
                 value = initializer();
             }
             return value;
@@ -55,58 +56,58 @@ module Functions {
     }
 
 
-    /** Create a function that takes 1 argument and lazily returns a computed value
-     * @see createLazyInitializer()
+    /** Create a function that calls another function with pre-specified arguments and returns the result
      */
-    export function lazyGetter1Arg<A1, T>(initializer: (arg: A1) => T): (arg: A1) => T {
-        var value = null;
-        return function lazyInitializer(arg: A1) {
-            if (value == null) {
-                value = initializer(arg);
-            }
-            return value;
-        };
-    }
+    export function partial<A, T>(func: (a: A) => T):       (a: A) => T;
+    export function partial<A, T>(func: (a: A) => T, a: A): () => T;
 
+    export function partial<A, B, T>(func: (a: A, b: B) => T):             (a: A, b: B) => T;
+    export function partial<A, B, T>(func: (a: A, b: B) => T, a: A):       (b: B) => T;
+    export function partial<A, B, T>(func: (a: A, b: B) => T, a: A, b: B): () => T;
 
-    /** Create a function that takes 2 arguments and lazily returns a computed value
-     * @see createLazyInitializer()
-     */
-    export function lazyGetter2Arg<A1, A2, T>(initializer: (arg1: A1, arg2: A2) => T): (arg1: A1, arg2: A2) => T {
-        var value = null;
-        return function lazyInitializer(arg1: A1, arg2: A2) {
-            if (value == null) {
-                value = initializer(arg1, arg2);
-            }
-            return value;
-        };
-    }
+    export function partial<A, B, C, T>(func: (a: A, b: B, c: C) => T):                   (a: A, b: B, c: C) => T;
+    export function partial<A, B, C, T>(func: (a: A, b: B, c: C) => T, a: A):             (b: B, c: C) => T;
+    export function partial<A, B, C, T>(func: (a: A, b: B, c: C) => T, a: A, b: B):       (c: C) => T;
+    export function partial<A, B, C, T>(func: (a: A, b: B, c: C) => T, a: A, b: B, c: C): () => T;
 
-
-    /** Create a function that calls another function with 1 pre-specified argument and returns the result
-     */
-    export function wrap1Arg<A1, T>(func: (arg: A1) => T, arg1: A1): () => T {
-        return function funcWrapper1() {
-            return func(arg1);
-        };
-    }
-
-
-    /** Create a function that calls another function with 2 pre-specified arguments and returns the result
-     */
-    export function wrap2Arg<A1, A2, T>(func: (arg1: A1, arg2: A2) => T, arg1: A1, arg2: A2): () => T {
-        return function funcWrapper2() {
-            return func(arg1, arg2);
-        };
-    }
-
-
-    /** Create a function that calls another function with 3 pre-specified arguments and returns the result
-     */
-    export function wrap3Arg<A1, A2, A3, T>(func: (arg1: A1, arg2: A2, arg3: A3) => T, arg1: A1, arg2: A2, arg3: A3): () => T {
-        return function funcWrapper3() {
-            return func(arg1, arg2, arg3);
-        };
+    export function partial<T>(func: (...args: any[]) => T, ...args: any[]): (...args: any[]) => T {
+        switch (func.length) {
+            case 1:
+                switch (args.length) {
+                    case 0: return function partial1Bind0(a) { return func(a); };
+                    case 1: return function partial1Bind1() { return func(args[0]); }
+                    default: return function partial1BindMany() { return func.apply(undefined, arguments); };
+                }
+            case 2:
+                switch (args.length) {
+                    case 0: return function partial2Bind0(a, b) { return func(a, b); };
+                    case 1: return function partial2Bind1(b) { return func(args[0], b); }
+                    case 2: return function partial2Bind2() { return func(args[0], args[1]); }
+                    default: return function partial2BindMany() { return func.apply(undefined, arguments); };
+                }
+            case 3:
+                switch (args.length) {
+                    case 0: return function partial3Bind0(a, b, c) { return func(a, b, c); };
+                    case 1: return function partial3Bind1(b, c) { return func(args[0], b, c); }
+                    case 2: return function partial3Bind2(c) { return func(args[0], args[1], c); }
+                    case 3: return function partial3Bind3() { return func(args[0], args[1], args[2]); }
+                    default: return function partial3BindMany() { return func.apply(undefined, arguments); };
+                }
+            default:
+                switch (args.length) {
+                    case 0:
+                        return function partialManyBindNone() {
+                            return func.apply(undefined, arguments);
+                        };
+                    default:
+                        return function partialManyBindMany() {
+                            var allArgs = new Array(args.length);
+                            for (var i = 0, s = args.length; i < s; i++) { allArgs[i] = args[i]; }
+                            for (var i = 0, s = arguments.length; i < s; i++) { allArgs.push(arguments[i]); }
+                            return func.apply(undefined, allArgs);
+                        };
+                }
+        }
     }
 
 

@@ -50,27 +50,48 @@ suite("Functions", function FunctionsTest() {
         asr.equal(getter(), 1);
         asr.equal(getter(), 1);
     });
-    test("lazyGetter1Arg", function lazyGetter1ArgTest() {
-        var func1 = Functions.lazyGetter1Arg(function (a) { return a * 3 + 1; });
-        asr.equal(func1(4), 13);
-        asr.equal(func1(1), 13);
+    test("partial-1", function partial1ArgTest() {
+        var func11 = Functions.partial(function (a) { return a * a; }, 3);
+        asr.equal(func11(), 9);
+        asr.equal(func11.name, "partial1Bind1");
+        var func12 = Functions.partial(function (a) { return a * a; });
+        asr.equal(func12(3), 9);
+        asr.equal(func12.name, "partial1Bind0");
     });
-    test("lazyGetter2Arg", function lazyGetter2ArgTest() {
-        var func2 = Functions.lazyGetter2Arg(function (a, b) { return a * 3 + b; });
-        asr.equal(func2(4, 1), 13);
-        asr.equal(func2(1, 2), 13);
+    test("partial-2", function partial2ArgTest() {
+        var func21 = Functions.partial(function (a, b) { return a * a + b * b; }, 3, 2);
+        asr.equal(func21(), 13);
+        asr.equal(func21.name, "partial2Bind2");
+        var func22 = Functions.partial(function (a, b) { return a * a + b * b; }, 3);
+        asr.equal(func22(4), 25);
+        asr.equal(func22.name, "partial2Bind1");
+        var func23 = Functions.partial(function (a, b) { return a * a + b * b; });
+        asr.equal(func23(2, 1), 5);
+        asr.equal(func23.name, "partial2Bind0");
     });
-    test("wrap1Arg", function wrap1ArgTest() {
-        var func1 = Functions.wrap1Arg(function (a) { return a * a; }, 3);
-        asr.equal(func1(), 9);
+    test("partial-3", function partial3ArgTest() {
+        var func31 = Functions.partial(function (a, b, c) { return a * a + b * b + c * c; }, 3, 2, 1);
+        asr.equal(func31(), 14);
+        asr.equal(func31.name, "partial3Bind3");
+        var func32 = Functions.partial(function (a, b, c) { return a * a + b * b + c * c; }, 3, 2);
+        asr.equal(func32(0), 13);
+        asr.equal(func32.name, "partial3Bind2");
+        var func33 = Functions.partial(function (a, b, c) { return a * a + b * b + c * c; }, 3);
+        asr.equal(func33(1, 1), 11);
+        asr.equal(func33.name, "partial3Bind1");
+        var func34 = Functions.partial(function (a, b, c) { return a * a + b * b + c * c; });
+        asr.equal(func34(2, 1, 0), 5);
+        asr.equal(func34.name, "partial3Bind0");
     });
-    test("wrap2Arg", function wrap2ArgTest() {
-        var func2 = Functions.wrap2Arg(function (a, b) { return a * a + b * b; }, 3, 2);
-        asr.equal(func2(), 13);
-    });
-    test("wrap3Arg", function wrap3ArgTest() {
-        var func3 = Functions.wrap3Arg(function (a, b, c) { return a * a + b * b + c * c; }, 3, 2, 1);
-        asr.equal(func3(), 14);
+    test("partial-many", function partialManyArgTest() {
+        var funcM1 = Functions.partial(function () { return Array.prototype.reduce.call(arguments, function (s, i) { return s + i; }, 0); });
+        asr.equal(funcM1(2, 3, 5), 10);
+        asr.equal(funcM1(), 0);
+        asr.equal(funcM1.name, "partialManyBindNone");
+        var funcM2 = Functions.partial(function () { return Array.prototype.reduce.call(arguments, function (s, i) { return s + i; }, 0); }, 1, 3);
+        asr.equal(funcM2(5, 9), 18);
+        asr.equal(funcM2(), 4);
+        asr.equal(funcM2.name, "partialManyBindMany");
     });
     test("createFuncTimer", function createFuncTimerTest() {
         var i = 0;
