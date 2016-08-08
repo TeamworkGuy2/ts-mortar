@@ -1,4 +1,5 @@
-﻿import Objects = require("./Objects");
+﻿/// <reference path="./enum-creator.d.ts" />
+import Objects = require("./Objects");
 
 /** A class for creating Java/C# like enums from objects.
  * Here's an example of creating an enum:
@@ -23,28 +24,11 @@
  * 
  * export = MyEnum;
  */
-module EnumCreator {
+module EnumCreatorImpl {
 
-    export interface EnumType<T> {
+    export type EnumMember = EnumCreator.EnumMember;
 
-        isInstance(obj: any): boolean;
-
-        values(): T[];
-
-        tryParse(name: string): T;
-
-        parse(name: string): T;
-    }
-
-
-    export interface EnumMember {
-
-        name: string;
-
-        ordinal: number;
-
-        toString(): string;
-    }
+    export type EnumType<T> = EnumCreator.EnumType<T>;
 
 
     export class EnumClass<T> implements EnumType<T> {
@@ -88,6 +72,8 @@ module EnumCreator {
     }
 
 
+
+
     export class EnumMemberImpl implements EnumMember {
         public name: string;
         public ordinal: number;
@@ -104,6 +90,8 @@ module EnumCreator {
         }
 
     }
+
+
 
 
     function asMember<T>(enumMember: T): T & EnumMember {
@@ -163,4 +151,4 @@ module EnumCreator {
 
 }
 
-export = EnumCreator;
+export = EnumCreatorImpl;

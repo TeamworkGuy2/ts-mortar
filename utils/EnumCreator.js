@@ -1,4 +1,5 @@
 "use strict";
+/// <reference path="./enum-creator.d.ts" />
 var Objects = require("./Objects");
 /** A class for creating Java/C# like enums from objects.
  * Here's an example of creating an enum:
@@ -23,8 +24,8 @@ var Objects = require("./Objects");
  *
  * export = MyEnum;
  */
-var EnumCreator;
-(function (EnumCreator) {
+var EnumCreatorImpl;
+(function (EnumCreatorImpl) {
     var EnumClass = (function () {
         function EnumClass(enumClass, enumConstantClass, enumConstants) {
             this.enumClass = enumClass;
@@ -51,7 +52,7 @@ var EnumCreator;
         };
         return EnumClass;
     }());
-    EnumCreator.EnumClass = EnumClass;
+    EnumCreatorImpl.EnumClass = EnumClass;
     var EnumMemberImpl = (function () {
         function EnumMemberImpl(name, ordinal) {
             this.name = name;
@@ -62,7 +63,7 @@ var EnumCreator;
         };
         return EnumMemberImpl;
     }());
-    EnumCreator.EnumMemberImpl = EnumMemberImpl;
+    EnumCreatorImpl.EnumMemberImpl = EnumMemberImpl;
     function asMember(enumMember) {
         return enumMember;
     }
@@ -70,7 +71,7 @@ var EnumCreator;
         EnumMemberImpl.call(enumMember, name, ordinal);
         return enumMember;
     }
-    EnumCreator.initEnumMember = initEnumMember;
+    EnumCreatorImpl.initEnumMember = initEnumMember;
     /** Take an existing class and modify it so it implements EnumType and
      * take a getter for the enum's members and modify each so they implement EnumMember.
      * @param enumClass the enum class
@@ -109,6 +110,6 @@ var EnumCreator;
         Objects.extendToStatic(enumClass, EnumClass, false);
         return enumClass;
     }
-    EnumCreator.initEnumClass = initEnumClass;
-})(EnumCreator || (EnumCreator = {}));
-module.exports = EnumCreator;
+    EnumCreatorImpl.initEnumClass = initEnumClass;
+})(EnumCreatorImpl || (EnumCreatorImpl = {}));
+module.exports = EnumCreatorImpl;

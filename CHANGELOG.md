@@ -4,7 +4,16 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.9.0](N/A) - 2016-06-07
+### [0.9.1](N/A) - 2016-08-08
+#### Added
+* Added enum-creator.d.ts with EnumType and EnumMember interfaces
+
+#### Changed
+* Moved EnumType and EnumMember interfaces from EnumCreator to enum-creator.d.ts
+
+
+--------
+### [0.9.0](https://github.com/TeamworkGuy2/ts-mortar/commit/0618b26f04bfd93d2004ae9008fb348f44fe55f4) - 2016-06-07
 #### Added
 * Functions.partial() as a general replacement for wrap*Arg() functions
 

@@ -2,7 +2,7 @@ TS Mortar
 ==============
 
 Dependencies:
-Q.js (if using Defer.ts)
+Q.js (if using AsyncEventListenerList.ts)
 
 Utility functions for common TypeScript primitive, array, date-time, enum, and event listener operations. 
 Similar to underscore or lodash, these functions are the product of needs I've encountered in Javascript/TypeScript over the last few years. 
@@ -15,9 +15,6 @@ Conversion of unix epoch timestamps to javascript 'Date' objects and back.  As w
 Lists for event listeners (synchronous and asynchronous). 
 Event queue for buffering multiple events before firing them to listeners. 
 Singular event handler that waits for a single event before informing listeners and informing all subsequently attached listeners immediately (similar to jquery.ready(...)). 
-
-####promises
-Utility for creating and managing 'Q' type promises. 
 
 ####utils
 Simplify array, function, number, object, string, and enum operations:
