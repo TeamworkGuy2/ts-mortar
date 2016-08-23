@@ -101,19 +101,19 @@ module Objects {
      * required to be non-null before returning true, defaults to the size in the {@code propNames} array
      * @return true if the required number of properties exist in the object and match the condition function specified, false otherwise
      */
-    export function hasMatchingProps(obj: any, propNames: string[], template_condition: (propVal) => boolean, requiredCount: number = (propNames != null ? propNames.length : 0)): boolean {
+    export function hasMatchingProps(obj: any, propNames: string[], filter: (propVal: any) => boolean, requiredCount: number = (propNames != null ? propNames.length : 0)): boolean {
         if (obj == null) {
             return false;
         }
         if (!Array.isArray(propNames)) {
-            throw new Error("incorrect usage (" + obj + ", " + propNames + "), expected (Object obj, Array<String> propNames, Function template_condition, Number requiredCount?)");
+            throw new Error("incorrect usage (" + obj + ", " + propNames + "), expected (Object obj, string[] propNames, Function filter, Number requiredCount?)");
         }
 
         var nonNullCount = 0;
         for (var i = 0, size = propNames.length; i < size; i++) {
             var propNameI = propNames[i];
             // test each property
-            if (obj.hasOwnProperty(propNameI) && template_condition(obj[propNameI]) === true) {
+            if (filter(obj[propNameI])) {
                 nonNullCount++;
                 if (nonNullCount >= requiredCount) {
                     return true;
@@ -150,12 +150,46 @@ module Objects {
         }
         else if (srcType === "[object Object]") {
             var target = {};
-            var srcKeys = Object.keys(source);
-            for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
-                var keyI = srcKeys[ii];
+            var keys = Object.keys(source);
+            for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
+                var keyI = keys[ii];
+                var srcProp = source[keyI];
+                target[keyI] = (srcProp !== null && typeof srcProp === "object") ? cloneDeep(srcProp) : srcProp;
+            }
+            return <T>target;
+        }
+        return source;
+    }
+
+
+    /** Create a deep copy of a source object excluding 'undefined' properties.
+     * NOTE: symbols, built-in types (such as array buffer, regex, etc.), and prototypes are not copied
+     * @param source the object to copy
+     */
+    export function cloneDeepNonUndefined<T>(source: T): T {
+        if (source == null) { return source; }
+        var srcType: string;
+
+        if (Array.isArray(source)) {
+            var srcAry = <any[]><any>source;
+            var res = [];
+            for (var i = 0, size = srcAry.length; i < size; i++) {
+                var srcItem = srcAry[i];
+                res[i] = (srcItem !== null && typeof srcItem === "object") ? cloneDeepNonUndefined(srcItem) : srcItem;
+            }
+            return <T><any>res;
+        }
+        else if ((srcType = Object.prototype.toString.call(source)) === "[object Date]") {
+            return <T><any>new Date((<any>source).getTime());
+        }
+        else if (srcType === "[object Object]") {
+            var target = {};
+            var keys = Object.keys(source);
+            for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
+                var keyI = keys[ii];
                 var srcProp = source[keyI];
                 if (srcProp !== undefined) {
-                    target[keyI] = (srcProp !== null && typeof srcProp === "object") ? cloneDeep(srcProp) : srcProp;
+                    target[keyI] = (srcProp !== null && typeof srcProp === "object") ? cloneDeepNonUndefined(srcProp) : srcProp;
                 }
             }
             return <T>target;
@@ -169,10 +203,11 @@ module Objects {
      * @param source the object to copy
      * @param srcKeys optional list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
      */
-    export function clone<T>(source: T): T;
-    export function clone(source: any, srcKeys?: string[]): any;
-    export function clone(source: any, srcKeys?: string[]): any {
+    export function clone<T>(source: T, assigner?: (dst: any, src: any, keys?: string[]) => any): T;
+    export function clone(source: any, srcKeys?: string[], assigner?: (dst: any, src: any, keys?: string[]) => any): any;
+    export function clone(source: any, srcKeys?: string[] | ((dst: any, src: any, keys?: string[]) => any), assigner: (dst: any, src: any, keys?: string[]) => any = assign): any {
         if (source == null) { return source; }
+        if (typeof srcKeys === "function") { assigner = <any>srcKeys; srcKeys = null; }
         var srcType: string;
 
         if (Array.isArray(source)) {
@@ -184,7 +219,7 @@ module Objects {
             return new Date((<any>source).getTime());
         }
         else if (srcType === "[object Object]") {
-            return assign({}, source, srcKeys);
+            return assigner({}, source, <string[]>srcKeys);
         }
         return source;
     }
@@ -203,9 +238,31 @@ module Objects {
     export function assign(target: any, source: any, srcKeys?: string[]): any {
         if (target == null) { throw new TypeError("assign() target cannot be null"); }
 
-        srcKeys = srcKeys || Object.keys(source);
-        for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
-            var keyI = srcKeys[ii];
+        var keys = srcKeys || Object.keys(source);
+        for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
+            var keyI = keys[ii];
+            target[keyI] = source[keyI];
+        }
+        return target;
+    }
+
+
+    /** Assign source object properties to a target object excluding 'undefined' properties.
+     * If 'sources' contains multiple objects with the same property, the property from the last object in 'sources' takes preceedence.
+     * Example: {@code assign({ a: "Q", b: 2 }, { a: "Z", b: "B", c: 3 })
+     * returns {@code { a: "Z", b: "B", c: 3 }}
+     *
+     * @param target the object to add/overwrite the properties to
+     * @param sources the object to copy properties from
+     */
+    export function assignNonUndefined<T1, T2>(target: T1, source: T2): T1 & T2;
+    export function assignNonUndefined(target: any, source: any, srcKeys: string[]): any;
+    export function assignNonUndefined(target: any, source: any, srcKeys?: string[]): any {
+        if (target == null) { throw new TypeError("assign() target cannot be null"); }
+
+        var keys = srcKeys || Object.keys(source);
+        for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
+            var keyI = keys[ii];
             var srcProp = source[keyI];
             if (srcProp !== undefined) {
                 target[keyI] = srcProp;
@@ -245,7 +302,7 @@ module Objects {
      * Return an empty array if either the object or the list of property names are null or undefined.
      * Example: {@code getProps(undefined, ["alpha", "beta"])}
      * returns: {@code []}
-     * Or example: {@code getProp({ alpha: 342, beta: "B" }, ["alpha", "beta"])}
+     * Or example: {@code getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"])}
      * returns: {@code [342, "B"]}
      *
      * @param obj: the object to retrieve the properties from
@@ -254,7 +311,7 @@ module Objects {
      * and property names are not null, else an empty array
      */
     export function getProps(obj: any, propertyNames: string[]): any[] {
-        if (obj == null || propertyNames == null || !Array.isArray(propertyNames)) { return []; }
+        if (obj == null || propertyNames == null || !propertyNames.length) { return []; }
         var size = propertyNames.length;
         var res = new Array(size);
         for (var i = 0; i < size; i++) {

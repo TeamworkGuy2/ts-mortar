@@ -1,5 +1,5 @@
-/// <reference path="../../../definitions/lib/chai.d.ts" />
-/// <reference path="../../../definitions/lib/mocha.d.ts" />
+/// <reference path="../../../definitions/chai/chai.d.ts" />
+/// <reference path="../../../definitions/mocha/mocha.d.ts" />
 "use strict";
 var chai = require("chai");
 var Arrays = require("../../../ts-mortar/utils/Arrays");

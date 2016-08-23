@@ -4,7 +4,17 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.9.1](N/A) - 2016-08-08
+### [0.9.2](N/A) - 2016-08-23
+#### Added
+* Objects cloneNonUndefined() and assignNonUndefined()
+
+#### Changed
+* Objects.clone() now supports an optional 'assigner' function parameter to allow the caller to override the default 'assign' implementation
+* Updated definition file paths to match DefinitelyTyped
+
+
+--------
+### [0.9.1](https://github.com/TeamworkGuy2/ts-mortar/commit/c80dd5346831cf48e162ee14ba9f6e04b858d9d5) - 2016-08-08
 #### Added
 * Added enum-creator.d.ts with EnumType and EnumMember interfaces
 

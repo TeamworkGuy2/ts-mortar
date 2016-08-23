@@ -94,19 +94,19 @@ var Objects;
      * required to be non-null before returning true, defaults to the size in the {@code propNames} array
      * @return true if the required number of properties exist in the object and match the condition function specified, false otherwise
      */
-    function hasMatchingProps(obj, propNames, template_condition, requiredCount) {
+    function hasMatchingProps(obj, propNames, filter, requiredCount) {
         if (requiredCount === void 0) { requiredCount = (propNames != null ? propNames.length : 0); }
         if (obj == null) {
             return false;
         }
         if (!Array.isArray(propNames)) {
-            throw new Error("incorrect usage (" + obj + ", " + propNames + "), expected (Object obj, Array<String> propNames, Function template_condition, Number requiredCount?)");
+            throw new Error("incorrect usage (" + obj + ", " + propNames + "), expected (Object obj, string[] propNames, Function filter, Number requiredCount?)");
         }
         var nonNullCount = 0;
         for (var i = 0, size = propNames.length; i < size; i++) {
             var propNameI = propNames[i];
             // test each property
-            if (obj.hasOwnProperty(propNameI) && template_condition(obj[propNameI]) === true) {
+            if (filter(obj[propNameI])) {
                 nonNullCount++;
                 if (nonNullCount >= requiredCount) {
                     return true;
@@ -143,22 +143,61 @@ var Objects;
         }
         else if (srcType === "[object Object]") {
             var target = {};
-            var srcKeys = Object.keys(source);
-            for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
-                var keyI = srcKeys[ii];
+            var keys = Object.keys(source);
+            for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
+                var keyI = keys[ii];
                 var srcProp = source[keyI];
-                if (srcProp !== undefined) {
-                    target[keyI] = (srcProp !== null && typeof srcProp === "object") ? cloneDeep(srcProp) : srcProp;
-                }
+                target[keyI] = (srcProp !== null && typeof srcProp === "object") ? cloneDeep(srcProp) : srcProp;
             }
             return target;
         }
         return source;
     }
     Objects.cloneDeep = cloneDeep;
-    function clone(source, srcKeys) {
+    /** Create a deep copy of a source object excluding 'undefined' properties.
+     * NOTE: symbols, built-in types (such as array buffer, regex, etc.), and prototypes are not copied
+     * @param source the object to copy
+     */
+    function cloneDeepNonUndefined(source) {
         if (source == null) {
             return source;
+        }
+        var srcType;
+        if (Array.isArray(source)) {
+            var srcAry = source;
+            var res = [];
+            for (var i = 0, size = srcAry.length; i < size; i++) {
+                var srcItem = srcAry[i];
+                res[i] = (srcItem !== null && typeof srcItem === "object") ? cloneDeepNonUndefined(srcItem) : srcItem;
+            }
+            return res;
+        }
+        else if ((srcType = Object.prototype.toString.call(source)) === "[object Date]") {
+            return new Date(source.getTime());
+        }
+        else if (srcType === "[object Object]") {
+            var target = {};
+            var keys = Object.keys(source);
+            for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
+                var keyI = keys[ii];
+                var srcProp = source[keyI];
+                if (srcProp !== undefined) {
+                    target[keyI] = (srcProp !== null && typeof srcProp === "object") ? cloneDeepNonUndefined(srcProp) : srcProp;
+                }
+            }
+            return target;
+        }
+        return source;
+    }
+    Objects.cloneDeepNonUndefined = cloneDeepNonUndefined;
+    function clone(source, srcKeys, assigner) {
+        if (assigner === void 0) { assigner = assign; }
+        if (source == null) {
+            return source;
+        }
+        if (typeof srcKeys === "function") {
+            assigner = srcKeys;
+            srcKeys = null;
         }
         var srcType;
         if (Array.isArray(source)) {
@@ -170,7 +209,7 @@ var Objects;
             return new Date(source.getTime());
         }
         else if (srcType === "[object Object]") {
-            return assign({}, source, srcKeys);
+            return assigner({}, source, srcKeys);
         }
         return source;
     }
@@ -179,9 +218,21 @@ var Objects;
         if (target == null) {
             throw new TypeError("assign() target cannot be null");
         }
-        srcKeys = srcKeys || Object.keys(source);
-        for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
-            var keyI = srcKeys[ii];
+        var keys = srcKeys || Object.keys(source);
+        for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
+            var keyI = keys[ii];
+            target[keyI] = source[keyI];
+        }
+        return target;
+    }
+    Objects.assign = assign;
+    function assignNonUndefined(target, source, srcKeys) {
+        if (target == null) {
+            throw new TypeError("assign() target cannot be null");
+        }
+        var keys = srcKeys || Object.keys(source);
+        for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
+            var keyI = keys[ii];
             var srcProp = source[keyI];
             if (srcProp !== undefined) {
                 target[keyI] = srcProp;
@@ -189,7 +240,7 @@ var Objects;
         }
         return target;
     }
-    Objects.assign = assign;
+    Objects.assignNonUndefined = assignNonUndefined;
     /** Assign source object properties to a target object.
      * If 'sources' contains multiple objects with the same property, the property from the last object in 'sources' takes preceedence.
      * Example: {@code assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3 }, { a: "A", d: 4 }])
@@ -220,7 +271,7 @@ var Objects;
      * Return an empty array if either the object or the list of property names are null or undefined.
      * Example: {@code getProps(undefined, ["alpha", "beta"])}
      * returns: {@code []}
-     * Or example: {@code getProp({ alpha: 342, beta: "B" }, ["alpha", "beta"])}
+     * Or example: {@code getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"])}
      * returns: {@code [342, "B"]}
      *
      * @param obj: the object to retrieve the properties from
@@ -229,7 +280,7 @@ var Objects;
      * and property names are not null, else an empty array
      */
     function getProps(obj, propertyNames) {
-        if (obj == null || propertyNames == null || !Array.isArray(propertyNames)) {
+        if (obj == null || propertyNames == null || !propertyNames.length) {
             return [];
         }
         var size = propertyNames.length;

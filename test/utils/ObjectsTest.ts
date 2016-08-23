@@ -113,41 +113,52 @@ suite("Objects", function ObjectsTest() {
 
 
     test("clone", function cloneTest() {
-        var src1 = {
-            a: "A",
-            b: { 1: 1, 2: 2, 3: 3 },
-            c: {
-                c1: [1, 2, 4, 8],
-                c2: { c2a: [{ sup: "alpha" }, { sub: { text: true, values: [false, 1.3, "t", "a"] } }] },
-                c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
-            },
-        };
-        var src1a = {
-            a: "A",
-            b: { 1: 1, 2: 2, 3: 3 },
-            c: {
-                c1: [1, 2, 4, 8],
-                c2: { c2a: [{ sup: "alpha" }, { sub: { text: true, values: [false, 1.3, "t", "a"] } }] },
-                c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
-            },
-        };
-        var src1b = {
-            a: "A",
-            b: { 1: 1, 2: 2, 3: 3 },
-            c: {
-                c1: [1, 2, 4, 8],
-                c2: { c2a: [{ sup: "alpha" }, { sub: { text: true, values: [false, 1.3, "t", "a"] } }] },
-                c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
-            },
-        };
+        function createOrig() {
+            return {
+                a: "A",
+                b: { 1: 1, 2: 2, 3: 3 },
+                c: {
+                    c1: [1, 2, 4, 8],
+                    c2: { c2a: [{ sup: "alpha" }, { sub: { text: true, values: [false, 1.3, "t", "a"] } }] },
+                    c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
+                },
+                d: undefined,
+                e: null,
+            };
+        }
 
-        var res1 = Objects.clone(src1a);
-        src1a.a = null;
-        asr.deepEqual(res1, src1);
+        function createOrigNonUndefined() {
+            return {
+                a: "A",
+                b: { 1: 1, 2: 2, 3: 3 },
+                c: {
+                    c1: [1, 2, 4, 8],
+                    c2: { c2a: [{ sup: "alpha" }, { sub: { text: true, values: [false, 1.3, "t", "a"] } }] },
+                    c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
+                },
+                e: null,
+            };
+        }
 
-        var res2 = Objects.clone(src1b);
-        src1b.c.c1 = null;
-        asr.notDeepEqual(res2, src1);
+        var orig = createOrig();
+
+        // test changing base property
+        var src1 = createOrig();
+        var res1 = Objects.clone(src1);
+        src1.a = null;
+        asr.deepEqual(res1, orig);
+
+        // test changing nested proeprty
+        var src2 = createOrig();
+        var res2 = Objects.clone(src2);
+        src2.c.c1 = null;
+        asr.notDeepEqual(res2, orig);
+
+        // test non-undefined clone
+        var src3 = createOrig();
+        var res3 = Objects.clone(src3, Objects.assignNonUndefined);
+        src3.a = null;
+        asr.deepEqual(res3, createOrigNonUndefined());
 
         var now = new Date();
 
@@ -158,54 +169,63 @@ suite("Objects", function ObjectsTest() {
 
 
     test("cloneDeep", function cloneDeepTest() {
-        var src1 = {
-            a: "A",
-            b: { 1: 1, 2: 2, 3: 3, date: dateA() },
-            c: {
-                c1: [1, 2, 4, 8],
-                c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: [false, 1.3, "t", "a"] } }] },
-                c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
-            },
-        };
-        var src1a = {
-            a: "A",
-            b: { 1: 1, 2: 2, 3: 3, date: dateA() },
-            c: {
-                c1: [1, 2, 4, 8],
-                c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: [false, 1.3, "t", "a"] } }] },
-                c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
-            },
-        };
-        var src1b = {
-            a: "A",
-            b: { 1: 1, 2: 2, 3: 3, date: dateA() },
-            c: {
-                c1: [1, 2, 4, 8],
-                c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: [false, 1.3, "t", "a"] } }] },
-                c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
-            },
-        };
+        function createOrig() {
+            return {
+                a: "A",
+                b: { 1: 1, 2: 2, 3: 3, date: dateA() },
+                c: {
+                    c1: [1, 2, 4, 8],
+                    c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: [false, 1.3, "t", "a"] } }] },
+                    c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
+                    c4: undefined,
+                },
+                d: undefined,
+                e: null,
+            };
+        }
 
-        var res1 = Objects.cloneDeep(src1a);
-        var res2 = Objects.cloneDeep(src1b);
+        function createOrigNonUndefined() {
+            return {
+                a: "A",
+                b: { 1: 1, 2: 2, 3: 3, date: dateA() },
+                c: {
+                    c1: [1, 2, 4, 8],
+                    c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: [false, 1.3, "t", "a"] } }] },
+                    c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
+                },
+                e: null,
+            };
+        }
+
+        var orig = createOrig();
+
+        var src1 = createOrig();
+        var res1 = Objects.cloneDeep(src1);
+
+        var src2 = createOrig();
+        var res2 = Objects.cloneDeep(src2);
 
         // check copied dates, first modify the original object dates, then ensure the copies match the original
-        src1a.b.date.setUTCFullYear(2025, 11, 25);
-        src1b.b.date.setUTCFullYear(2025, 11, 25);
+        src1.b.date.setUTCFullYear(2025, 11, 25);
+        src2.b.date.setUTCFullYear(2025, 11, 25);
 
-        asr.equal(res1.b.date.toISOString(), src1.b.date.toISOString());
-        asr.equal(res2.b.date.toISOString(), src1.b.date.toISOString());
+        asr.equal(res1.b.date.toISOString(), orig.b.date.toISOString());
+        asr.equal(res2.b.date.toISOString(), orig.b.date.toISOString());
 
         // convert the dates to timestamps since deepEqual doesn't compare dates properly
         res1.b.date = <any>res1.b.date.toISOString();
         res2.b.date = <any>res2.b.date.toISOString();
-        src1.b.date = <any>src1.b.date.toISOString();
+        orig.b.date = <any>orig.b.date.toISOString();
 
-        src1a.a = null;
-        asr.deepEqual(res1, src1);
+        src1.a = null;
+        asr.deepEqual(res1, orig);
 
-        src1b.c.c1 = null;
-        asr.deepEqual(res2, src1);
+        src2.c.c1 = null;
+        asr.deepEqual(res2, orig);
+
+        // check non-undefined clone deep
+        var src3 = createOrig();
+        asr.deepEqual(Objects.cloneDeepNonUndefined(src3), createOrigNonUndefined());
 
         // check primitives
         asr.equal(Objects.cloneDeep("mtr1"), "mtr1");
