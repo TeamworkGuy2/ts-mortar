@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.9.2](N/A) - 2016-08-23
+### [0.10.0](N/A) - 2016-08-28
+#### Removed
+* Removed DateTimes (moved to new ts-date-times project)
+
+
+--------
+### [0.9.2](https://github.com/TeamworkGuy2/ts-mortar/commit/6d9bc41c118cfa3b14219954ce721cc52643d20c) - 2016-08-23
 #### Added
 * Objects cloneNonUndefined() and assignNonUndefined()
 

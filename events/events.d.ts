@@ -1,4 +1,4 @@
-﻿/// <reference path="../../definitions/Q/Q.d.ts" />
+﻿/// <reference path="../../definitions/q/Q.d.ts" />
 
 declare module Events {
 
