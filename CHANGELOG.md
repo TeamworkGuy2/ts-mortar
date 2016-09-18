@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.10.0](N/A) - 2016-08-28
+### [0.10.1](N/A) - 2016-09-17
+#### Changed
+* Added some (by default) redudant type casts so this library can work with ts-date-times if the built in Date class/methods are setup to return TimestampUtc instead of number
+
+
+--------
+### [0.10.0](https://github.com/TeamworkGuy2/ts-mortar/commit/f6b40e23c7430cc977f0d7fc5a622191ec1d471e) - 2016-08-28
 #### Removed
 * Removed DateTimes (moved to new ts-date-times project)
 

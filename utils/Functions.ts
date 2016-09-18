@@ -127,9 +127,9 @@ module Functions {
 
         wrapper.wrapperFunc = <T><Function>(function wrapperFunc() {
             if (callCondition && callCondition() === false) { return; }
-            var startTime = Date.now();
+            var startTime = <number>Date.now();
             var res = func.apply(undefined, arguments);
-            wrapper.totalTimeMillis += (Date.now() - startTime);
+            wrapper.totalTimeMillis += (<number>Date.now() - startTime);
             wrapper.calls++;
             return res;
         });
