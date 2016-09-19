@@ -4,7 +4,14 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.10.1](N/A) - 2016-09-17
+### [0.10.2](N/A) - 2016-09-19
+#### Changed
+* Adjusted padLeft() and padRight() corner case to skip unnecessarily working with an empty array
+* Refactored Strings unit tests
+
+
+--------
+### [0.10.1](https://github.com/TeamworkGuy2/ts-mortar/commit/e9945dcf10af13f3dfeb5f72864913fdac03c01e) - 2016-09-17
 #### Changed
 * Added some (by default) redudant type casts so this library can work with ts-date-times if the built in Date class/methods are setup to return TimestampUtc instead of number
 

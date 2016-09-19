@@ -123,6 +123,10 @@ module Strings {
     }
 
 
+    /** Pad the start of a string with zeros '0'.
+     * Alias for padLeft(value, maxDigits, '0')
+     * @see padLeft()
+     */
     export function padZeroLeft(value, maxDigits: number, padChar: string = '0'): string {
         return Strings.padLeft(value, maxDigits, padChar);
     }
@@ -137,7 +141,7 @@ module Strings {
      */
     export function padLeft(value, maxDigits: number, padChar: string): string {
         var valStr = String(value);
-        if (valStr.length > maxDigits) {
+        if (valStr.length >= maxDigits) {
             return value;
         }
         return value != null ? new Array(maxDigits - valStr.length + 1).join(padChar) + value : value;
@@ -149,7 +153,7 @@ module Strings {
      */
     export function padRight(value, maxDigits: number, padChar: string): string {
         var valStr = String(value);
-        if (valStr.length > maxDigits) {
+        if (valStr.length >= maxDigits) {
             return value;
         }
         return value != null ? value + new Array(maxDigits - valStr.length + 1).join(padChar) : value;
@@ -181,7 +185,6 @@ module Strings {
     }
 
 
-    
     /** Remove {@code trailingStr} string from the end of {@code str} as many times as it appears.
      * For example: removeTrailingStrings("alphaPiePiePie", "Pie")
      * Returns: "alpha"

@@ -115,6 +115,10 @@ var Strings;
         return str && str.length > maxLen ? str.substring(0, maxLen - ellipsis.length) + ellipsis : str;
     }
     Strings.clamp = clamp;
+    /** Pad the start of a string with zeros '0'.
+     * Alias for padLeft(value, maxDigits, '0')
+     * @see padLeft()
+     */
     function padZeroLeft(value, maxDigits, padChar) {
         if (padChar === void 0) { padChar = '0'; }
         return Strings.padLeft(value, maxDigits, padChar);
@@ -129,7 +133,7 @@ var Strings;
      */
     function padLeft(value, maxDigits, padChar) {
         var valStr = String(value);
-        if (valStr.length > maxDigits) {
+        if (valStr.length >= maxDigits) {
             return value;
         }
         return value != null ? new Array(maxDigits - valStr.length + 1).join(padChar) + value : value;
@@ -140,7 +144,7 @@ var Strings;
      */
     function padRight(value, maxDigits, padChar) {
         var valStr = String(value);
-        if (valStr.length > maxDigits) {
+        if (valStr.length >= maxDigits) {
             return value;
         }
         return value != null ? value + new Array(maxDigits - valStr.length + 1).join(padChar) : value;

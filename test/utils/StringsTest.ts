@@ -8,47 +8,26 @@ var asr = chai.assert;
 suite("Strings", function StringsTest() {
 
     test("endsWith", function endsWithTest() {
-        var res1 = Strings.endsWith("blue", "e");
-        asr.equal(res1, true);
-
-        var res2 = Strings.endsWith("blue", "ee");
-        asr.equal(res2, false);
-
-        var res3 = Strings.endsWith("strstr", "rstr");
-        asr.equal(res3, true);
-
-        var res4 = Strings.endsWith("strstr", "strs");
-        asr.equal(res4, false);
+        asr.equal(Strings.endsWith("blue", "e"), true);
+        asr.equal(Strings.endsWith("blue", "ee"), false);
+        asr.equal(Strings.endsWith("strstr", "rstr"), true);
+        asr.equal(Strings.endsWith("strstr", "strs"), false);
     });
 
 
     test("isNullOrEmpty", function isNullOrEmptyTest() {
-        var res1 = Strings.isNullOrEmpty("");
-        asr.equal(res1, true);
-
-        var res2 = Strings.isNullOrEmpty(null);
-        asr.equal(res2, true);
-
-        var res3 = Strings.isNullOrEmpty(" ");
-        asr.equal(res3, false);
-
-        var res4 = Strings.isNullOrEmpty("abc");
-        asr.equal(res4, false);
+        asr.equal(Strings.isNullOrEmpty(""), true);
+        asr.equal(Strings.isNullOrEmpty(null), true);
+        asr.equal(Strings.isNullOrEmpty(" "), false);
+        asr.equal(Strings.isNullOrEmpty("abc"), false);
     });
 
 
     test("isNullOrWhiteSpace", function isNullOrWhiteSpaceTest() {
-        var res1 = Strings.isNullOrWhiteSpace("");
-        asr.equal(res1, true);
-
-        var res2 = Strings.isNullOrWhiteSpace(null);
-        asr.equal(res2, true);
-
-        var res3 = Strings.isNullOrWhiteSpace(" ");
-        asr.equal(res3, true);
-
-        var res4 = Strings.isNullOrWhiteSpace("abc");
-        asr.equal(res4, false);
+        asr.equal(Strings.isNullOrWhiteSpace(""), true);
+        asr.equal(Strings.isNullOrWhiteSpace(null), true);
+        asr.equal(Strings.isNullOrWhiteSpace(" "), true);
+        asr.equal(Strings.isNullOrWhiteSpace("abc"), false);
     });
 
 
@@ -100,65 +79,55 @@ suite("Strings", function StringsTest() {
 
 
     test("looseEqual", function looseEqualTest() {
-        var res1 = Strings.looseEqual(" Abc", "ABC");
-        asr.equal(res1, true);
-
-        var res2 = Strings.looseEqual(" abc", "ABC\t");
-        asr.equal(res2, true);
-
-        var res3 = Strings.looseEqual(" \n\n", "\t");
-        asr.equal(res3, true);
-
-        var res4 = Strings.looseEqual(" \na\n", "A\t");
-        asr.equal(res4, true);
+        asr.equal(Strings.looseEqual(" Abc", "ABC"), true);
+        asr.equal(Strings.looseEqual(" abc", "ABC\t"), true);
+        asr.equal(Strings.looseEqual(" \n\n", "\t"), true);
+        asr.equal(Strings.looseEqual(" \na\n", "A\t"), true);
     });
 
 
     test("clamp", function clampTest() {
-        var inputs = ["123", "1234", "12345"];
-        var expect = ["123", "1234", "1..."];
+        var data = [{
+            input: ["123", "1234", "12345"],
+            expect: ["123", "1234", "1..."],
+            maxLength: 4
+        }, {
+            input: ["12", "123", "1234"],
+            expect: ["12", "...", "..."],
+            maxLength: 2,
+        }];
 
-        for (var i = 0, size = inputs.length; i < size; i++) {
-            var res = Strings.clamp(inputs[i], 4, "...");
-            asr.equal(res, expect[i], "" + i);
+        for (var i = 0, size = data.length; i < size; i++) {
+            var inputs = data[i].input;
+            var expect = data[i].expect;
+            var maxLen = data[i].maxLength;
+            for (var j = 0, sizeJ = inputs.length; j < sizeJ; j++) {
+                var res = Strings.clamp(inputs[j], maxLen, "...");
+                asr.equal(res, expect[j], "" + j);
+            }
         }
     });
 
 
     test("padZeroLeft", function padZeroLeftTest() {
-        var res1 = Strings.padZeroLeft(123, 5);
-        asr.equal(res1, "00123");
-
-        var res2 = Strings.padZeroLeft(123, 6);
-        asr.equal(res2, "000123");
-
-        var res2 = Strings.padZeroLeft(123, 3);
-        asr.equal(res2, "123");
-
+        asr.equal(Strings.padZeroLeft(123, 5), "00123");
+        asr.equal(Strings.padZeroLeft(123, 6), "000123");
+        asr.equal(Strings.padZeroLeft(123, 3), "123");
+        asr.equal(Strings.padZeroLeft(123, 0), "123");
     });
 
 
     test("padLeft", function padLeftTest() {
-        var res1 = Strings.padLeft(1.2, 5, " ");
-        asr.equal(res1, "  1.2");
-
-        var res2 = Strings.padLeft(1.2, 6, "-");
-        asr.equal(res2, "---1.2");
-
-        var res2 = Strings.padLeft(1.2, 3, "-");
-        asr.equal(res2, "1.2");
+        asr.equal(Strings.padLeft(1.2, 5, " "), "  1.2");
+        asr.equal(Strings.padLeft(1.2, 6, "-"), "---1.2");
+        asr.equal(Strings.padLeft(1.2, 3, "-"), "1.2");
     });
 
 
     test("padRight", function padRightTest() {
-        var res1 = Strings.padRight(1.2, 5, " ");
-        asr.equal(res1, "1.2  ");
-
-        var res2 = Strings.padRight(1.2, 6, "-");
-        asr.equal(res2, "1.2---");
-
-        var res2 = Strings.padRight(1.2, 3, "-");
-        asr.equal(res2, "1.2");
+        asr.equal(Strings.padRight(1.2, 5, " "), "1.2  ");
+        asr.equal(Strings.padRight(1.2, 6, "-"), "1.2---");
+        asr.equal(Strings.padRight(1.2, 3, "-"), "1.2");
     });
 
 
