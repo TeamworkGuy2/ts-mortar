@@ -4,7 +4,16 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.10.2](N/A) - 2016-09-19
+### [0.11.0](N/A) - 2016-09-19
+#### Changed
+* Updated 'q' and 'mocha' dependencies to latest versions
+
+#### Removed
+* Moved events/ to separate [ts-event-handlers-lite](https://github.com/TeamworkGuy2/ts-event-handlers-lite) library
+
+
+--------
+### [0.10.2](https://github.com/TeamworkGuy2/ts-mortar/commit/1ad592bb8ff59ad31a74cdcb19199aa2ff7b1d11) - 2016-09-19
 #### Changed
 * Adjusted padLeft() and padRight() corner case to skip unnecessarily working with an empty array
 * Refactored Strings unit tests
