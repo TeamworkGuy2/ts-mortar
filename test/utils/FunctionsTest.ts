@@ -7,13 +7,17 @@ var asr = chai.assert;
 
 suite("Functions", function FunctionsTest() {
 
-    function ClassTest(arg) {
-        this.arg = arg;
-    }
+    class ClassTest<T> {
+        arg: T;
 
-    ClassTest.prototype.test = function (a, b, c) {
-        return [this.arg, a, b, c];
-    };
+        constructor(arg: T) {
+            this.arg = arg;
+        }
+
+        public test<A, B, C>(a: A, b: B, c: C) {
+            return [this.arg, a, b, c];
+        }
+    }
 
 
     test("NO_OP", function NO_OPTest() {

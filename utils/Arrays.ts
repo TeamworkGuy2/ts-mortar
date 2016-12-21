@@ -19,7 +19,7 @@ module Arrays {
     }
 
 
-    export var EMPTY_ARRAY: any[] = Object.freeze([]);
+    export var EMPTY_ARRAY = Object.freeze([]);
 
 
     /** Add all of the values in 'toAdd' to the 'src' array
@@ -641,7 +641,7 @@ module Arrays {
             dstOut.value = null;
             var inputVal = ary[i];
             mapFilterFunc(inputVal, dstOut);
-            if (dstOut.isValid === true) {
+            if (<boolean>dstOut.isValid === true) {
                 results.push(dstOut.value || <R><any>inputVal);
             }
         }

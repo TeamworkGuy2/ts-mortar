@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.11.0](N/A) - 2016-09-19
+### [0.11.1](N/A) - 2016-12-21
+#### Changed
+Minor changes for TypeScript 2.0 compatibility
+
+
+--------
+### [0.11.0](https://github.com/TeamworkGuy2/ts-mortar/commit/0844ee286c3261a14dd5c85908b0919c0ad7118f) - 2016-09-19
 #### Changed
 * Updated 'q' and 'mocha' dependencies to latest versions
 
@@ -28,7 +34,7 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 --------
 ### [0.10.0](https://github.com/TeamworkGuy2/ts-mortar/commit/f6b40e23c7430cc977f0d7fc5a622191ec1d471e) - 2016-08-28
 #### Removed
-* Removed DateTimes (moved to new ts-date-times project)
+* Removed DateTimes - moved to new [ts-date-times](https://github.com/TeamworkGuy2/ts-date-times) library
 
 
 --------
@@ -109,12 +115,11 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 * Added Array.containsAny()
 
 #### Changed
-* Defer and tspromises.d.ts have moved to the new ts-promise-tasks library
 * Renamed EventListenerListImpl -> EventListenerList
 * Renamed EventQueueImpl -> EventQueue
 
 #### Removed
-* Defer and tspromises.d.ts have moved to the new ts-promise-tasks library
+* Defer and tspromises.d.ts have moved to the new [ts-promises](https://github.com/TeamworkGuy2/ts-promises) library
 
 
 --------

@@ -3,12 +3,15 @@ var chai = require("chai");
 var Functions = require("../../../ts-mortar/utils/Functions");
 var asr = chai.assert;
 suite("Functions", function FunctionsTest() {
-    function ClassTest(arg) {
-        this.arg = arg;
-    }
-    ClassTest.prototype.test = function (a, b, c) {
-        return [this.arg, a, b, c];
-    };
+    var ClassTest = (function () {
+        function ClassTest(arg) {
+            this.arg = arg;
+        }
+        ClassTest.prototype.test = function (a, b, c) {
+            return [this.arg, a, b, c];
+        };
+        return ClassTest;
+    }());
     test("NO_OP", function NO_OPTest() {
         var func = Functions.NO_OP;
         asr.equal(func(), undefined);
