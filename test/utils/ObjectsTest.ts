@@ -17,8 +17,8 @@ suite("Objects", function ObjectsTest() {
         optional: null
     };
 
-    var itemKeys: string[] = [];
-    var itemValues: any[] = []
+    var itemKeys: (keyof typeof item)[] = [];
+    var itemValues: any[] = [];
 
     var nums: { [id: string]: number } = {
         a: 1,
@@ -30,7 +30,7 @@ suite("Objects", function ObjectsTest() {
     var numsValues: number[] = [];
 
     (function () {
-        itemKeys = Object.keys(item);
+        itemKeys = <(keyof typeof item)[]>Object.keys(item);
         for (var i = 0, size = itemKeys.length; i < size; i++) {
             itemValues.push(item[itemKeys[i]]);
         }

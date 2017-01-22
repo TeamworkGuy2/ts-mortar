@@ -19,7 +19,7 @@ module Functions {
     }
 
 
-    export function tryCatch<T>(tryFunc: (...args: any[]) => T, catchFunc: (err) => (void | T), thisArg?: any, args?: any[]): T {
+    export function tryCatch<T>(tryFunc: (...args: any[]) => T, catchFunc: (err: any) => (void | T), thisArg?: any, args?: any[]): T {
         var res = null;
         if (typeof tryFunc === "function") {
             try {
@@ -35,7 +35,7 @@ module Functions {
     }
 
 
-    export function isFunction(func): boolean {
+    export function isFunction(func: any): func is Function {
         return typeof func === "function";
     }
 
@@ -46,7 +46,7 @@ module Functions {
      * with an optiona 'refetch' parameter which, if true, forces the initializer to be called again
      */
     export function lazyField<T>(initializer: () => T): ((refetch?: boolean) => T) {
-        var value = null;
+        var value: T = null;
         return function lazyInitializer(refetch?: boolean) {
             if (value == null || refetch === true) {
                 value = initializer();
@@ -122,7 +122,7 @@ module Functions {
             name: name,
             totalTimeMillis: 0,
             calls: 0,
-            wrapperFunc: null,
+            wrapperFunc: <T>null,
         };
 
         wrapper.wrapperFunc = <T><Function>(function wrapperFunc() {

@@ -1,4 +1,7 @@
 ﻿
+/** String utilities, includes:
+ * is-null/empty/whitespace, is-upper/lower/digit, pad-left/right, and remove-leading/trailing
+ */
 module Strings {
 
     /** Check if a string ends with a specific suffix
@@ -127,7 +130,7 @@ module Strings {
      * Alias for padLeft(value, maxDigits, '0')
      * @see padLeft()
      */
-    export function padZeroLeft(value, maxDigits: number, padChar: string = '0'): string {
+    export function padZeroLeft(value: any, maxDigits: number, padChar: string = '0'): string {
         return Strings.padLeft(value, maxDigits, padChar);
     }
 
@@ -139,7 +142,7 @@ module Strings {
      * @return the {@code value} converted to a string and padded with {@code padChar} until the string is {@code maxDigits} long,
      * or returns the {@code value} as a string without modification if that string is longer than {@code maxDigits}
      */
-    export function padLeft(value, maxDigits: number, padChar: string): string {
+    export function padLeft(value: any, maxDigits: number, padChar: string): string {
         var valStr = String(value);
         if (valStr.length >= maxDigits) {
             return value;
@@ -151,7 +154,7 @@ module Strings {
     /**
      * @see padLeft()
      */
-    export function padRight(value, maxDigits: number, padChar: string): string {
+    export function padRight(value: any, maxDigits: number, padChar: string): string {
         var valStr = String(value);
         if (valStr.length >= maxDigits) {
             return value;

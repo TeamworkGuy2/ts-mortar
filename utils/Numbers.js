@@ -74,13 +74,13 @@ var Numbers;
                 val === Number.NEGATIVE_INFINITY || val === Number.POSITIVE_INFINITY))) ? 0 : val;
     }
     Numbers.orZero = orZero;
-    /** Convert a value like {@code 1340283.5264} to {@code 1,340,283.53}
+    /** Convert a value like 1340283.5264 to '1,340,283.53'
      * @param value a value to convert to a currency value
      * @param decimalPlaces the number of decimal places to include
-     * @param includeSeparator true to include a separator every {@code digitsBetweenSeparators} digits,
+     * @param includeSeparator true to include a separator every 'digitsBetweenSeparators' digits,
      * false for no separator
-     * @param digitsBetweenSeparators: the number of digits between separators, for example {@code 3}
-     * would produce {@code 1,340,283.53}, but {@code 4} would produce {@code 134,0283.53}
+     * @param digitsBetweenSeparators: the number of digits between separators, for example 3
+     * would produce '1,340,283.53', but 4 would produce '134,0283.53'
      * @return a string representing the formatted numeric value
      */
     function format(value, decimalPlaces, includeSeparator, digitsBetweenSeparators) {
@@ -88,13 +88,13 @@ var Numbers;
         return Numbers.formatNumeric(value, decimalPlaces, includeSeparator, digitsBetweenSeparators);
     }
     Numbers.format = format;
-    /** Convert a value like {@code 1340283.5264} to {@code 1,340,283.53}
+    /** Convert a value like 1340283.5264 to '1,340,283.53'
      * @param value a value to convert to a currency value
      * @param decimalPlaces the number of decimal places to include
-     * @param includeSeparator true to include a separator every {@code digitsBetweenSeparators}
+     * @param includeSeparator true to include a separator every 'digitsBetweenSeparators'
      * digits, false for no separator
-     * @param digitsBetweenSeparators: the number of digits between separators, for example {@code 3}
-     * would produce {@code 1,340,283.53}, but {@code 4} would produce {@code 134,0283.53}
+     * @param digitsBetweenSeparators: the number of digits between separators, for example 3
+     * would produce '1,340,283.53', but 4 would produce '134,0283.53'
      * @return a string representing the formatted numeric value
      */
     function formatNumeric(value, decimalPlaces, includeSeparator, digitsBetweenSeparators) {
@@ -109,7 +109,7 @@ var Numbers;
         }
         var num = Number(val).toFixed(decimalPlaces);
         // split the number into decimal and whole number parts
-        var intAndDecimalPart = num.toString().trim().split(".");
+        var intAndDecimalPart = num.trim().split(".");
         var intPartStr = intAndDecimalPart[0];
         // remove leading +- sign, so that values like -821999.00 does not become -,821,999.00
         var isNegative = false;

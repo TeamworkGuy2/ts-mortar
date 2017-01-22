@@ -65,27 +65,27 @@ var Objects;
      * @see hasMatchingProperties()
      */
     function hasAnyNonFalseyProps(obj, propNames) {
-        return hasMatchingProps(obj, propNames, function template_notNull(val) { return !!val; }, propNames != null ? 1 : 0);
+        return hasMatchingProps(obj, propNames, function anyNonFalseyPropsFunc(val) { return !!val; }, propNames != null ? 1 : 0);
     }
     Objects.hasAnyNonFalseyProps = hasAnyNonFalseyProps;
     /** Check if an object has at least 1 non-null property from a list of property names
      * @see hasMatchingProperties()
      */
     function hasAnyNonNullProps(obj, propNames) {
-        return hasMatchingProps(obj, propNames, function template_notNull(val) { return val != null; }, propNames != null ? 1 : 0);
+        return hasMatchingProps(obj, propNames, function anyNonNullPropsFunc(val) { return val != null; }, propNames != null ? 1 : 0);
     }
     Objects.hasAnyNonNullProps = hasAnyNonNullProps;
     /** Check if an object has non-null values for all of the propery names specified
      * @see hasMatchingProperties()
      */
     function hasNonNullProps(obj, propNames) {
-        return hasMatchingProps(obj, propNames, function template_notNull(val) { return val != null; }, propNames != null ? propNames.length : 0);
+        return hasMatchingProps(obj, propNames, function nonNullPropsFunc(val) { return val != null; }, propNames != null ? propNames.length : 0);
     }
     Objects.hasNonNullProps = hasNonNullProps;
     /** Check if an object has matching values for all of the properties specified
-     * Example: {@code hasMatchingProperties({ alpha: 100 }, ["alpha"], function (v) { return v != null; })}
+     * Example: {@code hasMatchingProperties({ alpha: 100 }, ["alpha"], function (v, n) { return v != null; })}
      * returns: {@code true}
-     * Or example: {@code hasMatchingProperties({ alpha: 100, beta: null }, ["alpha", "beta", "gamma", "delta", "epsilon"], function (v) { return v != null; }, 3)}
+     * Or example: {@code hasMatchingProperties({ alpha: 100, beta: null }, ["alpha", "beta", "gamma", "delta", "epsilon"], function (v, n) { return v != null; }, 3)}
      * returns: {@code false} (and should return after checking 4 properties, since there are 5 properties, only 1 of the first 4 matches, and 3 are required)
      *
      * @param obj: the object to check
@@ -106,7 +106,7 @@ var Objects;
         for (var i = 0, size = propNames.length; i < size; i++) {
             var propNameI = propNames[i];
             // test each property
-            if (filter(obj[propNameI])) {
+            if (filter(obj[propNameI], propNameI)) {
                 nonNullCount++;
                 if (nonNullCount >= requiredCount) {
                     return true;
@@ -421,7 +421,7 @@ var Objects;
         for (var i = 0, size = keys.length; i < size; i++) {
             var key = keys[i];
             var prop = obj[key];
-            res[i] = mapFunc(key, prop, i, keys, obj);
+            res.push(mapFunc(key, prop, i, keys, obj));
         }
         return res;
     }

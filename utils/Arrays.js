@@ -47,10 +47,10 @@ var Arrays;
     }
     Arrays.getIfOneItem = getIfOneItem;
     /** Perform a binary search of a property in an array of values and return the index.
-     * For example: binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "key", 14)
+     * For example: Arrays.binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "key", 14)
      * returns: 2 indicating that the 3rd array element matches
      *
-     * For example: binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "id", 13)
+     * For example: Arrays.binarySearch([{key: 3}, {key: 10}, {key: 14}, {key: 15}], "id", 13)
      * returns: -3 indicating that no matching element was found,
      * but if a matching element did exist in the array, it would be at index 3
      */
@@ -137,7 +137,7 @@ var Arrays;
      * Items which only exist in 'ary2' are called 'added'.
      * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
      *
-     * For example: diffParts([1, 2, 3], [2, 4])
+     * For example: Arrays.diffParts([1, 2, 3], [2, 4])
      * returns: { added: [4], removed: [1, 3]},
      * which are the values to add and remove from 'ary1' to convert it to 'ary2'
      *
@@ -245,7 +245,7 @@ var Arrays;
     }
     Arrays.fastRemoveIndex = fastRemoveIndex;
     /** Split an array of values into matching and non-matching arrays using a filter
-     * For example: filterSplit([1, 2, 3, 4, 5], function (value, idx, ary) { return value % 2 == 0; })
+     * For example: Arrays.filterSplit([1, 2, 3, 4, 5], function (value, idx, ary) { return value % 2 == 0; })
      * returns: { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] }
      *
      * @param {E[]} ary: array of input values to filter
@@ -284,7 +284,7 @@ var Arrays;
         };
     }
     /** Search for objects in an array containing a property matching a given input property.
-     * For example: findAllProp([ {name: "billy", value: 5}, {name: "sam", value: 5}, {name: "overhill", value: 3} ], "value", 5)
+     * For example: Arrays.findAllProp([ {name: "billy", value: 5}, {name: "sam", value: 5}, {name: "overhill", value: 3} ], "value", 5)
      * returns: {name: "billy", value: 5}, {name: "sam", value: 5}
      * because the matching object has a property "value" with a value of 5
      *
@@ -309,7 +309,7 @@ var Arrays;
     Arrays.findMatchingProps = findMatchingProps;
     /** Return the first matching value in an array using a filter function, null if no matches.
      * Optional: throw an exception if more than one result is found.
-     * For example: first([ {key: 27, value: "A"}, {key: 46, value: "B"}, {key: 84, value: "C"}, {key: 84, value: "D"} ], function (obj) { return obj.key === 84; })
+     * For example: Arrays.first([ {key: 27, value: "A"}, {key: 46, value: "B"}, {key: 84, value: "C"}, {key: 84, value: "D"} ], function (obj) { return obj.key === 84; })
      * returns: {key: 84, value: "C"}
      *
      * @param ary: the array of values to search
@@ -375,9 +375,9 @@ var Arrays;
     Arrays.lastIndex = lastIndex;
     /** Search for an object in an array containing a property matching a given input property.
      * Optional: throw an exception if more than one result is found.
-     * For example: firstProp([ {name: "billy", value: 4}, {name: "sam", value: 5}, {name: "will", value: 5} ], "value", 5)
+     * For example: Arrays.firstProp([ {name: "billy", value: 4}, {name: "sam", value: 5}, {name: "will", value: 5} ], "value", 5)
      * returns: {name: "sam", value: 5}
-     * Or example: firstProp([ {name: "billy", value: 4}, {name: "sam", value: 4}, {name: "will", value: 5} ], "value", 5, true)
+     * Or example: Arrays.firstProp([ {name: "billy", value: 4}, {name: "sam", value: 4}, {name: "will", value: 5} ], "value", 5, true)
      * throws an error because the value appears more than once and the 'ensureOne' parameter = true
      *
      * @param ary: the array of values to search
@@ -437,7 +437,7 @@ var Arrays;
     }
     Arrays.hasItems = hasItems;
     /** Search for the index of an object with a specified property in an array.
-     * For example: indexOfPropValue([ {name: "billy", value: 12}, {name: "sam", value: 12} ], "value", 12)
+     * For example: Arrays.indexOfPropValue([ {name: "billy", value: 12}, {name: "sam", value: 12} ], "value", 12)
      * returns: 0
      * because the first object with the property "value" with a value of 12 was at index 0
      *
@@ -459,7 +459,7 @@ var Arrays;
     }
     Arrays.indexOfProp = indexOfProp;
     /** Search for the last index of an object with a specified property in an array
-     * For example: lastIndexOfPropValue([ {text: "john's bid", value: 12}, {text: "test bid", value: 12} ], "value", 12)
+     * For example: Arrays.lastIndexOfPropValue([ {text: "john's bid", value: 12}, {text: "test bid", value: 12} ], "value", 12)
      * returns: 1
      * because the last object with the property "value" with a value of 12 was at index 1
      *
@@ -482,7 +482,7 @@ var Arrays;
     Arrays.lastIndexOfProp = lastIndexOfProp;
     /** Get the difference between two arrays. Also known as the Symmetric Difference (https://en.wikipedia.org/wiki/Symmetric_difference).
      * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
-     * For example: diff([1, 2, 3], [2, 4])
+     * For example: Arrays.diff([1, 2, 3], [2, 4])
      * returns: [4, 1, 3]
      * which represents the differences between 'ary1' and 'ary2' (note: the returned array order is undefined)
      *
@@ -498,9 +498,9 @@ var Arrays;
     }
     Arrays.diff = diff;
     /** Check if two arrays are equal, element by element
-     * For example: equal(["A", 23, true], ["A", 23, true])
+     * For example: Arrays.equal(["A", 23, true], ["A", 23, true])
      * returns: true
-     * Or example: equal(["A", 23, true], ["A", 13])
+     * Or example: Arrays.equal(["A", 23, true], ["A", 13])
      * returns: false
      *
      * @param ary1: the first array to compare
@@ -520,9 +520,9 @@ var Arrays;
     Arrays.equal = equal;
     /** Check whether two arrays are equal, ignoring the order of the elements in each array.
      * elements are compared using strict (i.e. '===') equality.
-     * For example: looseEqual([26, "Alpha", 5], [5, 26, "Alpha"])
+     * For example: Arrays.looseEqual([26, "Alpha", 5], [5, 26, "Alpha"])
      * returns: true
-     * Or example: looseEqual([34, "A", "QA"], [7, 34, "A"])
+     * Or example: Arrays.looseEqual([34, "A", "QA"], [7, 34, "A"])
      * returns: false
      *
      * @param ary1: the first array to compare
@@ -556,7 +556,7 @@ var Arrays;
     }
     Arrays.looseEqual = looseEqual;
     /** Transforms the elements of an array into a new array
-     * For example: map([1, 2, 3, 4], (value) => value % 3)
+     * For example: Arrays.map([1, 2, 3, 4], (value) => value % 3)
      * returns: [1, 2, 0, 1]
      *
      * @param ary: the array to map
@@ -575,9 +575,9 @@ var Arrays;
     Arrays.map = map;
     /** Maps and filters an array in one operation by passing a two field object to the map-filter
      * function as a destination 'out' parameter like C#'s 'out' parameters
-     * For example: mapFilter([1, 2, 3, 4, 5, 6, 7], function (value, dstOut) { dstOut.isValid = (value % 3 !== 0); })
+     * For example: Arrays.mapFilter([1, 2, 3, 4, 5, 6, 7], function (value, dstOut) { dstOut.isValid = (value % 3 !== 0); })
      * returns: [1, 2, 4, 5, 7]
-     * Or example: mapFilter(['A', 'B', 'C', 'D', 'C', 'A', 'B'], function (value, dstOut) { dstOut.isValid = (value !== 'D'); dstOut.value = value.toLowerCase(); })
+     * Or example: Arrays.mapFilter(['A', 'B', 'C', 'D', 'C', 'A', 'B'], function (value, dstOut) { dstOut.isValid = (value !== 'D'); dstOut.value = value.toLowerCase(); })
      * returns: ['a', 'b', 'c', 'c', 'a', 'b']
      *
      * @param ary: the array AND filter to map
@@ -633,11 +633,11 @@ var Arrays;
     Arrays.mapFilterNotNull = mapFilterNotNull;
     /** Remove all of the specified values from this list.
      * The removal is done in place.
-     * For example: removeAll([1, 2, 3, 4, 5, 5], [1, 5])
+     * For example: Arrays.removeAll([1, 2, 3, 4, 5, 5], [1, 5])
      * returns: [2, 3, 4, 5]
-     * For example removeAll([1, 2, 2, 3, 3], [2, 2, 3], true)
-     * returns [3, 1]
-     * NOTE: the return order is not ordered if you pass true as the 'fastRemove' parameter
+     * For example: Arrays.removeAll([1, 2, 2, 3, 3], [2, 2, 3], true)
+     * returns: [3, 1]
+     * NOTE: if 'fastRemove' is true, the order of 'ary' when this method returns is not defined and will probably differ from the original order
      *
      * @param ary the array to remove items from
      * @param toRemove the items to search for and remove
@@ -726,7 +726,6 @@ var Arrays;
         for (var i = ary.length - 1; i > -1; i--) {
             ary[i][propName] = propValue;
         }
-        return;
     }
     Arrays.setAllProp = setAllProp;
     /**
@@ -744,7 +743,7 @@ var Arrays;
     }
     Arrays.sortNumeric = sortNumeric;
     /** Create an array containing the contents of two arrays.
-     * For example: spliceArray([0, 1, 1, 5], [10, 15, 20], 2, 1)
+     * For example: Arrays.spliceArray([0, 1, 1, 5], [10, 15, 20], 2, 1)
      * returns: [0, 1, 10, 15, 20, 5]
      *
      * @param origAry: the initial array to copy
@@ -799,6 +798,14 @@ var Arrays;
         return tmp;
     }
     Arrays.splice = splice;
+    /** Swap two elements in an array
+     * For example: Arrays.swap(["A", "B", "C", "D"], 1, 2)
+     * returns: ["A", "C", "B", "D"]
+     *
+     * @param ary: the array of elements
+     * @param i1: the first index of the two indexes to swap
+     * @param i2: the second index of the two indexes to swap
+     */
     function swap(ary, i1, i2) {
         var tmp = ary[i2];
         ary[i2] = ary[i1];
@@ -807,7 +814,7 @@ var Arrays;
     }
     Arrays.swap = swap;
     /** Return elements that exist in two arrays.
-     * For example: union([1, 2, 3, 4, 5, "A"], [1, 2, 4, "A"])
+     * For example: Arrays.union([1, 2, 3, 4, 5, "A"], [1, 2, 4, "A"])
      * returns: [1, 2, 4, "A"]
      *
      * @param ary1: the first array
@@ -837,7 +844,7 @@ var Arrays;
     }
     Arrays.union = union;
     /** Returns the unique values of an array as defined by the Array#indexOf() operator.
-     * For example: toUnique(["alpha", "beta", "charlie", "alpha", "beta"])
+     * For example: Arrays.toUnique(["alpha", "beta", "charlie", "alpha", "beta"])
      * returns: ["alpha", "beta", "charlie"]
      *
      * @param ary: an array of values

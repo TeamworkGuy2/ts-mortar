@@ -68,31 +68,31 @@ module Objects {
     /** Check if an object has at least 1 non-null property from a list of property names
      * @see hasMatchingProperties()
      */
-    export function hasAnyNonFalseyProps(obj: any, propNames: string[]) {
-        return hasMatchingProps(obj, propNames, function template_notNull(val) { return !!val; }, propNames != null ? 1 : 0);
+    export function hasAnyNonFalseyProps<T>(obj: T, propNames: (keyof T)[]) {
+        return hasMatchingProps(obj, propNames, function anyNonFalseyPropsFunc(val) { return !!val; }, propNames != null ? 1 : 0);
     }
 
 
     /** Check if an object has at least 1 non-null property from a list of property names
      * @see hasMatchingProperties()
      */
-    export function hasAnyNonNullProps(obj: any, propNames: string[]) {
-        return hasMatchingProps(obj, propNames, function template_notNull(val) { return val != null; }, propNames != null ? 1 : 0);
+    export function hasAnyNonNullProps<T>(obj: T, propNames: (keyof T)[]) {
+        return hasMatchingProps(obj, propNames, function anyNonNullPropsFunc(val) { return val != null; }, propNames != null ? 1 : 0);
     }
 
 
     /** Check if an object has non-null values for all of the propery names specified
      * @see hasMatchingProperties()
      */
-    export function hasNonNullProps(obj: any, propNames: string[]) {
-        return hasMatchingProps(obj, propNames, function template_notNull(val) { return val != null; }, propNames != null ? propNames.length : 0);
+    export function hasNonNullProps<T>(obj: T, propNames: (keyof T)[]) {
+        return hasMatchingProps(obj, propNames, function nonNullPropsFunc(val) { return val != null; }, propNames != null ? propNames.length : 0);
     }
 
 
     /** Check if an object has matching values for all of the properties specified
-     * Example: {@code hasMatchingProperties({ alpha: 100 }, ["alpha"], function (v) { return v != null; })}
+     * Example: {@code hasMatchingProperties({ alpha: 100 }, ["alpha"], function (v, n) { return v != null; })}
      * returns: {@code true}
-     * Or example: {@code hasMatchingProperties({ alpha: 100, beta: null }, ["alpha", "beta", "gamma", "delta", "epsilon"], function (v) { return v != null; }, 3)}
+     * Or example: {@code hasMatchingProperties({ alpha: 100, beta: null }, ["alpha", "beta", "gamma", "delta", "epsilon"], function (v, n) { return v != null; }, 3)}
      * returns: {@code false} (and should return after checking 4 properties, since there are 5 properties, only 1 of the first 4 matches, and 3 are required)
      *
      * @param obj: the object to check
@@ -101,7 +101,7 @@ module Objects {
      * required to be non-null before returning true, defaults to the size in the {@code propNames} array
      * @return true if the required number of properties exist in the object and match the condition function specified, false otherwise
      */
-    export function hasMatchingProps(obj: any, propNames: string[], filter: (propVal: any) => boolean, requiredCount: number = (propNames != null ? propNames.length : 0)): boolean {
+    export function hasMatchingProps<T>(obj: T, propNames: (keyof T)[], filter: (propVal: any, propName: string) => boolean, requiredCount: number = (propNames != null ? propNames.length : 0)): boolean {
         if (obj == null) {
             return false;
         }
@@ -113,7 +113,7 @@ module Objects {
         for (var i = 0, size = propNames.length; i < size; i++) {
             var propNameI = propNames[i];
             // test each property
-            if (filter(obj[propNameI])) {
+            if (filter(obj[propNameI], propNameI)) {
                 nonNullCount++;
                 if (nonNullCount >= requiredCount) {
                     return true;
@@ -203,9 +203,9 @@ module Objects {
      * @param source the object to copy
      * @param srcKeys optional list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
      */
-    export function clone<T>(source: T, assigner?: (dst: any, src: any, keys?: string[]) => any): T;
-    export function clone(source: any, srcKeys?: string[], assigner?: (dst: any, src: any, keys?: string[]) => any): any;
-    export function clone(source: any, srcKeys?: string[] | ((dst: any, src: any, keys?: string[]) => any), assigner: (dst: any, src: any, keys?: string[]) => any = assign): any {
+    export function clone<T>(source: T, assigner?: (dst: any, src: T, keys?: string[]) => any): T;
+    export function clone<T>(source: T, srcKeys?: string[], assigner?: (dst: any, src: T, keys?: string[]) => any): any;
+    export function clone<T>(source: T, srcKeys?: string[] | ((dst: any, src: T, keys?: string[]) => any), assigner: (dst: any, src: T, keys?: string[]) => any = assign): any {
         if (source == null) { return source; }
         if (typeof srcKeys === "function") { assigner = <any>srcKeys; srcKeys = null; }
         var srcType: string;
@@ -280,7 +280,7 @@ module Objects {
      * @param target the object to add/overwrite the properties to
      * @param sources the objects to copy properties from
      */
-    export function assignAll(target: any, sources: any[], srcsKeys?: string[][]) {
+    export function assignAll(target: any, sources: any[], srcsKeys?: string[][]): any {
         if (target == null) { throw new TypeError("assignAll() target cannot be null"); }
 
         for (var i = 0, size = sources.length; i < size; i++) {
@@ -432,9 +432,9 @@ module Objects {
     export function map<T>(source: T): T;
     export function map<T, R>(source: { [key: string]: T }, srcKeys: string[], mapFunc?: (key: string, value: T) => R): { [key: string]: R };
     export function map<T, R>(source: { [key: string]: T }, mapFunc?: (key: string, value: T) => R): { [key: string]: R };
-    export function map(source: any, mapFunc?: (key: string, value: any) => any): any;
-    export function map(source: any, srcKeys: string[], mapFunc?: (key: string, value: any) => any): any
-    export function map(source: any, srcKeys?: string[] | ((key: string, value: any) => any), mapFunc?: (key: string, value: any) => any): any {
+    export function map<T>(source: T, mapFunc?: (key: keyof T, value: any) => any): any;
+    export function map<T>(source: T, srcKeys: (keyof T)[], mapFunc?: (key: keyof T, value: any) => any): any
+    export function map<T>(source: T, srcKeys?: (keyof T)[] | ((key: keyof T, value: any) => any), mapFunc?: (key: keyof T, value: any) => any): any {
         if (source == null) { return null; }
         if (typeof srcKeys === "function") {
             mapFunc = <(key: string, value: any) => any>srcKeys;
@@ -442,14 +442,14 @@ module Objects {
         }
 
         var target = {};
-        var keys = <string[]>srcKeys || Object.keys(source);
+        var keys = <(keyof T)[]>srcKeys || <(keyof T)[]>Object.keys(source);
 
         for (var i = 0, size = keys.length; i < size; i++) {
             var key = keys[i];
             var prop = source[key];
             var propRes = mapFunc == null || prop === undefined ? prop : mapFunc(key, prop);
             if (propRes !== undefined) {
-                target[key] = propRes;
+                target[<string>key] = propRes;
             }
         }
 
@@ -463,24 +463,22 @@ module Objects {
      * @param mapFunc the function that transforms a property name and value to a new value
      * @return an array of the resulting properties generated using the 'mapFunc'
      */
-    export function toArray<T, R>(obj: { [key: string]: T }, mapFunc: (key: string, value: T, index: number, propertyNames: string[], obj: { [key: string]: T }) => R): R[];
-    export function toArray<T, R>(obj: { [key: string]: T }, srcKeys: string[], mapFunc: (key: string, value: T, index: number, propertyNames: string[], obj: { [key: string]: T }) => R): R[];
-    export function toArray<R>(obj: any, mapFunc: (key: string, value: any, index: number, propertyNames: string[], obj: any) => R): R[];
-    export function toArray<R>(obj: any, srcKeys: string[], mapFunc: (key: string, value: any, index: number, propertyNames: string[], obj: any) => R): R[];
-    export function toArray<R>(obj: any, srcKeys: string[] | ((key: string, value: any, index: number, propertyNames: string[], obj: any) => R), mapFunc?: (key: string, value: any, index: number, propertyNames: string[], obj: any) => R): R[] {
+    export function toArray<T, K extends keyof T, R>(obj: T, mapFunc: (key: K, value: T[K], index: number, propNames: K[], obj: T) => R): R[];
+    export function toArray<T, K extends keyof T, R>(obj: T, srcKeys: K[], mapFunc: (key: K, value: T[K], index: number, propNames: K[], obj: T) => R): R[];
+    export function toArray<T, K extends keyof T, R>(obj: T, srcKeys: K[] | ((key: K, value: T[K], index: number, propNames: K[], obj: T) => R), mapFunc?: (key: K, value: any, index: number, propNames: K[], obj: T) => R): R[] {
         if (obj == null) { return []; }
         if (typeof srcKeys === "function") {
-            mapFunc = <(key: string, value: any, index: number, propertyNames: string[], obj: any) => R>srcKeys;
+            mapFunc = <(key: string, value: any, index: number, propNames: string[], obj: any) => R>srcKeys;
             srcKeys = null;
         }
 
-        var res = [];
-        var keys = <string[]>srcKeys || Object.keys(obj);
+        var res: R[] = [];
+        var keys = <K[]>srcKeys || <K[]>Object.keys(obj);
 
         for (var i = 0, size = keys.length; i < size; i++) {
             var key = keys[i];
             var prop = obj[key];
-            res[i] = mapFunc(key, prop, i, keys, obj);
+            res.push(mapFunc(key, prop, i, keys, obj));
         }
 
         return res;

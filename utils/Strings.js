@@ -1,4 +1,7 @@
 "use strict";
+/** String utilities, includes:
+ * is-null/empty/whitespace, is-upper/lower/digit, pad-left/right, and remove-leading/trailing
+ */
 var Strings;
 (function (Strings) {
     /** Check if a string ends with a specific suffix

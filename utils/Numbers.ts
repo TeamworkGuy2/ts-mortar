@@ -33,7 +33,7 @@ module Numbers {
      * @return the numeric representation of the value returned by the obj's 'val' function
      * or null if null or an empty string was returned by the 'val' function
      */
-    export function getNullableNumeric(obj: { val: () => string; }): number {
+    export function getNullableNumeric(obj: { val(): string; }): number {
         var value = obj.val();
         if (value == null || (value = value.trim()).length === 0) {
             return null;
@@ -53,7 +53,7 @@ module Numbers {
      * @return the numeric representation of the value returned by the obj's 'val' function
      * or null if null or an empty string was returned by the 'val' function
      */
-    export function getNullableNumericPercent(obj: { val: () => string }): number {
+    export function getNullableNumericPercent(obj: { val(): string }): number {
         var value = obj.val();
         if (value == null || (value = value.trim()).length === 0) {
             return null;
@@ -73,10 +73,10 @@ module Numbers {
 
 
     /** Convert NaN, null, or undefined numbers to zero, infinity remains as is.
-     * Example: {@code orZero("string")}
-     * returns: {@code 0}
-     * Or example: {@code orZero("-12")}
-     * returns: {@code -12}
+     * Example: Numbers.orZero("string")
+     * returns: 0
+     * Or example: Numbers.orZero("-12")
+     * returns: -12
      *
      * @param num: the number to check
      * @param infinityToZero: true to convert infinity (Infinity, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY)
@@ -93,13 +93,13 @@ module Numbers {
     }
 
 
-    /** Convert a value like {@code 1340283.5264} to {@code 1,340,283.53}
+    /** Convert a value like 1340283.5264 to '1,340,283.53'
      * @param value a value to convert to a currency value
      * @param decimalPlaces the number of decimal places to include
-     * @param includeSeparator true to include a separator every {@code digitsBetweenSeparators} digits,
+     * @param includeSeparator true to include a separator every 'digitsBetweenSeparators' digits,
      * false for no separator
-     * @param digitsBetweenSeparators: the number of digits between separators, for example {@code 3}
-     * would produce {@code 1,340,283.53}, but {@code 4} would produce {@code 134,0283.53}
+     * @param digitsBetweenSeparators: the number of digits between separators, for example 3
+     * would produce '1,340,283.53', but 4 would produce '134,0283.53'
      * @return a string representing the formatted numeric value
      */
     export function format(value: any, decimalPlaces: number, includeSeparator: boolean, digitsBetweenSeparators: number = 3): string {
@@ -107,13 +107,13 @@ module Numbers {
     }
 
 
-    /** Convert a value like {@code 1340283.5264} to {@code 1,340,283.53}
+    /** Convert a value like 1340283.5264 to '1,340,283.53'
      * @param value a value to convert to a currency value
      * @param decimalPlaces the number of decimal places to include
-     * @param includeSeparator true to include a separator every {@code digitsBetweenSeparators}
+     * @param includeSeparator true to include a separator every 'digitsBetweenSeparators'
      * digits, false for no separator
-     * @param digitsBetweenSeparators: the number of digits between separators, for example {@code 3}
-     * would produce {@code 1,340,283.53}, but {@code 4} would produce {@code 134,0283.53}
+     * @param digitsBetweenSeparators: the number of digits between separators, for example 3
+     * would produce '1,340,283.53', but 4 would produce '134,0283.53'
      * @return a string representing the formatted numeric value
      */
     export function formatNumeric(value: any, decimalPlaces: number, includeSeparator: boolean, digitsBetweenSeparators: number = 3): string {
@@ -127,7 +127,7 @@ module Numbers {
         }
         var num: string = Number(val).toFixed(decimalPlaces);
         // split the number into decimal and whole number parts
-        var intAndDecimalPart = num.toString().trim().split(".");
+        var intAndDecimalPart = num.trim().split(".");
         var intPartStr = intAndDecimalPart[0];
         // remove leading +- sign, so that values like -821999.00 does not become -,821,999.00
         var isNegative = false;
