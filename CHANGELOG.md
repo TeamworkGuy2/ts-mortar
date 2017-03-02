@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.12.0](N/A) - 2017-01-22
+### [0.12.1](N/A) - 2017-03-02
+#### Added
+* Arrays.count() and cleaned up ArraysTest cases
+
+
+--------
+### [0.12.0](https://github.com/TeamworkGuy2/ts-mortar/commit/3d8e979f9909faf3ba4af1b4045d90925e8efe31) - 2017-01-22
 Major changes to use new TypeScript 2.0 features
 #### Changed
 * hasMatchingProperties() passes a second parameter, the property name, to the 'filter' function parameter

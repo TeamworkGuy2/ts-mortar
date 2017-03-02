@@ -42,26 +42,6 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("isOneItem", function isOneItemTest() {
-        asr.equal(Arrays.isOneItem(null), true);
-        asr.equal(Arrays.isOneItem(21), true);
-        asr.equal(Arrays.isOneItem([null]), true);
-        asr.equal(Arrays.isOneItem(["abc"]), true);
-        asr.equal(Arrays.isOneItem([]), false);
-        asr.equal(Arrays.isOneItem([1, 2]), false);
-    });
-
-
-    test("getIfOneItem", function getIfOneItemTest() {
-        asr.equal(Arrays.getIfOneItem(null), null);
-        asr.equal(Arrays.getIfOneItem(21), 21);
-        asr.equal(Arrays.getIfOneItem([null]), null);
-        asr.equal(Arrays.getIfOneItem(["abc"]), "abc");
-        asr.equal(Arrays.getIfOneItem([]), null);
-        asr.equal(Arrays.getIfOneItem([1, 2]), null);
-    });
-
-
     test("binarySearch", function binarySearchTest() {
         var ary1 = [{ p: 2 }, { p: 4 }, { p: 6 }, { p: 8 }, { p: 10 }];
 
@@ -76,6 +56,15 @@ suite("Arrays", function ArraysTest() {
 
         var idx1 = Arrays.binarySearch(ary1, "p", 11);
         asr.equal(idx1, -6);
+    });
+
+
+    test("clear", function clearTest() {
+        var ary = [1, 2, 4];
+
+        Arrays.clear(ary);
+        asr.equal(ary.pop(), undefined);
+        asr.equal(ary.length, 0);
     });
 
 
@@ -137,12 +126,26 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("clear", function clearTest() {
-        var ary = [1, 2, 4];
+    test("count", function countTest() {
+        var ary = [1, 2, 3, 4, 5];
 
-        Arrays.clear(ary);
-        asr.equal(ary.pop(), undefined);
-        asr.equal(ary.length, 0);
+        var res1 = Arrays.count(ary, (i) => i % 2 === 0);
+        asr.equal(2, res1);
+        var res2 = Arrays.count(ary, (i) => i % 2 === 1);
+        asr.equal(3, res2);
+    });
+
+
+    test("diff", function diffTest() {
+        var res = Arrays.diff([1, 2, 3], [2, 4]);
+        asr.deepEqual(res.sort(numSort), [1, 3, 4]);
+
+        // duplicate values in input are treated as unique
+        var res2 = Arrays.diff([1, 1, 2, 5], [2, 2, 4, 3, 3, 5]);
+        asr.deepEqual(res2.sort(numSort), [1, 1, 2, 3, 3, 4]);
+
+        var res3 = Arrays.diff([1, 4], []);
+        asr.deepEqual(res3.sort(numSort), [1, 4]);
     });
 
 
@@ -153,6 +156,21 @@ suite("Arrays", function ArraysTest() {
         // duplicate values in input are treated as unique
         var res2 = Arrays.diffParts([1, 1, 2, 5, 6], [3, 3, 4, 5]);
         asr.deepEqual(res2, { added: [3, 3, 4], removed: [1, 1, 2, 6] });
+    });
+
+
+    test("equal", function equalTest() {
+        var res1 = Arrays.equal(["A", 23, true], ["A", 23, true]);
+        asr.equal(res1, true);
+
+        var res2 = Arrays.equal(["A", 23, true], ["A", 13]);
+        asr.equal(res2, false);
+
+        var res3 = Arrays.equal(null, null);
+        asr.equal(res3, false);
+
+        var res4 = Arrays.equal([], []);
+        asr.equal(res4, true);
     });
 
 
@@ -199,14 +217,6 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("firstProp", function firstPropTest() {
-        var res = Arrays.firstProp([{ name: "billy", value: 5 }, { name: "sam", value: 5 }], "value", 5);
-        var expect = { name: "billy", value: 5 };
-
-        asr.deepEqual(res, expect);
-    });
-
-
     test("first", function firstTest() {
         var ary = [{ key: 27, value: "A" }, { key: 46, value: "B" }, { key: 84, value: "C" }, { key: 84, value: "D" }];
         var expect = { key: 84, value: "C" };
@@ -224,21 +234,25 @@ suite("Arrays", function ArraysTest() {
 
 
     test("firstProp", function firstPropTest() {
+        var res2 = Arrays.firstProp([{ name: "billy", value: 5 }, { name: "sam", value: 5 }], "value", 5);
+        asr.deepEqual(res2, { name: "billy", value: 5 });
+
         var ary1 = [{ name: "billy", value: 4 }, { name: "sam", value: 5 }, { name: "will", value: 5 }];
-        var expect1 = { name: "sam", value: 5 };
 
         var res1 = Arrays.firstProp(ary1, "value", 5, false);
-        asr.deepEqual(res1, expect1);
+        asr.deepEqual(res1, { name: "sam", value: 5 });
 
         asr.throws(() => Arrays.firstProp(ary1, "value", 5, true));
     });
 
 
-    test("pluck", function pluckTest() {
-        var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
-
-        var res = Arrays.pluck(ary, "id");
-        asr.deepEqual(res, ["B", "D", "D", "F"]);
+    test("getIfOneItem", function getIfOneItemTest() {
+        asr.equal(Arrays.getIfOneItem(null), null);
+        asr.equal(Arrays.getIfOneItem(21), 21);
+        asr.equal(Arrays.getIfOneItem([null]), null);
+        asr.equal(Arrays.getIfOneItem(["abc"]), "abc");
+        asr.equal(Arrays.getIfOneItem([]), null);
+        asr.equal(Arrays.getIfOneItem([1, 2]), null);
     });
 
 
@@ -261,6 +275,16 @@ suite("Arrays", function ArraysTest() {
     });
 
 
+    test("isOneItem", function isOneItemTest() {
+        asr.equal(Arrays.isOneItem(null), true);
+        asr.equal(Arrays.isOneItem(21), true);
+        asr.equal(Arrays.isOneItem([null]), true);
+        asr.equal(Arrays.isOneItem(["abc"]), true);
+        asr.equal(Arrays.isOneItem([]), false);
+        asr.equal(Arrays.isOneItem([1, 2]), false);
+    });
+
+
     test("last", function lastTest() {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
 
@@ -274,34 +298,6 @@ suite("Arrays", function ArraysTest() {
 
         var res = Arrays.lastIndexOfProp(ary, "id", "D");
         asr.equal(res, 2);
-    });
-
-
-    test("diff", function diffTest() {
-        var res = Arrays.diff([1, 2, 3], [2, 4]);
-        asr.deepEqual(res.sort(numSort), [1, 3, 4]);
-
-        // duplicate values in input are treated as unique
-        var res2 = Arrays.diff([1, 1, 2, 5], [2, 2, 4, 3, 3, 5]);
-        asr.deepEqual(res2.sort(numSort), [1, 1, 2, 3, 3, 4]);
-
-        var res3 = Arrays.diff([1, 4], []);
-        asr.deepEqual(res3.sort(numSort), [1, 4]);
-    });
-
-
-    test("equal", function equalTest() {
-        var res1 = Arrays.equal(["A", 23, true], ["A", 23, true]);
-        asr.equal(res1, true);
-
-        var res2 = Arrays.equal(["A", 23, true], ["A", 13]);
-        asr.equal(res2, false);
-
-        var res3 = Arrays.equal(null, null);
-        asr.equal(res3, false);
-
-        var res4 = Arrays.equal([], []);
-        asr.equal(res4, true);
     });
 
 
@@ -339,15 +335,13 @@ suite("Arrays", function ArraysTest() {
         asr.deepEqual(res, [1, 3, 5]);
 
         var res1 = Arrays.mapFilter([1, 2, 3, 4, 5, 6, 7], function (value, dstOut) { dstOut.isValid = (value % 3 !== 0); });
-        var expected1 = [1, 2, 4, 5, 7];
-        asr.deepEqual(res1, expected1);
+        asr.deepEqual(res1, [1, 2, 4, 5, 7]);
 
         var res2 = Arrays.mapFilter(['A', 'B', 'C', 'D', 'C', 'A', 'B'], function (value, dstOut) {
             dstOut.isValid = (value !== 'D');
             dstOut.value = value.toLowerCase();
         });
-        var expected2 = ['a', 'b', 'c', 'c', 'a', 'b'];
-        asr.deepEqual(res2, expected2);
+        asr.deepEqual(res2, ['a', 'b', 'c', 'c', 'a', 'b']);
     });
 
 
@@ -355,6 +349,46 @@ suite("Arrays", function ArraysTest() {
         var ary = [1, 2, "B", null, undefined, "C"];
         var res = Arrays.mapFilterNotNull(ary, (t) => t);
         asr.deepEqual(res, [1, 2, "B", "C"]);
+    });
+
+
+    test("max", function maxTest() {
+        asr.equal(Arrays.max([NaN, 0, -0]), 0);
+        asr.equal(Arrays.max([-1, 0, -2]), 0);
+        asr.equal(Arrays.max([0, 2, 4]), 4);
+        asr.equal(Arrays.max([5, 5]), 5);
+    });
+
+
+    test("maxValueIndex", function maxValueIndexTest() {
+        asr.equal(Arrays.maxValueIndex([NaN, 0, -0]), 1);
+        asr.equal(Arrays.maxValueIndex([-1, 0, -2]), 1);
+        asr.equal(Arrays.maxValueIndex([0, 2, 4]), 2);
+        asr.equal(Arrays.maxValueIndex([5, 5]), 0);
+    });
+
+
+    test("min", function minTest() {
+        asr.equal(Arrays.min([NaN, 0, -0]), 0);
+        asr.equal(Arrays.min([1, 0, 2]), 0);
+        asr.equal(Arrays.min([-2, 2, 4]), -2);
+        asr.equal(Arrays.min([-5, -5]), -5);
+    });
+
+
+    test("minValueIndex", function minValueIndexTest() {
+        asr.equal(Arrays.minValueIndex([NaN, 0, -0]), 1);
+        asr.equal(Arrays.minValueIndex([1, 0, 2]), 1);
+        asr.equal(Arrays.minValueIndex([-2, 2, 4]), 0);
+        asr.equal(Arrays.minValueIndex([-5, -5]), 0);
+    });
+
+
+    test("pluck", function pluckTest() {
+        var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
+
+        var res = Arrays.pluck(ary, "id");
+        asr.deepEqual(res, ["B", "D", "D", "F"]);
     });
 
 
@@ -370,6 +404,14 @@ suite("Arrays", function ArraysTest() {
     });
 
 
+    test("removeIndex", function removeIndexTest() {
+        var ary = ["Alpha", "Beta", "Gamma"];
+
+        var res1 = Arrays.removeIndex(ary.slice(), 1);
+        asr.deepEqual(res1, ["Alpha", "Gamma"]);
+    });
+
+
     test("removeValue", function removeValueTest() {
         var ary1 = ["A", "B", "C", "D"];
         Arrays.removeValue(ary1, "B");
@@ -378,14 +420,6 @@ suite("Arrays", function ArraysTest() {
         var ary2 = ["1", "2", "4", 3];
         Arrays.removeValue(ary2, 3);
         asr.deepEqual(ary2, ["1", "2", "4"]);
-    });
-
-
-    test("removeIndex", function removeIndexTest() {
-        var ary = ["Alpha", "Beta", "Gamma"];
-
-        var res1 = Arrays.removeIndex(ary.slice(), 1);
-        asr.deepEqual(res1, ["Alpha", "Gamma"]);
     });
 
 
@@ -466,38 +500,6 @@ suite("Arrays", function ArraysTest() {
         asr.deepEqual(Arrays.unique(ary2), aryUnique2);
 
         asr.deepEqual(Arrays.unique([]), []);
-    });
-
-
-    test("max", function maxTest() {
-        asr.equal(Arrays.max([NaN, 0, -0]), 0);
-        asr.equal(Arrays.max([-1, 0, -2]), 0);
-        asr.equal(Arrays.max([0, 2, 4]), 4);
-        asr.equal(Arrays.max([5, 5]), 5);
-    });
-
-
-    test("maxValueIndex", function maxValueIndexTest() {
-        asr.equal(Arrays.maxValueIndex([NaN, 0, -0]), 1);
-        asr.equal(Arrays.maxValueIndex([-1, 0, -2]), 1);
-        asr.equal(Arrays.maxValueIndex([0, 2, 4]), 2);
-        asr.equal(Arrays.maxValueIndex([5, 5]), 0);
-    });
-
-
-    test("min", function minTest() {
-        asr.equal(Arrays.min([NaN, 0, -0]), 0);
-        asr.equal(Arrays.min([1, 0, 2]), 0);
-        asr.equal(Arrays.min([-2, 2, 4]), -2);
-        asr.equal(Arrays.min([-5, -5]), -5);
-    });
-
-
-    test("minValueIndex", function minValueIndexTest() {
-        asr.equal(Arrays.minValueIndex([NaN, 0, -0]), 1);
-        asr.equal(Arrays.minValueIndex([1, 0, 2]), 1);
-        asr.equal(Arrays.minValueIndex([-2, 2, 4]), 0);
-        asr.equal(Arrays.minValueIndex([-5, -5]), 0);
     });
 
 });

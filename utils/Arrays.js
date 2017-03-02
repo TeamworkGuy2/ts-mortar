@@ -74,6 +74,15 @@ var Arrays;
         return -(low + 1);
     }
     Arrays.binarySearch = binarySearch;
+    /** Remove all values from an array
+     */
+    function clear(ary) {
+        if (ary == null) {
+            return;
+        }
+        ary.length = 0;
+    }
+    Arrays.clear = clear;
     /** Create a copy of an array
      */
     function copy(src) {
@@ -123,15 +132,21 @@ var Arrays;
         return false;
     }
     Arrays.containsAny = containsAny;
-    /** Remove all values from an array
+    /** Count the number of elements in an array that match a filter
+     * @param ary: the array of values
+     * @param filter: the filter to use on 'ary'
+     * @returns the number of 'ary' elements that return a truthy value when passed through the 'filter' function
      */
-    function clear(ary) {
-        if (ary == null) {
-            return;
+    function count(ary, filter) {
+        var res = 0;
+        for (var i = 0, size = ary.length; i < size; i++) {
+            if (filter(ary[i], i, ary)) {
+                res++;
+            }
         }
-        ary.length = 0;
+        return res;
     }
-    Arrays.clear = clear;
+    Arrays.count = count;
     /** Return the difference between two arrays as elements added and removed from the first array.
      * Items which only exist in 'ary1' are called 'removed'.
      * Items which only exist in 'ary2' are called 'added'.

@@ -102,6 +102,16 @@ module Arrays {
     }
 
 
+    /** Remove all values from an array
+     */
+    export function clear(ary: any[]): void {
+        if (ary == null) {
+            return;
+        }
+        ary.length = 0;
+    }
+
+
     /** Create a copy of an array
      */
     export function copy<E>(src: E[]) {
@@ -151,13 +161,19 @@ module Arrays {
     }
 
 
-    /** Remove all values from an array
+    /** Count the number of elements in an array that match a filter
+     * @param ary: the array of values
+     * @param filter: the filter to use on 'ary'
+     * @returns the number of 'ary' elements that return a truthy value when passed through the 'filter' function
      */
-    export function clear(ary: any[]): void {
-        if (ary == null) {
-            return;
+    export function count<E>(ary: E[], filter: (value: E, index: number, array: E[]) => boolean): number {
+        var res = 0;
+        for (var i = 0, size = ary.length; i < size; i++) {
+            if (filter(ary[i], i, ary)) {
+                res++;
+            }
         }
-        ary.length = 0;
+        return res;
     }
 
 
