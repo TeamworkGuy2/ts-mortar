@@ -1,6 +1,6 @@
 "use strict";
 /** String utilities, includes:
- * is-null/empty/whitespace, is-upper/lower/digit, pad-left/right, and remove-leading/trailing
+ * is-null/empty/whitespace, is-upper/lower/digit, pad-start/end, and remove-leading/trailing
  */
 var Strings;
 (function (Strings) {
@@ -119,40 +119,40 @@ var Strings;
     }
     Strings.clamp = clamp;
     /** Pad the start of a string with zeros '0'.
-     * Alias for padLeft(value, maxDigits, '0')
-     * @see padLeft()
+     * Alias for padStart(value, targetLen, '0')
+     * @see padStart()
      */
-    function padZeroLeft(value, maxDigits, padChar) {
+    function padZeroStart(value, targetLen, padChar) {
         if (padChar === void 0) { padChar = '0'; }
-        return Strings.padLeft(value, maxDigits, padChar);
+        return Strings.padStart(value, targetLen, padChar);
     }
-    Strings.padZeroLeft = padZeroLeft;
-    /** Prepend padding to the {@code String(value)} representation {@code value} to increase it's length to {@code maxDigits}
+    Strings.padZeroStart = padZeroStart;
+    /** Prepend padding to the {@code String(value)} representation {@code value} to increase it's length to {@code targetLen}
      * @param value: the value to convert to a string and pad
-     * @param maxDigits: the maximum length of the returned string
+     * @param targetLen: the maximum length of the returned string
      * @param [padChar]: an character to use as padding
-     * @return the {@code value} converted to a string and padded with {@code padChar} until the string is {@code maxDigits} long,
-     * or returns the {@code value} as a string without modification if that string is longer than {@code maxDigits}
+     * @return the {@code value} converted to a string and padded with {@code padChar} until the string is {@code targetLen} long,
+     * or returns the {@code value} as a string without modification if that string is longer than {@code targetLen}
      */
-    function padLeft(value, maxDigits, padChar) {
+    function padStart(value, targetLen, padChar) {
         var valStr = String(value);
-        if (valStr.length >= maxDigits) {
-            return value;
+        if (valStr.length >= targetLen) {
+            return valStr;
         }
-        return value != null ? new Array(maxDigits - valStr.length + 1).join(padChar) + value : value;
+        return value != null ? new Array(targetLen - valStr.length + 1).join(padChar) + valStr : valStr;
     }
-    Strings.padLeft = padLeft;
+    Strings.padStart = padStart;
     /**
-     * @see padLeft()
+     * @see padStart()
      */
-    function padRight(value, maxDigits, padChar) {
+    function padEnd(value, targetLen, padChar) {
         var valStr = String(value);
-        if (valStr.length >= maxDigits) {
-            return value;
+        if (valStr.length >= targetLen) {
+            return valStr;
         }
-        return value != null ? value + new Array(maxDigits - valStr.length + 1).join(padChar) : value;
+        return value != null ? valStr + new Array(targetLen - valStr.length + 1).join(padChar) : valStr;
     }
-    Strings.padRight = padRight;
+    Strings.padEnd = padEnd;
     /** Remove {@code leadingStr} string from the beginning of {@code str} as many times as it appears.
      * For example: removeTrailingStrings("stubstubAlpha", "stub")
      * Returns: "Alpha"

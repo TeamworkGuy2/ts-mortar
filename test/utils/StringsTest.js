@@ -81,21 +81,21 @@ suite("Strings", function StringsTest() {
             }
         }
     });
-    test("padZeroLeft", function padZeroLeftTest() {
-        asr.equal(Strings.padZeroLeft(123, 5), "00123");
-        asr.equal(Strings.padZeroLeft(123, 6), "000123");
-        asr.equal(Strings.padZeroLeft(123, 3), "123");
-        asr.equal(Strings.padZeroLeft(123, 0), "123");
+    test("padZeroStart", function padZeroStartTest() {
+        asr.equal(Strings.padZeroStart(123, 5), "00123");
+        asr.equal(Strings.padZeroStart(123, 6), "000123");
+        asr.equal(Strings.padZeroStart(123, 3), "123");
+        asr.equal(Strings.padZeroStart(123, 0), "123");
     });
-    test("padLeft", function padLeftTest() {
-        asr.equal(Strings.padLeft(1.2, 5, " "), "  1.2");
-        asr.equal(Strings.padLeft(1.2, 6, "-"), "---1.2");
-        asr.equal(Strings.padLeft(1.2, 3, "-"), "1.2");
+    test("padStart", function padStartTest() {
+        asr.equal(Strings.padStart(1.2, 5, " "), "  1.2");
+        asr.equal(Strings.padStart(1.2, 6, "-"), "---1.2");
+        asr.equal(Strings.padStart(1.2, 3, "-"), "1.2");
     });
-    test("padRight", function padRightTest() {
-        asr.equal(Strings.padRight(1.2, 5, " "), "1.2  ");
-        asr.equal(Strings.padRight(1.2, 6, "-"), "1.2---");
-        asr.equal(Strings.padRight(1.2, 3, "-"), "1.2");
+    test("padEnd", function padEndTest() {
+        asr.equal(Strings.padEnd(1.2, 5, " "), "1.2  ");
+        asr.equal(Strings.padEnd(1.2, 6, "-"), "1.2---");
+        asr.equal(Strings.padEnd(1.2, 3, "-"), "1.2");
     });
     test("removeLeading", function removeLeadingTest() {
         var res1 = Strings.removeLeading("stubstubAlpha", "stub", true);

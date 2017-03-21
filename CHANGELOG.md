@@ -4,7 +4,16 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.12.1](N/A) - 2017-03-02
+### [0.13.0](N/A) - 2017-03-21
+#### Changed
+* Renamed Strings padZeroLeft() -> padZeroStart(), padLeft() -> padStart(), and padRight() -> padEnd() to align with new JS spec
+
+#### Fixed
+* String pad*() issue where non-string value could be returned if its string representation length was greater than or equal to the 'targetLen' length
+
+
+--------
+### [0.12.1](https://github.com/TeamworkGuy2/ts-mortar/commit/734626d660af137b4035f8e3f7898f24a8f90e47) - 2017-03-02
 #### Added
 * Arrays.count() and cleaned up ArraysTest cases
 

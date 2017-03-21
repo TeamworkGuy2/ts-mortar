@@ -1,6 +1,6 @@
 ﻿
 /** String utilities, includes:
- * is-null/empty/whitespace, is-upper/lower/digit, pad-left/right, and remove-leading/trailing
+ * is-null/empty/whitespace, is-upper/lower/digit, pad-start/end, and remove-leading/trailing
  */
 module Strings {
 
@@ -127,39 +127,39 @@ module Strings {
 
 
     /** Pad the start of a string with zeros '0'.
-     * Alias for padLeft(value, maxDigits, '0')
-     * @see padLeft()
+     * Alias for padStart(value, targetLen, '0')
+     * @see padStart()
      */
-    export function padZeroLeft(value: any, maxDigits: number, padChar: string = '0'): string {
-        return Strings.padLeft(value, maxDigits, padChar);
+    export function padZeroStart(value: any, targetLen: number, padChar: string = '0'): string {
+        return Strings.padStart(value, targetLen, padChar);
     }
 
 
-    /** Prepend padding to the {@code String(value)} representation {@code value} to increase it's length to {@code maxDigits}
+    /** Prepend padding to the {@code String(value)} representation {@code value} to increase it's length to {@code targetLen}
      * @param value: the value to convert to a string and pad
-     * @param maxDigits: the maximum length of the returned string
+     * @param targetLen: the maximum length of the returned string
      * @param [padChar]: an character to use as padding
-     * @return the {@code value} converted to a string and padded with {@code padChar} until the string is {@code maxDigits} long,
-     * or returns the {@code value} as a string without modification if that string is longer than {@code maxDigits}
+     * @return the {@code value} converted to a string and padded with {@code padChar} until the string is {@code targetLen} long,
+     * or returns the {@code value} as a string without modification if that string is longer than {@code targetLen}
      */
-    export function padLeft(value: any, maxDigits: number, padChar: string): string {
+    export function padStart(value: any, targetLen: number, padChar: string): string {
         var valStr = String(value);
-        if (valStr.length >= maxDigits) {
-            return value;
+        if (valStr.length >= targetLen) {
+            return valStr;
         }
-        return value != null ? new Array(maxDigits - valStr.length + 1).join(padChar) + value : value;
+        return value != null ? new Array(targetLen - valStr.length + 1).join(padChar) + valStr : valStr;
     }
 
 
     /**
-     * @see padLeft()
+     * @see padStart()
      */
-    export function padRight(value: any, maxDigits: number, padChar: string): string {
+    export function padEnd(value: any, targetLen: number, padChar: string): string {
         var valStr = String(value);
-        if (valStr.length >= maxDigits) {
-            return value;
+        if (valStr.length >= targetLen) {
+            return valStr;
         }
-        return value != null ? value + new Array(maxDigits - valStr.length + 1).join(padChar) : value;
+        return value != null ? valStr + new Array(targetLen - valStr.length + 1).join(padChar) : valStr;
     }
 
 
