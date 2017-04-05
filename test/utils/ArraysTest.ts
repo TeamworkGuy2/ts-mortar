@@ -13,6 +13,12 @@ suite("Arrays", function ArraysTest() {
     var numSort = (a, b) => a - b;
 
 
+    var equalNum = (act: any, exp: any, msg?: string) => {
+        if (act === exp || (isNaN(act) && isNaN(exp))) return;
+        asr.equal(act, exp, msg);
+    };
+
+
     test("addAll", function addAllTest() {
         var ary1 = [1, 2, 4];
         var ary2 = [8, 16];
@@ -458,6 +464,19 @@ suite("Arrays", function ArraysTest() {
 
         var res2 = Arrays.splice([0, 1], [2, 3], 2, 0);
         asr.deepEqual(res2, [0, 1, 2, 3]);
+    });
+
+
+    test("sum", function sumTest() {
+        var ary1 = [1, 2, 3, 4];
+        equalNum(Arrays.sum(ary1), 10);
+        equalNum(Arrays.sum(ary1, true), 10);
+        equalNum(Arrays.sum(ary1, false), 10);
+
+        var ary2 = [2, null, Number.POSITIVE_INFINITY, 4, NaN, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY];
+        equalNum(Arrays.sum(ary2), NaN);
+        equalNum(Arrays.sum(ary2, true), 6);
+        equalNum(Arrays.sum(ary2, false), NaN);
     });
 
 

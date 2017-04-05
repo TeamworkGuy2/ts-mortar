@@ -930,5 +930,23 @@ var Arrays;
         return minI;
     }
     Arrays.minValueIndex = minValueIndex;
+    /** Sum the values of an array
+     * @param ary an array of numeric convertable values to sum; null, infinite, and NaN values in the array are treated as zero.
+     * If the array is null, 0 is returned.
+     * @return the sum of the values in 'ary'
+     */
+    function sum(ary, infinityToZero) {
+        if (ary == null) {
+            return 0;
+        }
+        var sum = 0;
+        for (var i = ary.length - 1; i > -1; i--) {
+            var val = ary[i];
+            val = (val == null || isNaN(val) || (infinityToZero && (val === Infinity || val === Number.NEGATIVE_INFINITY || val === Number.POSITIVE_INFINITY))) ? 0 : val;
+            sum += val;
+        }
+        return sum;
+    }
+    Arrays.sum = sum;
 })(Arrays || (Arrays = {}));
 module.exports = Arrays;

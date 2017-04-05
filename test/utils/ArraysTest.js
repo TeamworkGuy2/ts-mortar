@@ -6,6 +6,11 @@ var Arrays = require("../../../ts-mortar/utils/Arrays");
 var asr = chai.assert;
 suite("Arrays", function ArraysTest() {
     var numSort = function (a, b) { return a - b; };
+    var equalNum = function (act, exp, msg) {
+        if (act === exp || (isNaN(act) && isNaN(exp)))
+            return;
+        asr.equal(act, exp, msg);
+    };
     test("addAll", function addAllTest() {
         var ary1 = [1, 2, 4];
         var ary2 = [8, 16];
@@ -309,6 +314,16 @@ suite("Arrays", function ArraysTest() {
         asr.deepEqual(res2, [0, 1, 2, 3]);
         var res2 = Arrays.splice([0, 1], [2, 3], 2, 0);
         asr.deepEqual(res2, [0, 1, 2, 3]);
+    });
+    test("sum", function sumTest() {
+        var ary1 = [1, 2, 3, 4];
+        equalNum(Arrays.sum(ary1), 10);
+        equalNum(Arrays.sum(ary1, true), 10);
+        equalNum(Arrays.sum(ary1, false), 10);
+        var ary2 = [2, null, Number.POSITIVE_INFINITY, 4, NaN, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY];
+        equalNum(Arrays.sum(ary2), NaN);
+        equalNum(Arrays.sum(ary2, true), 6);
+        equalNum(Arrays.sum(ary2, false), NaN);
     });
     test("swap", function swapTest() {
         var res = Arrays.swap(["A", "B", "C", "D"], 0, 1);

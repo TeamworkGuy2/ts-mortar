@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.13.0](N/A) - 2017-03-21
+### [0.13.1](N/A) - 2017-04-05
+#### Added
+* Added Arrays.sum()
+
+
+--------
+### [0.13.0](https://github.com/TeamworkGuy2/ts-mortar/commit/578fa707ce5408c719fe5c35ec2d067fc881e34a) - 2017-03-21
 #### Changed
 * Renamed Strings padZeroLeft() -> padZeroStart(), padLeft() -> padStart(), and padRight() -> padEnd() to align with new JS spec
 
