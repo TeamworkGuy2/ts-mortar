@@ -1,6 +1,6 @@
 ﻿import chai = require("chai");
 import mocha = require("mocha");
-import Numbers = require("../../../ts-mortar/utils/Numbers");
+import Numbers = require("../../utils/Numbers");
 
 var asr = chai.assert;
 
@@ -82,7 +82,7 @@ suite("Numbers", function NumbersTest() {
     test("orZero", function orZeroTest() {
         asr.equal(Numbers.orZero(0, false), 0);
 
-        asr.equal(Numbers.orZero(+null, false), 0);
+        asr.equal(Numbers.orZero(+<any>null, false), 0);
 
         asr.equal(Numbers.orZero(Number.NaN, false), 0);
 

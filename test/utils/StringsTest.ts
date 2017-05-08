@@ -1,6 +1,6 @@
 ﻿import chai = require("chai");
 import mocha = require("mocha");
-import Strings = require("../../../ts-mortar/utils/Strings");
+import Strings = require("../../utils/Strings");
 
 var asr = chai.assert;
 

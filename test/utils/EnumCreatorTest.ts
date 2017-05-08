@@ -1,6 +1,6 @@
 ﻿import chai = require("chai");
 import mocha = require("mocha");
-import EnumCreator = require("../../../ts-mortar/utils/EnumCreator");
+import EnumCreator = require("../../utils/EnumCreator");
 
 var asr = chai.assert;
 

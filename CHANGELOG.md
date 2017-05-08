@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.13.1](N/A) - 2017-04-05
+### [0.13.2](N/A) - 2017-05-08
+#### Changed
+* Updated to TypeScript 2.3.0 and @types definitions
+
+
+--------
+### [0.13.1](https://github.com/TeamworkGuy2/ts-mortar/commit/b4da708a69cfbb1ab30d8440f5e73246939e0a83) - 2017-04-05
 #### Added
 * Added Arrays.sum()
 

@@ -1,9 +1,6 @@
-﻿/// <reference path="../../../definitions/chai/chai.d.ts" />
-/// <reference path="../../../definitions/mocha/mocha.d.ts" />
-
-import chai = require("chai");
+﻿import chai = require("chai");
 import mocha = require("mocha");
-import Arrays = require("../../../ts-mortar/utils/Arrays");
+import Arrays = require("../../utils/Arrays");
 
 var asr = chai.assert;
 
@@ -434,7 +431,7 @@ suite("Arrays", function ArraysTest() {
         var expect = [{ id: 1 }, { id: 1 }, { id: 1 }, { id: 1 }];
 
         Arrays.setAllProp(ary, "id", 1);
-        asr.deepEqual(ary, expect);
+        asr.deepEqual(<any[]>ary, expect);
     });
 
 
