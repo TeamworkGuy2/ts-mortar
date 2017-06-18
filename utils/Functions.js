@@ -41,7 +41,7 @@ var Functions;
     }
     Functions.isFunction = isFunction;
     /** Create a function that lazily returns a computed value
-     * @param initializer: the function that initializes the lazy field and returns it (this function will only be called once)
+     * @param initializer the function that initializes the lazy field and returns it (this function will only be called once)
      * @return a function that returns the cached value returned by the {@code initializer} function
      * with an optiona 'refetch' parameter which, if true, forces the initializer to be called again
      */
@@ -105,8 +105,8 @@ var Functions;
     Functions.partial = partial;
     /** Creates a new function that wraps a given function.
      * Useful for logging performance, number of calls, etc.
-     * @param func: the function to call each time this function is called
-     * @param callCondition: a function that returns a true/false flag indicating whether the returned wrapper function should
+     * @param func the function to call each time this function is called
+     * @param callCondition a function that returns a true/false flag indicating whether the returned wrapper function should
      * call it's inner wrapped function or not.  If null or undefined, the inner wrapped function is always called when the returned function is called
      */
     function createFuncTimer(func, callCondition, name) {

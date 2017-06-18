@@ -15,11 +15,11 @@ var Numbers;
      */
     function toNumber(num) {
         var val = null;
-        return !isNaN((val = parseFloat(num))) && isFinite(val) ? val : null;
+        return !isNaN(val = parseFloat(num)) && isFinite(val) ? val : null;
     }
     Numbers.toNumber = toNumber;
     /**
-     * @param num: the number to check
+     * @param num the number to check
      * @return true if the parameter is null or zero, false if not
      */
     function isNullOrZero(num) {
@@ -27,7 +27,7 @@ var Numbers;
     }
     Numbers.isNullOrZero = isNullOrZero;
     /**
-     * @param val an object containing a 'val' function that returns a string representation of a number or an empty string
+     * @param obj an object containing a 'val' function that returns a string representation of a number or an empty string
      * @return the numeric representation of the value returned by the obj's 'val' function
      * or null if null or an empty string was returned by the 'val' function
      */
@@ -45,7 +45,7 @@ var Numbers;
     }
     Numbers.roundTo = roundTo;
     /**
-     * @param val an object containing a 'val' function that returns a string representation of a percentage (i.e. a string beginning or ending with a percent sign '%') or an empty string
+     * @param obj an object containing a 'val' function that returns a numeric percent string (i.e. a string beginning or ending with a percent sign '%') or an empty string
      * @return the numeric representation of the value returned by the obj's 'val' function
      * or null if null or an empty string was returned by the 'val' function
      */
@@ -79,7 +79,7 @@ var Numbers;
      * @param decimalPlaces the number of decimal places to include
      * @param includeSeparator true to include a separator every 'digitsBetweenSeparators' digits,
      * false for no separator
-     * @param digitsBetweenSeparators: the number of digits between separators, for example 3
+     * @param digitsBetweenSeparators the number of digits between separators, for example 3
      * would produce '1,340,283.53', but 4 would produce '134,0283.53'
      * @return a string representing the formatted numeric value
      */
@@ -93,7 +93,7 @@ var Numbers;
      * @param decimalPlaces the number of decimal places to include
      * @param includeSeparator true to include a separator every 'digitsBetweenSeparators'
      * digits, false for no separator
-     * @param digitsBetweenSeparators: the number of digits between separators, for example 3
+     * @param digitsBetweenSeparators the number of digits between separators, for example 3
      * would produce '1,340,283.53', but 4 would produce '134,0283.53'
      * @return a string representing the formatted numeric value
      */

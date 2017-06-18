@@ -1,6 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var chai = require("chai");
-var Objects = require("../../../ts-mortar/utils/Objects");
+var Objects = require("../../utils/Objects");
 var asr = chai.assert;
 suite("Objects", function ObjectsTest() {
     var item = {
@@ -204,10 +205,6 @@ suite("Objects", function ObjectsTest() {
         asr.deepEqual(res1, []);
         var res2 = Objects.getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"]);
         asr.deepEqual(res2, [342, "B"]);
-    });
-    test("orEmptyString", function orEmptyStringTest() {
-        asr.equal(Objects.orEmptyString(8543.213), 8543.213);
-        asr.equal(Objects.orEmptyString(null), "");
     });
     test("extend", function extendTest() {
         function Parent() { }

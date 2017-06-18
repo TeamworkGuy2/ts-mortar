@@ -1,17 +1,20 @@
 ﻿/** Helper functions for calling/composing functions
  */
 module Functions {
-
     /** A no-op function that takes any/no arguments and returns nothing */
     export var NO_OP: () => void = function () { };
 
 
-    export function callFunc<T>(func: (...args: any[]) => T, thisArg: any, ...args: any[]): T {
+    export function callFunc<R>(func: (this: void, ...args: any[]) => R, thisArg: null | undefined, ...args: any[]): R;
+    export function callFunc<R, T>(func: (this: T, ...args: any[]) => R, thisArg: T, ...args: any[]): R;
+    export function callFunc<R, T>(func: (this: T, ...args: any[]) => R, thisArg: T, ...args: any[]): R {
         return applyFunc(func, thisArg, args);
     }
 
 
-    export function applyFunc<T>(func: (...args: any[]) => T, thisArg: any, args: any[]): T {
+    export function applyFunc<R>(func: (this: void, ...args: any[]) => R, thisArg: null | undefined, args: any[]): R;
+    export function applyFunc<R, T>(func: (this: T, ...args: any[]) => R, thisArg: T, args: any[]): R;
+    export function applyFunc<R, T>(func: (this: T, ...args: any[]) => R, thisArg: T, args: any[]): R {
         if (typeof func === "function") {
             return func.apply(thisArg, args);
         }
@@ -19,7 +22,9 @@ module Functions {
     }
 
 
-    export function tryCatch<T>(tryFunc: (...args: any[]) => T, catchFunc: (err: any) => (void | T), thisArg?: any, args?: any[]): T {
+    export function tryCatch<R>(tryFunc: (this: void, ...args: any[]) => R, catchFunc: (err: any) => (void | R), thisArg: null | undefined, args?: any[]): R
+    export function tryCatch<R, T>(tryFunc: (this: T, ...args: any[]) => R, catchFunc: (err: any) => (void | R), thisArg?: T, args?: any[]): R;
+    export function tryCatch<R, T>(tryFunc: (this: T, ...args: any[]) => R, catchFunc: (err: any) => (void | R), thisArg?: T, args?: any[]): R {
         var res = null;
         if (typeof tryFunc === "function") {
             try {
@@ -41,7 +46,7 @@ module Functions {
 
 
     /** Create a function that lazily returns a computed value
-     * @param initializer: the function that initializes the lazy field and returns it (this function will only be called once)
+     * @param initializer the function that initializes the lazy field and returns it (this function will only be called once)
      * @return a function that returns the cached value returned by the {@code initializer} function
      * with an optiona 'refetch' parameter which, if true, forces the initializer to be called again
      */
@@ -113,8 +118,8 @@ module Functions {
 
     /** Creates a new function that wraps a given function.
      * Useful for logging performance, number of calls, etc.
-     * @param func: the function to call each time this function is called
-     * @param callCondition: a function that returns a true/false flag indicating whether the returned wrapper function should
+     * @param func the function to call each time this function is called
+     * @param callCondition a function that returns a true/false flag indicating whether the returned wrapper function should
      * call it's inner wrapped function or not.  If null or undefined, the inner wrapped function is always called when the returned function is called
      */
     export function createFuncTimer<T extends Function>(func: T, callCondition?: () => boolean, name?: string): { name: string; totalTimeMillis: number; calls: number; wrapperFunc: T } {

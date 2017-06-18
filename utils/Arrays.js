@@ -6,12 +6,17 @@ var Arrays;
      * @return the source array
      */
     function addAll(src, toAdd) {
-        if (toAdd && toAdd.length > 0) {
+        if (toAdd != null && toAdd.length > 0) {
             Array.prototype.push.apply(src, toAdd);
         }
         return src;
     }
     Arrays.addAll = addAll;
+    /** Transform and add the elements from one array to another
+     * @param src the array to add elements to
+     * @param toAdd the elements to transform and add
+     * @param transformer a function to transform the 'toAdd' values before adding them to 'src'
+     */
     function addAllTransform(src, toAdd, transformer) {
         for (var i = 0, size = toAdd.length; i < size; i++) {
             src.push(transformer(toAdd[i]));
@@ -93,14 +98,16 @@ var Arrays;
      */
     function concat(ary1, ary2) {
         var res = [];
-        Array.prototype.push.apply(res, ary1);
-        Array.prototype.push.apply(res, ary2);
+        if (ary1 != null)
+            Array.prototype.push.apply(res, ary1);
+        if (ary2 != null)
+            Array.prototype.push.apply(res, ary2);
         return res;
     }
     Arrays.concat = concat;
     /** Check whether all of the values in the second array are contained in the first array
-     * @param ary: the array of values
-     * @param searchFor: the values to search for
+     * @param ary the array of values
+     * @param searchFor the values to search for
      * @return true if all of 'searchFor' values are contained in 'ary'
      */
     function containsAll(ary, searchFor) {
@@ -116,8 +123,8 @@ var Arrays;
     }
     Arrays.containsAll = containsAll;
     /** Check whether any of the values in the second array are contained in the first array
-     * @param ary: the array of values
-     * @param searchFor: the values to search for
+     * @param ary the array of values
+     * @param searchFor the values to search for
      * @return true if any of 'searchFor' values are contained in 'ary'
      */
     function containsAny(ary, searchFor) {
@@ -133,8 +140,8 @@ var Arrays;
     }
     Arrays.containsAny = containsAny;
     /** Count the number of elements in an array that match a filter
-     * @param ary: the array of values
-     * @param filter: the filter to use on 'ary'
+     * @param ary the array of values
+     * @param filter the filter to use on 'ary'
      * @returns the number of 'ary' elements that return a truthy value when passed through the 'filter' function
      */
     function count(ary, filter) {
@@ -156,8 +163,8 @@ var Arrays;
      * returns: { added: [4], removed: [1, 3]},
      * which are the values to add and remove from 'ary1' to convert it to 'ary2'
      *
-     * @param ary1: the master/original array to base differences on
-     * @param ary2: the branch/new array to find differences in
+     * @param ary1 the master/original array to base differences on
+     * @param ary2 the branch/new array to find differences in
      * @return with 'added' and 'removed' arrays of values from 'ary1' and 'ary2'
      * @see looseDiff()
      */
@@ -221,8 +228,8 @@ var Arrays;
     Arrays.diffParts = diffParts;
     /** Remove the first matching value from an array without creating a new array of splicing the array.
      * NOTE: the returned order of the array's elements is not defined.
-     * @param ary: the array of values to search and remove the matching value from
-     * @param value: the value to search for and remove
+     * @param ary the values to search and remove the matching value from
+     * @param value the value to search for and remove
      * @return 'ary' of values with the first matching instance of 'value' removed,
      * values are compared based on strict equality '===='
      */
@@ -243,8 +250,8 @@ var Arrays;
     Arrays.fastRemove = fastRemove;
     /** Remove a value at a specific index from an array without creating a new array of splicing the array.
      * NOTE: the returned order of the array's elements is not defined.
-     * @param ary: the array of values to remove the index value from
-     * @param index: the index of the value to remove from the array
+     * @param ary the array of values
+     * @param index the index of the value to remove from the array
      * @return 'ary' of values with the specified index removed
      */
     function fastRemoveIndex(ary, index) {
@@ -263,8 +270,8 @@ var Arrays;
      * For example: Arrays.filterSplit([1, 2, 3, 4, 5], function (value, idx, ary) { return value % 2 == 0; })
      * returns: { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] }
      *
-     * @param {E[]} ary: array of input values to filter
-     * @param {FilterFunc} filterFunc: the function to filter the values,
+     * @param ary the array of values to filter
+     * @param filterFunc the function to filter the values,
      * true stores items in the returned 'matching' property,
      * false stores items in the returned 'notMatching' property
      * @return a filter result object contains the original array 'all' and arrays of 'matching' and 'notMatching' items
@@ -372,8 +379,8 @@ var Arrays;
     }
     Arrays.last = last;
     /** Return the last value in an array that matches a filter, null if no matches
-     * @param ary: the array of values to search
-     * @param filterFunc: the filter to apply
+     * @param ary the array of values to search
+     * @param filterFunc the filter to apply
      * @return the highest-index value passed to 'filterFunc' from 'ary' that returns true, null if no value returns true
      */
     function lastIndex(ary, filterFunc) {
@@ -395,9 +402,9 @@ var Arrays;
      * Or example: Arrays.firstProp([ {name: "billy", value: 4}, {name: "sam", value: 4}, {name: "will", value: 5} ], "value", 5, true)
      * throws an error because the value appears more than once and the 'ensureOne' parameter = true
      *
-     * @param ary: the array of values to search
-     * @param propName: the name of the property  to search for on each object
-     * @param propValue: the property value to compare
+     * @param ary the array of values to search
+     * @param propName the name of the property  to search for on each object
+     * @param propValue the property value to compare
      * @return the first (lowest index) matching value from the input array, or null if a result cannot be found
      */
     function firstProp(ary, propName, propValue, ensureOne) {
@@ -428,8 +435,8 @@ var Arrays;
     }
     Arrays.firstProp = firstProp;
     /** Get a property from each object in an array of objects
-     * @param ary: the array of objects
-     * @param propName: the name of the property to get
+     * @param ary the array of objects
+     * @param propName the name of the property to get
      * @return an array of the specified property from each object in 'ary'
      */
     function pluck(ary, propName) {
@@ -443,7 +450,7 @@ var Arrays;
         return results;
     }
     Arrays.pluck = pluck;
-    /**
+    /** Check if an array is not null and has any items
      * @param ary the array to check
      * @return true if the array is not null and has a length greater than 0
      */
@@ -456,9 +463,9 @@ var Arrays;
      * returns: 0
      * because the first object with the property "value" with a value of 12 was at index 0
      *
-     * @param ary: the array to search
-     * @param propName: the name of the property to search for on each object
-     * @param propValue: the property value to compare
+     * @param ary the array to search
+     * @param propName the name of the property to search for on each object
+     * @param propValue the property value to compare
      * @return the array index of an object with a matching property, -1 if no matching object was found
      */
     function indexOfProp(ary, propName, propValue) {
@@ -478,9 +485,9 @@ var Arrays;
      * returns: 1
      * because the last object with the property "value" with a value of 12 was at index 1
      *
-     * @param ary: the array to search
-     * @param propName: the name of the property to search for on each object
-     * @param propValue: the property value to compare
+     * @param ary the array to search
+     * @param propName the name of the property to search for on each object
+     * @param propValue the property value to compare
      * @return the array index of an object with a matching property, -1 if no matching object was found
      */
     function lastIndexOfProp(ary, propName, propValue) {
@@ -501,8 +508,8 @@ var Arrays;
      * returns: [4, 1, 3]
      * which represents the differences between 'ary1' and 'ary2' (note: the returned array order is undefined)
      *
-     * @param ary1: the first array to compare
-     * @param ary2: the second array to compare
+     * @param ary1 the first array to compare
+     * @param ary2 the second array to compare
      * @return of values that exist in only one of the input arrays
      * @see diff()
      */
@@ -518,8 +525,8 @@ var Arrays;
      * Or example: Arrays.equal(["A", 23, true], ["A", 13])
      * returns: false
      *
-     * @param ary1: the first array to compare
-     * @param ary2: the second array to compare
+     * @param ary1 the first array to compare
+     * @param ary2 the second array to compare
      */
     function equal(ary1, ary2) {
         if (ary1 == null || ary2 == null || ary1.length !== ary2.length) {
@@ -540,8 +547,8 @@ var Arrays;
      * Or example: Arrays.looseEqual([34, "A", "QA"], [7, 34, "A"])
      * returns: false
      *
-     * @param ary1: the first array to compare
-     * @param ary1: the second array to compare
+     * @param ary1 the first array to compare
+     * @param ary2 the second array to compare
      * @return true if both arrays contain the same elements in any order, or if both arrays are null.
      * False if one or more elements differ between the two arrays
      */
@@ -574,7 +581,7 @@ var Arrays;
      * For example: Arrays.map([1, 2, 3, 4], (value) => value % 3)
      * returns: [1, 2, 0, 1]
      *
-     * @param ary: the array to map
+     * @param ary the array to map
      * @return a new array with each index containing the result of passing the original 'ary' element at that index through the 'mapFunc', or an empty array if the 'ary' is null
      */
     function map(ary, mapFunc) {
@@ -595,8 +602,8 @@ var Arrays;
      * Or example: Arrays.mapFilter(['A', 'B', 'C', 'D', 'C', 'A', 'B'], function (value, dstOut) { dstOut.isValid = (value !== 'D'); dstOut.value = value.toLowerCase(); })
      * returns: ['a', 'b', 'c', 'c', 'a', 'b']
      *
-     * @param ary: the array AND filter to map
-     * @param mapFilterFunc: since JS and TS don't have 'out' parameters
+     * @param ary the array AND filter to map
+     * @param mapFilterFunc since JS and TS don't have 'out' parameters
      * this function accepts a value and sets 'dstOut.isValid' true if the value is accepted, false if it is filtered out,
      * and stores the mapped result for valid values in 'dstOut.value'.
      * NOTE: if 'dstOut.value' is left null, the input 'value' is stored in the returned array
@@ -610,14 +617,15 @@ var Arrays;
             throw new Error("incorrect parameter 'mapFilterFunc', must be a 'function(value, dstOut: { value; isValid }): void'");
         }
         var results = [];
-        var dstOut = { value: null, isValid: false };
+        var nil = {};
+        var dstOut = { value: nil, isValid: false };
         for (var i = 0, size = ary.length; i < size; i++) {
             dstOut.isValid = false;
-            dstOut.value = null;
+            dstOut.value = nil;
             var inputVal = ary[i];
             mapFilterFunc(inputVal, dstOut);
             if (dstOut.isValid === true) {
-                results.push(dstOut.value || inputVal);
+                results.push(dstOut.value !== nil ? dstOut.value : inputVal);
             }
         }
         return results;
@@ -625,7 +633,7 @@ var Arrays;
     Arrays.mapFilter = mapFilter;
     /** Like #mapFilter() except null return values are filtered out instead of using an two parameter 'out' style object with an 'isValid' flag
      * @param the array of values to map-filter
-     * @param mapFunc: the Array#map() style function to transform input values,
+     * @param mapFunc the Array#map() style function to transform input values,
      * null returned values are not stored in the returned array, allowing the function to filter
      * @return an array of non-null mapped result values
      */
@@ -712,6 +720,14 @@ var Arrays;
         return idx;
     }
     Arrays.removeValue = removeValue;
+    /** Remove an index from an array
+     * For example: Arrays.removeIndex(["Alpha", "Beta", "Gamma"], 1)
+     * returns: ["Alpha", "Gamma"]
+     *
+     * @param ary the array to remove an index from
+     * @param index the index of the value to remove
+     * @return the 'ary' with the value at 'index' removed
+     */
     function removeIndex(ary, index) {
         if (ary == null) {
             return ary;
@@ -730,9 +746,9 @@ var Arrays;
     Arrays.removeIndex = removeIndex;
     /** Set a property on every object in an array.
      * Useful for clearing a specific property to false or null.
-     * @param ary: the array of objects
-     * @param propName: the name of the property to set
-     * @param propValue: the value to assigned to each object's 'propName' property
+     * @param ary the array of objects
+     * @param propName the name of the property to set
+     * @param propValue the value to assigned to each object's 'propName' property
      */
     function setAllProp(ary, propName, propValue) {
         if (ary == null || propName == null) {
@@ -761,10 +777,10 @@ var Arrays;
      * For example: Arrays.spliceArray([0, 1, 1, 5], [10, 15, 20], 2, 1)
      * returns: [0, 1, 10, 15, 20, 5]
      *
-     * @param origAry: the initial array to copy
-     * @param insertAry: the array to insert into 'origAry'
-     * @param index: the 'origAry' index at which to insert the elements from 'insertAry'
-     * @param [deleteCount=0]: the number of elements to not copy from 'origAry' starting at 'index'
+     * @param origAry the initial array to copy
+     * @param insertAry the array to insert into 'origAry'
+     * @param index the 'origAry' index at which to insert the elements from 'insertAry'
+     * @param [deleteCount=0] the number of elements to not copy from 'origAry' starting at 'index'
      * @return the 'origAry' or a new array containing the contents of 'origAry' and 'insertAry'
      */
     function splice(origAry, insertAry, index, deleteCount, copyToNewAry) {
@@ -817,9 +833,9 @@ var Arrays;
      * For example: Arrays.swap(["A", "B", "C", "D"], 1, 2)
      * returns: ["A", "C", "B", "D"]
      *
-     * @param ary: the array of elements
-     * @param i1: the first index of the two indexes to swap
-     * @param i2: the second index of the two indexes to swap
+     * @param ary the array of elements
+     * @param i1 the first index of the two indexes to swap
+     * @param i2 the second index of the two indexes to swap
      */
     function swap(ary, i1, i2) {
         var tmp = ary[i2];
@@ -832,8 +848,8 @@ var Arrays;
      * For example: Arrays.union([1, 2, 3, 4, 5, "A"], [1, 2, 4, "A"])
      * returns: [1, 2, 4, "A"]
      *
-     * @param ary1: the first array
-     * @param ary2: the second array
+     * @param ary1 the first array
+     * @param ary2 the second array
      * @return an array of shared elements between 'ary1' and 'ary2'
      */
     function union(ary1, ary2) {
@@ -862,7 +878,7 @@ var Arrays;
      * For example: Arrays.toUnique(["alpha", "beta", "charlie", "alpha", "beta"])
      * returns: ["alpha", "beta", "charlie"]
      *
-     * @param ary: an array of values
+     * @param ary an array of values
      * @return a new array of values containing the original array's unique values
      */
     function unique(ary) {

@@ -1,6 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var chai = require("chai");
-var EnumCreator = require("../../../ts-mortar/utils/EnumCreator");
+var EnumCreator = require("../../utils/EnumCreator");
 var asr = chai.assert;
 suite("EnumCreator", function EnumCreatorTest() {
     var TestEnumBase = (function () {

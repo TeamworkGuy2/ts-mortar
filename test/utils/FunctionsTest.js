@@ -1,6 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var chai = require("chai");
-var Functions = require("../../../ts-mortar/utils/Functions");
+var Functions = require("../../utils/Functions");
 var asr = chai.assert;
 suite("Functions", function FunctionsTest() {
     var ClassTest = (function () {
@@ -24,12 +25,15 @@ suite("Functions", function FunctionsTest() {
         asr.deepEqual(res2, ["ct", 1, 2, 3]);
     });
     test("applyFunc", function applyFuncTest() {
-        function ClassTest(arg) {
-            this.arg = arg;
-        }
-        ClassTest.prototype.test = function (a, b, c) {
-            return [this.arg, a, b, c];
-        };
+        var ClassTest = (function () {
+            function ClassTest(arg) {
+                this.arg = arg;
+            }
+            ClassTest.prototype.test = function (a, b, c) {
+                return [this.arg, a, b, c];
+            };
+            return ClassTest;
+        }());
         var inst = new ClassTest("ct");
         var res1 = Functions.applyFunc(inst.test, inst, ["a", "b"]);
         asr.deepEqual(res1, ["ct", "a", "b", undefined]);
@@ -41,6 +45,12 @@ suite("Functions", function FunctionsTest() {
         asr.deepEqual(res1, [11, "a", "b"]);
         var res2 = Functions.tryCatch(function try1(a, b) { throw ["error", this.alpha, a, b]; }, function catch1(err) { return err; }, { alpha: 11, beta: 42 }, ["a", "b", "c"]);
         asr.deepEqual(res2, ["error", 11, "a", "b"]);
+        var err1;
+        var res3 = Functions.tryCatch(function try1(a, b) { if (a)
+            throw (err1 = new Error("throw-1"));
+        else
+            return 1; }, function catch1(err) { return err; }, null, ["a", "b", "c"]);
+        asr.equal(res3, err1);
     });
     test("isFunction", function isFunctionTest() {
         asr.equal(Functions.isFunction(1), false);

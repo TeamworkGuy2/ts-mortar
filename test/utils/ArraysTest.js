@@ -1,8 +1,7 @@
-/// <reference path="../../../definitions/chai/chai.d.ts" />
-/// <reference path="../../../definitions/mocha/mocha.d.ts" />
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var chai = require("chai");
-var Arrays = require("../../../ts-mortar/utils/Arrays");
+var Arrays = require("../../utils/Arrays");
 var asr = chai.assert;
 suite("Arrays", function ArraysTest() {
     var numSort = function (a, b) { return a - b; };

@@ -4,7 +4,19 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.13.2](N/A) - 2017-05-08
+### [0.14.0](N/A) - 2017-06-18
+#### Changed
+* Tightened parameter types
+* Updated some documentation
+
+#### Removed
+* Removed Objects.orEmptyString() since it doesn't save much typing
+* Removed Arrays.ArrayLike<T> interface (since it's now native to the TypeScript ES6 lib.d.ts)
+* Removed Arrays interface: ForEachFunc<T>, FilterFunc<T>, MapFunc<T, R> (since these tend to obfuscate function signatures, it's preferred to manually write these types were needed)
+
+
+--------
+### [0.13.2](https://github.com/TeamworkGuy2/ts-mortar/commit/de2bb7286550ae317fb9c8440400646d6eef59d5) - 2017-05-08
 #### Changed
 * Updated to TypeScript 2.3.0 and @types definitions
 

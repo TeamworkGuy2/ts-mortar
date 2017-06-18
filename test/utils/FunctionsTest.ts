@@ -39,12 +39,16 @@ suite("Functions", function FunctionsTest() {
 
 
     test("applyFunc", function applyFuncTest() {
-        function ClassTest(arg) {
-            this.arg = arg;
+        class ClassTest {
+            private arg: any;
+            constructor(arg) {
+                this.arg = arg;
+            }
+            test(a, b, c) {
+                return [this.arg, a, b, c];
+            }
         }
-        ClassTest.prototype.test = function (a, b, c) {
-            return [this.arg, a, b, c];
-        };
+
         var inst = new ClassTest("ct");
 
         var res1 = Functions.applyFunc(inst.test, inst, ["a", "b"]);
@@ -61,6 +65,10 @@ suite("Functions", function FunctionsTest() {
 
         var res2 = Functions.tryCatch(function try1(a, b) { throw ["error", this.alpha, a, b]; }, function catch1(err) { return err; }, { alpha: 11, beta: 42 }, ["a", "b", "c"]);
         asr.deepEqual(res2, ["error", 11, "a", "b"]);
+
+        var err1;
+        var res3 = Functions.tryCatch(function try1(a, b) { if (a) throw (err1 = new Error("throw-1")); else return 1; }, function catch1(err) { return err; }, null, ["a", "b", "c"]);
+        asr.equal(res3, err1);
     });
 
 

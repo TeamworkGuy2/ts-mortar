@@ -430,7 +430,7 @@ suite("Arrays", function ArraysTest() {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
         var expect = [{ id: 1 }, { id: 1 }, { id: 1 }, { id: 1 }];
 
-        Arrays.setAllProp(ary, "id", 1);
+        Arrays.setAllProp(ary, "id", <any>1);
         asr.deepEqual(<any[]>ary, expect);
     });
 

@@ -12,8 +12,8 @@ module Objects {
      * Example: {@code ObjectUtil.values({ alpha: "1", beta: "2", charlie: "3" })}
      * returns: {@code ["1", "2", "3"]}
      *
-     * @param obj: the object to retrieve property values from
-     * @param [keys=Object.keys(obj)]: the list of property names
+     * @param obj the object to retrieve property values from
+     * @param [keys=Object.keys(obj)] the list of property names
      * to retrieve from the object
      * @return the values associated with {@code keys} or {@code Object.keys(obj)}
      */
@@ -40,8 +40,8 @@ module Objects {
      * Example: {@code ObjectUtil.valuesNotNull({ alpha: "1", beta: "2", charlie: "3", delta: null })}
      * returns: {@code ["1", "2", "3"]}
      *
-     * @param obj: the object to retrieve property values from
-     * @param [keys=Object.keys(obj)]: the list of property names
+     * @param obj the object to retrieve property values from
+     * @param [keys=Object.keys(obj)] the list of property names
      * to retrieve from the object
      * @return the non-null values associated with {@code keys} or the
      * non-null values associated with {@code Object.keys(obj)}
@@ -95,9 +95,9 @@ module Objects {
      * Or example: {@code hasMatchingProperties({ alpha: 100, beta: null }, ["alpha", "beta", "gamma", "delta", "epsilon"], function (v, n) { return v != null; }, 3)}
      * returns: {@code false} (and should return after checking 4 properties, since there are 5 properties, only 1 of the first 4 matches, and 3 are required)
      *
-     * @param obj: the object to check
-     * @param propNames: the array of property names to check for in {@code obj}
-     * @param requiredCount: the number of properties (in the order they appear in the {@code propNames} array)
+     * @param obj the object to check
+     * @param propNames the array of property names to check for in {@code obj}
+     * @param requiredCount the number of properties (in the order they appear in the {@code propNames} array)
      * required to be non-null before returning true, defaults to the size in the {@code propNames} array
      * @return true if the required number of properties exist in the object and match the condition function specified, false otherwise
      */
@@ -203,9 +203,9 @@ module Objects {
      * @param source the object to copy
      * @param srcKeys optional list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
      */
-    export function clone<T>(source: T, assigner?: (dst: any, src: T, keys?: string[]) => any): T;
-    export function clone<T>(source: T, srcKeys?: string[], assigner?: (dst: any, src: T, keys?: string[]) => any): any;
-    export function clone<T>(source: T, srcKeys?: string[] | ((dst: any, src: T, keys?: string[]) => any), assigner: (dst: any, src: T, keys?: string[]) => any = assign): any {
+    export function clone<T>(source: T, assigner?: (dst: object, src: T, keys?: string[]) => any): T;
+    export function clone<T>(source: T, srcKeys?: string[], assigner?: (dst: object, src: T, keys?: string[]) => any): any;
+    export function clone<T>(source: T, srcKeys?: string[] | ((dst: object, src: T, keys?: string[]) => any), assigner: (dst: any, src: T, keys?: string[]) => any = assign): any {
         if (source == null) { return source; }
         if (typeof srcKeys === "function") { assigner = <any>srcKeys; srcKeys = null; }
         var srcType: string;
@@ -234,8 +234,8 @@ module Objects {
      * @param sources the object to copy properties from
      */
     export function assign<T1, T2>(target: T1, source: T2): T1 & T2;
-    export function assign(target: any, source: any, srcKeys: string[]): any;
-    export function assign(target: any, source: any, srcKeys?: string[]): any {
+    export function assign<T1, T2, K extends (keyof T1 | keyof T2)>(target: T1, source: T2, srcKeys: K[]): { [R in K]: (T1 & T2)[R] };
+    export function assign(target: object, source: object, srcKeys?: string[]): any {
         if (target == null) { throw new TypeError("assign() target cannot be null"); }
 
         var keys = srcKeys || Object.keys(source);
@@ -256,8 +256,8 @@ module Objects {
      * @param sources the object to copy properties from
      */
     export function assignNonUndefined<T1, T2>(target: T1, source: T2): T1 & T2;
-    export function assignNonUndefined(target: any, source: any, srcKeys: string[]): any;
-    export function assignNonUndefined(target: any, source: any, srcKeys?: string[]): any {
+    export function assignNonUndefined<T1, T2, K extends (keyof T1 | keyof T2)>(target: T1, source: T2, srcKeys: K[]): { [R in K]: (T1 & T2)[R] };
+    export function assignNonUndefined(target: object, source: object, srcKeys?: string[]): any {
         if (target == null) { throw new TypeError("assign() target cannot be null"); }
 
         var keys = srcKeys || Object.keys(source);
@@ -280,7 +280,7 @@ module Objects {
      * @param target the object to add/overwrite the properties to
      * @param sources the objects to copy properties from
      */
-    export function assignAll(target: any, sources: any[], srcsKeys?: string[][]): any {
+    export function assignAll(target: object, sources: object[], srcsKeys?: string[][]): object {
         if (target == null) { throw new TypeError("assignAll() target cannot be null"); }
 
         for (var i = 0, size = sources.length; i < size; i++) {
@@ -310,7 +310,7 @@ module Objects {
      * @return the properties retrieved from the object if both the object
      * and property names are not null, else an empty array
      */
-    export function getProps(obj: any, propertyNames: string[]): any[] {
+    export function getProps<T, K extends keyof T>(obj: T, propertyNames: K[]): (T[K])[] {
         if (obj == null || propertyNames == null || !propertyNames.length) { return []; }
         var size = propertyNames.length;
         var res = new Array(size);
@@ -321,28 +321,14 @@ module Objects {
     }
 
 
-    /** Convert null or undefined values to an empty string, else returns the value unmodified
-     * Example: {@code orEmptyString(8543.213)}
-     * returns: {@code 8543.213}
-     * Or example: {@code orEmptyString(null)}
-     * returns: {@code ""}
-     *
-     * @param val: the value to check
-     * @return the {@code val} object or {@code ""} if val is null or undefined
-     */
-    export function orEmptyString<T>(val: T): any {
-        return val != null ? val : "";
-    }
-
-
     /** Modify classChild to extend classParent via prototypal inheritance.
      * Side-effect: classChild's prototype is modified.
-     * @param classChild: the sub class that inherits from {@code classParent}
-     * @param classParent: the super class that {@code classChild} will inherit from
-     * @param allowChildToOverride: true to keep existing {@code classChild} properties, false to overwrite
+     * @param classChild the sub class that inherits from {@code classParent}
+     * @param classParent the super class that {@code classChild} will inherit from
+     * @param allowChildToOverride true to keep existing {@code classChild} properties, false to overwrite
      * child properties with parent properties when classParent and classChild have properties with the same name
      */
-    export function extend(classChild: any, classParent: any, allowChildToOverride: boolean, deepExtend: boolean = false): void {
+    export function extend(classChild: { prototype: object }, classParent: { prototype: object }, allowChildToOverride: boolean, deepExtend: boolean = false): void {
         if (classParent.prototype == null) {
             throw new Error(classParent + ", does not have the property '.prototype'");
         }
@@ -373,16 +359,16 @@ module Objects {
 
     /** Modify classChild to extend classParent via prototype-to-static inheritance.
      * Side-effect: classChild is modified.
-     * @param classChild: the sub class that inherits from {@code classParent}
-     * @param classParent: the super class that {@code classChild} will inherit from
+     * @param classChild the sub class that inherits from {@code classParent}
+     * @param classParent the super class that {@code classChild} will inherit from
      * @param allowChildToOverride: true to keep existing {@code classChild} properties, false to overwrite
      * child properties with parent properties when classParent and classChild have properties with the same name,
      * also see {@code throwErrorIfOverwrites}
-     * @param throwErrorIfOverwrites: true to throw an error if a {@code classParent} property overwrites
+     * @param throwErrorIfOverwrites true to throw an error if a {@code classParent} property overwrites
      * a {@code classChild} property, false to ignore the parent property and keep the classChild property
      * @see #extend()
      */
-    export function extendToStatic(classChild: any, classParent: any, allowChildToOverride: boolean, throwErrorIfOverwrites: boolean = true): void {
+    export function extendToStatic(classChild: object, classParent: { prototype: object }, allowChildToOverride: boolean, throwErrorIfOverwrites: boolean = true): void {
         var parentProto = classParent.prototype;
         for (var key in parentProto) {
             if (parentProto.hasOwnProperty(key)) {
@@ -413,7 +399,7 @@ module Objects {
      * returns: {@code { b: a, 123: key }}
      * @param srcMap the object to invert
      */
-    export function invert(srcMap: any) {
+    export function invert(srcMap: object): { [key: string]: string } {
         var inverseMap = Object.keys(srcMap).reduce((map, name) => {
             map[srcMap[name]] = name;
             return map;

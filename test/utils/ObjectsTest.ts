@@ -269,13 +269,6 @@ suite("Objects", function ObjectsTest() {
     });
 
 
-    test("orEmptyString", function orEmptyStringTest() {
-        asr.equal(Objects.orEmptyString(8543.213), 8543.213);
-
-        asr.equal(Objects.orEmptyString(null), "");
-    });
-
-
     test("extend", function extendTest() {
         function Parent() { }
         Parent.prototype.step = function () { return "parent-step"; };

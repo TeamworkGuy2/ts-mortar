@@ -1,6 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var chai = require("chai");
-var Numbers = require("../../../ts-mortar/utils/Numbers");
+var Numbers = require("../../utils/Numbers");
 var asr = chai.assert;
 suite("Numbers", function NumbersTest() {
     test("isNumeric", function isNumericTest() {

@@ -12,8 +12,8 @@ var Objects;
      * Example: {@code ObjectUtil.values({ alpha: "1", beta: "2", charlie: "3" })}
      * returns: {@code ["1", "2", "3"]}
      *
-     * @param obj: the object to retrieve property values from
-     * @param [keys=Object.keys(obj)]: the list of property names
+     * @param obj the object to retrieve property values from
+     * @param [keys=Object.keys(obj)] the list of property names
      * to retrieve from the object
      * @return the values associated with {@code keys} or {@code Object.keys(obj)}
      */
@@ -38,8 +38,8 @@ var Objects;
      * Example: {@code ObjectUtil.valuesNotNull({ alpha: "1", beta: "2", charlie: "3", delta: null })}
      * returns: {@code ["1", "2", "3"]}
      *
-     * @param obj: the object to retrieve property values from
-     * @param [keys=Object.keys(obj)]: the list of property names
+     * @param obj the object to retrieve property values from
+     * @param [keys=Object.keys(obj)] the list of property names
      * to retrieve from the object
      * @return the non-null values associated with {@code keys} or the
      * non-null values associated with {@code Object.keys(obj)}
@@ -88,9 +88,9 @@ var Objects;
      * Or example: {@code hasMatchingProperties({ alpha: 100, beta: null }, ["alpha", "beta", "gamma", "delta", "epsilon"], function (v, n) { return v != null; }, 3)}
      * returns: {@code false} (and should return after checking 4 properties, since there are 5 properties, only 1 of the first 4 matches, and 3 are required)
      *
-     * @param obj: the object to check
-     * @param propNames: the array of property names to check for in {@code obj}
-     * @param requiredCount: the number of properties (in the order they appear in the {@code propNames} array)
+     * @param obj the object to check
+     * @param propNames the array of property names to check for in {@code obj}
+     * @param requiredCount the number of properties (in the order they appear in the {@code propNames} array)
      * required to be non-null before returning true, defaults to the size in the {@code propNames} array
      * @return true if the required number of properties exist in the object and match the condition function specified, false otherwise
      */
@@ -291,24 +291,11 @@ var Objects;
         return res;
     }
     Objects.getProps = getProps;
-    /** Convert null or undefined values to an empty string, else returns the value unmodified
-     * Example: {@code orEmptyString(8543.213)}
-     * returns: {@code 8543.213}
-     * Or example: {@code orEmptyString(null)}
-     * returns: {@code ""}
-     *
-     * @param val: the value to check
-     * @return the {@code val} object or {@code ""} if val is null or undefined
-     */
-    function orEmptyString(val) {
-        return val != null ? val : "";
-    }
-    Objects.orEmptyString = orEmptyString;
     /** Modify classChild to extend classParent via prototypal inheritance.
      * Side-effect: classChild's prototype is modified.
-     * @param classChild: the sub class that inherits from {@code classParent}
-     * @param classParent: the super class that {@code classChild} will inherit from
-     * @param allowChildToOverride: true to keep existing {@code classChild} properties, false to overwrite
+     * @param classChild the sub class that inherits from {@code classParent}
+     * @param classParent the super class that {@code classChild} will inherit from
+     * @param allowChildToOverride true to keep existing {@code classChild} properties, false to overwrite
      * child properties with parent properties when classParent and classChild have properties with the same name
      */
     function extend(classChild, classParent, allowChildToOverride, deepExtend) {
@@ -340,12 +327,12 @@ var Objects;
     Objects.extend = extend;
     /** Modify classChild to extend classParent via prototype-to-static inheritance.
      * Side-effect: classChild is modified.
-     * @param classChild: the sub class that inherits from {@code classParent}
-     * @param classParent: the super class that {@code classChild} will inherit from
+     * @param classChild the sub class that inherits from {@code classParent}
+     * @param classParent the super class that {@code classChild} will inherit from
      * @param allowChildToOverride: true to keep existing {@code classChild} properties, false to overwrite
      * child properties with parent properties when classParent and classChild have properties with the same name,
      * also see {@code throwErrorIfOverwrites}
-     * @param throwErrorIfOverwrites: true to throw an error if a {@code classParent} property overwrites
+     * @param throwErrorIfOverwrites true to throw an error if a {@code classParent} property overwrites
      * a {@code classChild} property, false to ignore the parent property and keep the classChild property
      * @see #extend()
      */
@@ -359,6 +346,7 @@ var Objects;
                         throw new Error("child object '" + classChild + "' already has a property named '" + key + "', cannot inherit from parent '" + classParent + "'");
                     }
                     else {
+                        // do nothing, allow child to keep it's override property
                     }
                 }
                 else {
