@@ -6,6 +6,12 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 --------
 ### [0.14.0](N/A) - 2017-06-18
 #### Changed
+* Improved Objects.assignAll() type definition
+
+
+--------
+### [0.14.0](https://github.com/TeamworkGuy2/ts-mortar/commit/6d234b9f29a3e8503975ffbb0f64611388626cbb) - 2017-06-18
+#### Changed
 * Tightened parameter types
 * Updated some documentation
 

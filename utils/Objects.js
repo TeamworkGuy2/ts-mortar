@@ -241,14 +241,6 @@ var Objects;
         return target;
     }
     Objects.assignNonUndefined = assignNonUndefined;
-    /** Assign source object properties to a target object.
-     * If 'sources' contains multiple objects with the same property, the property from the last object in 'sources' takes preceedence.
-     * Example: {@code assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3 }, { a: "A", d: 4 }])
-     * returns {@code { a: "A", b: "B", c: 3, d: 4 }}
-     *
-     * @param target the object to add/overwrite the properties to
-     * @param sources the objects to copy properties from
-     */
     function assignAll(target, sources, srcsKeys) {
         if (target == null) {
             throw new TypeError("assignAll() target cannot be null");

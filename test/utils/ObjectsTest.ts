@@ -249,7 +249,7 @@ suite("Objects", function ObjectsTest() {
 
 
     test("assignAll", function assignAllTest() {
-        var src1 = Objects.assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3 }, { a: "A", d: 4 }]);
+        var src1 = Objects.assignAll({ a: "Q", b: "" }, [{ a: "Z", b: "B", c: 3 }, { a: "A", d: 4 }]);
         var res1 = { a: "A", b: "B", c: 3, d: 4 };
         asr.deepEqual(src1, res1);
 

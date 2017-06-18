@@ -280,7 +280,10 @@ module Objects {
      * @param target the object to add/overwrite the properties to
      * @param sources the objects to copy properties from
      */
-    export function assignAll(target: object, sources: object[], srcsKeys?: string[][]): object {
+    export function assignAll<T>(target: T, sources: T[]): T;
+    export function assignAll<T, S>(target: T, sources: S[]): (T & S);
+    export function assignAll(target: object, sources: object[], srcsKeys?: string[][]): any;
+    export function assignAll(target: object, sources: object[], srcsKeys?: string[][]): any {
         if (target == null) { throw new TypeError("assignAll() target cannot be null"); }
 
         for (var i = 0, size = sources.length; i < size; i++) {
