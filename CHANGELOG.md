@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.14.0](N/A) - 2017-06-18
+### [0.14.2](N/A) - 2017-08-05
+#### Changed
+* Update to TypeScript 2.4
+
+
+--------
+### [0.14.1](https://github.com/TeamworkGuy2/ts-mortar/commit/87f81f1fc16fd0921dcb099442a7421298b8fde4) - 2017-06-18
 #### Changed
 * Improved Objects.assignAll() type definition
 
