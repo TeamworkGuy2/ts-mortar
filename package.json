@@ -1,6 +1,6 @@
 {
   "name": "ts-mortar",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "description": "TypeScript utility similar to lodash/underscore, focused on array: add, remove, search, filter; string: is, contains, modification; and object: values, clone, hasProps, getProps, extend, map, toArray.",
   "dependencies": {
   },
@@ -8,7 +8,8 @@
     "@types/chai": "~3.5.0",
     "@types/mocha": "~2.2.0",
     "chai": "~4.1.0",
-    "mocha": "~3.5.0"
+    "mocha": "~3.5.0",
+    "typescript": "~2.4.0"
   },
   "scripts": {
     "test": "mocha -u tdd --recursive"

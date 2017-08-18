@@ -15,28 +15,27 @@ suite("Numbers", function NumbersTest() {
         asr.equal(Numbers.isNullOrZero(23), false);
     });
     test("getNullableNumeric", function getNullableNumericTest() {
-        var res1 = Numbers.getNullableNumeric({ val: function () { return "0"; } });
-        asr.equal(res1, 0);
-        var res1 = Numbers.getNullableNumeric({ val: function () { return ""; } });
-        asr.equal(res1, null);
-        var res1 = Numbers.getNullableNumeric({ val: function () { return null; } });
-        asr.equal(res1, null);
-        var res1 = Numbers.getNullableNumeric({ val: function () { return "abc"; } });
-        asr.equal(res1, null);
-        var res1 = Numbers.getNullableNumeric({ val: function () { return "123"; } });
-        asr.equal(res1, 123);
+        function getNullableNumeric(value, places) {
+            return Numbers.getNullableNumeric({ val: function () { return value; } }, places);
+        }
+        asr.equal(getNullableNumeric("0"), 0);
+        asr.equal(getNullableNumeric(""), null);
+        asr.equal(getNullableNumeric(null), null);
+        asr.equal(getNullableNumeric("abc"), null);
+        asr.equal(getNullableNumeric("123"), 123);
+        asr.equal(getNullableNumeric("123.456"), 123.456);
+        asr.equal(getNullableNumeric("123.456", 1), 123.5);
+        asr.equal(getNullableNumeric("0.1234", 2), 0.12);
     });
     test("getNullableNumericPercent", function getNullableNumericPercentTest() {
-        var res1 = Numbers.getNullableNumericPercent({ val: function () { return "%0"; } });
-        asr.equal(res1, 0);
-        var res1 = Numbers.getNullableNumericPercent({ val: function () { return ""; } });
-        asr.equal(res1, null);
-        var res1 = Numbers.getNullableNumericPercent({ val: function () { return null; } });
-        asr.equal(res1, null);
-        var res1 = Numbers.getNullableNumericPercent({ val: function () { return "abc"; } });
-        asr.equal(res1, null);
-        var res1 = Numbers.getNullableNumericPercent({ val: function () { return "123 %"; } });
-        asr.equal(res1, 123);
+        function getNullableNumericPercent(value) {
+            return Numbers.getNullableNumericPercent({ val: function () { return value; } });
+        }
+        asr.equal(getNullableNumericPercent("%0"), 0);
+        asr.equal(getNullableNumericPercent(""), null);
+        asr.equal(getNullableNumericPercent(null), null);
+        asr.equal(getNullableNumericPercent("abc"), null);
+        asr.equal(getNullableNumericPercent("123 %"), 123);
     });
     test("roundTo", function roundToTest() {
         asr.equal(Numbers.roundTo(123.4567, 3), 123.457);
@@ -45,23 +44,37 @@ suite("Numbers", function NumbersTest() {
         asr.equal(Numbers.roundTo(123.4567, 0), 123);
     });
     test("toNumber", function toNumberTest() {
+        asr.equal(Numbers.toNumber("0"), 0);
         asr.equal(Numbers.toNumber("1.23"), 1.23);
         asr.equal(Numbers.toNumber("cd"), null);
     });
     test("orZero", function orZeroTest() {
-        asr.equal(Numbers.orZero(0, false), 0);
-        asr.equal(Numbers.orZero(+null, false), 0);
-        asr.equal(Numbers.orZero(Number.NaN, false), 0);
-        asr.equal(Numbers.orZero(Number.MIN_VALUE, false), Number.MIN_VALUE);
-        asr.equal(Numbers.orZero(Number.NEGATIVE_INFINITY, false), Number.NEGATIVE_INFINITY);
-        asr.equal(Numbers.orZero(Number.NaN, true), 0);
-        asr.equal(Numbers.orZero(Number.NEGATIVE_INFINITY, true), 0);
+        var orZero = Numbers.orZero;
+        asr.equal(orZero(0, false), 0);
+        asr.equal(orZero(+null, false), 0);
+        asr.equal(orZero(Number.NaN, false), 0);
+        asr.equal(orZero(Number.MIN_VALUE, false), Number.MIN_VALUE);
+        asr.equal(orZero(Number.NEGATIVE_INFINITY, false), Number.NEGATIVE_INFINITY);
+        asr.equal(orZero(Number.NaN, true), 0);
+        asr.equal(orZero(Number.NEGATIVE_INFINITY, true), 0);
     });
     test("format", function formatTest() {
-        var res1 = Numbers.format(1234567.899, 2, true, 2);
-        asr.equal(res1, "1,23,45,67.90");
-        var res1 = Numbers.format(1234567.899, 0, true, 3);
-        asr.equal(res1, "1,234,568");
+        var format = Numbers.format;
+        // number inputs
+        asr.equal(format(0, 2, true, 2), "0.00");
+        asr.equal(format(0.0102, 2, true, 2), "0.01");
+        asr.equal(format(1234567.899, 2, true, 2), "1,23,45,67.90");
+        asr.equal(format(1234567.899, 0, true, 3), "1,234,568");
+        // string inputs
+        asr.equal(format("", 2, true, 2), "0.00");
+        asr.equal(format("+0", 2, true, 2), "0.00");
+        asr.equal(format("-0", 2, true, 2), "0.00");
+        asr.equal(format("+0.0123", 2, true, 2), "0.01");
+        asr.equal(format("-0.0123", 2, true, 2), "-0.01");
+        asr.equal(format("+123", 2, true, 3), "123.00");
+        asr.equal(format("-123", 2, true, 3), "-123.00");
+        asr.equal(format("+123.456", 2, true, 3), "123.46");
+        asr.equal(format("-123.456", 2, true, 3), "-123.46");
     });
     test("formatNumeric", function formatNumericTest() {
         // same/alias for format()

@@ -4,7 +4,15 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.14.2](N/A) - 2017-08-05
+### [0.14.3](N/A) - 2017-08-18
+#### Changed
+* `Numbers.isNumeric()` return type changed back to `boolean` from `n is number` since that was incorrect
+* `Numbers.getNullableNumeric()` accepts a 2nd, optional, `decimalPlaces` parameter
+* Updated Numbers unit tests
+
+
+--------
+### [0.14.2](https://github.com/TeamworkGuy2/ts-mortar/commit/69a237fc55a63146e1c0f628b3f64f0075b3b2eb) - 2017-08-05
 #### Changed
 * Update to TypeScript 2.4
 

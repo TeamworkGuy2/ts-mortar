@@ -5,7 +5,7 @@ module Numbers {
     /**
      * @return true if the input argument is a number or a string representation of a number, false if not
      */
-    export function isNumeric(n: number | string): n is number {
+    export function isNumeric(n: number | string): boolean {
         return Numbers.toNumber(n) != null;
     }
 
@@ -29,17 +29,18 @@ module Numbers {
 
 
     /**
-     * @param obj an object containing a 'val' function that returns a string representation of a number or an empty string
-     * @return the numeric representation of the value returned by the obj's 'val' function
-     * or null if null or an empty string was returned by the 'val' function
+     * @param obj an object containing a 'val()' function that returns a string or null
+     * @param [decimalPlaces] an optional number of decimal places to round the returned number to if the 'val()' function returns a valid number
+     * @return the numeric representation of the value returned by the obj's 'val()' function
+     * or null if null or an empty string was returned by the 'val()' function
      */
-    export function getNullableNumeric(obj: { val(): string; }): number {
+    export function getNullableNumeric(obj: { val(): string; }, decimalPlaces?: number): number {
         var value = obj.val();
         if (value == null || (value = value.trim()).length === 0) {
             return null;
         }
         var num: number = <any>value * 1;
-        return isNaN(num) ? null : num;
+        return isNaN(num) ? null : (decimalPlaces > 0 ? roundTo(num, decimalPlaces) : num);
     }
 
 
@@ -122,7 +123,7 @@ module Numbers {
         }
         var val = value.toString().trim();
         // ensure the value is numeric
-        if (/(^(\+|\-)(0|([1-9][0-9]*))(\.[0-9]+)?$)|(^(0{0,1}|([1-9][0-9]*))(\.[0-9]+)?$)/.test(val) === false) {
+        if (val.length > 0 && /(^(\+|\-)?(0|([1-9][0-9]*))(\.[0-9]+)?$)/.test(val) === false) {
             return val;
         }
         var num: string = Number(val).toFixed(decimalPlaces);

@@ -27,17 +27,18 @@ var Numbers;
     }
     Numbers.isNullOrZero = isNullOrZero;
     /**
-     * @param obj an object containing a 'val' function that returns a string representation of a number or an empty string
-     * @return the numeric representation of the value returned by the obj's 'val' function
-     * or null if null or an empty string was returned by the 'val' function
+     * @param obj an object containing a 'val()' function that returns a string or null
+     * @param [decimalPlaces] an optional number of decimal places to round the returned number to if the 'val()' function returns a valid number
+     * @return the numeric representation of the value returned by the obj's 'val()' function
+     * or null if null or an empty string was returned by the 'val()' function
      */
-    function getNullableNumeric(obj) {
+    function getNullableNumeric(obj, decimalPlaces) {
         var value = obj.val();
         if (value == null || (value = value.trim()).length === 0) {
             return null;
         }
         var num = value * 1;
-        return isNaN(num) ? null : num;
+        return isNaN(num) ? null : (decimalPlaces > 0 ? roundTo(num, decimalPlaces) : num);
     }
     Numbers.getNullableNumeric = getNullableNumeric;
     function roundTo(num, decimalPlaces) {
@@ -104,7 +105,7 @@ var Numbers;
         }
         var val = value.toString().trim();
         // ensure the value is numeric
-        if (/(^(\+|\-)(0|([1-9][0-9]*))(\.[0-9]+)?$)|(^(0{0,1}|([1-9][0-9]*))(\.[0-9]+)?$)/.test(val) === false) {
+        if (val.length > 0 && /(^(\+|\-)?(0|([1-9][0-9]*))(\.[0-9]+)?$)/.test(val) === false) {
             return val;
         }
         var num = Number(val).toFixed(decimalPlaces);
