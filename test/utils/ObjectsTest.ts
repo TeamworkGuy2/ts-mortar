@@ -60,7 +60,7 @@ suite("Objects", function ObjectsTest() {
         var tmp = keys[idx];
         keys[idx] = keys[keys.length - 1];
         keys.pop();
-        var vals = [];
+        var vals: any[] = [];
         for (var i = 0, size = keys.length; i < size; i++) {
             vals.push(item[keys[i]]);
         }
@@ -115,10 +115,10 @@ suite("Objects", function ObjectsTest() {
     test("clone", function cloneTest() {
         function createOrig() {
             return {
-                a: "A",
+                a: <string | null>"A",
                 b: { 1: 1, 2: 2, 3: 3 },
                 c: {
-                    c1: [1, 2, 4, 8],
+                    c1: <number[] | null>[1, 2, 4, 8],
                     c2: { c2a: [{ sup: "alpha" }, { sub: { text: true, values: [false, 1.3, "t", "a"] } }] },
                     c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
                 },
@@ -171,10 +171,10 @@ suite("Objects", function ObjectsTest() {
     test("cloneDeep", function cloneDeepTest() {
         function createOrig() {
             return {
-                a: "A",
+                a: <string | null>"A",
                 b: { 1: 1, 2: 2, 3: 3, date: dateA() },
                 c: {
-                    c1: [1, 2, 4, 8],
+                    c1: <number[] | null>[1, 2, 4, 8],
                     c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: [false, 1.3, "t", "a"] } }] },
                     c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
                     c4: undefined,
@@ -186,10 +186,10 @@ suite("Objects", function ObjectsTest() {
 
         function createOrigNonUndefined() {
             return {
-                a: "A",
+                a: <string | null>"A",
                 b: { 1: 1, 2: 2, 3: 3, date: dateA() },
                 c: {
-                    c1: [1, 2, 4, 8],
+                    c1: <number[] | null>[1, 2, 4, 8],
                     c2: { c2a: [{ sup: "alpha" }, { sub: { text: "beta", values: [false, 1.3, "t", "a"] } }] },
                     c3: ["1-dimension", ["2", "dimension"], ["3", "-", "dimension"]],
                 },
@@ -254,14 +254,14 @@ suite("Objects", function ObjectsTest() {
         asr.deepEqual(src1, res1);
 
         // test explicit keys
-        var src2 = Objects.assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3, d: "!" }, { b: 2 }, { a: "A", d: 4 }], [["a", "b", "c"], null, ["d"]]);
+        var src2 = Objects.assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3, d: "!" }, { b: 2 }, { a: "A", d: 4 }], [["a", "b", "c"], <string[]><any>null, ["d"]]);
         var res2 = { a: "Z", b: 2, c: 3, d: 4 };
         asr.deepEqual(src2, res2);
     });
 
 
     test("getProps", function getPropsTest() {
-        var res1 = Objects.getProps(undefined, ["alpha", "beta"]);
+        var res1 = Objects.getProps(<{ alpha; beta; }><any>undefined, ["alpha", "beta"]);
         asr.deepEqual(res1, []);
 
         var res2 = Objects.getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"]);
@@ -347,7 +347,7 @@ suite("Objects", function ObjectsTest() {
             "44": "55"
         };
 
-        asr.deepEqual(Objects.invert(src1), src1Invert);
+        asr.deepEqual(Objects.invert(src1), <any>src1Invert);
 
         var b = {};
         b[date.toString()] = date;

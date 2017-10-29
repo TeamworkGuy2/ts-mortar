@@ -7,7 +7,7 @@ var Numbers;
      * @return true if the input argument is a number or a string representation of a number, false if not
      */
     function isNumeric(n) {
-        return Numbers.toNumber(n) != null;
+        return toNumber(n) != null;
     }
     Numbers.isNumeric = isNumeric;
     /**
@@ -68,9 +68,20 @@ var Numbers;
         return isNaN(num) ? null : num;
     }
     Numbers.getNullableNumericPercent = getNullableNumericPercent;
+    /** Convert NaN, null, or undefined numbers to zero, infinity remains as is.
+     * Example: orZero("string")
+     * returns: 0
+     * Or example: orZero("-12")
+     * returns: -12
+     *
+     * @param num the number to check
+     * @param infinityToZero true to convert infinity (Infinity, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY)
+     * to zero, false to leave it as is
+     * @return the parsed number
+     */
     function orZero(num, infinityToZero) {
         var val = (num == null || typeof num === "number") ? num : parseFloat(num);
-        return (num == null || isNaN(val) ||
+        return (val == null || isNaN(val) ||
             (infinityToZero === true && (val === Infinity ||
                 val === Number.NEGATIVE_INFINITY || val === Number.POSITIVE_INFINITY))) ? 0 : val;
     }
@@ -86,7 +97,7 @@ var Numbers;
      */
     function format(value, decimalPlaces, includeSeparator, digitsBetweenSeparators) {
         if (digitsBetweenSeparators === void 0) { digitsBetweenSeparators = 3; }
-        return Numbers.formatNumeric(value, decimalPlaces, includeSeparator, digitsBetweenSeparators);
+        return formatNumeric(value, decimalPlaces, includeSeparator, digitsBetweenSeparators);
     }
     Numbers.format = format;
     /** Convert a value like 1340283.5264 to '1,340,283.53'
@@ -101,7 +112,7 @@ var Numbers;
     function formatNumeric(value, decimalPlaces, includeSeparator, digitsBetweenSeparators) {
         if (digitsBetweenSeparators === void 0) { digitsBetweenSeparators = 3; }
         if (value == null) {
-            return value;
+            return null;
         }
         var val = value.toString().trim();
         // ensure the value is numeric

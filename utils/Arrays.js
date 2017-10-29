@@ -184,7 +184,7 @@ var Arrays;
                     removed: []
                 };
             }
-            if (ary1 != null && ary2 == null) {
+            else {
                 return {
                     added: [],
                     removed: ary1.slice()
@@ -226,13 +226,6 @@ var Arrays;
         };
     }
     Arrays.diffParts = diffParts;
-    /** Remove the first matching value from an array without creating a new array of splicing the array.
-     * NOTE: the returned order of the array's elements is not defined.
-     * @param ary the values to search and remove the matching value from
-     * @param value the value to search for and remove
-     * @return 'ary' of values with the first matching instance of 'value' removed,
-     * values are compared based on strict equality '===='
-     */
     function fastRemove(ary, value) {
         var aryLen = ary != null ? ary.length : 0;
         if (aryLen === 0) {
@@ -248,12 +241,6 @@ var Arrays;
         return ary;
     }
     Arrays.fastRemove = fastRemove;
-    /** Remove a value at a specific index from an array without creating a new array of splicing the array.
-     * NOTE: the returned order of the array's elements is not defined.
-     * @param ary the array of values
-     * @param index the index of the value to remove from the array
-     * @return 'ary' of values with the specified index removed
-     */
     function fastRemoveIndex(ary, index) {
         var aryLen = ary != null ? ary.length : 0;
         if (aryLen === 0) {
@@ -560,7 +547,7 @@ var Arrays;
             if ((ary1 != null && !Array.isArray(ary1)) || (ary2 != null && !Array.isArray(ary2)) || ary1 === undefined || ary2 === undefined) {
                 throw new Error("incorrect usage ([" + ary1 + "], [" + ary2 + "]), " + "expected (Array ary1, Array ary2)");
             }
-            if ((ary1 == null && ary2 != null) || (ary1 != null && ary2 == null)) {
+            if (ary1 == null || ary2 == null) {
                 return false;
             }
         }
@@ -654,19 +641,6 @@ var Arrays;
         return results;
     }
     Arrays.mapFilterNotNull = mapFilterNotNull;
-    /** Remove all of the specified values from this list.
-     * The removal is done in place.
-     * For example: Arrays.removeAll([1, 2, 3, 4, 5, 5], [1, 5])
-     * returns: [2, 3, 4, 5]
-     * For example: Arrays.removeAll([1, 2, 2, 3, 3], [2, 2, 3], true)
-     * returns: [3, 1]
-     * NOTE: if 'fastRemove' is true, the order of 'ary' when this method returns is not defined and will probably differ from the original order
-     *
-     * @param ary the array to remove items from
-     * @param toRemove the items to search for and remove
-     * @param [fastRemove=false] optional flag indicating whether this function is allowed to reorder the input array's elements
-     * @return the same input 'ary'
-     */
     function removeAll(ary, toRemove, fastRemove) {
         if (ary == null || toRemove == null) {
             return ary;
@@ -720,17 +694,9 @@ var Arrays;
         return idx;
     }
     Arrays.removeValue = removeValue;
-    /** Remove an index from an array
-     * For example: Arrays.removeIndex(["Alpha", "Beta", "Gamma"], 1)
-     * returns: ["Alpha", "Gamma"]
-     *
-     * @param ary the array to remove an index from
-     * @param index the index of the value to remove
-     * @return the 'ary' with the value at 'index' removed
-     */
     function removeIndex(ary, index) {
         if (ary == null) {
-            return ary;
+            return null;
         }
         var size = ary.length;
         if (ary.length < 1 || index < 0 || index >= ary.length) {
@@ -792,7 +758,7 @@ var Arrays;
             if ((origAry != null && !Array.isArray(origAry)) || (insertAry != null && !Array.isArray(insertAry)) || origAry === undefined || insertAry === undefined) {
                 throw new Error("incorrect usage ([" + origAry + "], [" + insertAry + "], " + index + ", " + (deleteCount || 0) + "), " + "expected (Array origAry, Array insertAry, Integer index, Integer deleteCount)");
             }
-            if ((origAry == null && insertAry != null) || (origAry != null && insertAry == null)) {
+            if (origAry == null || insertAry == null) {
                 return Array.prototype.push.apply([], origAry || insertAry);
             }
         }
@@ -874,13 +840,6 @@ var Arrays;
         return results;
     }
     Arrays.union = union;
-    /** Returns the unique values of an array as defined by the Array#indexOf() operator.
-     * For example: Arrays.toUnique(["alpha", "beta", "charlie", "alpha", "beta"])
-     * returns: ["alpha", "beta", "charlie"]
-     *
-     * @param ary an array of values
-     * @return a new array of values containing the original array's unique values
-     */
     function unique(ary) {
         if (ary == null || ary.length < 2) {
             return ary || null;

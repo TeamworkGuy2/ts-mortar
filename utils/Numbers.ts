@@ -5,16 +5,16 @@ module Numbers {
     /**
      * @return true if the input argument is a number or a string representation of a number, false if not
      */
-    export function isNumeric(n: number | string): boolean {
-        return Numbers.toNumber(n) != null;
+    export function isNumeric(n: number | string | null | undefined): boolean {
+        return toNumber(n) != null;
     }
 
 
     /**
      * @return a number if the input argument is a number or a string representing a valid number, null otherwise
      */
-    export function toNumber(num: string | number): number {
-        var val: number = null;
+    export function toNumber(num: string | number | null | undefined): number | null {
+        var val: number = <never>null;
         return !isNaN(val = parseFloat(<string>num)) && isFinite(val) ? val : null;
     }
 
@@ -23,7 +23,7 @@ module Numbers {
      * @param num the number to check
      * @return true if the parameter is null or zero, false if not
      */
-    export function isNullOrZero(num: number): boolean {
+    export function isNullOrZero(num: number | null | undefined): boolean {
         return num == null || num === 0;
     }
 
@@ -34,13 +34,13 @@ module Numbers {
      * @return the numeric representation of the value returned by the obj's 'val()' function
      * or null if null or an empty string was returned by the 'val()' function
      */
-    export function getNullableNumeric(obj: { val(): string; }, decimalPlaces?: number): number {
+    export function getNullableNumeric(obj: { val(): string | null | undefined; }, decimalPlaces?: number): number | null {
         var value = obj.val();
         if (value == null || (value = value.trim()).length === 0) {
             return null;
         }
         var num: number = <any>value * 1;
-        return isNaN(num) ? null : (decimalPlaces > 0 ? roundTo(num, decimalPlaces) : num);
+        return isNaN(num) ? null : (<number>decimalPlaces > 0 ? roundTo(num, <number>decimalPlaces) : num);
     }
 
 
@@ -54,7 +54,7 @@ module Numbers {
      * @return the numeric representation of the value returned by the obj's 'val' function
      * or null if null or an empty string was returned by the 'val' function
      */
-    export function getNullableNumericPercent(obj: { val(): string }): number {
+    export function getNullableNumericPercent(obj: { val(): string | null | undefined }): number | null {
         var value = obj.val();
         if (value == null || (value = value.trim()).length === 0) {
             return null;
@@ -74,9 +74,9 @@ module Numbers {
 
 
     /** Convert NaN, null, or undefined numbers to zero, infinity remains as is.
-     * Example: Numbers.orZero("string")
+     * Example: orZero("string")
      * returns: 0
-     * Or example: Numbers.orZero("-12")
+     * Or example: orZero("-12")
      * returns: -12
      *
      * @param num the number to check
@@ -84,11 +84,9 @@ module Numbers {
      * to zero, false to leave it as is
      * @return the parsed number
      */
-    export function orZero(num: string, infinityToZero?: boolean): number;
-    export function orZero(num: number, infinityToZero?: boolean): number;
-    export function orZero(num: any, infinityToZero?: boolean): number {
+    export function orZero(num: number | string | null | undefined, infinityToZero?: boolean): number {
         var val = (num == null || typeof num === "number") ? num : parseFloat(num);
-        return (num == null || isNaN(val) ||
+        return (val == null || isNaN(val) ||
             (infinityToZero === true && (val === Infinity ||
                 val === Number.NEGATIVE_INFINITY || val === Number.POSITIVE_INFINITY))) ? 0 : val;
     }
@@ -103,8 +101,8 @@ module Numbers {
      * would produce '1,340,283.53', but 4 would produce '134,0283.53'
      * @return a string representing the formatted numeric value
      */
-    export function format(value: any, decimalPlaces: number, includeSeparator: boolean, digitsBetweenSeparators: number = 3): string {
-        return Numbers.formatNumeric(value, decimalPlaces, includeSeparator, digitsBetweenSeparators);
+    export function format(value: number | string | null | undefined, decimalPlaces: number, includeSeparator: boolean, digitsBetweenSeparators: number = 3): string | null {
+        return formatNumeric(value, decimalPlaces, includeSeparator, digitsBetweenSeparators);
     }
 
 
@@ -117,9 +115,9 @@ module Numbers {
      * would produce '1,340,283.53', but 4 would produce '134,0283.53'
      * @return a string representing the formatted numeric value
      */
-    export function formatNumeric(value: any, decimalPlaces: number, includeSeparator: boolean, digitsBetweenSeparators: number = 3): string {
+    export function formatNumeric(value: number | string | null | undefined, decimalPlaces: number, includeSeparator: boolean, digitsBetweenSeparators: number = 3): string | null {
         if (value == null) {
-            return value;
+            return null;
         }
         var val = value.toString().trim();
         // ensure the value is numeric

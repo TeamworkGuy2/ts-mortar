@@ -82,13 +82,11 @@ suite("Strings", function StringsTest() {
             }
         }
     });
-    test("padZeroStart", function padZeroStartTest() {
-        asr.equal(Strings.padZeroStart(123, 5), "00123");
-        asr.equal(Strings.padZeroStart(123, 6), "000123");
-        asr.equal(Strings.padZeroStart(123, 3), "123");
-        asr.equal(Strings.padZeroStart(123, 0), "123");
-    });
     test("padStart", function padStartTest() {
+        asr.equal(Strings.padStart(123, 5, '0'), "00123");
+        asr.equal(Strings.padStart(123, 6, '0'), "000123");
+        asr.equal(Strings.padStart(123, 3, '0'), "123");
+        asr.equal(Strings.padStart(123, 0, '0'), "123");
         asr.equal(Strings.padStart(1.2, 5, " "), "  1.2");
         asr.equal(Strings.padStart(1.2, 6, "-"), "---1.2");
         asr.equal(Strings.padStart(1.2, 3, "-"), "1.2");

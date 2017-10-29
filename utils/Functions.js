@@ -40,11 +40,6 @@ var Functions;
         return typeof func === "function";
     }
     Functions.isFunction = isFunction;
-    /** Create a function that lazily returns a computed value
-     * @param initializer the function that initializes the lazy field and returns it (this function will only be called once)
-     * @return a function that returns the cached value returned by the {@code initializer} function
-     * with an optiona 'refetch' parameter which, if true, forces the initializer to be called again
-     */
     function lazyField(initializer) {
         var value = null;
         return function lazyInitializer(refetch) {

@@ -22,7 +22,7 @@ suite("Numbers", function NumbersTest() {
 
 
     test("getNullableNumeric", function getNullableNumericTest() {
-        function getNullableNumeric(value: string, places?: number) {
+        function getNullableNumeric(value: string | null | undefined, places?: number) {
             return Numbers.getNullableNumeric({ val: () => value }, places);
         }
 
@@ -38,7 +38,7 @@ suite("Numbers", function NumbersTest() {
 
 
     test("getNullableNumericPercent", function getNullableNumericPercentTest() {
-        function getNullableNumericPercent(value: string) {
+        function getNullableNumericPercent(value: string | null | undefined) {
             return Numbers.getNullableNumericPercent({ val: () => value });
         }
 

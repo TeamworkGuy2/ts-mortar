@@ -5,13 +5,14 @@
 module Strings {
 
     /** Check if a string ends with a specific suffix
-     * For example: {@code endsWith("coding in javascript", "script")}
-     * returns: {@code true}
+     * Example: endsWith("coding in javascript", "script")
+     * returns: true
+     *
      * @param str: the string to check. Null returns false
      * @param suffix: the suffix to check for. Null returns false
-     * @return true if {@code str} ends with {@code stuffix}, false otherwise
+     * @return true if the string ends with the stuffix, false otherwise
      */
-    export function endsWith(str: string, suffix: string): boolean {
+    export function endsWith(str: string | null | undefined, suffix: string | null | undefined): boolean {
         if (str == null || suffix == null) {
             return false;
         }
@@ -21,19 +22,19 @@ module Strings {
 
     /** Check if a string is null or empty
      * @param str: the string to check
-     * @return true if the {@code str} is null or empty, false if not
+     * @return true if the 'str' is null or empty, false if not
      */
-    export function isNullOrEmpty(str: string): boolean {
+    export function isNullOrEmpty(str: string | null | undefined): boolean {
         return str == null || str.length === 0;
     }
 
 
     /** Check if a string is null or empty or contains only whitespace
      * @param str: the string to check
-     * @return true if the {@code str} is null, empty or contains only
+     * @return true if the 'str' is null, empty or contains only
      * whitespace characters, false otherwise
      */
-    export function isNullOrWhiteSpace(str: string): boolean {
+    export function isNullOrWhiteSpace(str: string | null | undefined): boolean {
         return str == null || (str.trim instanceof Function ? str.trim().length === 0 : false);
     }
 
@@ -41,9 +42,9 @@ module Strings {
     /** Check if a character at a specific index in a string is a digit
      * @param str: the string to get the character from
      * @param i: the index of the character
-     * @return true if the character at the specified index is a digit {@code 0-9}, false if not
+     * @return true if the character at the specified index is a digit [0-9], false if not
      */
-    export function isCharAtDigit(str: string, i: number): boolean {
+    export function isCharAtDigit(str: string | null | undefined, i: number): boolean {
         if (str == null || i < 0 || i >= str.length) {
             return false;
         }
@@ -54,9 +55,9 @@ module Strings {
 
     /** Check if all characters in a string are digits
      * @param str: the string to check
-     * @return true if every character in the string is a digit {@code [0-9]}, false if not
+     * @return true if every character in the string is a digit [0-9], false if not
      */
-    export function isDigit(str: string): boolean {
+    export function isDigit(str: string | null | undefined): boolean {
         if (str == null) {
             return false;
         }
@@ -71,15 +72,16 @@ module Strings {
 
 
     /** Check if a char at a specific index in a string is upper case
-     * For example: {@code isCharAtUpperCase("Super", 0)}
-     * returns: {@code true}
-     * Or example: {@code isCharAtUpperCase("Super", 4)}
-     * returns {@code false}
+     * Example: isCharAtUpperCase("Super", 0)
+     * returns: true
+     * Example: isCharAtUpperCase("Super", 4)
+     * returns false
+     *
      * @param str: the string that the char resides in
-     * @param i: the index of the character in {@code str} to test
-     * @return true if the character at index {@code i} is upper case
+     * @param i: the index of the character in 'str' to test
+     * @return true if the character at index 'i' is upper case
      */
-    export function isCharAtUpperCase(str: string, i: number): boolean {
+    export function isCharAtUpperCase(str: string | null | undefined, i: number): boolean {
         if (str == null || i < 0 || i >= str.length) {
             return false;
         }
@@ -89,15 +91,16 @@ module Strings {
 
 
     /** Check if a char at a specific index in a string is lower case
-     * For example: {@code isCharAtLowerCase("Super", 0)}
-     * returns: {@code false}
-     * Or example: {@code isCharAtLowerCase("Super", 4)}
-     * returns {@code true}
+     * Example: isCharAtLowerCase("Super", 0)
+     * returns: false
+     * Example: isCharAtLowerCase("Super", 4)
+     * returns true
+     *
      * @param str: the string that the char resides in
-     * @param i: the index of the character in {@code str} to test
-     * @return true if the character at index {@code i} is lower case
+     * @param i: the index of the character in 'str' to test
+     * @return true if the character at index 'i' is lower case
      */
-    export function isCharAtLowerCase(str: string, i: number): boolean {
+    export function isCharAtLowerCase(str: string | null | undefined, i: number): boolean {
         if (str == null || i < 0 || i >= str.length) {
             return false;
         }
@@ -111,7 +114,7 @@ module Strings {
      * @param str2: the second string to compare
      * @return true if the strings are loosely equal (ignoring case and whitespace)
      */
-    export function looseEqual(str1: string, str2: string): boolean {
+    export function looseEqual(str1: string | null | undefined, str2: string | null | undefined): boolean {
         return str1 != null && str2 != null && str1.trim().toUpperCase() === str2.trim().toUpperCase();
     }
 
@@ -121,28 +124,21 @@ module Strings {
      * @param maxLen: the max length of the string
      * @param ellipsis: an optional string to append to the returned string if it is clamped, this string is appended in addition to the 'maxLen'
      */
-    export function clamp(str: string, maxLen: number, ellipsis: string = ""): string {
-        return str && str.length > maxLen ? str.substring(0, maxLen - ellipsis.length) + ellipsis : str;
+    export function clamp(str: string, maxLen: number, ellipsis?: string): string;
+    export function clamp(str: string | null | undefined, maxLen: number, ellipsis?: string): string | null | undefined;
+    export function clamp(str: string | null | undefined, maxLen: number, ellipsis: string = ""): string | null | undefined {
+        return str != null && str.length > maxLen ? str.substring(0, maxLen - ellipsis.length) + ellipsis : str || null;
     }
 
 
-    /** Pad the start of a string with zeros '0'.
-     * Alias for padStart(value, targetLen, '0')
-     * @see padStart()
-     */
-    export function padZeroStart(value: any, targetLen: number, padChar: string = '0'): string {
-        return Strings.padStart(value, targetLen, padChar);
-    }
-
-
-    /** Prepend padding to the {@code String(value)} representation {@code value} to increase it's length to {@code targetLen}
+    /** Prepend padding to the 'String(value)' representation 'value' to increase it's length to 'targetLen'
      * @param value: the value to convert to a string and pad
      * @param targetLen: the maximum length of the returned string
      * @param [padChar]: an character to use as padding
-     * @return the {@code value} converted to a string and padded with {@code padChar} until the string is {@code targetLen} long,
-     * or returns the {@code value} as a string without modification if that string is longer than {@code targetLen}
+     * @return the 'value' converted to a string and padded with 'padChar' until the string is 'targetLen' long,
+     * or returns the 'value' as a string without modification if that string is longer than 'targetLen'
      */
-    export function padStart(value: any, targetLen: number, padChar: string): string {
+    export function padStart(value: string | number, targetLen: number, padChar: string): string {
         var valStr = String(value);
         if (valStr.length >= targetLen) {
             return valStr;
@@ -154,7 +150,7 @@ module Strings {
     /**
      * @see padStart()
      */
-    export function padEnd(value: any, targetLen: number, padChar: string): string {
+    export function padEnd(value: string | number, targetLen: number, padChar: string): string {
         var valStr = String(value);
         if (valStr.length >= targetLen) {
             return valStr;
@@ -163,13 +159,13 @@ module Strings {
     }
 
 
-    /** Remove {@code leadingStr} string from the beginning of {@code str} as many times as it appears.
-     * For example: removeTrailingStrings("stubstubAlpha", "stub")
-     * Returns: "Alpha"
+    /** Remove 'leadingStr' string from the beginning of 'str' as many times as it appears.
+     * Example: removeTrailingStrings("stubstubAlpha", "stub")
+     * returns: "Alpha"
      *
      * @param str: the string to remove the leading values from
-     * @param leadingStr: the sub-string to search for and remove from the beginning of {@code str}
-     * @return {@code str} with the matching leading strings removed
+     * @param leadingStr: the sub-string to search for and remove from the beginning of 'str''
+     * @return 'str' with the matching leading strings removed
      */
     export function removeLeading(str: string, leadingStr: string, removeRepeats: boolean = false) {
         var res = str;
@@ -188,13 +184,13 @@ module Strings {
     }
 
 
-    /** Remove {@code trailingStr} string from the end of {@code str} as many times as it appears.
-     * For example: removeTrailingStrings("alphaPiePiePie", "Pie")
-     * Returns: "alpha"
+    /** Remove 'trailingStr' string from the end of 'str' as many times as it appears.
+     * Example: removeTrailingStrings("alphaPiePiePie", "Pie")
+     * returns: "alpha"
      *
      * @param str: the string to remove the trailing values from
-     * @param trailingStr: the sub-string to search for and remove from the end of {@code str}
-     * @return {@code str} with the matching trailing strings removed
+     * @param trailingStr: the sub-string to search for and remove from the end of 'str''
+     * @return 'str' with the matching trailing strings removed
      */
     export function removeTrailing(str: string, trailingStr: string, removeRepeats: boolean = false) {
         var res = str;
@@ -214,12 +210,13 @@ module Strings {
 
 
     /** Replace all occurances of a specified substring with a replacement string
-     * For example: {@code replaceAll("cat in the hat", "at", "ab")}
-     * returns: {@code "cab in the hab"}
+     * Example: replaceAll("cat in the hat", "at", "ab")
+     * returns: "cab in the hab"
+     *
      * @param str: the string to search and replace
      * @param find: the string to search for
      * @param replace: the replacement string
-     * @return the {@code str} with all instances of {@code find} replaced with {@code replace}
+     * @return the 'str' with all instances of 'find' replaced with 'replace'
      */
     export function replaceAll(str: string, find: string, replace: string): string {
         if (str == null || find == null) {

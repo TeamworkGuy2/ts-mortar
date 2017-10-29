@@ -37,14 +37,14 @@ module EnumCreatorImpl {
         private enumConstantClass: any;
 
 
-        constructor(enumClass: any, enumConstantClass: any, enumConstants: T[]) {
+        constructor(enumClass: object, enumConstantClass: object, enumConstants: T[]) {
             this.enumClass = enumClass;
             this.enumConstantClass = enumConstantClass;
             this.enumConstants = enumConstants;
         }
 
 
-        public isInstance(obj: any): boolean {
+        public isInstance(obj: object): boolean {
             return obj != null && (obj.constructor != null &&
                 ((obj.constructor.name === this.enumConstantClass.name) || (obj instanceof this.enumConstantClass)));
         }

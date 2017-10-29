@@ -402,7 +402,7 @@ suite("Arrays", function ArraysTest() {
         var res2 = Arrays.removeAll([2, 3, 1, 3, 2], [2, 2, 3], true);
         asr.deepEqual(res2.sort(numSort), [1, 3]);
 
-        var res2 = Arrays.removeAll([2, 1], null);
+        var res2 = <number[]>Arrays.removeAll([2, 1], null);
         asr.deepEqual(res2.sort(numSort), [1, 2]);
     });
 

@@ -4,7 +4,16 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.14.3](N/A) - 2017-08-18
+### [0.15.0](N/A) - 2017-10-28
+#### Changed
+* Added `strictNullChecks` to `tsconfig.json` and updated code to handle null types
+
+#### Removed
+* `String.padZeroLeft(str, len)` since `padLeft(str, len, '0')` is the same number of characters
+
+
+--------
+### [0.14.3](https://github.com/TeamworkGuy2/ts-mortar/commit/670e443745d02e709cdd2d0c324fb56059b11563) - 2017-08-18
 #### Changed
 * `Numbers.isNumeric()` return type changed back to `boolean` from `n is number` since that was incorrect
 * `Numbers.getNullableNumeric()` accepts a 2nd, optional, `decimalPlaces` parameter

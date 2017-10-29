@@ -9,13 +9,13 @@ var Objects;
     /** Get a set of property values from an object.
      * The list of property names can be provided, or if not provided,
      * all of the object's key values will be retrieved.
-     * Example: {@code ObjectUtil.values({ alpha: "1", beta: "2", charlie: "3" })}
-     * returns: {@code ["1", "2", "3"]}
+     * Example: ObjectUtil.values({ alpha: "1", beta: "2", charlie: "3" })
+     * returns: ["1", "2", "3"]
      *
      * @param obj the object to retrieve property values from
      * @param [keys=Object.keys(obj)] the list of property names
      * to retrieve from the object
-     * @return the values associated with {@code keys} or {@code Object.keys(obj)}
+     * @return the values associated with 'keys' or 'Object.keys(obj)'
      */
     function values(obj, keys) {
         if (keys != null && !Array.isArray(keys)) {
@@ -25,9 +25,9 @@ var Objects;
             keys = Object.keys(obj);
         }
         var size = keys.length;
-        var results = new Array(size);
+        var results = [];
         for (var i = 0; i < size; i++) {
-            results[i] = obj[keys[i]];
+            results.push(obj[keys[i]]);
         }
         return results;
     }
@@ -35,14 +35,14 @@ var Objects;
     /** Get a set of non-null property values from an object.
      * The list of property names can be provided, or if not provided,
      * all of the object's key values will be retrieved.
-     * Example: {@code ObjectUtil.valuesNotNull({ alpha: "1", beta: "2", charlie: "3", delta: null })}
-     * returns: {@code ["1", "2", "3"]}
+     * Example: ObjectUtil.valuesNotNull({ alpha: "1", beta: "2", charlie: "3", delta: null })
+     * returns: ["1", "2", "3"]
      *
      * @param obj the object to retrieve property values from
      * @param [keys=Object.keys(obj)] the list of property names
      * to retrieve from the object
-     * @return the non-null values associated with {@code keys} or the
-     * non-null values associated with {@code Object.keys(obj)}
+     * @return the non-null values associated with 'keys' or the
+     * non-null values associated with 'Object.keys(obj)''
      */
     function valuesNotNull(obj, keys) {
         if (keys != null && !Array.isArray(keys)) {
@@ -83,15 +83,15 @@ var Objects;
     }
     Objects.hasNonNullProps = hasNonNullProps;
     /** Check if an object has matching values for all of the properties specified
-     * Example: {@code hasMatchingProperties({ alpha: 100 }, ["alpha"], function (v, n) { return v != null; })}
-     * returns: {@code true}
-     * Or example: {@code hasMatchingProperties({ alpha: 100, beta: null }, ["alpha", "beta", "gamma", "delta", "epsilon"], function (v, n) { return v != null; }, 3)}
-     * returns: {@code false} (and should return after checking 4 properties, since there are 5 properties, only 1 of the first 4 matches, and 3 are required)
+     * Example: hasMatchingProperties({ alpha: 100 }, ["alpha"], function (v, n) { return v != null; })
+     * returns: true
+     * Or example: hasMatchingProperties({ alpha: 100, beta: null }, ["alpha", "beta", "gamma", "delta", "epsilon"], function (v, n) { return v != null; }, 3)
+     * returns: false (and should return after checking 4 properties, since there are 5 properties, only 1 of the first 4 matches, and 3 are required)
      *
      * @param obj the object to check
-     * @param propNames the array of property names to check for in {@code obj}
-     * @param requiredCount the number of properties (in the order they appear in the {@code propNames} array)
-     * required to be non-null before returning true, defaults to the size in the {@code propNames} array
+     * @param propNames the array of property names to check for in 'obj'
+     * @param requiredCount the number of properties (in the order they appear in the 'propNames' array)
+     * required to be non-null before returning true, defaults to the size in the 'propNames' array
      * @return true if the required number of properties exist in the object and match the condition function specified, false otherwise
      */
     function hasMatchingProps(obj, propNames, filter, requiredCount) {
@@ -120,13 +120,9 @@ var Objects;
         return false;
     }
     Objects.hasMatchingProps = hasMatchingProps;
-    /** Create a deep copy of a source object.
-     * NOTE: symbols, built-in types (such as array buffer, regex, etc.), and prototypes are not copied
-     * @param source the object to copy
-     */
     function cloneDeep(source) {
         if (source == null) {
-            return source;
+            return null;
         }
         var srcType;
         if (Array.isArray(source)) {
@@ -154,13 +150,9 @@ var Objects;
         return source;
     }
     Objects.cloneDeep = cloneDeep;
-    /** Create a deep copy of a source object excluding 'undefined' properties.
-     * NOTE: symbols, built-in types (such as array buffer, regex, etc.), and prototypes are not copied
-     * @param source the object to copy
-     */
     function cloneDeepNonUndefined(source) {
         if (source == null) {
-            return source;
+            return null;
         }
         var srcType;
         if (Array.isArray(source)) {
@@ -193,7 +185,7 @@ var Objects;
     function clone(source, srcKeys, assigner) {
         if (assigner === void 0) { assigner = assign; }
         if (source == null) {
-            return source;
+            return null;
         }
         if (typeof srcKeys === "function") {
             assigner = srcKeys;
@@ -261,10 +253,10 @@ var Objects;
     Objects.assignAll = assignAll;
     /** Get multiple properties from an object without the risk of an undefined error.
      * Return an empty array if either the object or the list of property names are null or undefined.
-     * Example: {@code getProps(undefined, ["alpha", "beta"])}
-     * returns: {@code []}
-     * Or example: {@code getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"])}
-     * returns: {@code [342, "B"]}
+     * Example: getProps(undefined, ["alpha", "beta"])
+     * returns: []
+     * Or example: getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"])
+     * returns: [342, "B"]
      *
      * @param obj: the object to retrieve the properties from
      * @param propertyNames: the names of the object properties to retrieve
@@ -285,10 +277,12 @@ var Objects;
     Objects.getProps = getProps;
     /** Modify classChild to extend classParent via prototypal inheritance.
      * Side-effect: classChild's prototype is modified.
-     * @param classChild the sub class that inherits from {@code classParent}
-     * @param classParent the super class that {@code classChild} will inherit from
-     * @param allowChildToOverride true to keep existing {@code classChild} properties, false to overwrite
+     * @param classChild the sub class that inherits from 'classParent''
+     * @param classParent the super class that 'classChild' will inherit from
+     * @param allowChildToOverride true to keep existing 'classChild' properties, false to overwrite
      * child properties with parent properties when classParent and classChild have properties with the same name
+     * @param [deepExtend=false] if duplicate properties are found on the 'classChild' prototype that also exist on the 'classParent' prototype, then true allows
+     * the last duplicate property to take precedence, false allows the first property to take precedence. Property precedence is also determined by 'allowChildToOverride'
      */
     function extend(classChild, classParent, allowChildToOverride, deepExtend) {
         if (deepExtend === void 0) { deepExtend = false; }
@@ -319,13 +313,13 @@ var Objects;
     Objects.extend = extend;
     /** Modify classChild to extend classParent via prototype-to-static inheritance.
      * Side-effect: classChild is modified.
-     * @param classChild the sub class that inherits from {@code classParent}
-     * @param classParent the super class that {@code classChild} will inherit from
-     * @param allowChildToOverride: true to keep existing {@code classChild} properties, false to overwrite
-     * child properties with parent properties when classParent and classChild have properties with the same name,
-     * also see {@code throwErrorIfOverwrites}
-     * @param throwErrorIfOverwrites true to throw an error if a {@code classParent} property overwrites
-     * a {@code classChild} property, false to ignore the parent property and keep the classChild property
+     * @param classChild the sub class that inherits from 'classParent''
+     * @param classParent the super class that 'classChild' will inherit from
+     * @param allowChildToOverride true to keep existing 'classChild' properties, false to overwrite
+     * child properties with parent properties when classParent and classChild have properties with
+     * the same name, also see 'throwErrorIfOverwrites''
+     * @param throwErrorIfOverwrites true to throw an error if a 'classParent' property overwrites
+     * a 'classChild' property, false to ignore the parent property and keep the classChild property
      * @see #extend()
      */
     function extendToStatic(classChild, classParent, allowChildToOverride, throwErrorIfOverwrites) {
@@ -354,11 +348,6 @@ var Objects;
         }
     }
     Objects.extendToStatic = extendToStatic;
-    /** Given a map of key/values, return a new map containing those keys and values inverted.
-     * Example: {@code { a: b, key: 123 }}
-     * returns: {@code { b: a, 123: key }}
-     * @param srcMap the object to invert
-     */
     function invert(srcMap) {
         var inverseMap = Object.keys(srcMap).reduce(function (map, name) {
             map[srcMap[name]] = name;
