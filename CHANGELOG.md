@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.0](N/A) - 2017-10-28
+### [0.15.1](N/A) - 2017-11-16
+#### Fixed
+* Fixed some minor issues with TypeScript null types depending on compiler version
+
+
+--------
+### [0.15.0](https://github.com/TeamworkGuy2/ts-mortar/commit/d049a904703969f4df91952d267d589a93425d4c) - 2017-10-28
 #### Changed
 * Added `strictNullChecks` to `tsconfig.json` and updated code to handle null types
 

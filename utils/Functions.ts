@@ -22,9 +22,9 @@ module Functions {
     }
 
 
-    export function tryCatch<R>(tryFunc: (this: void, ...args: any[]) => R, catchFunc: (err: any) => (void | R), thisArg: null | undefined, args?: any[]): R
-    export function tryCatch<R, T>(tryFunc: (this: T, ...args: any[]) => R, catchFunc: (err: any) => (void | R), thisArg?: T, args?: any[]): R;
-    export function tryCatch<R, T>(tryFunc: (this: T, ...args: any[]) => R, catchFunc: (err: any) => (void | R), thisArg?: T, args?: any[]): R | null {
+    export function tryCatch<R>(tryFunc: (this: void, ...args: any[]) => R, catchFunc: (err: any) => (R | null | undefined), thisArg: null | undefined, args?: any[]): R
+    export function tryCatch<R, T>(tryFunc: (this: T, ...args: any[]) => R, catchFunc: (err: any) => (R | null | undefined), thisArg?: T, args?: any[]): R;
+    export function tryCatch<R, T>(tryFunc: (this: T, ...args: any[]) => R, catchFunc: (err: any) => (R | null | undefined), thisArg?: T, args?: any[]): R | null {
         var res: R | null = null;
         if (typeof tryFunc === "function") {
             try {

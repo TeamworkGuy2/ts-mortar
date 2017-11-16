@@ -85,7 +85,7 @@ module Numbers {
      * @return the parsed number
      */
     export function orZero(num: number | string | null | undefined, infinityToZero?: boolean): number {
-        var val = (num == null || typeof num === "number") ? num : parseFloat(num);
+        var val = (num == null || typeof num === "number") ? <number>num : parseFloat(num);
         return (val == null || isNaN(val) ||
             (infinityToZero === true && (val === Infinity ||
                 val === Number.NEGATIVE_INFINITY || val === Number.POSITIVE_INFINITY))) ? 0 : val;
