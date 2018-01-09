@@ -26,7 +26,7 @@ var Objects = require("./Objects");
  */
 var EnumCreatorImpl;
 (function (EnumCreatorImpl) {
-    var EnumClass = (function () {
+    var EnumClass = /** @class */ (function () {
         function EnumClass(enumClass, enumConstantClass, enumConstants) {
             this.enumClass = enumClass;
             this.enumConstantClass = enumConstantClass;
@@ -53,7 +53,7 @@ var EnumCreatorImpl;
         return EnumClass;
     }());
     EnumCreatorImpl.EnumClass = EnumClass;
-    var EnumMemberImpl = (function () {
+    var EnumMemberImpl = /** @class */ (function () {
         function EnumMemberImpl(name, ordinal) {
             this.name = name;
             this.ordinal = ordinal;

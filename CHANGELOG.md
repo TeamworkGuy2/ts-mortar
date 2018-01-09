@@ -4,7 +4,16 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.1](N/A) - 2017-11-16
+### [0.15.2](N/A) - 2018-01-08
+#### Changed
+* Updated readme.md
+
+#### Fixed
+* Fix issue with Strings.clamp() handling empty and whitespace strings
+
+
+--------
+### [0.15.1](https://github.com/TeamworkGuy2/ts-mortar/commit/adf992694ae2e525fe5978792f8aa1a4faa47bbc) - 2017-11-16
 #### Fixed
 * Fixed some minor issues with TypeScript null types depending on compiler version
 

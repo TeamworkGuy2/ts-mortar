@@ -349,7 +349,7 @@ module Objects {
             if (childProto.hasOwnProperty(key)) {
                 var parentConflicts = newChildProto.hasOwnProperty(key) || (deepExtend && key in newChildProto);
                 if ((parentConflicts && allowChildToOverride) || !parentConflicts) {
-                    var descriptor = Object.getOwnPropertyDescriptor(childProto, key);
+                    var descriptor = <PropertyDescriptor>Object.getOwnPropertyDescriptor(childProto, key);
                     if (descriptor.get || descriptor.set) {
                         Object.defineProperty(newChildProto, key, descriptor);
                     }
@@ -390,7 +390,7 @@ module Objects {
                     }
                 }
                 else {
-                    var descriptor = Object.getOwnPropertyDescriptor(parentProto, key);
+                    var descriptor = <PropertyDescriptor>Object.getOwnPropertyDescriptor(parentProto, key);
                     if (descriptor.get || descriptor.set) {
                         Object.defineProperty(classChild, key, descriptor);
                     }

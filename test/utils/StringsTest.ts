@@ -78,22 +78,14 @@ suite("Strings", function StringsTest() {
     });
 
 
-    test("looseEqual", function looseEqualTest() {
-        asr.equal(Strings.looseEqual(" Abc", "ABC"), true);
-        asr.equal(Strings.looseEqual(" abc", "ABC\t"), true);
-        asr.equal(Strings.looseEqual(" \n\n", "\t"), true);
-        asr.equal(Strings.looseEqual(" \na\n", "A\t"), true);
-    });
-
-
     test("clamp", function clampTest() {
         var data = [{
             input: ["123", "1234", "12345"],
             expect: ["123", "1234", "1..."],
             maxLength: 4
         }, {
-            input: ["12", "123", "1234"],
-            expect: ["12", "...", "..."],
+            input: <string[]>["12", "123", "1234", " ", null, undefined],
+            expect: ["12", "...", "...", " ", "", ""],
             maxLength: 2,
         }];
 
@@ -106,6 +98,14 @@ suite("Strings", function StringsTest() {
                 asr.equal(res, expect[j], "" + j);
             }
         }
+    });
+
+
+    test("looseEqual", function looseEqualTest() {
+        asr.equal(Strings.looseEqual(" Abc", "ABC"), true);
+        asr.equal(Strings.looseEqual(" abc", "ABC\t"), true);
+        asr.equal(Strings.looseEqual(" \n\n", "\t"), true);
+        asr.equal(Strings.looseEqual(" \na\n", "A\t"), true);
     });
 
 

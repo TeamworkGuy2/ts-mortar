@@ -113,7 +113,7 @@ var Strings;
     Strings.looseEqual = looseEqual;
     function clamp(str, maxLen, ellipsis) {
         if (ellipsis === void 0) { ellipsis = ""; }
-        return str != null && str.length > maxLen ? str.substring(0, maxLen - ellipsis.length) + ellipsis : str || null;
+        return str != null && str.length > maxLen ? str.substring(0, maxLen - ellipsis.length) + ellipsis : str || "";
     }
     Strings.clamp = clamp;
     /** Prepend padding to the 'String(value)' representation 'value' to increase it's length to 'targetLen'

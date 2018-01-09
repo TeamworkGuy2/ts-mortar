@@ -125,9 +125,9 @@ module Strings {
      * @param ellipsis: an optional string to append to the returned string if it is clamped, this string is appended in addition to the 'maxLen'
      */
     export function clamp(str: string, maxLen: number, ellipsis?: string): string;
-    export function clamp(str: string | null | undefined, maxLen: number, ellipsis?: string): string | null | undefined;
-    export function clamp(str: string | null | undefined, maxLen: number, ellipsis: string = ""): string | null | undefined {
-        return str != null && str.length > maxLen ? str.substring(0, maxLen - ellipsis.length) + ellipsis : str || null;
+    export function clamp(str: string | null | undefined, maxLen: number, ellipsis?: string): string;
+    export function clamp(str: string | null | undefined, maxLen: number, ellipsis: string = ""): string {
+        return str != null && str.length > maxLen ? str.substring(0, maxLen - ellipsis.length) + ellipsis : str || "";
     }
 
 

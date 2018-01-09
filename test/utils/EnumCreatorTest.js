@@ -4,7 +4,7 @@ var chai = require("chai");
 var EnumCreator = require("../../utils/EnumCreator");
 var asr = chai.assert;
 suite("EnumCreator", function EnumCreatorTest() {
-    var TestEnumBase = (function () {
+    var TestEnumBase = /** @class */ (function () {
         function TestEnumBase(type) {
             this.type = type;
         }

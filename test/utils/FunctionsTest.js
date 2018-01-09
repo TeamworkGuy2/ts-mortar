@@ -4,7 +4,7 @@ var chai = require("chai");
 var Functions = require("../../utils/Functions");
 var asr = chai.assert;
 suite("Functions", function FunctionsTest() {
-    var ClassTest = (function () {
+    var ClassTest = /** @class */ (function () {
         function ClassTest(arg) {
             this.arg = arg;
         }
@@ -25,7 +25,7 @@ suite("Functions", function FunctionsTest() {
         asr.deepEqual(res2, ["ct", 1, 2, 3]);
     });
     test("applyFunc", function applyFuncTest() {
-        var ClassTest = (function () {
+        var ClassTest = /** @class */ (function () {
             function ClassTest(arg) {
                 this.arg = arg;
             }
