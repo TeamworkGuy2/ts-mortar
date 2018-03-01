@@ -28,7 +28,7 @@ module Objects {
         var size = keys.length;
         var results: T[] = [];
         for (var i = 0; i < size; i++) {
-            results.push(obj[keys[i]]);
+            results.push((<any>obj)[keys[i]]);
         }
         return results;
     }
@@ -56,7 +56,7 @@ module Objects {
 
         var vals: T[] = [];
         for (var i = 0, size = keys.length; i < size; i++) {
-            var prop = obj[keys[i]];
+            var prop = (<any>obj)[keys[i]];
             if (prop != null) {
                 vals.push(prop);
             }
@@ -155,8 +155,8 @@ module Objects {
             var keys = Object.keys(source);
             for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
                 var keyI = keys[ii];
-                var srcProp = source[keyI];
-                target[keyI] = (srcProp !== null && typeof srcProp === "object") ? cloneDeep(srcProp) : srcProp;
+                var srcProp = (<any>source)[keyI];
+                (<any>target)[keyI] = (srcProp !== null && typeof srcProp === "object") ? cloneDeep(srcProp) : srcProp;
             }
             return <T>target;
         }
@@ -191,9 +191,9 @@ module Objects {
             var keys = Object.keys(source);
             for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
                 var keyI = keys[ii];
-                var srcProp = source[keyI];
+                var srcProp = (<any>source)[keyI];
                 if (srcProp !== undefined) {
-                    target[keyI] = (srcProp !== null && typeof srcProp === "object") ? cloneDeepNonUndefined(srcProp) : srcProp;
+                    (<any>target)[keyI] = (srcProp !== null && typeof srcProp === "object") ? cloneDeepNonUndefined(srcProp) : srcProp;
                 }
             }
             return <T>target;
@@ -215,7 +215,7 @@ module Objects {
         var srcType: string;
 
         if (Array.isArray(source)) {
-            var res = [];
+            var res: any[] = [];
             Array.prototype.push.apply(res, source);
             return res;
         }
@@ -245,7 +245,7 @@ module Objects {
         var keys = srcKeys || Object.keys(source);
         for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
             var keyI = keys[ii];
-            target[keyI] = source[keyI];
+            (<any>target)[keyI] = (<any>source)[keyI];
         }
         return target;
     }
@@ -267,9 +267,9 @@ module Objects {
         var keys = srcKeys || Object.keys(source);
         for (var ii = 0, sizeI = keys.length; ii < sizeI; ii++) {
             var keyI = keys[ii];
-            var srcProp = source[keyI];
+            var srcProp = (<any>source)[keyI];
             if (srcProp !== undefined) {
-                target[keyI] = srcProp;
+                (<any>target)[keyI] = srcProp;
             }
         }
         return target;
@@ -295,9 +295,9 @@ module Objects {
             var srcKeys = (srcsKeys && srcsKeys[i]) || Object.keys(src);
             for (var ii = 0, sizeI = srcKeys.length; ii < sizeI; ii++) {
                 var keyI = srcKeys[ii];
-                var srcProp = src[keyI];
+                var srcProp = (<any>src)[keyI];
                 if (srcProp !== undefined) {
-                    target[keyI] = srcProp;
+                    (<any>target)[keyI] = srcProp;
                 }
             }
         }
@@ -354,7 +354,7 @@ module Objects {
                         Object.defineProperty(newChildProto, key, descriptor);
                     }
                     else {
-                        newChildProto[key] = childProto[key];
+                        newChildProto[key] = (<any>childProto)[key];
                     }
                 }
             }
@@ -395,7 +395,7 @@ module Objects {
                         Object.defineProperty(classChild, key, descriptor);
                     }
                     else {
-                        classChild[key] = parentProto[key];
+                        (<any>classChild)[key] = (<any>parentProto)[key];
                     }
                 }
             }
@@ -408,11 +408,11 @@ module Objects {
      * returns: { b: a, 123: key }
      * @param srcMap the object to invert
      */
-    export function invert<M extends { [key: string]: string } | object>(srcMap: M): { [key in M[keyof M]]: keyof M }
+    export function invert<M extends { [key: string]: string }>(srcMap: M): { [key in M[keyof M]]: keyof M }
     export function invert(srcMap: object): { [key: string]: string };
     export function invert(srcMap: object): { [key: string]: string } {
         var inverseMap = Object.keys(srcMap).reduce((map, name) => {
-            map[srcMap[name]] = name;
+            map[(<any>srcMap)[name]] = name;
             return map;
         }, <{ [key: string]: string }>{});
         return inverseMap;
@@ -438,7 +438,7 @@ module Objects {
             srcKeys = <undefined><any>null;
         }
 
-        var target = {};
+        var target = <any>{};
         var keys = <(keyof T)[]>srcKeys || <(keyof T)[]>Object.keys(source);
 
         for (var i = 0, size = keys.length; i < size; i++) {

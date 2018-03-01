@@ -251,7 +251,7 @@ suite("Objects", function ObjectsTest() {
     test("assignAll", function assignAllTest() {
         var src1 = Objects.assignAll({ a: "Q", b: "" }, [{ a: "Z", b: "B", c: 3 }, { a: "A", d: 4 }]);
         var res1 = { a: "A", b: "B", c: 3, d: 4 };
-        asr.deepEqual(src1, res1);
+        asr.deepEqual(<any>src1, res1);
 
         // test explicit keys
         var src2 = Objects.assignAll({ a: "Q", b: 2 }, [{ a: "Z", b: "B", c: 3, d: "!" }, { b: 2 }, { a: "A", d: 4 }], [["a", "b", "c"], <string[]><any>null, ["d"]]);
@@ -261,7 +261,7 @@ suite("Objects", function ObjectsTest() {
 
 
     test("getProps", function getPropsTest() {
-        var res1 = Objects.getProps(<{ alpha; beta; }><any>undefined, ["alpha", "beta"]);
+        var res1 = Objects.getProps(<{ alpha: any; beta: any; }><any>undefined, ["alpha", "beta"]);
         asr.deepEqual(res1, []);
 
         var res2 = Objects.getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"]);
@@ -276,15 +276,15 @@ suite("Objects", function ObjectsTest() {
         function Child() { }
         Child.prototype.step = function () { return "child-step"; };
 
-        var childPre = new Child();
+        var childPre = new (<any>Child)();
         asr.equal(childPre.num, undefined);
 
         Objects.extend(Child, Parent, false);
 
-        var parentInst = new Parent();
+        var parentInst = new (<any>Parent)();
         asr.equal(parentInst.step(), "parent-step");
 
-        var childPost = new Child();
+        var childPost = new (<any>Child)();
         asr.equal(childPost.step(), "child-step");
 
         Objects.extend(Child, Parent, true);
@@ -305,7 +305,7 @@ suite("Objects", function ObjectsTest() {
 
         asr.equal(Child.step(), "child");
 
-        asr.equal(Child["num"], undefined);
+        asr.equal((<any>Child)["num"], undefined);
 
         try {
             Objects.extendToStatic(Child, Parent, true, true);
@@ -322,12 +322,12 @@ suite("Objects", function ObjectsTest() {
             asr.equal(true, true);
         }
 
-        var parentInst = new Parent();
+        var parentInst = new (<any>Parent)();
         asr.equal(parentInst.step(), "parent");
 
         Objects.extendToStatic(Child, Parent, true, false);
 
-        asr.equal(Child["num"](), 2);
+        asr.equal((<any>Child)["num"](), 2);
     });
 
 
@@ -349,9 +349,9 @@ suite("Objects", function ObjectsTest() {
 
         asr.deepEqual(Objects.invert(src1), <any>src1Invert);
 
-        var b = {};
+        var b = <any>{};
         b[date.toString()] = date;
-        var bInvert = {};
+        var bInvert = <any>{};
         bInvert[date.toString()] = date.toString();
 
         asr.deepEqual(Objects.invert(b), bInvert);

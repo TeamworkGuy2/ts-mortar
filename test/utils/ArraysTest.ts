@@ -7,7 +7,7 @@ var asr = chai.assert;
 
 suite("Arrays", function ArraysTest() {
 
-    var numSort = (a, b) => a - b;
+    var numSort = (a: number | string, b: number | string) => <number>a - <number>b;
 
 
     var equalNum = (act: any, exp: any, msg?: string) => {
@@ -101,7 +101,7 @@ suite("Arrays", function ArraysTest() {
         var res2 = Arrays.containsAll(ary, searchObjs2);
         asr.equal(res2, false);
 
-        var searchObjs3 = [];
+        var searchObjs3: any[] = [];
         var res3 = Arrays.containsAll(ary, searchObjs3);
         asr.equal(res3, true);
     });
@@ -118,7 +118,7 @@ suite("Arrays", function ArraysTest() {
         var res2 = Arrays.containsAny(ary, searchObjs2);
         asr.equal(res2, true);
 
-        var searchObjs3 = [];
+        var searchObjs3: any[] = [];
         var res3 = Arrays.containsAny(ary, searchObjs3);
         asr.equal(res3, false);
 
@@ -261,7 +261,7 @@ suite("Arrays", function ArraysTest() {
 
     test("hasItems", function hasItemsTest() {
         var ary1 = [1];
-        var ary0 = [];
+        var ary0: number[] = [];
         var aryNull = null;
 
         asr.equal(Arrays.hasItems(ary1), true);

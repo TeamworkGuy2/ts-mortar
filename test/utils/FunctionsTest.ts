@@ -41,10 +41,10 @@ suite("Functions", function FunctionsTest() {
     test("applyFunc", function applyFuncTest() {
         class ClassTest {
             private arg: any;
-            constructor(arg) {
+            constructor(arg: any) {
                 this.arg = arg;
             }
-            test(a, b, c) {
+            test(a: any, b: any, c: any) {
                 return [this.arg, a, b, c];
             }
         }
@@ -137,12 +137,12 @@ suite("Functions", function FunctionsTest() {
 
 
     test("partial-many", function partialManyArgTest() {
-        var funcM1 = Functions.partial(function () { return Array.prototype.reduce.call(arguments, (s, i) => s + i, 0); });
+        var funcM1 = Functions.partial(function () { return Array.prototype.reduce.call(arguments, (s: number, i: number) => s + i, 0); });
         asr.equal((<any>funcM1)(2, 3, 5), 10);
         asr.equal((<any>funcM1)(), 0);
         asr.equal(funcM1.name, "partialManyBindNone");
 
-        var funcM2 = Functions.partial(function () { return Array.prototype.reduce.call(arguments, (s, i) => s + i, 0); }, 1, 3);
+        var funcM2 = Functions.partial(function () { return Array.prototype.reduce.call(arguments, (s: number, i: number) => s + i, 0); }, 1, 3);
         asr.equal((<any>funcM2)(5, 9), 18);
         asr.equal((<any>funcM2)(), 4);
         asr.equal(funcM2.name, "partialManyBindMany");
@@ -152,7 +152,7 @@ suite("Functions", function FunctionsTest() {
     test("createFuncTimer", function createFuncTimerTest() {
         var i = 0;
         var allowCalls = true;
-        var res1 = Functions.createFuncTimer((a) => ++i, () => allowCalls, "b-c");
+        var res1 = Functions.createFuncTimer((a: any) => ++i, () => allowCalls, "b-c");
 
         asr.equal(res1.name, "b-c");
 

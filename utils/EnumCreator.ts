@@ -127,7 +127,7 @@ module EnumCreatorImpl {
         names = names || Object.keys(enumMembers);
         for (var i = 0, size = names.length; i < size; i++) {
             var key = names[i];
-            var enumMember: T = enumMembers[key];
+            var enumMember: T = (<any>enumMembers)[key];
             var resName = getName ? getName(key, enumMember) : key;
             var ordinal = i;
             var newMember = initEnumMember(enumMember, resName, ordinal);
@@ -137,7 +137,7 @@ module EnumCreatorImpl {
                     newMember = <T & EnumMember>res;
                 }
             }
-            enumClass[resName] = newMember;
+            (<any>enumClass)[resName] = newMember;
             membersAry.push(newMember);
         }
 

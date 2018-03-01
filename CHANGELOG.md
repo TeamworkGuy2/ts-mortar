@@ -4,7 +4,15 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.2](N/A) - 2018-01-08
+### [0.15.3](N/A) - 2018-02-28
+#### Changed
+* Update to TypeScript 2.7
+* Update dependencies: mocha, @types/chai, @types/mocha, @types/node
+* Enable tsconfig.json `noImplicitAny`
+
+
+--------
+### [0.15.2](https://github.com/TeamworkGuy2/ts-mortar/commit/6ecf83301db6ca33c543f3f4eb5e570301f7f4f7) - 2018-01-08
 #### Changed
 * Updated readme.md
 
