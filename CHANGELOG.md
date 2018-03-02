@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.3](N/A) - 2018-02-28
+### [0.15.4](N/A) - 2018-03-01
+#### Changed
+* Added `offset` parameter to `Arrays.indexOfProp()` to allow searching the array starting at an offset.  Same behavior as Array<T>.indexOf(T, number).
+
+
+--------
+### [0.15.3](https://github.com/TeamworkGuy2/ts-mortar/commit/d847a9889457b86711d317e80b992cf2554f5d2e) - 2018-02-28
 #### Changed
 * Update to TypeScript 2.7
 * Update dependencies: mocha, @types/chai, @types/mocha, @types/node

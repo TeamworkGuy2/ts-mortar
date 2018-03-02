@@ -183,8 +183,14 @@ suite("Arrays", function ArraysTest() {
     });
     test("indexOfProp", function indexOfPropTest() {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
-        var res = Arrays.indexOfProp(ary, "id", "D");
-        asr.equal(res, 1);
+        asr.equal(Arrays.indexOfProp(ary, "id", "D"), 1);
+        asr.equal(Arrays.indexOfProp(ary, "id", "F"), 3);
+        asr.equal(Arrays.indexOfProp(ary, "id", "D", 2), 2);
+        asr.equal(Arrays.indexOfProp(ary, "id", "D", 3), -1);
+        asr.equal(Arrays.indexOfProp(ary, "id", "F", -2), 3);
+        asr.equal(Arrays.indexOfProp(ary, "id", "D", -2), 2);
+        asr.equal(Arrays.indexOfProp(ary, "id", "B", -2), -1);
+        asr.equal(Arrays.indexOfProp(ary, "id", "B", -5), 0);
     });
     test("isOneItem", function isOneItemTest() {
         asr.equal(Arrays.isOneItem(null), true);

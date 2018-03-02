@@ -490,11 +490,12 @@ module Arrays {
      * @param ary the array to search
      * @param propName the name of the property to search for on each object
      * @param propValue the property value to compare
+     * @param [offset] optional 'ary' offset at which to start search, supports negative offset same as 'Array<T>.indexOf(T, number)'
      * @return the array index of an object with a matching property, -1 if no matching object was found
      */
-    export function indexOfProp<E, K extends keyof E>(ary: E[] | ArrayLike<E> | null | undefined, propName: K, propValue: E[K]): number {
+    export function indexOfProp<E, K extends keyof E>(ary: E[] | ArrayLike<E> | null | undefined, propName: K, propValue: E[K], offset?: number): number {
         if (ary == null || propName == null || propValue === undefined) { return -1; }
-        for (var i = 0, size = ary.length; i < size; i++) {
+        for (var size = ary.length, i = <number>offset < 0 ? (size + <number>offset > 0 ? size + <number>offset : 0) : (offset || 0); i < size; i++) {
             if (ary[i][propName] === propValue) {
                 return i;
             }
