@@ -352,9 +352,18 @@ suite("Arrays", function ArraysTest() {
         var ary1 = ["B", "D", "D", "A", "F", "A"];
         var aryUnique1 = ["B", "D", "A", "F"];
         asr.deepEqual(Arrays.unique(ary1), aryUnique1);
+        ary1.shift();
+        asr.notDeepEqual(Arrays.unique(ary1), aryUnique1);
         var ary2 = [55, 2, 12, 8, 12, 0, 2];
         var aryUnique2 = [55, 2, 12, 8, 0];
         asr.deepEqual(Arrays.unique(ary2), aryUnique2);
+        ary2.shift();
+        asr.notDeepEqual(Arrays.unique(ary2), aryUnique2);
+        var ary3 = [{ ap: "a", id: 3 }, { ap: "b", id: 4 }, { ap: "b", id: 5 }, { ap: "c", id: 8 }];
+        var aryUnique3 = [ary3[0], ary3[1], ary3[3]];
+        asr.deepEqual(Arrays.unique(ary3, "ap"), aryUnique3);
+        ary3.shift();
+        asr.notDeepEqual(Arrays.unique(ary3, "ap"), aryUnique3);
         asr.deepEqual(Arrays.unique([]), []);
     });
 });

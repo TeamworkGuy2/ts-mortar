@@ -922,16 +922,26 @@ module Arrays {
      * returns: ["alpha", "beta", "charlie"]
      *
      * @param ary an array of values
+     * @param [propName] optional object property name on which to base the uniqueness check
      * @return a new array of values containing the original array's unique values
      */
-    export function unique<E>(ary: E[]): E[];
-    export function unique<E>(ary: E[] | null | undefined): E[] | null;
-    export function unique<E>(ary: E[] | null | undefined): E[] | null {
+    export function unique<E>(ary: E[], propName?: (keyof E) | null): E[];
+    export function unique<E>(ary: E[] | null | undefined, propName?: (keyof E) | null): E[] | null;
+    export function unique<E>(ary: E[] | null | undefined, propName?: (keyof E) | null): E[] | null {
         if (ary == null || ary.length < 2) { return ary || null; }
         var res = [ary[0]];
-        for (var i = 1, size = ary.length; i < size; i++) {
-            if (res.indexOf(ary[i]) === -1) {
-                res.push(ary[i]);
+        if (propName == null) {
+            for (var i = 1, size = ary.length; i < size; i++) {
+                if (res.indexOf(ary[i]) === -1) {
+                    res.push(ary[i]);
+                }
+            }
+        }
+        else {
+            for (var i = 1, size = ary.length; i < size; i++) {
+                if (Arrays.indexOfProp(res, propName, ary[i][propName]) === -1) {
+                    res.push(ary[i]);
+                }
             }
         }
         return res;

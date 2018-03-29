@@ -4,7 +4,14 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.4](N/A) - 2018-03-01
+### [0.15.5](N/A) - 2018-03-29
+#### Changed
+* Update to TypeScript 2.8
+* Added optional `propName` parameter to `Arrays.unique()`
+
+
+--------
+### [0.15.4](https://github.com/TeamworkGuy2/ts-mortar/commit/054f9f69a8e611e0550208ae27eff802243bc001) - 2018-03-01
 #### Changed
 * Added `offset` parameter to `Arrays.indexOfProp()` to allow searching the array starting at an offset.  Same behavior as Array<T>.indexOf(T, number).
 
