@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.5](N/A) - 2018-03-29
+### [0.15.6](N/A) - 2018-04-02
+#### Changed
+* Update tsconfig.json with `noImplicitReturns: true` and `forceConsistentCasingInFileNames: true`
+
+
+--------
+### [0.15.5](https://github.com/TeamworkGuy2/ts-mortar/commit/920e04f133d2f3fca2928fe388b6ff7ed413cb1f) - 2018-03-29
 #### Changed
 * Update to TypeScript 2.8
 * Added optional `propName` parameter to `Arrays.unique()`
@@ -27,7 +33,7 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 --------
 ### [0.15.2](https://github.com/TeamworkGuy2/ts-mortar/commit/6ecf83301db6ca33c543f3f4eb5e570301f7f4f7) - 2018-01-08
 #### Changed
-* Updated readme.md
+* Updated README.md
 
 #### Fixed
 * Fix issue with Strings.clamp() handling empty and whitespace strings
