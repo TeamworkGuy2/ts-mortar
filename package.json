@@ -1,6 +1,6 @@
 {
   "name": "ts-mortar",
-  "version": "0.15.6",
+  "version": "0.15.7",
   "description": "TypeScript utility similar to lodash/underscore, focused on array: add, remove, search, filter; string: is, contains, modification; and object: values, clone, hasProps, getProps, extend, map, toArray.",
   "author": "TeamworkGuy2",
   "homepage": "https://github.com/TeamworkGuy2/ts-mortar",
@@ -11,9 +11,11 @@
     "@types/mocha": "~5.0.0",
     "chai": "~4.1.2",
     "mocha": "~5.0.5",
+    "package-tarball": "~0.1.0",
     "typescript": "~2.8.0"
   },
   "scripts": {
+    "build-package": "node ../package-tarball/index.js",
     "test": "mocha -u tdd --recursive",
     "tsc": "tsc"
   }

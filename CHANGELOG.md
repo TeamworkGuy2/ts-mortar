@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.6](N/A) - 2018-04-02
+### [0.15.7](N/A) - 2018-04-09
+#### Changed
+* Added release tarball and npm script `build-package` to package.json referencing external process to generate tarball
+
+
+--------
+### [0.15.6](https://github.com/TeamworkGuy2/ts-mortar/commit/c20bc5791b1f80017e99f2539ddac3e111c1b6d2) - 2018-04-02
 #### Changed
 * Update tsconfig.json with `noImplicitReturns: true` and `forceConsistentCasingInFileNames: true`
 
