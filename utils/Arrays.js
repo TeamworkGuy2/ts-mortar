@@ -227,8 +227,8 @@ var Arrays;
     }
     Arrays.diffParts = diffParts;
     function fastRemove(ary, value) {
-        var aryLen = ary != null ? ary.length : 0;
-        if (aryLen === 0) {
+        var aryLen = 0;
+        if (ary == null || (aryLen = ary.length) === 0) {
             return ary;
         }
         for (var i = 0; i < aryLen; i++) {
@@ -242,8 +242,8 @@ var Arrays;
     }
     Arrays.fastRemove = fastRemove;
     function fastRemoveIndex(ary, index) {
-        var aryLen = ary != null ? ary.length : 0;
-        if (aryLen === 0) {
+        var aryLen = 0;
+        if (ary == null || (aryLen = ary.length) === 0) {
             return ary;
         }
         if (aryLen > 1) {

@@ -291,7 +291,7 @@ suite("Objects", function ObjectsTest() {
             "01": 10,
             55: dateA()
         };
-        var res1 = Objects.toArray(src, ["key", "Abc", "01", "55"], function (k, v) { return typeof v === "number" ? v * 2 : v.toString(); });
+        var res1 = Objects.toArray(src, ["key", "Abc", "01", 55], function (k, v) { return typeof v === "number" ? v * 2 : v.toString(); });
         asr.deepEqual(res1, ["value", "true", 20, dateA().toString()]);
         var res2 = Objects.toArray({ n: "21" }, function (k, v) { return parseFloat(v.toString().split("").reverse().join("")); });
         asr.deepEqual(res2, [12]);

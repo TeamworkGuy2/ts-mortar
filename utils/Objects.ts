@@ -68,7 +68,7 @@ module Objects {
     /** Check if an object has at least 1 non-null property from a list of property names
      * @see hasMatchingProperties()
      */
-    export function hasAnyNonFalseyProps<T>(obj: T | null | undefined, propNames: (keyof T)[]) {
+    export function hasAnyNonFalseyProps<T>(obj: T | null | undefined, propNames: (keyof T & string)[]) {
         return hasMatchingProps(obj, propNames, function anyNonFalseyPropsFunc(val) { return !!val; }, propNames != null ? 1 : 0);
     }
 
@@ -76,7 +76,7 @@ module Objects {
     /** Check if an object has at least 1 non-null property from a list of property names
      * @see hasMatchingProperties()
      */
-    export function hasAnyNonNullProps<T>(obj: T | null | undefined, propNames: (keyof T)[]) {
+    export function hasAnyNonNullProps<T>(obj: T | null | undefined, propNames: (keyof T & string)[]) {
         return hasMatchingProps(obj, propNames, function anyNonNullPropsFunc(val) { return val != null; }, propNames != null ? 1 : 0);
     }
 
@@ -84,7 +84,7 @@ module Objects {
     /** Check if an object has non-null values for all of the propery names specified
      * @see hasMatchingProperties()
      */
-    export function hasNonNullProps<T>(obj: T | null | undefined, propNames: (keyof T)[]) {
+    export function hasNonNullProps<T>(obj: T | null | undefined, propNames: (keyof T & string)[]) {
         return hasMatchingProps(obj, propNames, function nonNullPropsFunc(val) { return val != null; }, propNames != null ? propNames.length : 0);
     }
 
@@ -101,7 +101,7 @@ module Objects {
      * required to be non-null before returning true, defaults to the size in the 'propNames' array
      * @return true if the required number of properties exist in the object and match the condition function specified, false otherwise
      */
-    export function hasMatchingProps<T>(obj: T | null | undefined, propNames: (keyof T)[], filter: (propVal: any, propName: string) => boolean, requiredCount: number = (propNames != null ? propNames.length : 0)): boolean {
+    export function hasMatchingProps<T>(obj: T | null | undefined, propNames: (keyof T & string)[], filter: (propVal: any, propName: string) => boolean, requiredCount: number = (propNames != null ? propNames.length : 0)): boolean {
         if (obj == null) {
             return false;
         }
@@ -431,7 +431,7 @@ module Objects {
     export function map<T, R>(source: { [key: string]: T }, mapFunc?: (key: string, value: T) => R): { [key: string]: R };
     export function map<T>(source: T, mapFunc?: (key: keyof T, value: any) => any): any;
     export function map<T>(source: T, srcKeys: (keyof T)[] | null | undefined, mapFunc?: (key: keyof T, value: any) => any): any
-    export function map<T>(source: T, srcKeys?: (keyof T)[] | ((key: keyof T, value: any) => any) | null | undefined, mapFunc?: (key: keyof T, value: any) => any): any {
+    export function map<T>(source: T, srcKeys?: (keyof T)[] | ((key: keyof T & string, value: any) => any) | null | undefined, mapFunc?: (key: keyof T & string, value: any) => any): any {
         if (source == null) { return null; }
         if (typeof srcKeys === "function") {
             mapFunc = <(key: string, value: any) => any>srcKeys;
@@ -439,7 +439,7 @@ module Objects {
         }
 
         var target = <any>{};
-        var keys = <(keyof T)[]>srcKeys || <(keyof T)[]>Object.keys(source);
+        var keys = <(keyof T & string)[]>srcKeys || <(keyof T & string)[]>Object.keys(source);
 
         for (var i = 0, size = keys.length; i < size; i++) {
             var key = keys[i];
@@ -462,20 +462,20 @@ module Objects {
      */
     export function toArray<T, K extends keyof T, R>(obj: T, mapFunc: (key: K, value: T[K], index: number, propNames: K[], obj: T) => R): R[];
     export function toArray<T, K extends keyof T, R>(obj: T, srcKeys: K[], mapFunc: (key: K, value: T[K], index: number, propNames: K[], obj: T) => R): R[];
-    export function toArray<T, K extends keyof T, R>(obj: T, srcKeys: K[] | ((key: K, value: T[K], index: number, propNames: K[], obj: T) => R), mapFunc?: (key: K, value: any, index: number, propNames: K[], obj: T) => R): R[] {
+    export function toArray<T, K extends keyof T, R>(obj: T, srcKeys: K[] | ((key: K & string, value: T[K], index: number, propNames: K[], obj: T) => R), mapFunc?: (key: K & string, value: any, index: number, propNames: K[], obj: T) => R): R[] {
         if (obj == null) { return []; }
         if (typeof srcKeys === "function") {
-            mapFunc = <(key: string, value: any, index: number, propNames: string[], obj: any) => R>srcKeys;
+            mapFunc = <(key: K & string, value: any, index: number, propNames: K[], obj: any) => R>srcKeys;
             srcKeys = <any>null;
         }
 
         var res: R[] = [];
-        var keys = <K[]>srcKeys || <K[]>Object.keys(obj);
+        var keys = <(K & string)[]>srcKeys || <(K & string)[]>Object.keys(obj);
 
         for (var i = 0, size = keys.length; i < size; i++) {
             var key = keys[i];
             var prop = obj[key];
-            res.push((<(key: string, value: any, index: number, propNames: string[], obj: any) => R>mapFunc)(key, prop, i, keys, obj));
+            res.push((<(key: K & string, value: any, index: number, propNames: K[], obj: any) => R>mapFunc)(key, prop, i, keys, obj));
         }
 
         return res;

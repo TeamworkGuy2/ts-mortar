@@ -4,7 +4,14 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.7](N/A) - 2018-04-09
+### [0.15.8](N/A) - 2018-10-14
+#### Changed
+* Update to TypeScript 3.1
+* Enable `tsconfig.json` `strict` and fix compile errors
+
+
+--------
+### [0.15.7](https://github.com/TeamworkGuy2/ts-mortar/commit/8114985744285d59a673f2bc1330cb79f8e0c234) - 2018-04-09
 #### Changed
 * Added release tarball and npm script `build-package` to package.json referencing external process to generate tarball
 

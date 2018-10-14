@@ -248,9 +248,9 @@ module Arrays {
      */
     export function fastRemove<E>(ary: E[], value: E): E[];
     export function fastRemove<E>(ary: E[] | null | undefined, value: E): E[] | null | undefined;
-    export function fastRemove<E>(ary: E[], value: E): E[] {
-        var aryLen = ary != null ? ary.length : 0;
-        if (aryLen === 0) {
+    export function fastRemove<E>(ary: E[] | null | undefined, value: E): E[] | null | undefined {
+        var aryLen = 0;
+        if (ary == null || (aryLen = ary.length) === 0) {
             return ary;
         }
         for (var i = 0; i < aryLen; i++) {
@@ -272,9 +272,9 @@ module Arrays {
      */
     export function fastRemoveIndex<E>(ary: E[], index: number): E[]
     export function fastRemoveIndex<E>(ary: E[] | null | undefined, index: number): E[] | null | undefined;
-    export function fastRemoveIndex<E>(ary: E[], index: number): E[] {
-        var aryLen = ary != null ? ary.length : 0;
-        if (aryLen === 0) {
+    export function fastRemoveIndex<E>(ary: E[] | null | undefined, index: number): E[] | null | undefined {
+        var aryLen = 0;
+        if (ary == null || (aryLen = ary.length) === 0) {
             return ary;
         }
         if (aryLen > 1) {
