@@ -5,6 +5,8 @@ var Functions;
 (function (Functions) {
     /** A no-op function that takes any/no arguments and returns nothing */
     Functions.NO_OP = function () { };
+    // initial lazy value
+    var INIT_VAL = {};
     function callFunc(func, thisArg) {
         var args = [];
         for (var _i = 2; _i < arguments.length; _i++) {
@@ -41,9 +43,9 @@ var Functions;
     }
     Functions.isFunction = isFunction;
     function lazyField(initializer) {
-        var value = null;
+        var value = INIT_VAL;
         return function lazyInitializer(refetch) {
-            if (value == null || refetch === true) {
+            if (value == INIT_VAL || refetch === true) {
                 value = initializer();
             }
             return value;

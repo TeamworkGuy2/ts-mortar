@@ -86,8 +86,15 @@ suite("Functions", function FunctionsTest() {
         var getter = Functions.lazyField(() => ++i);
 
         asr.equal(getter(), 1);
-
         asr.equal(getter(), 1);
+
+        var i = 0;
+        var getter2 = Functions.lazyField(() => { ++i; return null; });
+
+        getter2()
+        asr.equal(i, 1);
+        getter2()
+        asr.equal(i, 1);
     });
 
 

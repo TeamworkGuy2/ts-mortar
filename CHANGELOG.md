@@ -4,10 +4,18 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.8](N/A) - 2018-10-14
+### [0.15.9](N/A) - 2018-11-05
+#### Fixed
+* Fix `Functions.lazyField()` issue with initializer functions which return null
+
+
+--------
+### [0.15.8](https://github.com/TeamworkGuy2/ts-mortar/commit/d0a9b09c2c38cea760cb40218caea1c262a18f90) - 2018-10-14
 #### Changed
 * Update to TypeScript 3.1
+* Update dev dependencies and @types
 * Enable `tsconfig.json` `strict` and fix compile errors
+* Removed compiled bin tarball in favor of git tags
 
 
 --------

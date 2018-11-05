@@ -62,6 +62,12 @@ suite("Functions", function FunctionsTest() {
         var getter = Functions.lazyField(function () { return ++i; });
         asr.equal(getter(), 1);
         asr.equal(getter(), 1);
+        var i = 0;
+        var getter2 = Functions.lazyField(function () { ++i; return null; });
+        getter2();
+        asr.equal(i, 1);
+        getter2();
+        asr.equal(i, 1);
     });
     test("partial-1", function partial1ArgTest() {
         var func11 = Functions.partial(function (a) { return a * a; }, 3);

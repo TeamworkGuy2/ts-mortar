@@ -3,6 +3,8 @@
 module Functions {
     /** A no-op function that takes any/no arguments and returns nothing */
     export var NO_OP: () => void = function () { };
+    // initial lazy value
+    const INIT_VAL: any = {};
 
 
     export function callFunc<R>(func: (this: void, ...args: any[]) => R, thisArg: null | undefined, ...args: any[]): R;
@@ -53,9 +55,9 @@ module Functions {
     export function lazyField<T>(initializer: () => T): (refetch?: boolean) => T;
     export function lazyField<T>(initializer: () => T | null): (refetch?: boolean) => T | null;
     export function lazyField<T>(initializer: () => T | null): (refetch?: boolean) => T | null {
-        var value: T | null = null;
+        var value: T | null = <T>INIT_VAL;
         return function lazyInitializer(refetch?: boolean) {
-            if (value == null || refetch === true) {
+            if (value == <T>INIT_VAL || refetch === true) {
                 value = initializer();
             }
             return value;
