@@ -4,7 +4,17 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.9](N/A) - 2018-11-05
+### [0.15.10](N/A) - 2018-12-29
+#### Changed
+* Update to TypeScript 3.2 and fix compile errors
+* Update dev dependencies and @types
+
+#### Fixed
+* Fix `Arrays.splice()` not handling null 'origAry' and 'insertAry' parameters
+
+
+--------
+### [0.15.9](https://github.com/TeamworkGuy2/ts-mortar/commit/9fd8584c7b8b6f641a82ce94334e7f9cb401cbff) - 2018-11-05
 #### Fixed
 * Fix `Functions.lazyField()` issue with initializer functions which return null
 

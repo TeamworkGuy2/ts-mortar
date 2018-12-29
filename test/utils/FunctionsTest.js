@@ -103,11 +103,12 @@ suite("Functions", function FunctionsTest() {
         asr.equal(func34.name, "partial3Bind0");
     });
     test("partial-many", function partialManyArgTest() {
-        var funcM1 = Functions.partial(function () { return Array.prototype.reduce.call(arguments, function (s, i) { return s + i; }, 0); });
+        var reduce = Array.prototype.reduce;
+        var funcM1 = Functions.partial(function () { return reduce.call(arguments, function (s, i) { return s + i; }, 0); });
         asr.equal(funcM1(2, 3, 5), 10);
         asr.equal(funcM1(), 0);
         asr.equal(funcM1.name, "partialManyBindNone");
-        var funcM2 = Functions.partial(function () { return Array.prototype.reduce.call(arguments, function (s, i) { return s + i; }, 0); }, 1, 3);
+        var funcM2 = Functions.partial(function () { return reduce.call(arguments, function (s, i) { return s + i; }, 0); }, 1, 3);
         asr.equal(funcM2(5, 9), 18);
         asr.equal(funcM2(), 4);
         asr.equal(funcM2.name, "partialManyBindMany");

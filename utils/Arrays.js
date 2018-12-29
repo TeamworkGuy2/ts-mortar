@@ -754,13 +754,15 @@ var Arrays;
         if (deleteCount === void 0) { deleteCount = 0; }
         if (origAry == null || insertAry == null || !Array.isArray(origAry) || !Array.isArray(insertAry) || index === undefined) {
             if (origAry == null && insertAry == null) {
-                return null;
+                return [];
             }
             if ((origAry != null && !Array.isArray(origAry)) || (insertAry != null && !Array.isArray(insertAry)) || origAry === undefined || insertAry === undefined) {
                 throw new Error("incorrect usage ([" + origAry + "], [" + insertAry + "], " + index + ", " + (deleteCount || 0) + "), " + "expected (Array origAry, Array insertAry, Integer index, Integer deleteCount)");
             }
             if (origAry == null || insertAry == null) {
-                return Array.prototype.push.apply([], origAry || insertAry);
+                var res = [];
+                Array.prototype.push.apply(res, (origAry || insertAry));
+                return res;
             }
         }
         if (insertAry.length === 0) {

@@ -456,17 +456,26 @@ suite("Arrays", function ArraysTest() {
 
 
     test("splice", function spliceTest() {
-        var origAry = [0, 1, 1, 5];
-        var insertAry = [10, 15, 20];
-
-        var res = Arrays.splice(origAry, insertAry, 2, 1);
+        var res = Arrays.splice([0, 1, 1, 5], [10, 15, 20], 2, 1);
         asr.deepEqual(res, [0, 1, 10, 15, 20, 5]);
 
         var res2 = Arrays.splice([2, 3], [0, 1], 0, 0);
         asr.deepEqual(res2, [0, 1, 2, 3]);
 
-        var res2 = Arrays.splice([0, 1], [2, 3], 2, 0);
-        asr.deepEqual(res2, [0, 1, 2, 3]);
+        var res3 = Arrays.splice([0, 1], [2, 3], 2, 0);
+        asr.deepEqual(res3, [0, 1, 2, 3]);
+
+        var res4 = Arrays.splice(null, null, 2, 0);
+        asr.deepEqual(res4, []);
+
+        var in5 = [6, 7];
+        var res5 = Arrays.splice(in5, null, 2, 0);
+        asr.deepEqual(res5, [6, 7]);
+        // the returned array is a copy of the input array even if no elements are being added
+        asr.notStrictEqual(res5, in5);
+
+        var res6 = Arrays.splice(null, [8, 9], 2, 0);
+        asr.deepEqual(res6, [8, 9]);
     });
 
 

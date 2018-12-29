@@ -100,7 +100,7 @@ module EnumCreatorImpl {
 
 
     export function initEnumMember<T>(enumMember: T, name: string, ordinal: number): T & EnumMember {
-        EnumMemberImpl.call(enumMember, name, ordinal);
+        EnumMemberImpl.call(<EnumMemberImpl><any>enumMember, name, ordinal);
         return <T & EnumMember>enumMember;
     }
 
@@ -143,7 +143,7 @@ module EnumCreatorImpl {
 
         membersAry.sort((a, b) => a.ordinal - b.ordinal);
         // extend the enum class
-        EnumClass.call(enumClass, enumClass, enumMemberClass, membersAry);
+        EnumClass.call(<EnumClass<T>><any>enumClass, enumClass, enumMemberClass, membersAry);
         Objects.extendToStatic(enumClass, EnumClass, false);
 
         return <R & E & EnumClass<T & EnumMember>><any>enumClass;

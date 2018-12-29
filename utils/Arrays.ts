@@ -818,16 +818,18 @@ module Arrays {
      * @param [deleteCount=0] the number of elements to not copy from 'origAry' starting at 'index'
      * @return the 'origAry' or a new array containing the contents of 'origAry' and 'insertAry'
      */
-    export function splice<E>(origAry: E[] | null | undefined, insertAry: E[] | null | undefined, index: number, deleteCount: number = 0, copyToNewAry?: boolean): E[] | null {
+    export function splice<E>(origAry: E[] | null | undefined, insertAry: E[] | null | undefined, index: number, deleteCount: number = 0, copyToNewAry?: boolean): E[] {
         if (origAry == null || insertAry == null || !Array.isArray(origAry) || !Array.isArray(insertAry) || index === undefined) {
             if (origAry == null && insertAry == null) {
-                return null;
+                return [];
             }
             if ((origAry != null && !Array.isArray(origAry)) || (insertAry != null && !Array.isArray(insertAry)) || origAry === undefined || insertAry === undefined) {
                 throw new Error("incorrect usage ([" + origAry + "], [" + insertAry + "], " + index + ", " + (deleteCount || 0) + "), " + "expected (Array origAry, Array insertAry, Integer index, Integer deleteCount)");
             }
             if (origAry == null || insertAry == null) {
-                return Array.prototype.push.apply([], origAry || insertAry);
+                var res: E[] = [];
+                (<(...items: E[]) => number>Array.prototype.push).apply(res, <E[]>(origAry || insertAry));
+                return res;
             }
         }
 

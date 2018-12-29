@@ -25,12 +25,12 @@ module Functions {
 
 
     export function tryCatch<R>(tryFunc: (this: void, ...args: any[]) => R, catchFunc: (err: any) => (R | null | undefined), thisArg: null | undefined, args?: any[]): R
-    export function tryCatch<R, T>(tryFunc: (this: T, ...args: any[]) => R, catchFunc: (err: any) => (R | null | undefined), thisArg?: T, args?: any[]): R;
-    export function tryCatch<R, T>(tryFunc: (this: T, ...args: any[]) => R, catchFunc: (err: any) => (R | null | undefined), thisArg?: T, args?: any[]): R | null {
+    export function tryCatch<R, T>(tryFunc: (this: T, ...args: any[]) => R, catchFunc: (err: any) => (R | null | undefined), thisArg: T, args?: any[]): R;
+    export function tryCatch<R, T>(tryFunc: (this: T, ...args: any[]) => R, catchFunc: (err: any) => (R | null | undefined), thisArg: T, args?: any[]): R | null {
         var res: R | null = null;
         if (typeof tryFunc === "function") {
             try {
-                res = tryFunc.apply(thisArg, args);
+                res = tryFunc.apply(<T>thisArg, <any[]>args);
             } catch (err) {
                 var catchRes = catchFunc(err);
                 if (catchRes != null) {
@@ -85,14 +85,14 @@ module Functions {
                 switch (args.length) {
                     case 0: return function partial1Bind0(a) { return func(a); };
                     case 1: return function partial1Bind1() { return func(args[0]); }
-                    default: return function partial1BindMany() { return func.apply(undefined, arguments); };
+                    default: return function partial1BindMany() { return func.apply(undefined, <any[]><any>arguments); };
                 }
             case 2:
                 switch (args.length) {
                     case 0: return function partial2Bind0(a, b) { return func(a, b); };
                     case 1: return function partial2Bind1(b) { return func(args[0], b); }
                     case 2: return function partial2Bind2() { return func(args[0], args[1]); }
-                    default: return function partial2BindMany() { return func.apply(undefined, arguments); };
+                    default: return function partial2BindMany() { return func.apply(undefined, <any[]><any>arguments); };
                 }
             case 3:
                 switch (args.length) {
@@ -100,13 +100,13 @@ module Functions {
                     case 1: return function partial3Bind1(b, c) { return func(args[0], b, c); }
                     case 2: return function partial3Bind2(c) { return func(args[0], args[1], c); }
                     case 3: return function partial3Bind3() { return func(args[0], args[1], args[2]); }
-                    default: return function partial3BindMany() { return func.apply(undefined, arguments); };
+                    default: return function partial3BindMany() { return func.apply(undefined, <any[]><any>arguments); };
                 }
             default:
                 switch (args.length) {
                     case 0:
                         return function partialManyBindNone() {
-                            return func.apply(undefined, arguments);
+                            return func.apply(undefined, <any[]><any>arguments);
                         };
                     default:
                         return function partialManyBindMany() {
