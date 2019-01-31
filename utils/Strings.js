@@ -8,9 +8,9 @@ var Strings;
      * Example: endsWith("coding in javascript", "script")
      * returns: true
      *
-     * @param str: the string to check. Null returns false
-     * @param suffix: the suffix to check for. Null returns false
-     * @return true if the string ends with the stuffix, false otherwise
+     * @param str the string to check. Null returns false
+     * @param suffix the suffix to check for. Null returns false
+     * @returns true if the string ends with the stuffix, false otherwise
      */
     function endsWith(str, suffix) {
         if (str == null || suffix == null) {
@@ -20,16 +20,16 @@ var Strings;
     }
     Strings.endsWith = endsWith;
     /** Check if a string is null or empty
-     * @param str: the string to check
-     * @return true if the 'str' is null or empty, false if not
+     * @param str the string to check
+     * @returns true if the 'str' is null or empty, false if not
      */
     function isNullOrEmpty(str) {
         return str == null || str.length === 0;
     }
     Strings.isNullOrEmpty = isNullOrEmpty;
     /** Check if a string is null or empty or contains only whitespace
-     * @param str: the string to check
-     * @return true if the 'str' is null, empty or contains only
+     * @param str the string to check
+     * @returns true if the 'str' is null, empty or contains only
      * whitespace characters, false otherwise
      */
     function isNullOrWhiteSpace(str) {
@@ -37,9 +37,9 @@ var Strings;
     }
     Strings.isNullOrWhiteSpace = isNullOrWhiteSpace;
     /** Check if a character at a specific index in a string is a digit
-     * @param str: the string to get the character from
-     * @param i: the index of the character
-     * @return true if the character at the specified index is a digit [0-9], false if not
+     * @param str the string to get the character from
+     * @param i the index of the character
+     * @returns true if the character at the specified index is a digit [0-9], false if not
      */
     function isCharAtDigit(str, i) {
         if (str == null || i < 0 || i >= str.length) {
@@ -50,8 +50,8 @@ var Strings;
     }
     Strings.isCharAtDigit = isCharAtDigit;
     /** Check if all characters in a string are digits
-     * @param str: the string to check
-     * @return true if every character in the string is a digit [0-9], false if not
+     * @param str the string to check
+     * @returns true if every character in the string is a digit [0-9], false if not
      */
     function isDigit(str) {
         if (str == null) {
@@ -72,9 +72,9 @@ var Strings;
      * Example: isCharAtUpperCase("Super", 4)
      * returns false
      *
-     * @param str: the string that the char resides in
-     * @param i: the index of the character in 'str' to test
-     * @return true if the character at index 'i' is upper case
+     * @param str the string that the char resides in
+     * @param i the index of the character in 'str' to test
+     * @returns true if the character at index 'i' is upper case
      */
     function isCharAtUpperCase(str, i) {
         if (str == null || i < 0 || i >= str.length) {
@@ -90,9 +90,9 @@ var Strings;
      * Example: isCharAtLowerCase("Super", 4)
      * returns true
      *
-     * @param str: the string that the char resides in
-     * @param i: the index of the character in 'str' to test
-     * @return true if the character at index 'i' is lower case
+     * @param str the string that the char resides in
+     * @param i the index of the character in 'str' to test
+     * @returns true if the character at index 'i' is lower case
      */
     function isCharAtLowerCase(str, i) {
         if (str == null || i < 0 || i >= str.length) {
@@ -103,9 +103,9 @@ var Strings;
     }
     Strings.isCharAtLowerCase = isCharAtLowerCase;
     /** Compare two strings, ignoring leading/trailing whitespace and ignoring upper/lower case
-     * @param str1: the first string to compare
-     * @param str2: the second string to compare
-     * @return true if the strings are loosely equal (ignoring case and whitespace)
+     * @param str1 the first string to compare
+     * @param str2 the second string to compare
+     * @returns true if the strings are loosely equal (ignoring case and whitespace)
      */
     function looseEqual(str1, str2) {
         return str1 != null && str2 != null && str1.trim().toUpperCase() === str2.trim().toUpperCase();
@@ -117,10 +117,10 @@ var Strings;
     }
     Strings.clamp = clamp;
     /** Prepend padding to the 'String(value)' representation 'value' to increase it's length to 'targetLen'
-     * @param value: the value to convert to a string and pad
-     * @param targetLen: the maximum length of the returned string
-     * @param [padChar]: an character to use as padding
-     * @return the 'value' converted to a string and padded with 'padChar' until the string is 'targetLen' long,
+     * @param value the value to convert to a string and pad
+     * @param targetLen the maximum length of the returned string
+     * @param padChar an character to use as padding
+     * @returns the 'value' converted to a string and padded with 'padChar' until the string is 'targetLen' long,
      * or returns the 'value' as a string without modification if that string is longer than 'targetLen'
      */
     function padStart(value, targetLen, padChar) {
@@ -146,9 +146,9 @@ var Strings;
      * Example: removeTrailingStrings("stubstubAlpha", "stub")
      * returns: "Alpha"
      *
-     * @param str: the string to remove the leading values from
-     * @param leadingStr: the sub-string to search for and remove from the beginning of 'str''
-     * @return 'str' with the matching leading strings removed
+     * @param str the string to remove the leading values from
+     * @param leadingStr the sub-string to search for and remove from the beginning of 'str''
+     * @returns 'str' with the matching leading strings removed
      */
     function removeLeading(str, leadingStr, removeRepeats) {
         if (removeRepeats === void 0) { removeRepeats = false; }
@@ -169,9 +169,9 @@ var Strings;
      * Example: removeTrailingStrings("alphaPiePiePie", "Pie")
      * returns: "alpha"
      *
-     * @param str: the string to remove the trailing values from
-     * @param trailingStr: the sub-string to search for and remove from the end of 'str''
-     * @return 'str' with the matching trailing strings removed
+     * @param str the string to remove the trailing values from
+     * @param trailingStr the sub-string to search for and remove from the end of 'str''
+     * @returns 'str' with the matching trailing strings removed
      */
     function removeTrailing(str, trailingStr, removeRepeats) {
         if (removeRepeats === void 0) { removeRepeats = false; }
@@ -192,10 +192,10 @@ var Strings;
      * Example: replaceAll("cat in the hat", "at", "ab")
      * returns: "cab in the hab"
      *
-     * @param str: the string to search and replace
-     * @param find: the string to search for
-     * @param replace: the replacement string
-     * @return the 'str' with all instances of 'find' replaced with 'replace'
+     * @param str the string to search and replace
+     * @param find the string to search for
+     * @param replace the replacement string
+     * @returns the 'str' with all instances of 'find' replaced with 'replace'
      */
     function replaceAll(str, find, replace) {
         if (str == null || find == null) {

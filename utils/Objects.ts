@@ -13,9 +13,9 @@ module Objects {
      * returns: ["1", "2", "3"]
      *
      * @param obj the object to retrieve property values from
-     * @param [keys=Object.keys(obj)] the list of property names
+     * @param keys optional (default: Object.keys(obj)) the list of property names
      * to retrieve from the object
-     * @return the values associated with 'keys' or 'Object.keys(obj)'
+     * @returns the values associated with 'keys' or 'Object.keys(obj)'
      */
     export function values<T>(obj: { [id: string]: T } | { [id: number]: T }, keys?: string[] | null | undefined): T[] {
         if (keys != null && !Array.isArray(keys)) {
@@ -41,9 +41,9 @@ module Objects {
      * returns: ["1", "2", "3"]
      *
      * @param obj the object to retrieve property values from
-     * @param [keys=Object.keys(obj)] the list of property names
+     * @param keys optional (default: Object.keys(obj)) the list of property names
      * to retrieve from the object
-     * @return the non-null values associated with 'keys' or the
+     * @returns the non-null values associated with 'keys' or the
      * non-null values associated with 'Object.keys(obj)''
      */
     export function valuesNotNull<T>(obj: { [id: string]: T } | { [id: number]: T }, keys?: string[] | null | undefined): T[] {
@@ -99,7 +99,7 @@ module Objects {
      * @param propNames the array of property names to check for in 'obj'
      * @param requiredCount the number of properties (in the order they appear in the 'propNames' array)
      * required to be non-null before returning true, defaults to the size in the 'propNames' array
-     * @return true if the required number of properties exist in the object and match the condition function specified, false otherwise
+     * @returns true if the required number of properties exist in the object and match the condition function specified, false otherwise
      */
     export function hasMatchingProps<T>(obj: T | null | undefined, propNames: (keyof T & string)[], filter: (propVal: any, propName: string) => boolean, requiredCount: number = (propNames != null ? propNames.length : 0)): boolean {
         if (obj == null) {
@@ -312,9 +312,9 @@ module Objects {
      * Or example: getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"])
      * returns: [342, "B"]
      *
-     * @param obj: the object to retrieve the properties from
-     * @param propertyNames: the names of the object properties to retrieve
-     * @return the properties retrieved from the object if both the object
+     * @param obj the object to retrieve the properties from
+     * @param propertyNames the names of the object properties to retrieve
+     * @returns the properties retrieved from the object if both the object
      * and property names are not null, else an empty array
      */
     export function getProps<T, K extends keyof T>(obj: T | null | undefined, propertyNames: K[]): (T[K])[] {
@@ -334,7 +334,7 @@ module Objects {
      * @param classParent the super class that 'classChild' will inherit from
      * @param allowChildToOverride true to keep existing 'classChild' properties, false to overwrite
      * child properties with parent properties when classParent and classChild have properties with the same name
-     * @param [deepExtend=false] if duplicate properties are found on the 'classChild' prototype that also exist on the 'classParent' prototype, then true allows
+     * @param deepExtend optional (default: false) if duplicate properties are found on the 'classChild' prototype that also exist on the 'classParent' prototype, then true allows
      * the last duplicate property to take precedence, false allows the first property to take precedence. Property precedence is also determined by 'allowChildToOverride'
      */
     export function extend(classChild: { prototype: object }, classParent: { prototype: object }, allowChildToOverride: boolean, deepExtend: boolean = false): void {
@@ -421,10 +421,10 @@ module Objects {
 
     /** Create a copy of a map (object where all properties are the same type) using a copy function for the properties.
      * @param source the source map
-     * @param [srcKeys] optional list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
-     * @param [mapFunc] optional function used to copy each of the properties from the source map, the return value is used as the new value for each property,
+     * @param srcKeys optional, list of property names to copy from the object, if present, only these properties are copied, else, all properties are copied
+     * @param mapFunc optional, function used to copy each of the properties from the source map, the return value is used as the new value for each property,
      * if undefined is returned, that property is not written to the returned object
-     * @return a new object containing the transformed properties
+     * @returns a new object containing the transformed properties
      */
     export function map<T>(source: T): T;
     export function map<T, R>(source: { [key: string]: T }, srcKeys: string[] | null | undefined, mapFunc?: (key: string, value: T) => R): { [key: string]: R };
@@ -456,9 +456,9 @@ module Objects {
 
     /** Convert an object to an array by iterating over the properties and transforming each property using a mapping function
      * @param obj the object to transform
-     * @param [srcKeys] optional list of property names to transform, if present, only these properties are transformed, else all of the properties on 'obj' are transformed
+     * @param srcKeys optional, list of property names to transform, if present, only these properties are transformed, else all of the properties on 'obj' are transformed
      * @param mapFunc the function that transforms a property name and value to a new value
-     * @return an array of the resulting properties generated using the 'mapFunc'
+     * @returns an array of the resulting properties generated using the 'mapFunc'
      */
     export function toArray<T, K extends keyof T, R>(obj: T, mapFunc: (key: K, value: T[K], index: number, propNames: K[], obj: T) => R): R[];
     export function toArray<T, K extends keyof T, R>(obj: T, srcKeys: K[], mapFunc: (key: K, value: T[K], index: number, propNames: K[], obj: T) => R): R[];

@@ -8,9 +8,9 @@ module Strings {
      * Example: endsWith("coding in javascript", "script")
      * returns: true
      *
-     * @param str: the string to check. Null returns false
-     * @param suffix: the suffix to check for. Null returns false
-     * @return true if the string ends with the stuffix, false otherwise
+     * @param str the string to check. Null returns false
+     * @param suffix the suffix to check for. Null returns false
+     * @returns true if the string ends with the stuffix, false otherwise
      */
     export function endsWith(str: string | null | undefined, suffix: string | null | undefined): boolean {
         if (str == null || suffix == null) {
@@ -21,8 +21,8 @@ module Strings {
 
 
     /** Check if a string is null or empty
-     * @param str: the string to check
-     * @return true if the 'str' is null or empty, false if not
+     * @param str the string to check
+     * @returns true if the 'str' is null or empty, false if not
      */
     export function isNullOrEmpty(str: string | null | undefined): boolean {
         return str == null || str.length === 0;
@@ -30,8 +30,8 @@ module Strings {
 
 
     /** Check if a string is null or empty or contains only whitespace
-     * @param str: the string to check
-     * @return true if the 'str' is null, empty or contains only
+     * @param str the string to check
+     * @returns true if the 'str' is null, empty or contains only
      * whitespace characters, false otherwise
      */
     export function isNullOrWhiteSpace(str: string | null | undefined): boolean {
@@ -40,9 +40,9 @@ module Strings {
 
 
     /** Check if a character at a specific index in a string is a digit
-     * @param str: the string to get the character from
-     * @param i: the index of the character
-     * @return true if the character at the specified index is a digit [0-9], false if not
+     * @param str the string to get the character from
+     * @param i the index of the character
+     * @returns true if the character at the specified index is a digit [0-9], false if not
      */
     export function isCharAtDigit(str: string | null | undefined, i: number): boolean {
         if (str == null || i < 0 || i >= str.length) {
@@ -54,8 +54,8 @@ module Strings {
 
 
     /** Check if all characters in a string are digits
-     * @param str: the string to check
-     * @return true if every character in the string is a digit [0-9], false if not
+     * @param str the string to check
+     * @returns true if every character in the string is a digit [0-9], false if not
      */
     export function isDigit(str: string | null | undefined): boolean {
         if (str == null) {
@@ -77,9 +77,9 @@ module Strings {
      * Example: isCharAtUpperCase("Super", 4)
      * returns false
      *
-     * @param str: the string that the char resides in
-     * @param i: the index of the character in 'str' to test
-     * @return true if the character at index 'i' is upper case
+     * @param str the string that the char resides in
+     * @param i the index of the character in 'str' to test
+     * @returns true if the character at index 'i' is upper case
      */
     export function isCharAtUpperCase(str: string | null | undefined, i: number): boolean {
         if (str == null || i < 0 || i >= str.length) {
@@ -96,9 +96,9 @@ module Strings {
      * Example: isCharAtLowerCase("Super", 4)
      * returns true
      *
-     * @param str: the string that the char resides in
-     * @param i: the index of the character in 'str' to test
-     * @return true if the character at index 'i' is lower case
+     * @param str the string that the char resides in
+     * @param i the index of the character in 'str' to test
+     * @returns true if the character at index 'i' is lower case
      */
     export function isCharAtLowerCase(str: string | null | undefined, i: number): boolean {
         if (str == null || i < 0 || i >= str.length) {
@@ -110,9 +110,9 @@ module Strings {
 
 
     /** Compare two strings, ignoring leading/trailing whitespace and ignoring upper/lower case
-     * @param str1: the first string to compare
-     * @param str2: the second string to compare
-     * @return true if the strings are loosely equal (ignoring case and whitespace)
+     * @param str1 the first string to compare
+     * @param str2 the second string to compare
+     * @returns true if the strings are loosely equal (ignoring case and whitespace)
      */
     export function looseEqual(str1: string | null | undefined, str2: string | null | undefined): boolean {
         return str1 != null && str2 != null && str1.trim().toUpperCase() === str2.trim().toUpperCase();
@@ -120,9 +120,9 @@ module Strings {
 
 
     /** Clamps the maximum length of a string, unlike the mathmatical clamp() function, there is no minimum length
-     * @param str: the string to clamp
-     * @param maxLen: the max length of the string
-     * @param ellipsis: an optional string to append to the returned string if it is clamped, this string is appended in addition to the 'maxLen'
+     * @param str the string to clamp
+     * @param maxLen the max length of the string
+     * @param ellipsis an optional string to append to the returned string if it is clamped, this string is appended in addition to the 'maxLen'
      */
     export function clamp(str: string, maxLen: number, ellipsis?: string): string;
     export function clamp(str: string | null | undefined, maxLen: number, ellipsis?: string): string;
@@ -132,10 +132,10 @@ module Strings {
 
 
     /** Prepend padding to the 'String(value)' representation 'value' to increase it's length to 'targetLen'
-     * @param value: the value to convert to a string and pad
-     * @param targetLen: the maximum length of the returned string
-     * @param [padChar]: an character to use as padding
-     * @return the 'value' converted to a string and padded with 'padChar' until the string is 'targetLen' long,
+     * @param value the value to convert to a string and pad
+     * @param targetLen the maximum length of the returned string
+     * @param padChar an character to use as padding
+     * @returns the 'value' converted to a string and padded with 'padChar' until the string is 'targetLen' long,
      * or returns the 'value' as a string without modification if that string is longer than 'targetLen'
      */
     export function padStart(value: string | number, targetLen: number, padChar: string): string {
@@ -163,9 +163,9 @@ module Strings {
      * Example: removeTrailingStrings("stubstubAlpha", "stub")
      * returns: "Alpha"
      *
-     * @param str: the string to remove the leading values from
-     * @param leadingStr: the sub-string to search for and remove from the beginning of 'str''
-     * @return 'str' with the matching leading strings removed
+     * @param str the string to remove the leading values from
+     * @param leadingStr the sub-string to search for and remove from the beginning of 'str''
+     * @returns 'str' with the matching leading strings removed
      */
     export function removeLeading(str: string, leadingStr: string, removeRepeats: boolean = false) {
         var res = str;
@@ -188,9 +188,9 @@ module Strings {
      * Example: removeTrailingStrings("alphaPiePiePie", "Pie")
      * returns: "alpha"
      *
-     * @param str: the string to remove the trailing values from
-     * @param trailingStr: the sub-string to search for and remove from the end of 'str''
-     * @return 'str' with the matching trailing strings removed
+     * @param str the string to remove the trailing values from
+     * @param trailingStr the sub-string to search for and remove from the end of 'str''
+     * @returns 'str' with the matching trailing strings removed
      */
     export function removeTrailing(str: string, trailingStr: string, removeRepeats: boolean = false) {
         var res = str;
@@ -213,10 +213,10 @@ module Strings {
      * Example: replaceAll("cat in the hat", "at", "ab")
      * returns: "cab in the hab"
      *
-     * @param str: the string to search and replace
-     * @param find: the string to search for
-     * @param replace: the replacement string
-     * @return the 'str' with all instances of 'find' replaced with 'replace'
+     * @param str the string to search and replace
+     * @param find the string to search for
+     * @param replace the replacement string
+     * @returns the 'str' with all instances of 'find' replaced with 'replace'
      */
     export function replaceAll(str: string, find: string, replace: string): string {
         if (str == null || find == null) {

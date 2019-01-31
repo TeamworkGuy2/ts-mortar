@@ -4,14 +4,14 @@
 var Numbers;
 (function (Numbers) {
     /**
-     * @return true if the input argument is a number or a string representation of a number, false if not
+     * @returns true if the input argument is a number or a string representation of a number, false if not
      */
     function isNumeric(n) {
         return toNumber(n) != null;
     }
     Numbers.isNumeric = isNumeric;
     /**
-     * @return a number if the input argument is a number or a string representing a valid number, null otherwise
+     * @returns a number if the input argument is a number or a string representing a valid number, null otherwise
      */
     function toNumber(num) {
         var val = null;
@@ -20,7 +20,7 @@ var Numbers;
     Numbers.toNumber = toNumber;
     /**
      * @param num the number to check
-     * @return true if the parameter is null or zero, false if not
+     * @returns true if the parameter is null or zero, false if not
      */
     function isNullOrZero(num) {
         return num == null || num === 0;
@@ -28,8 +28,8 @@ var Numbers;
     Numbers.isNullOrZero = isNullOrZero;
     /**
      * @param obj an object containing a 'val()' function that returns a string or null
-     * @param [decimalPlaces] an optional number of decimal places to round the returned number to if the 'val()' function returns a valid number
-     * @return the numeric representation of the value returned by the obj's 'val()' function
+     * @param decimalPlaces optional, number of decimal places to round the returned number to if the 'val()' function returns a valid number
+     * @returns the numeric representation of the value returned by the obj's 'val()' function
      * or null if null or an empty string was returned by the 'val()' function
      */
     function getNullableNumeric(obj, decimalPlaces) {
@@ -47,7 +47,7 @@ var Numbers;
     Numbers.roundTo = roundTo;
     /**
      * @param obj an object containing a 'val' function that returns a numeric percent string (i.e. a string beginning or ending with a percent sign '%') or an empty string
-     * @return the numeric representation of the value returned by the obj's 'val' function
+     * @returns the numeric representation of the value returned by the obj's 'val' function
      * or null if null or an empty string was returned by the 'val' function
      */
     function getNullableNumericPercent(obj) {
@@ -77,7 +77,7 @@ var Numbers;
      * @param num the number to check
      * @param infinityToZero true to convert infinity (Infinity, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY)
      * to zero, false to leave it as is
-     * @return the parsed number
+     * @returns the parsed number
      */
     function orZero(num, infinityToZero) {
         var val = (num == null || typeof num === "number") ? num : parseFloat(num);
@@ -93,7 +93,7 @@ var Numbers;
      * false for no separator
      * @param digitsBetweenSeparators the number of digits between separators, for example 3
      * would produce '1,340,283.53', but 4 would produce '134,0283.53'
-     * @return a string representing the formatted numeric value
+     * @returns a string representing the formatted numeric value
      */
     function format(value, decimalPlaces, includeSeparator, digitsBetweenSeparators) {
         if (digitsBetweenSeparators === void 0) { digitsBetweenSeparators = 3; }
@@ -107,7 +107,7 @@ var Numbers;
      * digits, false for no separator
      * @param digitsBetweenSeparators the number of digits between separators, for example 3
      * would produce '1,340,283.53', but 4 would produce '134,0283.53'
-     * @return a string representing the formatted numeric value
+     * @returns a string representing the formatted numeric value
      */
     function formatNumeric(value, decimalPlaces, includeSeparator, digitsBetweenSeparators) {
         if (digitsBetweenSeparators === void 0) { digitsBetweenSeparators = 3; }

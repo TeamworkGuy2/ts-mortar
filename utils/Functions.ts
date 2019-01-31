@@ -49,7 +49,7 @@ module Functions {
 
     /** Create a function that lazily returns a computed value
      * @param initializer the function that initializes the lazy field and returns it (this function will only be called once)
-     * @return a function that returns the cached value returned by the 'initializer' function
+     * @returns a function that returns the cached value returned by the 'initializer' function
      * with an optiona 'refetch' parameter which, if true, forces the initializer to be called again
      */
     export function lazyField<T>(initializer: () => T): (refetch?: boolean) => T;

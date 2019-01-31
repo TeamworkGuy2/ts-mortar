@@ -4,7 +4,16 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.10](N/A) - 2018-12-29
+### [0.15.11](N/A) - 2019-01-30
+#### Changed
+* Documentation better matches jsdoc syntax
+
+#### Fixed
+* Fix `Arrays.splice()` not copying array properly when `copyToNewAry` is `true`
+
+
+--------
+### [0.15.10](https://github.com/TeamworkGuy2/ts-mortar/commit/1707970b4a36e9a00593c9912ab7e29d55d26b37) - 2018-12-29
 #### Changed
 * Update to TypeScript 3.2 and fix compile errors
 * Update dev dependencies and @types

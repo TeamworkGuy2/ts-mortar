@@ -13,9 +13,9 @@ var Objects;
      * returns: ["1", "2", "3"]
      *
      * @param obj the object to retrieve property values from
-     * @param [keys=Object.keys(obj)] the list of property names
+     * @param keys optional (default: Object.keys(obj)) the list of property names
      * to retrieve from the object
-     * @return the values associated with 'keys' or 'Object.keys(obj)'
+     * @returns the values associated with 'keys' or 'Object.keys(obj)'
      */
     function values(obj, keys) {
         if (keys != null && !Array.isArray(keys)) {
@@ -39,9 +39,9 @@ var Objects;
      * returns: ["1", "2", "3"]
      *
      * @param obj the object to retrieve property values from
-     * @param [keys=Object.keys(obj)] the list of property names
+     * @param keys optional (default: Object.keys(obj)) the list of property names
      * to retrieve from the object
-     * @return the non-null values associated with 'keys' or the
+     * @returns the non-null values associated with 'keys' or the
      * non-null values associated with 'Object.keys(obj)''
      */
     function valuesNotNull(obj, keys) {
@@ -92,7 +92,7 @@ var Objects;
      * @param propNames the array of property names to check for in 'obj'
      * @param requiredCount the number of properties (in the order they appear in the 'propNames' array)
      * required to be non-null before returning true, defaults to the size in the 'propNames' array
-     * @return true if the required number of properties exist in the object and match the condition function specified, false otherwise
+     * @returns true if the required number of properties exist in the object and match the condition function specified, false otherwise
      */
     function hasMatchingProps(obj, propNames, filter, requiredCount) {
         if (requiredCount === void 0) { requiredCount = (propNames != null ? propNames.length : 0); }
@@ -258,9 +258,9 @@ var Objects;
      * Or example: getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"])
      * returns: [342, "B"]
      *
-     * @param obj: the object to retrieve the properties from
-     * @param propertyNames: the names of the object properties to retrieve
-     * @return the properties retrieved from the object if both the object
+     * @param obj the object to retrieve the properties from
+     * @param propertyNames the names of the object properties to retrieve
+     * @returns the properties retrieved from the object if both the object
      * and property names are not null, else an empty array
      */
     function getProps(obj, propertyNames) {
@@ -281,7 +281,7 @@ var Objects;
      * @param classParent the super class that 'classChild' will inherit from
      * @param allowChildToOverride true to keep existing 'classChild' properties, false to overwrite
      * child properties with parent properties when classParent and classChild have properties with the same name
-     * @param [deepExtend=false] if duplicate properties are found on the 'classChild' prototype that also exist on the 'classParent' prototype, then true allows
+     * @param deepExtend optional (default: false) if duplicate properties are found on the 'classChild' prototype that also exist on the 'classParent' prototype, then true allows
      * the last duplicate property to take precedence, false allows the first property to take precedence. Property precedence is also determined by 'allowChildToOverride'
      */
     function extend(classChild, classParent, allowChildToOverride, deepExtend) {

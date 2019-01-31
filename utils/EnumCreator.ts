@@ -111,9 +111,9 @@ module EnumCreatorImpl {
      * @param enumMemberClass the enum member class (can be different than 'enumClass', but commonly the same)
      * @param enumMembersCreator function to get/create the enum's members,
      * this must returns a map associating member names to member objects that are first passed to the 'memberCreator' parameter passed to this function
-     * @param [names] optional list of the member names (must match property names of the returned object from 'enumMembersCreator', allows a specific order to be imposed on the enum members
-     * @param [getName] optional function to transform the name of each enum member
-     * @param [memberVisitor] optional function to transform each enum member
+     * @param names optional, list of the member names (must match property names of the returned object from 'enumMembersCreator', allows a specific order to be imposed on the enum members
+     * @param getName optional, function to transform the name of each enum member
+     * @param memberVisitor optional, function to transform each enum member
      */
     export function initEnumClass<E extends object, T extends object, R>(enumClass: E, enumMemberClass: { prototype: T }, enumMembersCreator: (memberCreator: (member: T) => T & EnumMember) => R, names?: string[],
             getName?: (name: string, enumConst: T) => string, memberVisitor?: (member: T & EnumMember) => void | (T & EnumMember)): R & E & EnumClass<T & EnumMember> {
