@@ -118,7 +118,7 @@ module EnumCreatorImpl {
     export function initEnumClass<E extends object, T extends object, R>(enumClass: E, enumMemberClass: { prototype: T }, enumMembersCreator: (memberCreator: (member: T) => T & EnumMember) => R, names?: string[],
             getName?: (name: string, enumConst: T) => string, memberVisitor?: (member: T & EnumMember) => void | (T & EnumMember)): R & E & EnumClass<T & EnumMember> {
         // extend the enum member type
-        Objects.extend(enumMemberClass, EnumMemberImpl, false, true);
+        Objects.extendPrototype(enumMemberClass, EnumMemberImpl, false, true);
 
         var membersAry: (T & EnumMemberImpl)[] = [];
         var enumMembers = enumMembersCreator(asMember);

@@ -84,7 +84,7 @@ var EnumCreatorImpl;
      */
     function initEnumClass(enumClass, enumMemberClass, enumMembersCreator, names, getName, memberVisitor) {
         // extend the enum member type
-        Objects.extend(enumMemberClass, EnumMemberImpl, false, true);
+        Objects.extendPrototype(enumMemberClass, EnumMemberImpl, false, true);
         var membersAry = [];
         var enumMembers = enumMembersCreator(asMember);
         // setup the enum members

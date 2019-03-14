@@ -32,12 +32,16 @@ suite("Objects", function ObjectsTest() {
             numsValues.push(nums[numsKeys[i]]);
         }
     }());
-    function dateA() { return new Date(1999, 5, 4, 3, 2, 1, 0); }
+    function dateA() {
+        return new Date(1999, 5, 4, 3, 2, 1, 0);
+    }
     test("values", function valuesTest() {
         var res1 = Objects.values(item, itemKeys);
         asr.deepEqual(res1, itemValues);
         var res2 = Objects.values(nums, numsKeys);
         asr.deepEqual(res2, numsValues);
+        var res4 = Objects.values({ alpha: 342, beta: "B", charlie: true }, ["alpha", "beta"]);
+        asr.deepEqual(res4, [342, "B"]);
     });
     test("valuesNotNull", function valuesNotNullTest() {
         var keys = itemKeys.slice();
@@ -200,12 +204,6 @@ suite("Objects", function ObjectsTest() {
         var res2 = { a: "Z", b: 2, c: 3, d: 4 };
         asr.deepEqual(src2, res2);
     });
-    test("getProps", function getPropsTest() {
-        var res1 = Objects.getProps(undefined, ["alpha", "beta"]);
-        asr.deepEqual(res1, []);
-        var res2 = Objects.getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"]);
-        asr.deepEqual(res2, [342, "B"]);
-    });
     test("extend", function extendTest() {
         function Parent() { }
         Parent.prototype.step = function () { return "parent-step"; };
@@ -214,12 +212,12 @@ suite("Objects", function ObjectsTest() {
         Child.prototype.step = function () { return "child-step"; };
         var childPre = new Child();
         asr.equal(childPre.num, undefined);
-        Objects.extend(Child, Parent, false);
+        Objects.extendPrototype(Child, Parent, false);
         var parentInst = new Parent();
         asr.equal(parentInst.step(), "parent-step");
         var childPost = new Child();
         asr.equal(childPost.step(), "child-step");
-        Objects.extend(Child, Parent, true);
+        Objects.extendPrototype(Child, Parent, true);
         asr.equal(childPost.num(), 2);
     });
     test("extendToStatic", function extendToStaticTest() {

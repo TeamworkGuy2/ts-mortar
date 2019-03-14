@@ -42,7 +42,9 @@ suite("Objects", function ObjectsTest() {
     } ());
 
 
-    function dateA() { return new Date(1999, 5, 4, 3, 2, 1, 0); }
+    function dateA() {
+        return new Date(1999, 5, 4, 3, 2, 1, 0);
+    }
 
 
     test("values", function valuesTest() {
@@ -51,6 +53,9 @@ suite("Objects", function ObjectsTest() {
 
         var res2 = Objects.values(nums, numsKeys);
         asr.deepEqual(res2, numsValues);
+
+        var res4 = Objects.values({ alpha: 342, beta: "B", charlie: true }, ["alpha", "beta"]);
+        asr.deepEqual(res4, [342, "B"]);
     });
 
 
@@ -260,15 +265,6 @@ suite("Objects", function ObjectsTest() {
     });
 
 
-    test("getProps", function getPropsTest() {
-        var res1 = Objects.getProps(<{ alpha: any; beta: any; }><any>undefined, ["alpha", "beta"]);
-        asr.deepEqual(res1, []);
-
-        var res2 = Objects.getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"]);
-        asr.deepEqual(res2, [342, "B"]);
-    });
-
-
     test("extend", function extendTest() {
         function Parent() { }
         Parent.prototype.step = function () { return "parent-step"; };
@@ -279,7 +275,7 @@ suite("Objects", function ObjectsTest() {
         var childPre = new (<any>Child)();
         asr.equal(childPre.num, undefined);
 
-        Objects.extend(Child, Parent, false);
+        Objects.extendPrototype(Child, Parent, false);
 
         var parentInst = new (<any>Parent)();
         asr.equal(parentInst.step(), "parent-step");
@@ -287,7 +283,7 @@ suite("Objects", function ObjectsTest() {
         var childPost = new (<any>Child)();
         asr.equal(childPost.step(), "child-step");
 
-        Objects.extend(Child, Parent, true);
+        Objects.extendPrototype(Child, Parent, true);
 
         asr.equal(childPost.num(), 2);
     });

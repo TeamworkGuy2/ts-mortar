@@ -1,5 +1,13 @@
 ﻿
 module Arrays {
+
+    export interface FilterResult<T> {
+        all: T[];
+        matching: T[];
+        notMatching: T[];
+    }
+
+
     export var EMPTY_ARRAY = Object.freeze([]);
 
 
@@ -296,7 +304,7 @@ module Arrays {
      * false stores items in the returned 'notMatching' property
      * @returns a filter result object contains the original array 'all' and arrays of 'matching' and 'notMatching' items
      */
-    export function filterSplit<E>(ary: E[] | ArrayLike<E> | null | undefined, filterFunc: (value: E, index: number, array: E[]) => boolean): { all: E[]; matching: E[]; notMatching: E[] } {
+    export function filterSplit<E>(ary: E[] | ArrayLike<E> | null | undefined, filterFunc: (value: E, index: number, array: E[]) => boolean): FilterResult<E> {
         if (ary == null) { return toBiFilterResult([], [], []); }
         if (typeof filterFunc !== "function") {
             throw new Error("incorrect parameter 'filterFunc', must be a 'function(value: E, index: number, array: E[]): boolean'");
@@ -320,7 +328,7 @@ module Arrays {
 
 
     // convert an array of items and arrays containing matching and non-matching items to an 'BiFilterResult' object
-    function toBiFilterResult<E>(all: E[], matching: E[], notMatching: E[]) {
+    function toBiFilterResult<E>(all: E[], matching: E[], notMatching: E[]): FilterResult<E> {
         return {
             all: all,
             matching: matching,

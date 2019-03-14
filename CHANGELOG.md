@@ -4,12 +4,27 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.15.11](N/A) - 2019-01-30
+### [0.16.0](N/A) - 2019-03-13
+#### Changed
+* Renamed `Objects.extend()` -> `Objects.extendPrototype()`
+* `Strings.padStart()` and `Strings.padEnd()` now use `String.prototype.repeat` internally which may not be available on older platforms without a polyfill. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/repeat#Polyfill
+
+#### Removed
+* Removed `Objects.getProps()`, use `Objects.values()` instead
+* Removed `Numbers.getNullableNumeric()` and `Numbers.getNullableNumericPercent()` since they designed for use with jquery and this library is designed for simple, platform/library agnostic use.
+* Removed `Strings.endsWith()` since it contained bugs with empty strings and strings containing the search string multiple times (not just at the end). Use JS built-in `String.prototype.endsWith` or a polyfill on older platforms, see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith#Polyfill
+
+#### Fixed
+* `Strings.isDigit()` no longer returns true for empty strings since `parseFloat("")` returns `NaN`
+
+
+--------
+### [0.15.11](https://github.com/TeamworkGuy2/ts-mortar/commit/24a0f729125cb9989ef54dc5650cace9f51f3292) - 2019-01-30
 #### Changed
 * Documentation better matches jsdoc syntax
 
 #### Fixed
-* Fix `Arrays.splice()` not copying array properly when `copyToNewAry` is `true`
+* Fix `Arrays.splice()` not copying input array properly when `copyToNewAry` is `true`
 
 
 --------

@@ -27,47 +27,14 @@ var Numbers;
     }
     Numbers.isNullOrZero = isNullOrZero;
     /**
-     * @param obj an object containing a 'val()' function that returns a string or null
-     * @param decimalPlaces optional, number of decimal places to round the returned number to if the 'val()' function returns a valid number
-     * @returns the numeric representation of the value returned by the obj's 'val()' function
-     * or null if null or an empty string was returned by the 'val()' function
+     * @param num the number to round
+     * @param decimalPlaces the number of decimal places to round the number to
+     * @returns the 'num' rounded to the specified number of decimal places
      */
-    function getNullableNumeric(obj, decimalPlaces) {
-        var value = obj.val();
-        if (value == null || (value = value.trim()).length === 0) {
-            return null;
-        }
-        var num = value * 1;
-        return isNaN(num) ? null : (decimalPlaces > 0 ? roundTo(num, decimalPlaces) : num);
-    }
-    Numbers.getNullableNumeric = getNullableNumeric;
     function roundTo(num, decimalPlaces) {
         return parseFloat(num.toFixed(decimalPlaces));
     }
     Numbers.roundTo = roundTo;
-    /**
-     * @param obj an object containing a 'val' function that returns a numeric percent string (i.e. a string beginning or ending with a percent sign '%') or an empty string
-     * @returns the numeric representation of the value returned by the obj's 'val' function
-     * or null if null or an empty string was returned by the 'val' function
-     */
-    function getNullableNumericPercent(obj) {
-        var value = obj.val();
-        if (value == null || (value = value.trim()).length === 0) {
-            return null;
-        }
-        var len = value.length;
-        if (len > 0 && value.charAt(0) === '%') {
-            value = value.substr(1);
-            len--;
-        }
-        if (len > 0 && value.charAt(len - 1) === '%') {
-            value = value.substr(0, len - 1);
-            len--;
-        }
-        var num = value.trim() * 1;
-        return isNaN(num) ? null : num;
-    }
-    Numbers.getNullableNumericPercent = getNullableNumericPercent;
     /** Convert NaN, null, or undefined numbers to zero, infinity remains as is.
      * Example: orZero("string")
      * returns: 0

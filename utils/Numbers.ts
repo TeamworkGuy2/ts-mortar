@@ -29,47 +29,12 @@ module Numbers {
 
 
     /**
-     * @param obj an object containing a 'val()' function that returns a string or null
-     * @param decimalPlaces optional, number of decimal places to round the returned number to if the 'val()' function returns a valid number
-     * @returns the numeric representation of the value returned by the obj's 'val()' function
-     * or null if null or an empty string was returned by the 'val()' function
+     * @param num the number to round
+     * @param decimalPlaces the number of decimal places to round the number to
+     * @returns the 'num' rounded to the specified number of decimal places
      */
-    export function getNullableNumeric(obj: { val(): string | null | undefined; }, decimalPlaces?: number): number | null {
-        var value = obj.val();
-        if (value == null || (value = value.trim()).length === 0) {
-            return null;
-        }
-        var num: number = <any>value * 1;
-        return isNaN(num) ? null : (<number>decimalPlaces > 0 ? roundTo(num, <number>decimalPlaces) : num);
-    }
-
-
     export function roundTo(num: number, decimalPlaces: number): number {
         return parseFloat(num.toFixed(decimalPlaces));
-    }
-
-
-    /**
-     * @param obj an object containing a 'val' function that returns a numeric percent string (i.e. a string beginning or ending with a percent sign '%') or an empty string
-     * @returns the numeric representation of the value returned by the obj's 'val' function
-     * or null if null or an empty string was returned by the 'val' function
-     */
-    export function getNullableNumericPercent(obj: { val(): string | null | undefined }): number | null {
-        var value = obj.val();
-        if (value == null || (value = value.trim()).length === 0) {
-            return null;
-        }
-        var len = value.length;
-        if (len > 0 && value.charAt(0) === '%') {
-            value = value.substr(1);
-            len--;
-        }
-        if (len > 0 && value.charAt(len - 1) === '%') {
-            value = value.substr(0, len - 1);
-            len--;
-        }
-        var num: number = <any>value.trim() * 1;
-        return isNaN(num) ? null : num;
     }
 
 

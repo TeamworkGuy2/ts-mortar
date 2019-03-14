@@ -21,35 +21,6 @@ suite("Numbers", function NumbersTest() {
     });
 
 
-    test("getNullableNumeric", function getNullableNumericTest() {
-        function getNullableNumeric(value: string | null | undefined, places?: number) {
-            return Numbers.getNullableNumeric({ val: () => value }, places);
-        }
-
-        asr.equal(getNullableNumeric("0"), 0);
-        asr.equal(getNullableNumeric(""), null);
-        asr.equal(getNullableNumeric(null), null);
-        asr.equal(getNullableNumeric("abc"), null);
-        asr.equal(getNullableNumeric("123"), 123);
-        asr.equal(getNullableNumeric("123.456"), 123.456);
-        asr.equal(getNullableNumeric("123.456", 1), 123.5);
-        asr.equal(getNullableNumeric("0.1234", 2), 0.12);
-    });
-
-
-    test("getNullableNumericPercent", function getNullableNumericPercentTest() {
-        function getNullableNumericPercent(value: string | null | undefined) {
-            return Numbers.getNullableNumericPercent({ val: () => value });
-        }
-
-        asr.equal(getNullableNumericPercent("%0"), 0);
-        asr.equal(getNullableNumericPercent(""), null);
-        asr.equal(getNullableNumericPercent(null), null);
-        asr.equal(getNullableNumericPercent("abc"), null);
-        asr.equal(getNullableNumericPercent("123 %"), 123);
-    });
-
-
     test("roundTo", function roundToTest() {
         asr.equal(Numbers.roundTo(123.4567, 3), 123.457);
         asr.equal(Numbers.roundTo(123.4567, 2), 123.46);

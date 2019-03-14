@@ -6,17 +6,6 @@
  */
 var Objects;
 (function (Objects) {
-    /** Get a set of property values from an object.
-     * The list of property names can be provided, or if not provided,
-     * all of the object's key values will be retrieved.
-     * Example: ObjectUtil.values({ alpha: "1", beta: "2", charlie: "3" })
-     * returns: ["1", "2", "3"]
-     *
-     * @param obj the object to retrieve property values from
-     * @param keys optional (default: Object.keys(obj)) the list of property names
-     * to retrieve from the object
-     * @returns the values associated with 'keys' or 'Object.keys(obj)'
-     */
     function values(obj, keys) {
         if (keys != null && !Array.isArray(keys)) {
             throw new Error("incorrect usage (" + obj + ", " + keys + "), expected (Object obj, Array<String> [keys])");
@@ -65,21 +54,21 @@ var Objects;
      * @see hasMatchingProperties()
      */
     function hasAnyNonFalseyProps(obj, propNames) {
-        return hasMatchingProps(obj, propNames, function anyNonFalseyPropsFunc(val) { return !!val; }, propNames != null ? 1 : 0);
+        return hasMatchingProps(obj, propNames, function (val) { return !!val; }, propNames != null ? 1 : 0);
     }
     Objects.hasAnyNonFalseyProps = hasAnyNonFalseyProps;
     /** Check if an object has at least 1 non-null property from a list of property names
      * @see hasMatchingProperties()
      */
     function hasAnyNonNullProps(obj, propNames) {
-        return hasMatchingProps(obj, propNames, function anyNonNullPropsFunc(val) { return val != null; }, propNames != null ? 1 : 0);
+        return hasMatchingProps(obj, propNames, function (val) { return val != null; }, propNames != null ? 1 : 0);
     }
     Objects.hasAnyNonNullProps = hasAnyNonNullProps;
     /** Check if an object has non-null values for all of the propery names specified
      * @see hasMatchingProperties()
      */
     function hasNonNullProps(obj, propNames) {
-        return hasMatchingProps(obj, propNames, function nonNullPropsFunc(val) { return val != null; }, propNames != null ? propNames.length : 0);
+        return hasMatchingProps(obj, propNames, function (val) { return val != null; }, propNames != null ? propNames.length : 0);
     }
     Objects.hasNonNullProps = hasNonNullProps;
     /** Check if an object has matching values for all of the properties specified
@@ -251,30 +240,6 @@ var Objects;
         return target;
     }
     Objects.assignAll = assignAll;
-    /** Get multiple properties from an object without the risk of an undefined error.
-     * Return an empty array if either the object or the list of property names are null or undefined.
-     * Example: getProps(undefined, ["alpha", "beta"])
-     * returns: []
-     * Or example: getProps({ alpha: 342, beta: "B" }, ["alpha", "beta"])
-     * returns: [342, "B"]
-     *
-     * @param obj the object to retrieve the properties from
-     * @param propertyNames the names of the object properties to retrieve
-     * @returns the properties retrieved from the object if both the object
-     * and property names are not null, else an empty array
-     */
-    function getProps(obj, propertyNames) {
-        if (obj == null || propertyNames == null || !propertyNames.length) {
-            return [];
-        }
-        var size = propertyNames.length;
-        var res = new Array(size);
-        for (var i = 0; i < size; i++) {
-            res[i] = obj[propertyNames[i]] || null;
-        }
-        return res;
-    }
-    Objects.getProps = getProps;
     /** Modify classChild to extend classParent via prototypal inheritance.
      * Side-effect: classChild's prototype is modified.
      * @param classChild the sub class that inherits from 'classParent''
@@ -284,7 +249,7 @@ var Objects;
      * @param deepExtend optional (default: false) if duplicate properties are found on the 'classChild' prototype that also exist on the 'classParent' prototype, then true allows
      * the last duplicate property to take precedence, false allows the first property to take precedence. Property precedence is also determined by 'allowChildToOverride'
      */
-    function extend(classChild, classParent, allowChildToOverride, deepExtend) {
+    function extendPrototype(classChild, classParent, allowChildToOverride, deepExtend) {
         if (deepExtend === void 0) { deepExtend = false; }
         if (classParent.prototype == null) {
             throw new Error(classParent + ", does not have the property '.prototype'");
@@ -310,7 +275,7 @@ var Objects;
             value: classChild
         });
     }
-    Objects.extend = extend;
+    Objects.extendPrototype = extendPrototype;
     /** Modify classChild to extend classParent via prototype-to-static inheritance.
      * Side-effect: classChild is modified.
      * @param classChild the sub class that inherits from 'classParent''

@@ -4,22 +4,6 @@
  */
 module Strings {
 
-    /** Check if a string ends with a specific suffix
-     * Example: endsWith("coding in javascript", "script")
-     * returns: true
-     *
-     * @param str the string to check. Null returns false
-     * @param suffix the suffix to check for. Null returns false
-     * @returns true if the string ends with the stuffix, false otherwise
-     */
-    export function endsWith(str: string | null | undefined, suffix: string | null | undefined): boolean {
-        if (str == null || suffix == null) {
-            return false;
-        }
-        return str.indexOf(suffix) === (str.length - suffix.length);
-    }
-
-
     /** Check if a string is null or empty
      * @param str the string to check
      * @returns true if the 'str' is null or empty, false if not
@@ -35,7 +19,7 @@ module Strings {
      * whitespace characters, false otherwise
      */
     export function isNullOrWhiteSpace(str: string | null | undefined): boolean {
-        return str == null || (str.trim instanceof Function ? str.trim().length === 0 : false);
+        return str == null || str.trim().length === 0;
     }
 
 
@@ -55,13 +39,14 @@ module Strings {
 
     /** Check if all characters in a string are digits
      * @param str the string to check
-     * @returns true if every character in the string is a digit [0-9], false if not
+     * @returns true if every character in the string is a digit [0-9], false if the string is empty or contains non-digits
      */
     export function isDigit(str: string | null | undefined): boolean {
-        if (str == null) {
+        var size = 0;
+        if (str == null || (size = str.length) === 0) {
             return false;
         }
-        for (var i = 0, size = str.length; i < size; i++) {
+        for (var i = 0; i < size; i++) {
             var ch = str.charCodeAt(i) - 48;
             if (ch < 0 || ch > 9) {
                 return false;
@@ -131,31 +116,35 @@ module Strings {
     }
 
 
-    /** Prepend padding to the 'String(value)' representation 'value' to increase it's length to 'targetLen'
+    /** Prepend padding to the 'String(value)' representation of 'value' to increase it's length to 'targetLen'
      * @param value the value to convert to a string and pad
      * @param targetLen the maximum length of the returned string
      * @param padChar an character to use as padding
      * @returns the 'value' converted to a string and padded with 'padChar' until the string is 'targetLen' long,
-     * or returns the 'value' as a string without modification if that string is longer than 'targetLen'
+     * or returns the 'value' as a string without modification if the string is longer than 'targetLen'
      */
     export function padStart(value: string | number, targetLen: number, padChar: string): string {
         var valStr = String(value);
         if (valStr.length >= targetLen) {
             return valStr;
         }
-        return value != null ? new Array(targetLen - valStr.length + 1).join(padChar) + valStr : valStr;
+        return value != null ? padChar.repeat(targetLen - valStr.length) + valStr : valStr;
     }
 
 
-    /**
-     * @see padStart()
+    /** Append padding to the 'String(value)' representation of 'value' to increase it's length to 'targetLen'
+     * @param value the value to convert to a string and pad
+     * @param targetLen the maximum length of the returned string
+     * @param padChar an character to use as padding
+     * @returns the 'value' converted to a string and padded with 'padChar' until the string is 'targetLen' long,
+     * or returns the 'value' as a string without modification if the string is longer than 'targetLen'
      */
     export function padEnd(value: string | number, targetLen: number, padChar: string): string {
         var valStr = String(value);
         if (valStr.length >= targetLen) {
             return valStr;
         }
-        return value != null ? valStr + new Array(targetLen - valStr.length + 1).join(padChar) : valStr;
+        return value != null ? valStr + padChar.repeat(targetLen - valStr.length) : valStr;
     }
 
 

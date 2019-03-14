@@ -4,12 +4,6 @@ var chai = require("chai");
 var Strings = require("../../utils/Strings");
 var asr = chai.assert;
 suite("Strings", function StringsTest() {
-    test("endsWith", function endsWithTest() {
-        asr.equal(Strings.endsWith("blue", "e"), true);
-        asr.equal(Strings.endsWith("blue", "ee"), false);
-        asr.equal(Strings.endsWith("strstr", "rstr"), true);
-        asr.equal(Strings.endsWith("strstr", "strs"), false);
-    });
     test("isNullOrEmpty", function isNullOrEmptyTest() {
         asr.equal(Strings.isNullOrEmpty(""), true);
         asr.equal(Strings.isNullOrEmpty(null), true);
@@ -29,6 +23,12 @@ suite("Strings", function StringsTest() {
             var res = Strings.isCharAtDigit(str, i);
             asr.equal(res, expected[i], i + ". '" + str.substr(i, 1) + "'");
         }
+        asr.isTrue(Strings.isCharAtDigit("123", 1));
+        asr.isTrue(Strings.isCharAtDigit("0", 0));
+        asr.isFalse(Strings.isCharAtDigit("", 0));
+        asr.isFalse(Strings.isCharAtDigit("0A", 1));
+        asr.isFalse(Strings.isCharAtDigit("0", -1));
+        asr.isFalse(Strings.isCharAtDigit("0", 1));
     });
     test("isDigit", function isDigitTest() {
         var str = "1.2%";
@@ -37,8 +37,10 @@ suite("Strings", function StringsTest() {
             var res = Strings.isDigit(str.substr(i, 1));
             asr.equal(res, expected[i], i + ". '" + str.substr(i, 1) + "'");
         }
-        var res2 = Strings.isDigit("123");
-        asr.equal(res2, true);
+        asr.isTrue(Strings.isDigit("123"));
+        asr.isTrue(Strings.isDigit("0"));
+        asr.isFalse(Strings.isDigit(""));
+        asr.isFalse(Strings.isDigit("0A"));
     });
     test("isCharAtUpperCase", function isCharAtUpperCaseTest() {
         var str = "AbCd";
@@ -47,6 +49,9 @@ suite("Strings", function StringsTest() {
             var res = Strings.isCharAtUpperCase(str, i);
             asr.equal(res, expected[i], i + ". '" + str.substr(i, 1) + "'");
         }
+        asr.isFalse(Strings.isCharAtUpperCase("A", -1));
+        asr.isFalse(Strings.isCharAtUpperCase("A", 1));
+        asr.isFalse(Strings.isCharAtUpperCase("A", Infinity));
     });
     test("isCharAtLowerCase", function isCharAtLowerCaseTest() {
         var str = "aBcD";
@@ -55,6 +60,9 @@ suite("Strings", function StringsTest() {
             var res = Strings.isCharAtLowerCase(str, i);
             asr.equal(res, expected[i], i + ". '" + str.substr(i, 1) + "'");
         }
+        asr.isFalse(Strings.isCharAtLowerCase("a", -1));
+        asr.isFalse(Strings.isCharAtLowerCase("a", 1));
+        asr.isFalse(Strings.isCharAtLowerCase("a", Infinity));
     });
     test("clamp", function clampTest() {
         var data = [{
@@ -90,26 +98,36 @@ suite("Strings", function StringsTest() {
         asr.equal(Strings.padStart(1.2, 5, " "), "  1.2");
         asr.equal(Strings.padStart(1.2, 6, "-"), "---1.2");
         asr.equal(Strings.padStart(1.2, 3, "-"), "1.2");
+        asr.equal(Strings.padStart("A", 3, "a"), "aaA");
     });
     test("padEnd", function padEndTest() {
         asr.equal(Strings.padEnd(1.2, 5, " "), "1.2  ");
         asr.equal(Strings.padEnd(1.2, 6, "-"), "1.2---");
         asr.equal(Strings.padEnd(1.2, 3, "-"), "1.2");
+        asr.equal(Strings.padEnd("A", 3, "a"), "Aaa");
     });
     test("removeLeading", function removeLeadingTest() {
         var res1 = Strings.removeLeading("stubstubAlpha", "stub", true);
         asr.equal(res1, "Alpha");
         var res2 = Strings.removeLeading("---", "-", false);
         asr.equal(res2, "--");
+        var res3 = Strings.removeLeading("AAA", "B", false);
+        asr.equal(res3, "AAA");
     });
     test("removeTrailing", function removeTrailingTest() {
         var res1 = Strings.removeTrailing("alphaPiePiePie", "Pie", true);
         asr.equal(res1, "alpha");
         var res2 = Strings.removeTrailing("---", "-", false);
         asr.equal(res2, "--");
+        var res3 = Strings.removeTrailing("AAA", "B", false);
+        asr.equal(res3, "AAA");
     });
     test("replaceAll", function replaceAllTest() {
         var res1 = Strings.replaceAll("cat in the hat", "at", "ab");
         asr.equal(res1, "cab in the hab");
+        var res2 = Strings.replaceAll("Super", "", "-");
+        asr.equal(res2, "S-u-p-e-r");
+        var res3 = Strings.replaceAll("NaN", "0", "1");
+        asr.equal(res3, "NaN");
     });
 });
