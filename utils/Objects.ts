@@ -48,6 +48,8 @@ module Objects {
      * @returns the non-null values associated with 'keys' or the
      * non-null values associated with 'Object.keys(obj)''
      */
+    export function valuesNotNull<T, K extends keyof T>(obj: T, keys?: K[] | null | undefined): (T[K])[];
+    export function valuesNotNull<T>(obj: { [id: string]: T } | { [id: number]: T }, keys?: string[] | null | undefined): T[];
     export function valuesNotNull<T>(obj: { [id: string]: T } | { [id: number]: T }, keys?: string[] | null | undefined): T[] {
         if (keys != null && !Array.isArray(keys)) {
             throw new Error("incorrect usage (" + obj + ", " + keys + "), expected (Object obj, Array<String> [keys])");
@@ -387,7 +389,7 @@ module Objects {
      * returns: { b: a, 123: key }
      * @param srcMap the object to invert
      */
-    export function invert<M extends { [key: string]: string }>(srcMap: M): { [key in M[keyof M]]: keyof M }
+    export function invert<M extends { [key: string]: string }>(srcMap: M): { [key in M[keyof M]]: keyof M };
     export function invert(srcMap: object): { [key: string]: string };
     export function invert(srcMap: object): { [key: string]: string } {
         var inverseMap = Object.keys(srcMap).reduce((map, name) => {

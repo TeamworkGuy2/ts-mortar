@@ -21,18 +21,6 @@ var Objects;
         return results;
     }
     Objects.values = values;
-    /** Get a set of non-null property values from an object.
-     * The list of property names can be provided, or if not provided,
-     * all of the object's key values will be retrieved.
-     * Example: ObjectUtil.valuesNotNull({ alpha: "1", beta: "2", charlie: "3", delta: null })
-     * returns: ["1", "2", "3"]
-     *
-     * @param obj the object to retrieve property values from
-     * @param keys optional (default: Object.keys(obj)) the list of property names
-     * to retrieve from the object
-     * @returns the non-null values associated with 'keys' or the
-     * non-null values associated with 'Object.keys(obj)''
-     */
     function valuesNotNull(obj, keys) {
         if (keys != null && !Array.isArray(keys)) {
             throw new Error("incorrect usage (" + obj + ", " + keys + "), expected (Object obj, Array<String> [keys])");

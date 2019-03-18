@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.16.0](N/A) - 2019-03-13
+### [0.16.1](N/A) - 2019-03-18
+#### Changed
+* `Objects.valuesNotNull()` parameter types improved to match `Objects.values()`
+
+
+--------
+### [0.16.0](https://github.com/TeamworkGuy2/ts-mortar/commit/6759cb37e97246aa5f6b610e4d683bf6aac56a47) - 2019-03-13
 #### Changed
 * Renamed `Objects.extend()` -> `Objects.extendPrototype()`
 * `Strings.padStart()` and `Strings.padEnd()` now use `String.prototype.repeat` internally which may not be available on older platforms without a polyfill. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/repeat#Polyfill

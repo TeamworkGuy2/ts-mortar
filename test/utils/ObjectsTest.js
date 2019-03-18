@@ -38,15 +38,16 @@ suite("Objects", function ObjectsTest() {
     test("values", function valuesTest() {
         var res1 = Objects.values(item, itemKeys);
         asr.deepEqual(res1, itemValues);
-        var res2 = Objects.values(nums, numsKeys);
-        asr.deepEqual(res2, numsValues);
+        var res2 = Objects.values(item, itemKeys);
+        asr.deepEqual(res2, itemValues);
+        var res3 = Objects.values(nums, numsKeys);
+        asr.deepEqual(res3, numsValues);
         var res4 = Objects.values({ alpha: 342, beta: "B", charlie: true }, ["alpha", "beta"]);
         asr.deepEqual(res4, [342, "B"]);
     });
     test("valuesNotNull", function valuesNotNullTest() {
         var keys = itemKeys.slice();
         var idx = keys.indexOf("optional");
-        var tmp = keys[idx];
         keys[idx] = keys[keys.length - 1];
         keys.pop();
         var vals = [];
@@ -55,8 +56,10 @@ suite("Objects", function ObjectsTest() {
         }
         var res1 = Objects.valuesNotNull(item);
         asr.deepEqual(res1, vals);
-        var res2 = Objects.valuesNotNull({ a: undefined, b: null, c: 0, d: false, e: "true", f: 2 }, ["a", "b", "c", "d"]);
-        asr.deepEqual(res2, [0, false]);
+        var res2 = Objects.valuesNotNull(item, keys);
+        asr.deepEqual(res2, vals);
+        var res3 = Objects.valuesNotNull({ a: undefined, b: null, c: 0, d: false, e: "true", f: 2 }, ["a", "b", "c", "d"]);
+        asr.deepEqual(res3, [0, false]);
     });
     test("hasAnyNonFalseyProps", function hasAnyNonFalseyPropsTest() {
         var res1 = Objects.hasAnyNonFalseyProps({ falsey: false, undefined: undefined }, ["falsey", "undefined"]);

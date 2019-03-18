@@ -1,6 +1,6 @@
 {
   "name": "ts-mortar",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "TypeScript utility similar to lodash/underscore, focused on array: add, remove, search, filter; string: is, contains, modification; and object: values, clone, hasProps, getProps, extend, map, toArray.",
   "author": "TeamworkGuy2",
   "homepage": "https://github.com/TeamworkGuy2/ts-mortar",
