@@ -4,7 +4,23 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.16.1](N/A) - 2019-03-18
+### [0.17.0](N/A) - 2019-05-17
+#### Added
+* `Arrays.diffPartsCustomEquality()` for custom array symmetric difference calculating 
+
+#### Changed
+* `Arrays.diff()` has an additional optional 'equal' function parameter to allow for custom equality when comparing arrays
+* Arrays changed several '[]' parameter types to 'ArrayLike<...>'
+
+#### Removed
+* `Arrays.copy()` since `.slice()` is preferred and faster in most JS environments
+
+#### Fixed
+* `Arrays.splice()` bug when removing items without inserting any
+
+
+--------
+### [0.16.1](https://github.com/TeamworkGuy2/ts-mortar/commit/bd77df72b1c01c893a19a113de655255aba72949) - 2019-03-18
 #### Changed
 * `Objects.valuesNotNull()` parameter types improved to match `Objects.values()`
 

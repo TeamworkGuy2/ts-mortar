@@ -71,15 +71,6 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("copy", function copyTest() {
-        var ary1 = [{ p: "B" }, { p: "D" }, { p: "F" }, { p: "H" }, { p: "J" }];
-
-        var copy1 = Arrays.copy(ary1);
-        asr.notEqual(copy1, ary1);
-        asr.deepEqual(copy1, ary1);
-    });
-
-
     test("concat", function concatTest() {
         var ary1 = [{ p: "B" }, { p: "D" }, { p: "F" }];
         var ary2 = [{ p: "H" }, { p: "J" }];
@@ -87,6 +78,11 @@ suite("Arrays", function ArraysTest() {
 
         var res = Arrays.concat(ary1, ary2);
         asr.deepEqual(res, ary1And2);
+
+        asr.deepEqual(Arrays.concat(null, undefined), []);
+        asr.deepEqual(Arrays.concat(null, []), []);
+        asr.deepEqual(Arrays.concat([11], null), [11]);
+        asr.deepEqual(Arrays.concat(null, ['A', 'B']), ['A', 'B']);
     });
 
 
@@ -162,6 +158,16 @@ suite("Arrays", function ArraysTest() {
     });
 
 
+    test("diffPartsCustomEquality", function diffPartsCustomEqualityTest() {
+        var res = Arrays.diffPartsCustomEquality([{ n: 1, h: "A" }, { n: 2, h: "B" }, { n: 3, h: "C" }], [{ n: 2, h: "D" }, { n: 4, h: "E" }], (a, b) => a.n === b.n);
+        asr.deepEqual(res, { added: [{ n: 4, h: "E" }], removed: [{ n: 1, h: "A" }, { n: 3, h: "C" }] });
+
+        // duplicate values in input are treated as unique
+        var res2 = Arrays.diffParts([1, 1, 2, 5, 6], [3, 3, 4, 5]);
+        asr.deepEqual(res2, { added: [3, 3, 4], removed: [1, 1, 2, 6] });
+    });
+
+
     test("equal", function equalTest() {
         var res1 = Arrays.equal(["A", 23, true], ["A", 23, true]);
         asr.equal(res1, true);
@@ -180,14 +186,17 @@ suite("Arrays", function ArraysTest() {
     test("fastRemove", function fastRemoveTest() {
         var ary = ["B", "D", "F", "H", "J"];
 
-        var res1 = Arrays.fastRemove(ary.slice(), "B");
-        asr.deepEqual(res1.sort(), ["D", "F", "H", "J"]);
+        var res1 = Arrays.fastRemove(ary.slice(), "A");
+        asr.deepEqual(res1, ["B", "D", "F", "H", "J"]);
 
-        var res2 = Arrays.fastRemove(ary.slice(), "F");
-        asr.deepEqual(res2.sort(), ["B", "D", "H", "J"]);
+        var res2 = Arrays.fastRemove(ary.slice(), "B");
+        asr.deepEqual(res2.sort(), ["D", "F", "H", "J"]);
 
-        var res3 = Arrays.fastRemove(ary.slice(), "J");
-        asr.deepEqual(res3.sort(), ["B", "D", "F", "H"]);
+        var res3 = Arrays.fastRemove(ary.slice(), "F");
+        asr.deepEqual(res3.sort(), ["B", "D", "H", "J"]);
+
+        var res4 = Arrays.fastRemove(ary.slice(), "J");
+        asr.deepEqual(res4.sort(), ["B", "D", "F", "H"]);
     });
 
 
@@ -471,21 +480,34 @@ suite("Arrays", function ArraysTest() {
         var res5 = Arrays.splice(null, null, 2, 0);
         asr.deepEqual(res5, []);
 
+        var res6 = Arrays.splice([1, 2, 3], null, 1, 0);
+        asr.deepEqual(res6, [1, 2, 3]);
+
+        var res7 = Arrays.splice([11, 12, 13], null, 1, 2);
+        asr.deepEqual(res7, [11]);
+
+        var res8 = Arrays.splice([1, 2, 3], [], 1, 0);
+        asr.deepEqual(res8, [1, 2, 3]);
+
+        var res9 = Arrays.splice([11, 12, 13], [], 0, 2);
+        asr.deepEqual(res9, [13]);
+
+
         // splice without copy
-        var in6 = [6, 7];
-        var res6 = Arrays.splice(in6, [8], 2, 0, false);
-        asr.deepEqual(res6, [6, 7, 8]);
+        var in0 = [6, 7];
+        var res0 = Arrays.splice(in0, [8], 2, 0, false);
+        asr.deepEqual(res0, [6, 7, 8]);
         // the returned array is the original array
-        asr.strictEqual(res6, in6);
+        asr.strictEqual(res0, in0);
 
         // splice copy
-        var in7 = [6, 7];
-        var res7 = Arrays.splice(in7, [8], 2, 0, true);
-        asr.deepEqual(res7, [6, 7, 8]);
+        var in1 = [6, 7];
+        var res1 = Arrays.splice(in1, [8], 2, 0, true);
+        asr.deepEqual(res1, [6, 7, 8]);
         // the returned array is a copy of the input array even if no elements are being added
-        asr.notStrictEqual(res7, in7);
+        asr.notStrictEqual(res1, in1);
         // the original array is not modified
-        asr.deepEqual(in7, [6, 7]);
+        asr.deepEqual(in1, [6, 7]);
     });
 
 

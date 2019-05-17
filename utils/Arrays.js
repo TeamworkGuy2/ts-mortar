@@ -37,6 +37,14 @@ var Arrays;
         }
     }
     Arrays.asArray = asArray;
+    /** Check if an array is not null and has any items
+     * @param ary the array to check
+     * @returns true if the array is not null and has a length greater than 0
+     */
+    function hasItems(ary) {
+        return ary != null && ary.length > 0;
+    }
+    Arrays.hasItems = hasItems;
     /** Given an array or an object, return true if it is an object or an array containing one element, false if the array is empty or contains more than 1 element
      * @param data the object or array
      */
@@ -82,27 +90,20 @@ var Arrays;
     /** Remove all values from an array
      */
     function clear(ary) {
-        if (ary == null) {
-            return;
+        if (ary != null) {
+            ary.length = 0;
         }
-        ary.length = 0;
     }
     Arrays.clear = clear;
-    /** Create a copy of an array
-     */
-    function copy(src) {
-        return addAll([], src);
-    }
-    Arrays.copy = copy;
     /** Returns a new array containing the elements from 'ary1' followed by the elements from 'ary2'
      */
     function concat(ary1, ary2) {
-        var res = [];
-        if (ary1 != null)
-            Array.prototype.push.apply(res, ary1);
-        if (ary2 != null)
-            Array.prototype.push.apply(res, ary2);
-        return res;
+        if (ary1 != null && ary2 != null) {
+            return ary1.concat(ary2);
+        }
+        else {
+            return (ary1 != null ? ary1.slice() : (ary2 != null ? ary2.slice() : []));
+        }
     }
     Arrays.concat = concat;
     /** Check whether all of the values in the second array are contained in the first array
@@ -154,6 +155,23 @@ var Arrays;
         return res;
     }
     Arrays.count = count;
+    /** Get the difference between two arrays. Also known as the symmetric difference (https://en.wikipedia.org/wiki/Symmetric_difference).
+     * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
+     * For example: Arrays.diff([1, 2, 3], [2, 4])
+     * returns: [4, 1, 3]
+     * which represents the differences between 'ary1' and 'ary2' (note: the returned array order is undefined)
+     *
+     * @param ary1 the first array to compare
+     * @param ary2 the second array to compare
+     * @returns of values that exist in only one of the input arrays
+     * @see diff()
+     */
+    function diff(ary1, ary2, equal) {
+        var diffRes = (equal != null ? diffPartsCustomEquality(ary1, ary2, equal) : diffParts(ary1, ary2));
+        var looseDiff = Array.prototype.concat.apply(diffRes.added, diffRes.removed);
+        return looseDiff;
+    }
+    Arrays.diff = diff;
     /** Return the difference between two arrays as elements added and removed from the first array.
      * Items which only exist in 'ary1' are called 'removed'.
      * Items which only exist in 'ary2' are called 'added'.
@@ -226,17 +244,87 @@ var Arrays;
         };
     }
     Arrays.diffParts = diffParts;
+    /** Return the difference between two arrays as elements added and removed from the first array.
+     * Items which only exist in 'ary1' are called 'removed'.
+     * Items which only exist in 'ary2' are called 'added'.
+     * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
+     *
+     * For example: Arrays.diffParts([1, 2, 3], [2, 4])
+     * returns: { added: [4], removed: [1, 3]},
+     * which are the values to add and remove from 'ary1' to convert it to 'ary2'
+     *
+     * @param ary1 the master/original array to base differences on
+     * @param ary2 the branch/new array to find differences in
+     * @returns with 'added' and 'removed' arrays of values from 'ary1' and 'ary2'
+     * @see looseDiff()
+     */
+    function diffPartsCustomEquality(ary1, ary2, equal) {
+        if (ary1 == null || ary2 == null || !Array.isArray(ary1) || !Array.isArray(ary2)) {
+            if (ary1 == null && ary2 == null) {
+                return { added: [], removed: [] };
+            }
+            // else, incorrect arguments
+            if ((ary1 != null && !Array.isArray(ary1)) || (ary2 != null && !Array.isArray(ary2)) || ary1 === undefined || ary2 === undefined) {
+                throw new Error("incorrect usage ([" + ary1 + "], [" + ary2 + "]), expected (Array ary1, Array ary2)");
+            }
+            // if one array is null and the other is not, the difference is just the non-null array's values
+            if (ary1 == null && ary2 != null) {
+                return {
+                    added: ary2.slice(),
+                    removed: []
+                };
+            }
+            else /*if (ary1 != null && ary2 == null)*/ {
+                return {
+                    added: [],
+                    removed: ary1.slice()
+                };
+            }
+        }
+        var added = [];
+        var removed = [];
+        var ary2Used = [];
+        var ary1Size = ary1.length;
+        var ary2Size = ary2.length;
+        // keep track of each element in 'ary2' that does not exist in 'ary1'
+        for (var i = 0; i < ary1Size; i++) {
+            var elem1 = ary1[i];
+            var matchingIdx2 = -1;
+            for (var ii = 0; ii < ary2Size; ii++) {
+                if (ary2Used[ii] !== true && equal(elem1, ary2[ii])) {
+                    matchingIdx2 = ii;
+                    break;
+                }
+            }
+            // items that only exist in 'ary1' are 'removed'
+            if (matchingIdx2 === -1) {
+                removed.push(ary1[i]);
+            }
+            else {
+                ary2Used[matchingIdx2] = true;
+            }
+        }
+        // items that only exist in 'ary2' are 'added'
+        for (var ii = 0; ii < ary2Size; ii++) {
+            if (!ary2Used[ii]) {
+                added.push(ary2[ii]);
+            }
+        }
+        return {
+            added: added,
+            removed: removed
+        };
+    }
+    Arrays.diffPartsCustomEquality = diffPartsCustomEquality;
     function fastRemove(ary, value) {
         var aryLen = 0;
         if (ary == null || (aryLen = ary.length) === 0) {
             return ary;
         }
-        for (var i = 0; i < aryLen; i++) {
-            if (ary[i] === value) {
-                ary[i] = ary[aryLen - 1];
-                ary.pop();
-                break;
-            }
+        var idx = ary.indexOf(value);
+        if (idx > -1) {
+            ary[idx] = ary[aryLen - 1];
+            ary.pop();
         }
         return ary;
     }
@@ -437,14 +525,6 @@ var Arrays;
         return results;
     }
     Arrays.pluck = pluck;
-    /** Check if an array is not null and has any items
-     * @param ary the array to check
-     * @returns true if the array is not null and has a length greater than 0
-     */
-    function hasItems(ary) {
-        return ary != null && ary.length > 0;
-    }
-    Arrays.hasItems = hasItems;
     /** Search for the index of an object with a specified property in an array.
      * For example: Arrays.indexOfPropValue([ {name: "billy", value: 12}, {name: "sam", value: 12} ], "value", 12)
      * returns: 0
@@ -490,23 +570,6 @@ var Arrays;
         return -1;
     }
     Arrays.lastIndexOfProp = lastIndexOfProp;
-    /** Get the difference between two arrays. Also known as the Symmetric Difference (https://en.wikipedia.org/wiki/Symmetric_difference).
-     * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
-     * For example: Arrays.diff([1, 2, 3], [2, 4])
-     * returns: [4, 1, 3]
-     * which represents the differences between 'ary1' and 'ary2' (note: the returned array order is undefined)
-     *
-     * @param ary1 the first array to compare
-     * @param ary2 the second array to compare
-     * @returns of values that exist in only one of the input arrays
-     * @see diff()
-     */
-    function diff(ary1, ary2) {
-        var diffRes = diffParts(ary1, ary2);
-        var looseDiff = Array.prototype.concat.apply(diffRes.added, diffRes.removed);
-        return looseDiff;
-    }
-    Arrays.diff = diff;
     /** Check if two arrays are equal, element by element
      * For example: Arrays.equal(["A", 23, true], ["A", 23, true])
      * returns: true
@@ -752,39 +815,40 @@ var Arrays;
      */
     function splice(origAry, insertAry, index, deleteCount, copyToNewAry) {
         if (deleteCount === void 0) { deleteCount = 0; }
-        if (origAry == null || insertAry == null || !Array.isArray(origAry) || !Array.isArray(insertAry) || index === undefined) {
-            if (origAry == null && insertAry == null) {
+        if (origAry == null) {
+            if (insertAry == null) {
                 return [];
             }
-            if ((origAry != null && !Array.isArray(origAry)) || (insertAry != null && !Array.isArray(insertAry)) || origAry === undefined || insertAry === undefined) {
-                throw new Error("incorrect usage ([" + origAry + "], [" + insertAry + "], " + index + ", " + (deleteCount || 0) + "), " + "expected (Array origAry, Array insertAry, Integer index, Integer deleteCount)");
-            }
-            if (origAry == null || insertAry == null) {
-                var res = [];
-                Array.prototype.push.apply(res, (origAry || insertAry));
-                return res;
+            else {
+                return insertAry.slice(0);
             }
         }
-        if (insertAry.length === 0) {
+        if ((origAry != null && !Array.isArray(origAry)) || (insertAry != null && !Array.isArray(insertAry))) {
+            throw new Error("incorrect usage ([" + origAry + "], [" + insertAry + "], " + index + ", " + (deleteCount || 0) + "), " + "expected (Array, Array, Integer[, Integer])");
+        }
+        if (deleteCount === 0 && (insertAry == null || insertAry.length === 0)) {
             return (copyToNewAry ? origAry.slice() : origAry);
         }
         var tmp;
         // add to the end of the array
         if (index === origAry.length && deleteCount === 0) {
             tmp = (copyToNewAry ? origAry.slice() : origAry);
-            Array.prototype.push.apply(tmp, insertAry);
+            if (insertAry != null && insertAry.length > 0) {
+                Array.prototype.push.apply(tmp, insertAry);
+            }
         }
         else if (index === 0 && deleteCount === 0) {
             tmp = (copyToNewAry ? origAry.slice() : origAry);
-            Array.prototype.unshift.apply(tmp, insertAry);
+            if (insertAry != null && insertAry.length > 0) {
+                Array.prototype.unshift.apply(tmp, insertAry);
+            }
         }
         else {
-            tmp = [];
             // copy up to the index to insert, then insert the array, and copying the remaining portion
-            for (var i = 0; i < index; i++) {
-                tmp.push(origAry[i]);
+            tmp = origAry.slice(0, index);
+            if (insertAry != null && insertAry.length > 0) {
+                Array.prototype.push.apply(tmp, insertAry);
             }
-            Array.prototype.push.apply(tmp, insertAry);
             for (var i = index + deleteCount, size = origAry.length; i < size; i++) {
                 tmp.push(origAry[i]);
             }

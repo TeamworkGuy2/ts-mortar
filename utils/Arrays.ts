@@ -49,6 +49,15 @@ module Arrays {
     }
 
 
+    /** Check if an array is not null and has any items
+     * @param ary the array to check
+     * @returns true if the array is not null and has a length greater than 0
+     */
+    export function hasItems<E>(ary: E[] | ArrayLike<E> | null | undefined): ary is E[] {
+        return ary != null && (<any[]>ary).length > 0;
+    }
+
+
     /** Given an array or an object, return true if it is an object or an array containing one element, false if the array is empty or contains more than 1 element
      * @param data the object or array
      */
@@ -73,7 +82,7 @@ module Arrays {
      * returns: -3 indicating that no matching element was found,
      * but if a matching element did exist in the array, it would be at index 3
      */
-    export function binarySearch<E, K extends keyof E>(ary: E[], comparatorPropName: K, searchValue: E[K]): number {
+    export function binarySearch<E, K extends keyof E>(ary: ArrayLike<E>, comparatorPropName: K, searchValue: E[K]): number {
         var low = 0;
         var high = ary.length - 1;
 
@@ -99,27 +108,21 @@ module Arrays {
     /** Remove all values from an array
      */
     export function clear(ary: any[] | null | undefined): void {
-        if (ary == null) {
-            return;
+        if (ary != null) {
+            ary.length = 0;
         }
-        ary.length = 0;
-    }
-
-
-    /** Create a copy of an array
-     */
-    export function copy<E>(src: E[] | null | undefined) {
-        return addAll([], src);
     }
 
 
     /** Returns a new array containing the elements from 'ary1' followed by the elements from 'ary2'
      */
     export function concat<E>(ary1: E[] | null | undefined, ary2: E[] | null | undefined): E[] {
-        var res: E[] = [];
-        if (ary1 != null) Array.prototype.push.apply(res, ary1);
-        if (ary2 != null) Array.prototype.push.apply(res, ary2);
-        return res;
+        if (ary1 != null && ary2 != null) {
+            return ary1.concat(ary2);
+        }
+        else {
+            return (ary1 != null ? ary1.slice() : (ary2 != null ? ary2.slice() : []));
+        }
     }
 
 
@@ -171,6 +174,24 @@ module Arrays {
     }
 
 
+    /** Get the difference between two arrays. Also known as the symmetric difference (https://en.wikipedia.org/wiki/Symmetric_difference).
+     * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
+     * For example: Arrays.diff([1, 2, 3], [2, 4])
+     * returns: [4, 1, 3]
+     * which represents the differences between 'ary1' and 'ary2' (note: the returned array order is undefined)
+     *
+     * @param ary1 the first array to compare
+     * @param ary2 the second array to compare
+     * @returns of values that exist in only one of the input arrays
+     * @see diff()
+     */
+    export function diff<E>(ary1: E[] | null | undefined, ary2: E[] | null | undefined, equal?: ((a: E, b: E) => boolean) | null | undefined): E[] {
+        var diffRes = (equal != null ? diffPartsCustomEquality(ary1, ary2, equal) : diffParts(ary1, ary2));
+        var looseDiff = Array.prototype.concat.apply(diffRes.added, diffRes.removed);
+        return looseDiff;
+    }
+
+
     /** Return the difference between two arrays as elements added and removed from the first array.
      * Items which only exist in 'ary1' are called 'removed'.
      * Items which only exist in 'ary2' are called 'added'.
@@ -204,7 +225,7 @@ module Arrays {
             else /*if (ary1 != null && ary2 == null)*/ {
                 return {
                     added: [],
-                    removed: (<any>ary1).slice()
+                    removed: (<E[]>ary1).slice()
                 };
             }
         }
@@ -247,6 +268,82 @@ module Arrays {
     }
 
 
+    /** Return the difference between two arrays as elements added and removed from the first array.
+     * Items which only exist in 'ary1' are called 'removed'.
+     * Items which only exist in 'ary2' are called 'added'.
+     * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
+     *
+     * For example: Arrays.diffParts([1, 2, 3], [2, 4])
+     * returns: { added: [4], removed: [1, 3]},
+     * which are the values to add and remove from 'ary1' to convert it to 'ary2'
+     *
+     * @param ary1 the master/original array to base differences on
+     * @param ary2 the branch/new array to find differences in
+     * @returns with 'added' and 'removed' arrays of values from 'ary1' and 'ary2'
+     * @see looseDiff()
+     */
+    export function diffPartsCustomEquality<E>(ary1: E[] | null | undefined, ary2: E[] | null | undefined, equal: (a: E, b: E) => boolean): { added: E[]; removed: E[] } {
+        if (ary1 == null || ary2 == null || !Array.isArray(ary1) || !Array.isArray(ary2)) {
+            if (ary1 == null && ary2 == null) {
+                return { added: [], removed: [] };
+            }
+            // else, incorrect arguments
+            if ((ary1 != null && !Array.isArray(ary1)) || (ary2 != null && !Array.isArray(ary2)) || ary1 === undefined || ary2 === undefined) {
+                throw new Error("incorrect usage ([" + ary1 + "], [" + ary2 + "]), expected (Array ary1, Array ary2)");
+            }
+            // if one array is null and the other is not, the difference is just the non-null array's values
+            if (ary1 == null && ary2 != null) {
+                return {
+                    added: ary2.slice(),
+                    removed: []
+                };
+            }
+            else /*if (ary1 != null && ary2 == null)*/ {
+                return {
+                    added: [],
+                    removed: (<E[]>ary1).slice()
+                };
+            }
+        }
+
+        var added: E[] = [];
+        var removed: E[] = [];
+        var ary2Used: boolean[] = [];
+        var ary1Size = ary1.length;
+        var ary2Size = ary2.length;
+        // keep track of each element in 'ary2' that does not exist in 'ary1'
+        for (var i = 0; i < ary1Size; i++) {
+            var elem1 = ary1[i];
+            var matchingIdx2 = -1;
+            for (var ii = 0; ii < ary2Size; ii++) {
+                if (ary2Used[ii] !== true && equal(elem1, ary2[ii])) {
+                    matchingIdx2 = ii;
+                    break;
+                }
+            }
+            // items that only exist in 'ary1' are 'removed'
+            if (matchingIdx2 === -1) {
+                removed.push(ary1[i]);
+            }
+            else {
+                ary2Used[matchingIdx2] = true;
+            }
+        }
+
+        // items that only exist in 'ary2' are 'added'
+        for (var ii = 0; ii < ary2Size; ii++) {
+            if (!ary2Used[ii]) {
+                added.push(ary2[ii]);
+            }
+        }
+
+        return {
+            added: added,
+            removed: removed
+        };
+    }
+
+
     /** Remove the first matching value from an array without creating a new array of splicing the array.
      * NOTE: the returned order of the array's elements is not defined.
      * @param ary the values to search and remove the matching value from
@@ -261,12 +358,10 @@ module Arrays {
         if (ary == null || (aryLen = ary.length) === 0) {
             return ary;
         }
-        for (var i = 0; i < aryLen; i++) {
-            if (ary[i] === value) {
-                ary[i] = ary[aryLen - 1];
-                ary.pop();
-                break;
-            }
+        var idx = ary.indexOf(value);
+        if (idx > -1) {
+            ary[idx] = ary[aryLen - 1];
+            ary.pop();
         }
         return ary;
     }
@@ -481,15 +576,6 @@ module Arrays {
     }
 
 
-    /** Check if an array is not null and has any items
-     * @param ary the array to check
-     * @returns true if the array is not null and has a length greater than 0
-     */
-    export function hasItems<E>(ary: E[] | ArrayLike<E> | null | undefined): ary is E[] {
-        return ary != null && (<any[]>ary).length > 0;
-    }
-
-
     /** Search for the index of an object with a specified property in an array.
      * For example: Arrays.indexOfPropValue([ {name: "billy", value: 12}, {name: "sam", value: 12} ], "value", 12)
      * returns: 0
@@ -530,24 +616,6 @@ module Arrays {
             }
         }
         return -1;
-    }
-
-
-    /** Get the difference between two arrays. Also known as the Symmetric Difference (https://en.wikipedia.org/wiki/Symmetric_difference).
-     * NOTE: duplicate values in either array are considered unique.  If there are two of the same values in 'ary1', then 'ary2' must contain two of those values to cancel out both of the values from 'ary1'.
-     * For example: Arrays.diff([1, 2, 3], [2, 4])
-     * returns: [4, 1, 3]
-     * which represents the differences between 'ary1' and 'ary2' (note: the returned array order is undefined)
-     *
-     * @param ary1 the first array to compare
-     * @param ary2 the second array to compare
-     * @returns of values that exist in only one of the input arrays
-     * @see diff()
-     */
-    export function diff<E>(ary1: E[] | null | undefined, ary2: E[] | null | undefined): E[] {
-        var diffRes = diffParts(ary1, ary2);
-        var looseDiff = Array.prototype.concat.apply(diffRes.added, diffRes.removed);
-        return looseDiff;
     }
 
 
@@ -827,21 +895,19 @@ module Arrays {
      * @returns the 'origAry' or a new array containing the contents of 'origAry' and 'insertAry'
      */
     export function splice<E>(origAry: E[] | null | undefined, insertAry: E[] | null | undefined, index: number, deleteCount: number = 0, copyToNewAry?: boolean): E[] {
-        if (origAry == null || insertAry == null || !Array.isArray(origAry) || !Array.isArray(insertAry) || index === undefined) {
-            if (origAry == null && insertAry == null) {
+        if (origAry == null) {
+            if (insertAry == null) {
                 return [];
             }
-            if ((origAry != null && !Array.isArray(origAry)) || (insertAry != null && !Array.isArray(insertAry)) || origAry === undefined || insertAry === undefined) {
-                throw new Error("incorrect usage ([" + origAry + "], [" + insertAry + "], " + index + ", " + (deleteCount || 0) + "), " + "expected (Array origAry, Array insertAry, Integer index, Integer deleteCount)");
-            }
-            if (origAry == null || insertAry == null) {
-                var res: E[] = [];
-                (<(...items: E[]) => number>Array.prototype.push).apply(res, <E[]>(origAry || insertAry));
-                return res;
+            else {
+                return insertAry.slice(0);
             }
         }
+        if ((origAry != null && !Array.isArray(origAry)) || (insertAry != null && !Array.isArray(insertAry))) {
+            throw new Error("incorrect usage ([" + origAry + "], [" + insertAry + "], " + index + ", " + (deleteCount || 0) + "), " + "expected (Array, Array, Integer[, Integer])");
+        }
 
-        if (insertAry.length === 0) {
+        if (deleteCount === 0 && (insertAry == null || insertAry.length === 0)) {
             return (copyToNewAry ? origAry.slice() : origAry);
         }
 
@@ -850,20 +916,24 @@ module Arrays {
         // add to the end of the array
         if (index === origAry.length && deleteCount === 0) {
             tmp = (copyToNewAry ? origAry.slice() : origAry);
-            Array.prototype.push.apply(tmp, insertAry);
+            if (insertAry != null && insertAry.length > 0) {
+                Array.prototype.push.apply(tmp, insertAry);
+            }
         }
         else if (index === 0 && deleteCount === 0) {
             tmp = (copyToNewAry ? origAry.slice() : origAry);
-            Array.prototype.unshift.apply(tmp, insertAry);
+            if (insertAry != null && insertAry.length > 0) {
+                Array.prototype.unshift.apply(tmp, insertAry);
+            }
         }
         else {
-            tmp = [];
+            
             // copy up to the index to insert, then insert the array, and copying the remaining portion
-            for (var i = 0; i < index; i++) {
-                tmp.push(origAry[i]);
-            }
+            tmp = origAry.slice(0, index);
 
-            Array.prototype.push.apply(tmp, insertAry);
+            if (insertAry != null && insertAry.length > 0) {
+                Array.prototype.push.apply(tmp, insertAry);
+            }
 
             for (var i = index + deleteCount, size = origAry.length; i < size; i++) {
                 tmp.push(origAry[i]);
@@ -955,7 +1025,7 @@ module Arrays {
     /** Find the maximum value in an array of numbers
      * @param ary the array of numbers to search
      */
-    export function max(ary: number[]): number {
+    export function max(ary: ArrayLike<number>): number {
         var max = Number.NEGATIVE_INFINITY;
         for (var i = 0, size = ary.length; i < size; i++) {
             max = ary[i] > max ? ary[i] : max;
@@ -967,7 +1037,7 @@ module Arrays {
     /** Find the maximum value in an array of numbers
      * @param ary the array of numbers to search
      */
-    export function maxValueIndex(ary: number[]): number {
+    export function maxValueIndex(ary: ArrayLike<number>): number {
         var max = Number.NEGATIVE_INFINITY;
         var maxI = -1;
         for (var i = 0, size = ary.length; i < size; i++) {
@@ -983,7 +1053,7 @@ module Arrays {
     /** Find the minimum value in an array of numbers
      * @param ary the array of numbers to search
      */
-    export function min(ary: number[]): number {
+    export function min(ary: ArrayLike<number>): number {
         var min = Number.POSITIVE_INFINITY;
         for (var i = 0, size = ary.length; i < size; i++) {
             min = ary[i] < min ? ary[i] : min;
@@ -995,7 +1065,7 @@ module Arrays {
     /** Find the minimum value in an array of numbers
      * @param ary the array of numbers to search
      */
-    export function minValueIndex(ary: number[]): number {
+    export function minValueIndex(ary: ArrayLike<number>): number {
         var min = Number.POSITIVE_INFINITY;
         var minI = -1;
         for (var i = 0, size = ary.length; i < size; i++) {
