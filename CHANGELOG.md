@@ -4,7 +4,16 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.17.0](N/A) - 2019-05-17
+### [0.18.0](N/A) - 2019-06-17
+#### Changed
+* Renamed `Arrays.hasItems()` -> `hasAny()`
+* Renamed `Strings.clamp()` -> `truncate()`
+* Unit tests cleanup
+* Update to TypeScript 3.5
+
+
+--------
+### [0.17.0](https://github.com/TeamworkGuy2/ts-mortar/commit/9a8801a165ece68bf58e0931aed697bb93f3951c) - 2019-05-17
 #### Added
 * `Arrays.diffPartsCustomEquality()` for custom array symmetric difference calculating 
 

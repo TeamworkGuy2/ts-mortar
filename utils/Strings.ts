@@ -104,14 +104,14 @@ module Strings {
     }
 
 
-    /** Clamps the maximum length of a string, unlike the mathmatical clamp() function, there is no minimum length
-     * @param str the string to clamp
+    /** Truncates the maximum length of a string
+     * @param str the string to truncate
      * @param maxLen the max length of the string
-     * @param ellipsis an optional string to append to the returned string if it is clamped, this string is appended in addition to the 'maxLen'
+     * @param ellipsis an optional string to append to the returned string if it is truncated, this string is appended in addition to the 'maxLen'
      */
-    export function clamp(str: string, maxLen: number, ellipsis?: string): string;
-    export function clamp(str: string | null | undefined, maxLen: number, ellipsis?: string): string;
-    export function clamp(str: string | null | undefined, maxLen: number, ellipsis: string = ""): string {
+    export function truncate(str: string, maxLen: number, ellipsis?: string): string;
+    export function truncate(str: string | null | undefined, maxLen: number, ellipsis?: string): string;
+    export function truncate(str: string | null | undefined, maxLen: number, ellipsis: string = ""): string {
         return str != null && str.length > maxLen ? str.substring(0, maxLen - ellipsis.length) + ellipsis : str || "";
     }
 

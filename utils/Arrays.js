@@ -41,10 +41,10 @@ var Arrays;
      * @param ary the array to check
      * @returns true if the array is not null and has a length greater than 0
      */
-    function hasItems(ary) {
+    function hasAny(ary) {
         return ary != null && ary.length > 0;
     }
-    Arrays.hasItems = hasItems;
+    Arrays.hasAny = hasAny;
     /** Given an array or an object, return true if it is an object or an array containing one element, false if the array is empty or contains more than 1 element
      * @param data the object or array
      */

@@ -5,7 +5,7 @@ Dependencies:
 none
 
 Utility functions for common TypeScript string, array, object, and enum operations.
-Similar to `lodash` or `underscore`, these functions are the product of needs I've encountered in Javascript/TypeScript projects over the last few years.
+Similar to `lodash` or `underscore`, these functions are the result of needs I've encountered in Javascript/TypeScript projects over the last few years.
 See the `/test` directory for example usage of the functions.
 
 ### Arrays
@@ -15,6 +15,7 @@ Includes functions for manipulating an array like a list:
 * removeValue()
 * clear()
 * containsAll()
+* hasAny()
 Comparison:
 * looseEqual()
 * unique()
@@ -35,7 +36,7 @@ Wrap functions to provide additional functionality, such as checking if a functi
 * lazyGetter()
 
 ### EnumCreator
-Create TypeScript objects similar to enums from Java:
+Create TypeScript enum objects similar to Java enums:
 * initEnumClass()
 
 ### Numbers
@@ -57,8 +58,8 @@ Copying objects and getting/checking/transforming properties:
 * values()
 
 ### Strings
-Basic string validation and clamping, trimming, and replacing:
-* clamp()
+Basic string validation, trimming, truncating, and replacing:
+* truncate()
 * padLeft(), padRight()
 * trimLeading(), trimTrailing()
 * isNullOrEmpty(), isNullOrWhiteSpace()

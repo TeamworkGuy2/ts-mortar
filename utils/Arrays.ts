@@ -53,7 +53,7 @@ module Arrays {
      * @param ary the array to check
      * @returns true if the array is not null and has a length greater than 0
      */
-    export function hasItems<E>(ary: E[] | ArrayLike<E> | null | undefined): ary is E[] {
+    export function hasAny<E>(ary: E[] | ArrayLike<E> | null | undefined): ary is E[] {
         return ary != null && (<any[]>ary).length > 0;
     }
 

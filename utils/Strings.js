@@ -97,11 +97,11 @@ var Strings;
         return str1 != null && str2 != null && str1.trim().toUpperCase() === str2.trim().toUpperCase();
     }
     Strings.looseEqual = looseEqual;
-    function clamp(str, maxLen, ellipsis) {
+    function truncate(str, maxLen, ellipsis) {
         if (ellipsis === void 0) { ellipsis = ""; }
         return str != null && str.length > maxLen ? str.substring(0, maxLen - ellipsis.length) + ellipsis : str || "";
     }
-    Strings.clamp = clamp;
+    Strings.truncate = truncate;
     /** Prepend padding to the 'String(value)' representation of 'value' to increase it's length to 'targetLen'
      * @param value the value to convert to a string and pad
      * @param targetLen the maximum length of the returned string

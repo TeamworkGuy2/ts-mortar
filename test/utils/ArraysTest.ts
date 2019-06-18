@@ -273,9 +273,9 @@ suite("Arrays", function ArraysTest() {
         var ary0: number[] = [];
         var aryNull = null;
 
-        asr.equal(Arrays.hasItems(ary1), true);
-        asr.equal(Arrays.hasItems(ary0), false);
-        asr.equal(Arrays.hasItems(aryNull), false);
+        asr.equal(Arrays.hasAny(ary1), true);
+        asr.equal(Arrays.hasAny(ary0), false);
+        asr.equal(Arrays.hasAny(aryNull), false);
     });
 
 

@@ -17,72 +17,59 @@ suite("Strings", function StringsTest() {
         asr.equal(Strings.isNullOrWhiteSpace("abc"), false);
     });
     test("isCharAtDigit", function isCharAtDigitTest() {
-        var str = "1.2%";
-        var expected = [true, false, true, false];
-        for (var i = 0, size = str.length; i < size; i++) {
-            var res = Strings.isCharAtDigit(str, i);
-            asr.equal(res, expected[i], i + ". '" + str.substr(i, 1) + "'");
-        }
+        asr.isTrue(Strings.isCharAtDigit("1.2%", 0));
+        asr.isFalse(Strings.isCharAtDigit("1.2%", 1));
+        asr.isTrue(Strings.isCharAtDigit("1.2%", 2));
+        asr.isFalse(Strings.isCharAtDigit("1.2%", 3));
         asr.isTrue(Strings.isCharAtDigit("123", 1));
         asr.isTrue(Strings.isCharAtDigit("0", 0));
         asr.isFalse(Strings.isCharAtDigit("", 0));
         asr.isFalse(Strings.isCharAtDigit("0A", 1));
         asr.isFalse(Strings.isCharAtDigit("0", -1));
         asr.isFalse(Strings.isCharAtDigit("0", 1));
+        asr.isFalse(Strings.isCharAtDigit(" ", null));
+        asr.isFalse(Strings.isCharAtDigit(null, null));
     });
     test("isDigit", function isDigitTest() {
-        var str = "1.2%";
-        var expected = [true, false, true, false];
-        for (var i = 0, size = str.length; i < size; i++) {
-            var res = Strings.isDigit(str.substr(i, 1));
-            asr.equal(res, expected[i], i + ". '" + str.substr(i, 1) + "'");
-        }
+        asr.isTrue(Strings.isDigit("5"));
         asr.isTrue(Strings.isDigit("123"));
         asr.isTrue(Strings.isDigit("0"));
+        asr.isFalse(Strings.isDigit(" "));
         asr.isFalse(Strings.isDigit(""));
         asr.isFalse(Strings.isDigit("0A"));
+        asr.isFalse(Strings.isDigit(null));
+        asr.isFalse(Strings.isDigit(undefined));
     });
     test("isCharAtUpperCase", function isCharAtUpperCaseTest() {
-        var str = "AbCd";
-        var expected = [true, false, true, false];
-        for (var i = 0, size = str.length; i < size; i++) {
-            var res = Strings.isCharAtUpperCase(str, i);
-            asr.equal(res, expected[i], i + ". '" + str.substr(i, 1) + "'");
-        }
+        asr.isTrue(Strings.isCharAtUpperCase("AbCd", 0));
+        asr.isFalse(Strings.isCharAtUpperCase("AbCd", 1));
+        asr.isTrue(Strings.isCharAtUpperCase("AbCd", 2));
+        asr.isFalse(Strings.isCharAtUpperCase("AbCd", 3));
         asr.isFalse(Strings.isCharAtUpperCase("A", -1));
         asr.isFalse(Strings.isCharAtUpperCase("A", 1));
         asr.isFalse(Strings.isCharAtUpperCase("A", Infinity));
+        asr.isFalse(Strings.isCharAtUpperCase(null, null));
     });
     test("isCharAtLowerCase", function isCharAtLowerCaseTest() {
-        var str = "aBcD";
-        var expected = [true, false, true, false];
-        for (var i = 0, size = str.length; i < size; i++) {
-            var res = Strings.isCharAtLowerCase(str, i);
-            asr.equal(res, expected[i], i + ". '" + str.substr(i, 1) + "'");
-        }
+        asr.isTrue(Strings.isCharAtLowerCase("aBcD", 0));
+        asr.isFalse(Strings.isCharAtLowerCase("aBcD", 1));
+        asr.isTrue(Strings.isCharAtLowerCase("aBcD", 2));
+        asr.isFalse(Strings.isCharAtLowerCase("aBcD", 3));
         asr.isFalse(Strings.isCharAtLowerCase("a", -1));
         asr.isFalse(Strings.isCharAtLowerCase("a", 1));
         asr.isFalse(Strings.isCharAtLowerCase("a", Infinity));
+        asr.isFalse(Strings.isCharAtLowerCase(null, null));
     });
-    test("clamp", function clampTest() {
-        var data = [{
-                input: ["123", "1234", "12345"],
-                expect: ["123", "1234", "1..."],
-                maxLength: 4
-            }, {
-                input: ["12", "123", "1234", " ", null, undefined],
-                expect: ["12", "...", "...", " ", "", ""],
-                maxLength: 2,
-            }];
-        for (var i = 0, size = data.length; i < size; i++) {
-            var inputs = data[i].input;
-            var expect = data[i].expect;
-            var maxLen = data[i].maxLength;
-            for (var j = 0, sizeJ = inputs.length; j < sizeJ; j++) {
-                var res = Strings.clamp(inputs[j], maxLen, "...");
-                asr.equal(res, expect[j], "" + j);
-            }
-        }
+    test("truncate", function truncateTest() {
+        asr.equal(Strings.truncate("123", 4, "..."), "123");
+        asr.equal(Strings.truncate("1234", 4, "..."), "1234");
+        asr.equal(Strings.truncate("12345", 4, "..."), "1...");
+        asr.equal(Strings.truncate("12", 2, "..."), "12");
+        asr.equal(Strings.truncate("123", 2, "..."), "...");
+        asr.equal(Strings.truncate("1234", 2, "..."), "...");
+        asr.equal(Strings.truncate(" ", 2, "..."), " ");
+        asr.equal(Strings.truncate(null, 2, "..."), "");
+        asr.equal(Strings.truncate(undefined, 2, "..."), "");
     });
     test("looseEqual", function looseEqualTest() {
         asr.equal(Strings.looseEqual(" Abc", "ABC"), true);
