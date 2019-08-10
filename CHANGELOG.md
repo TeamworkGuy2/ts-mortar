@@ -4,7 +4,17 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.18.0](N/A) - 2019-06-17
+### [0.18.1](N/A) - 2019-08-09
+#### Added
+* Added `Numbers.toFixed()` implementation that correctly rounds (JavaScript `Number.toFixed()` doesn't round certain decimal values ending with '5' correctly)
+
+#### Fixed
+* `Numbers.roundTo()` bug with certain decimal values ending with '5' (using new `toFixed()` implementation)
+* `Numbers.format()` and `Numbers.formatNumeric()` to use the new `toFixed()` implementation
+
+
+--------
+### [0.18.0](https://github.com/TeamworkGuy2/ts-mortar/commit/28a295247e29fb092c72efb0deba4290e9a41a63) - 2019-06-17
 #### Changed
 * Renamed `Arrays.hasItems()` -> `hasAny()`
 * Renamed `Strings.clamp()` -> `truncate()`

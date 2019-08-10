@@ -34,7 +34,27 @@ module Numbers {
      * @returns the 'num' rounded to the specified number of decimal places
      */
     export function roundTo(num: number, decimalPlaces: number): number {
-        return parseFloat(num.toFixed(decimalPlaces));
+        return parseFloat(toFixed(num, decimalPlaces));
+    }
+
+
+    /** A correct version of JavaScript's Number.toFixed() method. Handles incorrect round of certain values like 1.005 to 1.01
+     * @param num the number to round
+     * @param decimalPlaces the number of decimal places to round the number to
+     * @returns the 'num' as a string rounded to the specified number of decimal places
+     */
+    export function toFixed(num: number, decimalPlaces: number): string {
+        var fraction = num % 1;
+
+        if (fraction === 0 || !isFinite(num)) {
+            // whole number or NaN/Infinity
+            return num.toFixed(decimalPlaces);
+        }
+        else {
+            // if the decimal needs padding with 0's, don't add the '1' to correct for rounding
+            var numStr = num.toString();
+            return ((numStr.length - numStr.indexOf(".") - 1) < decimalPlaces ? num : +(num + "1")).toFixed(decimalPlaces);
+        }
     }
 
 
@@ -89,7 +109,7 @@ module Numbers {
         if (val.length > 0 && /(^(\+|\-)?(0|([1-9][0-9]*))(\.[0-9]+)?$)/.test(val) === false) {
             return val;
         }
-        var num: string = Number(val).toFixed(decimalPlaces);
+        var num: string = toFixed(Number(val), decimalPlaces);
         // split the number into decimal and whole number parts
         var intAndDecimalPart = num.trim().split(".");
         var intPartStr = intAndDecimalPart[0];

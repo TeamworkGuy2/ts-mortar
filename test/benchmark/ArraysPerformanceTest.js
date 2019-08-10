@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var chai = require("chai");
 var asr = chai.assert;
 suite("ArraysPerformance", function ArraysPerformance() {
+    this.timeout(3000);
     var res = 0;
     // warmup
     res += copyLoop(200, [1, 2, 3]);

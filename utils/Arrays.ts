@@ -845,7 +845,7 @@ module Arrays {
     export function removeIndex<E>(ary: E[] | null | undefined, index: number): E[] | null {
         if (ary == null) { return null; }
         var size = ary.length;
-        if (ary.length < 1 || index < 0 || index >= ary.length) { return ary; }
+        if (size < 1 || index < 0 || index >= size) { return ary; }
 
         for (var i = index + 1; i < size; i++) {
             ary[i - 1] = ary[i];

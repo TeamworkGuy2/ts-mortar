@@ -32,9 +32,27 @@ var Numbers;
      * @returns the 'num' rounded to the specified number of decimal places
      */
     function roundTo(num, decimalPlaces) {
-        return parseFloat(num.toFixed(decimalPlaces));
+        return parseFloat(toFixed(num, decimalPlaces));
     }
     Numbers.roundTo = roundTo;
+    /** A correct version of JavaScript's Number.toFixed() method. Handles incorrect round of certain values like 1.005 to 1.01
+     * @param num the number to round
+     * @param decimalPlaces the number of decimal places to round the number to
+     * @returns the 'num' as a string rounded to the specified number of decimal places
+     */
+    function toFixed(num, decimalPlaces) {
+        var fraction = num % 1;
+        if (fraction === 0 || !isFinite(num)) {
+            // whole number or NaN/Infinity
+            return num.toFixed(decimalPlaces);
+        }
+        else {
+            // if the decimal needs padding with 0's, don't add the '1' to correct for rounding
+            var numStr = num.toString();
+            return ((numStr.length - numStr.indexOf(".") - 1) < decimalPlaces ? num : +(num + "1")).toFixed(decimalPlaces);
+        }
+    }
+    Numbers.toFixed = toFixed;
     /** Convert NaN, null, or undefined numbers to zero, infinity remains as is.
      * Example: orZero("string")
      * returns: 0
@@ -86,7 +104,7 @@ var Numbers;
         if (val.length > 0 && /(^(\+|\-)?(0|([1-9][0-9]*))(\.[0-9]+)?$)/.test(val) === false) {
             return val;
         }
-        var num = Number(val).toFixed(decimalPlaces);
+        var num = toFixed(Number(val), decimalPlaces);
         // split the number into decimal and whole number parts
         var intAndDecimalPart = num.trim().split(".");
         var intPartStr = intAndDecimalPart[0];

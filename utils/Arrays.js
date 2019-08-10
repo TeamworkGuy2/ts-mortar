@@ -763,7 +763,7 @@ var Arrays;
             return null;
         }
         var size = ary.length;
-        if (ary.length < 1 || index < 0 || index >= ary.length) {
+        if (size < 1 || index < 0 || index >= size) {
             return ary;
         }
         for (var i = index + 1; i < size; i++) {

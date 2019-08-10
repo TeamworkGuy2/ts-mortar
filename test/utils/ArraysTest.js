@@ -290,17 +290,29 @@ suite("Arrays", function ArraysTest() {
         asr.deepEqual(res2.sort(numSort), [1, 2]);
     });
     test("removeIndex", function removeIndexTest() {
-        var ary = ["Alpha", "Beta", "Gamma"];
-        var res1 = Arrays.removeIndex(ary.slice(), 1);
-        asr.deepEqual(res1, ["Alpha", "Gamma"]);
+        var ary = [11, 12];
+        asr.strictEqual(Arrays.removeIndex(ary, -1), ary);
+        asr.deepEqual(Arrays.removeIndex([], -1), []);
+        asr.deepEqual(Arrays.removeIndex([], 0), []);
+        asr.deepEqual(Arrays.removeIndex([], 1), []);
+        asr.deepEqual(Arrays.removeIndex([11, 12], 2), [11, 12]);
+        asr.deepEqual(Arrays.removeIndex(["Alpha", "Beta", "Gamma"], 0), ["Beta", "Gamma"]);
+        asr.deepEqual(Arrays.removeIndex(["Alpha", "Beta", "Gamma"], 1), ["Alpha", "Gamma"]);
+        asr.deepEqual(Arrays.removeIndex(["Alpha", "Beta", "Gamma"], 2), ["Alpha", "Beta"]);
     });
     test("removeValue", function removeValueTest() {
         var ary1 = ["A", "B", "C", "D"];
-        Arrays.removeValue(ary1, "B");
+        var val1 = Arrays.removeValue(ary1, "B");
         asr.deepEqual(ary1, ["A", "C", "D"]);
+        asr.equal(val1, 1);
         var ary2 = ["1", "2", "4", 3];
-        Arrays.removeValue(ary2, 3);
+        var val2 = Arrays.removeValue(ary2, 3);
         asr.deepEqual(ary2, ["1", "2", "4"]);
+        asr.equal(val2, 3);
+        var ary3 = ["1", 2, "3", 4, "5"];
+        var val3 = Arrays.removeValue(ary3, "3");
+        asr.deepEqual(ary3, ["1", 2, 4, "5"]);
+        asr.equal(val3, 2);
     });
     test("setAllProp", function setAllPropTest() {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
