@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.18.1](N/A) - 2019-08-09
+### [0.18.2](N/A) - 2019-11-08
+#### Changed
+* Update to TypeScript 3.7
+
+
+--------
+### [0.18.1](https://github.com/TeamworkGuy2/ts-mortar/commit/55218d9aa824f5e94cd24a9041c78794bc86dd58) - 2019-08-09
 #### Added
 * Added `Numbers.toFixed()` implementation that correctly rounds (JavaScript `Number.toFixed()` doesn't round certain decimal values ending with '5' correctly)
 

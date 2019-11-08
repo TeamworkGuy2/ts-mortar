@@ -168,7 +168,7 @@ suite("Objects", function ObjectsTest() {
         var src3 = createOrig();
         var res3 = Objects.clone(src3, Objects.assignNonUndefined);
         src3.a = null;
-        asr.deepEqual(res3, createOrigNonUndefined());
+        asr.deepEqual(res3, <any>createOrigNonUndefined());
 
         var now = new Date();
 
