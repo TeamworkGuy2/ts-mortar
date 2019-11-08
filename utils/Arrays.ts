@@ -344,6 +344,37 @@ module Arrays {
     }
 
 
+    /** Returns the distinct/unique values of an array as defined by the Array#indexOf() operator.
+     * For example: Arrays.distinct(["alpha", "beta", "charlie", "alpha", "beta"])
+     * returns: ["alpha", "beta", "charlie"]
+     *
+     * @param ary an array of values
+     * @param propName optional, object property name on which to base the distinctness check
+     * @returns a new array of values containing the original array's distinct values
+     */
+    export function distinct<E>(ary: E[], propName?: (keyof E) | null): E[];
+    export function distinct<E>(ary: E[] | null | undefined, propName?: (keyof E) | null): E[] | null;
+    export function distinct<E>(ary: E[] | null | undefined, propName?: (keyof E) | null): E[] | null {
+        if (ary == null || ary.length < 2) { return ary || null; }
+        var res = [ary[0]];
+        if (propName == null) {
+            for (var i = 1, size = ary.length; i < size; i++) {
+                if (res.indexOf(ary[i]) === -1) {
+                    res.push(ary[i]);
+                }
+            }
+        }
+        else {
+            for (var i = 1, size = ary.length; i < size; i++) {
+                if (Arrays.indexOfProp(res, propName, ary[i][propName]) === -1) {
+                    res.push(ary[i]);
+                }
+            }
+        }
+        return res;
+    }
+
+
     /** Remove the first matching value from an array without creating a new array of splicing the array.
      * NOTE: the returned order of the array's elements is not defined.
      * @param ary the values to search and remove the matching value from
@@ -564,15 +595,28 @@ module Arrays {
     /** Get a property from each object in an array of objects
      * @param ary the array of objects
      * @param propName the name of the property to get
+     * @param distinct optional boolean which indicates whether unique results only should be returned
      * @returns an array of the specified property from each object in 'ary'
      */
-    export function pluck<E, K extends keyof E>(ary: E[] | ArrayLike<E> | null | undefined, propName: K): E[K][] {
+    export function pluck<E, K extends keyof E>(ary: E[] | ArrayLike<E> | null | undefined, propName: K, distinct?: boolean | null): E[K][] {
         if (ary == null || propName == null) { return []; }
-        var results: E[K][] = new Array(ary.length);
-        for (var i = ary.length - 1; i > -1; i--) {
-            results[i] = ary[i][propName];
+        if (!distinct) {
+            var results: E[K][] = new Array(ary.length);
+            for (var i = ary.length - 1; i > -1; i--) {
+                results[i] = ary[i][propName];
+            }
+            return results;
         }
-        return results;
+        else {
+            var results: E[K][] = [];
+            for (var i = 0, size = ary.length; i < size; i++) {
+                var value = ary[i][propName];
+                if (results.indexOf(value) < 0) {
+                    results.push(value);
+                }
+            }
+            return results;
+        }
     }
 
 
@@ -959,6 +1003,24 @@ module Arrays {
     }
 
 
+    /** Convert an array to an object with properties based on a property from each object.
+     * For example: Arrays.toMap([{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "s")
+     * returns: { A: { s: "A", t: 1 }, B: { s: "B", t: 1 }, C: { s: "C", t: 2 } }
+     * @param ary the array to convert
+     * @param prop the name of number or string property in each object to use as the key/property name
+     * @returns an object with keys based on the 'prop' value from each object in the 'ary'
+     */
+    export function toMap<T, P extends { [K in keyof T]: T[K] extends number ? K : never }[keyof T]>(ary: T[] | ArrayLike<T> | null | undefined, prop: P): { [id: number]: T };
+    export function toMap<T, P extends { [K in keyof T]: T[K] extends string ? K : never }[keyof T]>(ary: T[] | ArrayLike<T> | null | undefined, prop: P): { [id: string]: T };
+    export function toMap<T, P extends keyof T>(ary: T[] | ArrayLike<T> | null | undefined, prop: P): { [id: string]: T } {
+        if (ary == null) { return {}; }
+        return Array.prototype.reduce.call<T[], [(map: { [id: string]: T }, itm: T) => { [id: string]: T }, { [id: string]: T }], { [id: string]: T }>(<T[]>ary, (map: { [id: string]: T }, itm: T) => {
+            map[<string><any>itm[prop]] = itm;
+            return map;
+        }, <{ [id: string]: T }>{});
+    }
+
+
     /** Return elements that exist in two arrays.
      * For example: Arrays.union([1, 2, 3, 4, 5, "A"], [1, 2, 4, "A"])
      * returns: [1, 2, 4, "A"]
@@ -988,37 +1050,6 @@ module Arrays {
             }
         }
         return results;
-    }
-
-
-    /** Returns the unique values of an array as defined by the Array#indexOf() operator.
-     * For example: Arrays.toUnique(["alpha", "beta", "charlie", "alpha", "beta"])
-     * returns: ["alpha", "beta", "charlie"]
-     *
-     * @param ary an array of values
-     * @param propName optional, object property name on which to base the uniqueness check
-     * @returns a new array of values containing the original array's unique values
-     */
-    export function unique<E>(ary: E[], propName?: (keyof E) | null): E[];
-    export function unique<E>(ary: E[] | null | undefined, propName?: (keyof E) | null): E[] | null;
-    export function unique<E>(ary: E[] | null | undefined, propName?: (keyof E) | null): E[] | null {
-        if (ary == null || ary.length < 2) { return ary || null; }
-        var res = [ary[0]];
-        if (propName == null) {
-            for (var i = 1, size = ary.length; i < size; i++) {
-                if (res.indexOf(ary[i]) === -1) {
-                    res.push(ary[i]);
-                }
-            }
-        }
-        else {
-            for (var i = 1, size = ary.length; i < size; i++) {
-                if (Arrays.indexOfProp(res, propName, ary[i][propName]) === -1) {
-                    res.push(ary[i]);
-                }
-            }
-        }
-        return res;
     }
 
 

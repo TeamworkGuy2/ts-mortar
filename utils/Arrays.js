@@ -316,6 +316,28 @@ var Arrays;
         };
     }
     Arrays.diffPartsCustomEquality = diffPartsCustomEquality;
+    function distinct(ary, propName) {
+        if (ary == null || ary.length < 2) {
+            return ary || null;
+        }
+        var res = [ary[0]];
+        if (propName == null) {
+            for (var i = 1, size = ary.length; i < size; i++) {
+                if (res.indexOf(ary[i]) === -1) {
+                    res.push(ary[i]);
+                }
+            }
+        }
+        else {
+            for (var i = 1, size = ary.length; i < size; i++) {
+                if (Arrays.indexOfProp(res, propName, ary[i][propName]) === -1) {
+                    res.push(ary[i]);
+                }
+            }
+        }
+        return res;
+    }
+    Arrays.distinct = distinct;
     function fastRemove(ary, value) {
         var aryLen = 0;
         if (ary == null || (aryLen = ary.length) === 0) {
@@ -512,17 +534,30 @@ var Arrays;
     /** Get a property from each object in an array of objects
      * @param ary the array of objects
      * @param propName the name of the property to get
+     * @param distinct optional boolean which indicates whether unique results only should be returned
      * @returns an array of the specified property from each object in 'ary'
      */
-    function pluck(ary, propName) {
+    function pluck(ary, propName, distinct) {
         if (ary == null || propName == null) {
             return [];
         }
-        var results = new Array(ary.length);
-        for (var i = ary.length - 1; i > -1; i--) {
-            results[i] = ary[i][propName];
+        if (!distinct) {
+            var results = new Array(ary.length);
+            for (var i = ary.length - 1; i > -1; i--) {
+                results[i] = ary[i][propName];
+            }
+            return results;
         }
-        return results;
+        else {
+            var results = [];
+            for (var i = 0, size = ary.length; i < size; i++) {
+                var value = ary[i][propName];
+                if (results.indexOf(value) < 0) {
+                    results.push(value);
+                }
+            }
+            return results;
+        }
     }
     Arrays.pluck = pluck;
     /** Search for the index of an object with a specified property in an array.
@@ -871,6 +906,16 @@ var Arrays;
         return ary;
     }
     Arrays.swap = swap;
+    function toMap(ary, prop) {
+        if (ary == null) {
+            return {};
+        }
+        return Array.prototype.reduce.call(ary, function (map, itm) {
+            map[itm[prop]] = itm;
+            return map;
+        }, {});
+    }
+    Arrays.toMap = toMap;
     /** Return elements that exist in two arrays.
      * For example: Arrays.union([1, 2, 3, 4, 5, "A"], [1, 2, 4, "A"])
      * returns: [1, 2, 4, "A"]
@@ -901,28 +946,6 @@ var Arrays;
         return results;
     }
     Arrays.union = union;
-    function unique(ary, propName) {
-        if (ary == null || ary.length < 2) {
-            return ary || null;
-        }
-        var res = [ary[0]];
-        if (propName == null) {
-            for (var i = 1, size = ary.length; i < size; i++) {
-                if (res.indexOf(ary[i]) === -1) {
-                    res.push(ary[i]);
-                }
-            }
-        }
-        else {
-            for (var i = 1, size = ary.length; i < size; i++) {
-                if (Arrays.indexOfProp(res, propName, ary[i][propName]) === -1) {
-                    res.push(ary[i]);
-                }
-            }
-        }
-        return res;
-    }
-    Arrays.unique = unique;
     /** Find the maximum value in an array of numbers
      * @param ary the array of numbers to search
      */

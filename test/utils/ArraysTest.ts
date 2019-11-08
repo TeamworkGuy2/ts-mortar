@@ -168,6 +168,29 @@ suite("Arrays", function ArraysTest() {
     });
 
 
+    test("distinct", function distinctTest() {
+        var ary1 = ["B", "D", "D", "A", "F", "A"];
+        var aryDistinct1 = ["B", "D", "A", "F"];
+        asr.deepEqual(Arrays.distinct(ary1), aryDistinct1);
+        ary1.shift();
+        asr.notDeepEqual(Arrays.distinct(ary1), aryDistinct1);
+
+        var ary2 = [55, 2, 12, 8, 12, 0, 2];
+        var aryDistinct2 = [55, 2, 12, 8, 0];
+        asr.deepEqual(Arrays.distinct(ary2), aryDistinct2);
+        ary2.shift();
+        asr.notDeepEqual(Arrays.distinct(ary2), aryDistinct2);
+
+        var ary3 = [{ ap: "a", id: 3 }, { ap: "b", id: 4 }, { ap: "b", id: 5 }, { ap: "c", id: 8 }];
+        var aryDistinct3 = [ary3[0], ary3[1], ary3[3]];
+        asr.deepEqual(Arrays.distinct(ary3, "ap"), aryDistinct3);
+        ary3.shift();
+        asr.notDeepEqual(Arrays.distinct(ary3, "ap"), aryDistinct3);
+
+        asr.deepEqual(Arrays.distinct([]), []);
+    });
+
+
     test("equal", function equalTest() {
         var res1 = Arrays.equal(["A", 23, true], ["A", 23, true]);
         asr.equal(res1, true);
@@ -407,6 +430,18 @@ suite("Arrays", function ArraysTest() {
 
         var res = Arrays.pluck(ary, "id");
         asr.deepEqual(res, ["B", "D", "D", "F"]);
+
+        var res2 = Arrays.pluck(["AA", "AB", "BA", "BC"], 0);
+        asr.deepEqual(res2, ["A", "A", "B", "B"]);
+
+        var res = Arrays.pluck(ary, "id", true);
+        asr.deepEqual(res, ["B", "D", "F"]);
+
+        var res2 = Arrays.pluck(["AA", "AB", "BA", "BC"], 1, true);
+        asr.deepEqual(res2, ["A", "B", "C"]);
+
+        asr.deepEqual(Arrays.pluck([], 0), []);
+        asr.deepEqual(Arrays.pluck(null, <never><any>0), []);
     });
 
 
@@ -556,35 +591,38 @@ suite("Arrays", function ArraysTest() {
     });
 
 
+    test("toMap", function toMapTest() {
+        var res = Arrays.toMap(<{ s: string; t: number }[]>[{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "s");
+        asr.deepEqual(res, {
+            A: { s: "A", t: 1 },
+            B: { s: "B", t: 1 },
+            C: { s: "C", t: 2 }
+        });
+
+        var res2 = Arrays.toMap(<{ s: string; t: number }[]>[{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "t");
+        asr.deepEqual(res2, {
+            0: { s: "A", t: 0 },
+            1: { s: "B", t: 1 },
+            2: { s: "C", t: 2 }
+        });
+
+        var res3 = Arrays.toMap(<{ readonly [index: number]: string }[]>["ABC", "AAB", "ABA", "BBC"], 0);
+        asr.deepEqual(res3, {
+            A: "ABA",
+            B: "BBC"
+        });
+
+        asr.deepEqual(Arrays.toMap([], <never><any>""), {});
+        asr.deepEqual(Arrays.toMap(null, <never><any>""), {});
+    });
+
+
     test("union", function unionTest() {
         var ary1 = ["A", "B", "C", "D", "1"];
         var ary2 = ["B", "C", "D", "2"];
 
         var aryUnion = Arrays.union(ary1, ary2);
         asr.deepEqual(aryUnion, ["B", "C", "D"]);
-    });
-
-
-    test("unique", function uniqueTest() {
-        var ary1 = ["B", "D", "D", "A", "F", "A"];
-        var aryUnique1 = ["B", "D", "A", "F"];
-        asr.deepEqual(Arrays.unique(ary1), aryUnique1);
-        ary1.shift();
-        asr.notDeepEqual(Arrays.unique(ary1), aryUnique1);
-
-        var ary2 = [55, 2, 12, 8, 12, 0, 2];
-        var aryUnique2 = [55, 2, 12, 8, 0];
-        asr.deepEqual(Arrays.unique(ary2), aryUnique2);
-        ary2.shift();
-        asr.notDeepEqual(Arrays.unique(ary2), aryUnique2);
-
-        var ary3 = [{ ap: "a", id: 3 }, { ap: "b", id: 4 }, { ap: "b", id: 5 }, { ap: "c", id: 8 }];
-        var aryUnique3 = [ary3[0], ary3[1], ary3[3]];
-        asr.deepEqual(Arrays.unique(ary3, "ap"), aryUnique3);
-        ary3.shift();
-        asr.notDeepEqual(Arrays.unique(ary3, "ap"), aryUnique3);
-
-        asr.deepEqual(Arrays.unique([]), []);
     });
 
 });

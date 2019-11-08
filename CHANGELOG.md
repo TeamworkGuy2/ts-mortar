@@ -4,7 +4,17 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.18.2](N/A) - 2019-11-08
+### [0.19.0](N/A) - 2019-11-11
+#### Added
+* `Arrays.toMap()` which maps an array to an object/map using a specific property of each object as the key
+* Added optional `distinct` parameter to `Arrays.pluck()`
+
+#### Changed
+* Renamed `Arrays.unique()` -> `Arrays.distinct()`
+
+
+--------
+### [0.18.2](https://github.com/TeamworkGuy2/ts-mortar/commit/4f273897a2a4974d8f7ffb8b7f992cfdc76d9d66) - 2019-11-08
 #### Changed
 * Update to TypeScript 3.7
 
