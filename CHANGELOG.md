@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.19.0](N/A) - 2019-11-11
+### [0.19.1](N/A) - 2019-11-9
+#### Changed
+* Adjusted `Arrays.toMap()` code to compile in other projects when `ts-mortar` is included as a library
+
+
+--------
+### [0.19.0](https://github.com/TeamworkGuy2/ts-mortar/commit/e9b007c46ca7389494199db01d53b3005f67a7f4) - 2019-11-8
 #### Added
 * `Arrays.toMap()` which maps an array to an object/map using a specific property of each object as the key
 * Added optional `distinct` parameter to `Arrays.pluck()`

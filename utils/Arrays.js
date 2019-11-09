@@ -910,7 +910,8 @@ var Arrays;
         if (ary == null) {
             return {};
         }
-        return Array.prototype.reduce.call(ary, function (map, itm) {
+        var reduceCall = Array.prototype.reduce.call;
+        return reduceCall(ary, function (map, itm) {
             map[itm[prop]] = itm;
             return map;
         }, {});
