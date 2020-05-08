@@ -4,13 +4,19 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.19.1](N/A) - 2019-11-9
+### [0.19.2](N/A) - 2020-05-08
+#### Fixed
+* Chrome throwing 'not a function' error when calling `Array.prototype` function reference.
+
+
+--------
+### [0.19.1](https://github.com/TeamworkGuy2/ts-mortar/commit/6ed2d25f986d413502cd64c0df50c618e68e1e7e) - 2019-11-09
 #### Changed
 * Adjusted `Arrays.toMap()` code to compile in other projects when `ts-mortar` is included as a library
 
 
 --------
-### [0.19.0](https://github.com/TeamworkGuy2/ts-mortar/commit/e9b007c46ca7389494199db01d53b3005f67a7f4) - 2019-11-8
+### [0.19.0](https://github.com/TeamworkGuy2/ts-mortar/commit/e9b007c46ca7389494199db01d53b3005f67a7f4) - 2019-11-08
 #### Added
 * `Arrays.toMap()` which maps an array to an object/map using a specific property of each object as the key
 * Added optional `distinct` parameter to `Arrays.pluck()`

@@ -1014,8 +1014,7 @@ module Arrays {
     export function toMap<T, P extends { [K in keyof T]: T[K] extends string ? K : never }[keyof T]>(ary: T[] | ArrayLike<T> | null | undefined, prop: P): { [id: string]: T };
     export function toMap<T, P extends keyof T>(ary: T[] | ArrayLike<T> | null | undefined, prop: P): { [id: string]: T } {
         if (ary == null) { return {}; }
-        var reduceCall = <(value: T[], func: (map: { [id: string]: T }, itm: T) => { [id: string]: T }, initial: { [id: string]: T }) => { [id: string]: T }><any>Array.prototype.reduce.call;
-        return reduceCall(<T[]>ary, (map: { [id: string]: T }, itm: T) => {
+        return (<(value: T[], func: (map: { [id: string]: T }, itm: T) => { [id: string]: T }, initial: { [id: string]: T }) => { [id: string]: T }><any>Array.prototype.reduce.call)(<T[]>ary, (map: { [id: string]: T }, itm: T) => {
             map[<string><any>itm[prop]] = itm;
             return map;
         }, <{ [id: string]: T }>{});

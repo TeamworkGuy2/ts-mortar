@@ -10,21 +10,35 @@ See the `/test` directory for example usage of the functions.
 
 ### Arrays
 Includes functions for manipulating an array like a list:
-* addAll()
+* addAll(), addAllTransform()
+* hasAny(), isOneItem()
+* binarySearch()
+* containsAll(), containsAny()
+* diff()
+* distinct()
+* fastRemove(), fastRemoveIndex()
+* filterSplit()
+* first(), firstIndex()
+* last(), lastIndex()
+* map(), mapFilter(), mapFilterNotNull()
+* removeAll()
 * removeIndex()
 * removeValue()
-* clear()
-* containsAll()
-* hasAny()
+* sortNumeric()
+* swap()
+* toMap()
+* union()
+* max(), min(), sum()
 Comparison:
+* equal()
 * looseEqual()
 * unique()
 * diff()
 * filterSplit()
 Object searching:
-* findProp()
-* findAllProp()
-* indexOfProp()
+* firstProp()
+* pluck()
+* indexOfProp(), lastIndexOfProp()
 * setAllProp()
 
 ### Functions
@@ -33,7 +47,8 @@ Wrap functions to provide additional functionality, such as checking if a functi
 * callFunc()
 * createFuncTimer()
 * tryCatch()
-* lazyGetter()
+* lazyField()
+* partial()
 
 ### EnumCreator
 Create TypeScript enum objects similar to Java enums:
@@ -43,14 +58,16 @@ Create TypeScript enum objects similar to Java enums:
 Focused around converting numbers to and from a user displayable format:
 * isNumeric()
 * isNullOrZero()
+* toNumber()
 * roundTo()
+* toFixed()
 * format()
 
 ### Objects
 Copying objects and getting/checking/transforming properties:
-* assign()
-* clone()
-* extend()
+* assign(), assignNonUndefined()
+* clone(), cloneDeep(), cloneDeepNonUndefined()
+* extendPrototype(), extendToStatic()
 * hasMatchingProps(), hasNonNullProps(), ...
 * invert()
 * map()
@@ -60,8 +77,8 @@ Copying objects and getting/checking/transforming properties:
 ### Strings
 Basic string validation, trimming, truncating, and replacing:
 * truncate()
-* padLeft(), padRight()
-* trimLeading(), trimTrailing()
+* padStart(), padEnd()
+* removeLeading(), removeTrailing()
 * isNullOrEmpty(), isNullOrWhiteSpace()
 * isCharAtDigit(), isCharAtLowerCase(), isCharAtUpperCase()
 * replaceAll()
