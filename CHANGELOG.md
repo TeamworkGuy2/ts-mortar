@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.19.2](N/A) - 2020-05-08
+### [0.20.0](N/A) - 2020-09-04
+#### Changed
+* Update to TypeScript 4.0
+
+
+--------
+### [0.19.2](https://github.com/TeamworkGuy2/ts-mortar/commit/4c7900da53403b11661ccb12cad7d3f02352b64e) - 2020-05-08
 #### Fixed
 * Chrome throwing 'not a function' error when calling `Array.prototype` function reference.
 
