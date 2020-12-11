@@ -1056,10 +1056,11 @@ module Arrays {
     /** Find the maximum value in an array of numbers
      * @param ary the array of numbers to search
      */
-    export function max(ary: ArrayLike<number>): number {
+    export function max(ary: ArrayLike<number | null | undefined>): number {
         var max = Number.NEGATIVE_INFINITY;
         for (var i = 0, size = ary.length; i < size; i++) {
-            max = ary[i] > max ? ary[i] : max;
+            var val = ary[i];
+            max = val != null && val > max ? val : max;
         }
         return max;
     }
@@ -1068,12 +1069,13 @@ module Arrays {
     /** Find the maximum value in an array of numbers
      * @param ary the array of numbers to search
      */
-    export function maxValueIndex(ary: ArrayLike<number>): number {
+    export function maxValueIndex(ary: ArrayLike<number | null | undefined>): number {
         var max = Number.NEGATIVE_INFINITY;
         var maxI = -1;
         for (var i = 0, size = ary.length; i < size; i++) {
-            if (ary[i] > max) {
-                max = ary[i];
+            var val = ary[i];
+            if (val != null && val > max) {
+                max = val;
                 maxI = i;
             }
         }
@@ -1084,10 +1086,11 @@ module Arrays {
     /** Find the minimum value in an array of numbers
      * @param ary the array of numbers to search
      */
-    export function min(ary: ArrayLike<number>): number {
+    export function min(ary: ArrayLike<number | null | undefined>): number {
         var min = Number.POSITIVE_INFINITY;
         for (var i = 0, size = ary.length; i < size; i++) {
-            min = ary[i] < min ? ary[i] : min;
+            var val = ary[i];
+            min = val != null && val < min ? val : min;
         }
         return min;
     }
@@ -1096,12 +1099,13 @@ module Arrays {
     /** Find the minimum value in an array of numbers
      * @param ary the array of numbers to search
      */
-    export function minValueIndex(ary: ArrayLike<number>): number {
+    export function minValueIndex(ary: ArrayLike<number | null | undefined>): number {
         var min = Number.POSITIVE_INFINITY;
         var minI = -1;
         for (var i = 0, size = ary.length; i < size; i++) {
-            if (ary[i] < min) {
-                min = ary[i];
+            var val = ary[i];
+            if (val != null && val < min) {
+                min = val;
                 minI = i;
             }
         }
@@ -1112,6 +1116,7 @@ module Arrays {
     /** Sum the values of an array
      * @param ary an array of numeric convertable values to sum; null, infinite, and NaN values in the array are treated as zero.
      * If the array is null, 0 is returned.
+     * @param infinityToZero optional (default: false) flag to convert NEGATIVE_INFINITY and POSITIVE_INFINITY values to 0
      * @returns the sum of the values in 'ary'
      */
     export function sum(ary: (number | null)[] | ArrayLike<number | null>, infinityToZero?: boolean): number {

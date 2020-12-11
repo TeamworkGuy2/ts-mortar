@@ -272,24 +272,28 @@ suite("Arrays", function ArraysTest() {
     });
     test("max", function maxTest() {
         asr.equal(Arrays.max([NaN, 0, -0]), 0);
+        asr.equal(Arrays.max([null, undefined, -2]), -2);
         asr.equal(Arrays.max([-1, 0, -2]), 0);
         asr.equal(Arrays.max([0, 2, 4]), 4);
         asr.equal(Arrays.max([5, 5]), 5);
     });
     test("maxValueIndex", function maxValueIndexTest() {
         asr.equal(Arrays.maxValueIndex([NaN, 0, -0]), 1);
+        asr.equal(Arrays.maxValueIndex([null, undefined, -2]), 2);
         asr.equal(Arrays.maxValueIndex([-1, 0, -2]), 1);
         asr.equal(Arrays.maxValueIndex([0, 2, 4]), 2);
         asr.equal(Arrays.maxValueIndex([5, 5]), 0);
     });
     test("min", function minTest() {
         asr.equal(Arrays.min([NaN, 0, -0]), 0);
+        asr.equal(Arrays.min([null, undefined, 2]), 2);
         asr.equal(Arrays.min([1, 0, 2]), 0);
         asr.equal(Arrays.min([-2, 2, 4]), -2);
         asr.equal(Arrays.min([-5, -5]), -5);
     });
     test("minValueIndex", function minValueIndexTest() {
         asr.equal(Arrays.minValueIndex([NaN, 0, -0]), 1);
+        asr.equal(Arrays.minValueIndex([null, undefined, 2]), 2);
         asr.equal(Arrays.minValueIndex([1, 0, 2]), 1);
         asr.equal(Arrays.minValueIndex([-2, 2, 4]), 0);
         asr.equal(Arrays.minValueIndex([-5, -5]), 0);

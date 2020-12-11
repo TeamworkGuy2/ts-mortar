@@ -4,7 +4,14 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.20.0](N/A) - 2020-09-04
+### [0.20.1](N/A) - 2020-12-10
+#### Changed
+* Expand `Arrays.max()`, `min()`, `maxValueIndex()`, `minValueIndex()` `ary` parameters to accept `null` and `undefined` in the input array
+* `Arrays.max()`, `min()`, `maxValueIndex()`, `minValueIndex()` no longer treat `null` as zero
+
+
+--------
+### [0.20.0](https://github.com/TeamworkGuy2/ts-mortar/commit/9af609187cd08edaefe45042a47fca1d78c02dc8) - 2020-09-04
 #### Changed
 * Update to TypeScript 4.0
 

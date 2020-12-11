@@ -952,7 +952,8 @@ var Arrays;
     function max(ary) {
         var max = Number.NEGATIVE_INFINITY;
         for (var i = 0, size = ary.length; i < size; i++) {
-            max = ary[i] > max ? ary[i] : max;
+            var val = ary[i];
+            max = val != null && val > max ? val : max;
         }
         return max;
     }
@@ -964,8 +965,9 @@ var Arrays;
         var max = Number.NEGATIVE_INFINITY;
         var maxI = -1;
         for (var i = 0, size = ary.length; i < size; i++) {
-            if (ary[i] > max) {
-                max = ary[i];
+            var val = ary[i];
+            if (val != null && val > max) {
+                max = val;
                 maxI = i;
             }
         }
@@ -978,7 +980,8 @@ var Arrays;
     function min(ary) {
         var min = Number.POSITIVE_INFINITY;
         for (var i = 0, size = ary.length; i < size; i++) {
-            min = ary[i] < min ? ary[i] : min;
+            var val = ary[i];
+            min = val != null && val < min ? val : min;
         }
         return min;
     }
@@ -990,8 +993,9 @@ var Arrays;
         var min = Number.POSITIVE_INFINITY;
         var minI = -1;
         for (var i = 0, size = ary.length; i < size; i++) {
-            if (ary[i] < min) {
-                min = ary[i];
+            var val = ary[i];
+            if (val != null && val < min) {
+                min = val;
                 minI = i;
             }
         }
@@ -1001,6 +1005,7 @@ var Arrays;
     /** Sum the values of an array
      * @param ary an array of numeric convertable values to sum; null, infinite, and NaN values in the array are treated as zero.
      * If the array is null, 0 is returned.
+     * @param infinityToZero optional (default: false) flag to convert NEGATIVE_INFINITY and POSITIVE_INFINITY values to 0
      * @returns the sum of the values in 'ary'
      */
     function sum(ary, infinityToZero) {
