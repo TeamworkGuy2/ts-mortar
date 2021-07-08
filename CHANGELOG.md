@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.21.0](N/A) - 2021-06-12
+### [0.21.1](N/A) - 2021-07-08
+#### Changed
+* Modify `Arrays.diffPartsCustomEquality()` to accept different types for `ary1` and `ary2`
+
+
+--------
+### [0.21.0](https://github.com/TeamworkGuy2/ts-mortar/commit/ec721862e94f452490b17be5e3a5b77d169f3737) - 2021-06-12
 #### Changed
 * Update to TypeScript 4.3
 

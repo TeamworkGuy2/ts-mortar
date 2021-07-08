@@ -282,7 +282,7 @@ module Arrays {
      * @returns with 'added' and 'removed' arrays of values from 'ary1' and 'ary2'
      * @see looseDiff()
      */
-    export function diffPartsCustomEquality<E>(ary1: E[] | null | undefined, ary2: E[] | null | undefined, equal: (a: E, b: E) => boolean): { added: E[]; removed: E[] } {
+    export function diffPartsCustomEquality<E1, E2>(ary1: E1[] | null | undefined, ary2: E2[] | null | undefined, equal: (a: E1, b: E2) => boolean): { added: E2[]; removed: E1[] } {
         if (ary1 == null || ary2 == null || !Array.isArray(ary1) || !Array.isArray(ary2)) {
             if (ary1 == null && ary2 == null) {
                 return { added: [], removed: [] };
@@ -301,13 +301,13 @@ module Arrays {
             else /*if (ary1 != null && ary2 == null)*/ {
                 return {
                     added: [],
-                    removed: (<E[]>ary1).slice()
+                    removed: (<E1[]>ary1).slice()
                 };
             }
         }
 
-        var added: E[] = [];
-        var removed: E[] = [];
+        var added: E2[] = [];
+        var removed: E1[] = [];
         var ary2Used: boolean[] = [];
         var ary1Size = ary1.length;
         var ary2Size = ary2.length;
