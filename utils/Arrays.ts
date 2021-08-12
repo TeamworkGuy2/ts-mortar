@@ -408,7 +408,7 @@ module Arrays {
     export function fastRemoveIndex<E>(ary: E[] | null | undefined, index: number): E[] | null | undefined;
     export function fastRemoveIndex<E>(ary: E[] | null | undefined, index: number): E[] | null | undefined {
         var aryLen = 0;
-        if (ary == null || (aryLen = ary.length) === 0) {
+        if (ary == null || (aryLen = ary.length) === 0 || index < 0 || index >= aryLen) {
             return ary;
         }
         if (aryLen > 1) {
@@ -432,9 +432,6 @@ module Arrays {
      */
     export function filterSplit<E>(ary: E[] | ArrayLike<E> | null | undefined, filterFunc: (value: E, index: number, array: E[]) => boolean): FilterResult<E> {
         if (ary == null) { return toBiFilterResult([], [], []); }
-        if (typeof filterFunc !== "function") {
-            throw new Error("incorrect parameter 'filterFunc', must be a 'function(value: E, index: number, array: E[]): boolean'");
-        }
 
         var matching: E[] = [];
         var notMatching: E[] = [];
@@ -760,9 +757,6 @@ module Arrays {
      */
     export function mapFilter<T, R>(ary: T[] | ArrayLike<T> | null | undefined, mapFilterFunc: (value: T, dstOut: { value: R; isValid: boolean }) => void): R[] {
         if (ary == null) { return []; }
-        if (typeof mapFilterFunc !== "function") {
-            throw new Error("incorrect parameter 'mapFilterFunc', must be a 'function(value, dstOut: { value; isValid }): void'");
-        }
 
         var results: R[] = [];
         var nil = <R>{};
@@ -790,9 +784,6 @@ module Arrays {
      */
     export function mapFilterNotNull<T, R>(ary: T[] | ArrayLike<T> | null | undefined, mapFunc: (value: T, index: number, array: T[] | ArrayLike<T>) => R): R[] {
         if (ary == null) { return []; }
-        if (typeof mapFunc !== "function") {
-            throw new Error("incorrect parameter 'mapFilterFunc', must be a 'function(value): Object'");
-        }
 
         var results: R[] = [];
 
@@ -1005,19 +996,58 @@ module Arrays {
 
     /** Convert an array to an object with properties based on a property from each object.
      * For example: Arrays.toMap([{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "s")
-     * returns: { A: { s: "A", t: 1 }, B: { s: "B", t: 1 }, C: { s: "C", t: 2 } }
+     * returns: {
+     *   A: { s: "A", t: 1 },
+     *   B: { s: "B", t: 1 },
+     *   C: { s: "C", t: 2 }
+     * }
      * @param ary the array to convert
      * @param prop the name of number or string property in each object to use as the key/property name
+     * @param [throwIfDuplicates] (default: true), throw an error if a duplicate prop is found while mapping the array to object properties
      * @returns an object with keys based on the 'prop' value from each object in the 'ary'
      */
-    export function toMap<T, P extends { [K in keyof T]: T[K] extends number ? K : never }[keyof T]>(ary: T[] | ArrayLike<T> | null | undefined, prop: P): { [id: number]: T };
-    export function toMap<T, P extends { [K in keyof T]: T[K] extends string ? K : never }[keyof T]>(ary: T[] | ArrayLike<T> | null | undefined, prop: P): { [id: string]: T };
-    export function toMap<T, P extends keyof T>(ary: T[] | ArrayLike<T> | null | undefined, prop: P): { [id: string]: T } {
+    export function toMap<T, P extends { [K in keyof T]: T[K] extends number ? K : never }[keyof T]>(ary: T[] | ArrayLike<T> | null | undefined, prop: P, throwIfDuplicates?: boolean): { [id: number]: T };
+    export function toMap<T, P extends { [K in keyof T]: T[K] extends string ? K : never }[keyof T]>(ary: T[] | ArrayLike<T> | null | undefined, prop: P, throwIfDuplicates?: boolean): { [id: string]: T };
+    export function toMap<T, P extends keyof T>(ary: T[] | ArrayLike<T> | null | undefined, prop: P, throwIfDuplicates = true): { [id: string]: T } {
         if (ary == null) { return {}; }
         return (<(value: T[], func: (map: { [id: string]: T }, itm: T) => { [id: string]: T }, initial: { [id: string]: T }) => { [id: string]: T }><any>Array.prototype.reduce.call)(<T[]>ary, (map: { [id: string]: T }, itm: T) => {
-            map[<string><any>itm[prop]] = itm;
+            var key = <string><any>itm[prop];
+            if (throwIfDuplicates && key in map) {
+                throw new Error("duplicate toMap() key mapping found for '" + key + "', existing value: '" + map[key] + "', duplicate value: '" + itm + "'");
+            }
+            map[key] = itm;
             return map;
         }, <{ [id: string]: T }>{});
+    }
+
+
+    /** Group an array into a map of arrays grouped by a property name.
+     * For example: Arrays.groupBy([{ k: "A", v: 10 }, { k: "A", v: 12 }, { k: "B", v: 15 }, { k: "C", v: 24 }, { k: "C", v: 42 }], "k")
+     * returns: {
+     *   A: [{ k: "A", v: 10 }, { k: "A", v: 12 }],
+     *   B: [{ k: "B", v: 15 }],
+     *   C: [{ k: "C", v: 24 }, { k: "C", v: 42 }]
+     * }
+     * @param ary the array of items
+     * @param funcOrProp a property name or function which returns a string to map 'ary' items to the key to group them by
+     */
+    export function groupBy<T>(ary: T[], funcOrProp: (keyof T) | ((item: T, index: number, ary: T[]) => string)): { [key: string]: T[] } {
+        if(typeof funcOrProp === "function") {
+            return ary.reduce((map, item, idx, ary) => {
+                var key = funcOrProp(item, idx, ary);
+                var bucket = map[key] || (map[key] = []);
+                bucket.push(item);
+                return map;
+            }, <{ [key: string]: T[] }>{});
+        }
+        else {
+            return ary.reduce((map, item) => {
+                var key = <string><any>item[funcOrProp];
+                var bucket = map[key] || (map[key] = []);
+                bucket.push(item);
+                return map;
+            }, <{ [key: string]: T[] }>{});
+        }
     }
 
 

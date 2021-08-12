@@ -4,7 +4,17 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.21.1](N/A) - 2021-07-08
+### [0.21.2](N/A) - 2021-08-11
+#### Added
+* `Arrays.groupBy()` which maps an array to a map of arrays grouped by a property name
+* Add optional `throwIfDuplicates` parameter to `Arrays.toMap()` the default value is `true` which may be a breaking change for some
+
+#### Fixed
+* Fix strange behavior if you passed an index less than 0 or equal to or greater than the array length to `Arrays.fastRemoveIndex()`
+
+
+--------
+### [0.21.1](https://github.com/TeamworkGuy2/ts-mortar/commit/06010c053f2c382a14eb8ac9d20b43b6e49d2326) - 2021-07-08
 #### Changed
 * Modify `Arrays.diffPartsCustomEquality()` to accept different types for `ary1` and `ary2`
 

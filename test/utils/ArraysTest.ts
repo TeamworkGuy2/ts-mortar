@@ -5,7 +5,7 @@ import Arrays = require("../../utils/Arrays");
 var asr = chai.assert;
 
 
-suite("Arrays", function ArraysTest() {
+suite("Arrays", () => {
 
     var numSort = (a: number | string, b: number | string) => <number>a - <number>b;
 
@@ -16,7 +16,7 @@ suite("Arrays", function ArraysTest() {
     };
 
 
-    test("addAll", function addAllTest() {
+    test("addAll", () => {
         var ary1 = [1, 2, 4];
         var ary2 = [8, 16];
 
@@ -25,7 +25,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("addAllTransform", function addAllTransformTest() {
+    test("addAllTransform", () => {
         var ary1 = [{ id: 1 }, { id: 2 }, { id: 4 }];
         var ary2 = ['{"id": 8}', '{"id": 16}'];
 
@@ -34,7 +34,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("asArray", function asArrayTest() {
+    test("asArray", () => {
         var obj1 = { name: "A" };
 
         var res = Arrays.asArray(obj1);
@@ -45,7 +45,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("binarySearch", function binarySearchTest() {
+    test("binarySearch", () => {
         var ary1 = [{ p: 2 }, { p: 4 }, { p: 6 }, { p: 8 }, { p: 10 }];
 
         var idx1 = Arrays.binarySearch(ary1, "p", 8);
@@ -62,7 +62,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("clear", function clearTest() {
+    test("clear", () => {
         var ary = [1, 2, 4];
 
         Arrays.clear(ary);
@@ -71,7 +71,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("concat", function concatTest() {
+    test("concat", () => {
         var ary1 = [{ p: "B" }, { p: "D" }, { p: "F" }];
         var ary2 = [{ p: "H" }, { p: "J" }];
         var ary1And2 = [{ p: "B" }, { p: "D" }, { p: "F" }, { p: "H" }, { p: "J" }];
@@ -86,7 +86,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("containsAll", function containsAllTest() {
+    test("containsAll", () => {
         var ary = ["B", "D", "F", "H", "J"];
 
         var searchObjs1 = ["B", "D", "H"];
@@ -103,7 +103,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("containsAny", function containsAnyTest() {
+    test("containsAny", () => {
         var ary = ["B", "D", "F", "H", "J"];
 
         var searchObjs1 = ["B", "Z"];
@@ -125,7 +125,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("count", function countTest() {
+    test("count", () => {
         var ary = [1, 2, 3, 4, 5];
 
         var res1 = Arrays.count(ary, (i) => i % 2 === 0);
@@ -135,7 +135,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("diff", function diffTest() {
+    test("diff", () => {
         var res = Arrays.diff([1, 2, 3], [2, 4]);
         asr.deepEqual(res.sort(numSort), [1, 3, 4]);
 
@@ -148,7 +148,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("diffParts", function diffPartsTest() {
+    test("diffParts", () => {
         var res = Arrays.diffParts([1, 2, 3], [2, 4]);
         asr.deepEqual(res, { added: [4], removed: [1, 3] });
 
@@ -158,7 +158,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("diffPartsCustomEquality", function diffPartsCustomEqualityTest() {
+    test("diffPartsCustomEquality", () => {
         var res = Arrays.diffPartsCustomEquality([{ n: 1, h: "A" }, { n: 2, h: "B" }, { n: 3, h: "C" }], [{ n: 2, h: "D" }, { n: 4, h: "E" }], (a, b) => a.n === b.n);
         asr.deepEqual(res, { added: [{ n: 4, h: "E" }], removed: [{ n: 1, h: "A" }, { n: 3, h: "C" }] });
 
@@ -168,7 +168,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("distinct", function distinctTest() {
+    test("distinct", () => {
         var ary1 = ["B", "D", "D", "A", "F", "A"];
         var aryDistinct1 = ["B", "D", "A", "F"];
         asr.deepEqual(Arrays.distinct(ary1), aryDistinct1);
@@ -191,7 +191,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("equal", function equalTest() {
+    test("equal", () => {
         var res1 = Arrays.equal(["A", 23, true], ["A", 23, true]);
         asr.equal(res1, true);
 
@@ -206,45 +206,57 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("fastRemove", function fastRemoveTest() {
-        var ary = ["B", "D", "F", "H", "J"];
+    test("fastRemove", () => {
+        var ary = ["B", "D", "H", "B", "J"];
 
         var res1 = Arrays.fastRemove(ary.slice(), "A");
-        asr.deepEqual(res1, ["B", "D", "F", "H", "J"]);
+        asr.deepEqual(res1, ["B", "D", "H", "B", "J"]);
 
         var res2 = Arrays.fastRemove(ary.slice(), "B");
-        asr.deepEqual(res2.sort(), ["D", "F", "H", "J"]);
-
-        var res3 = Arrays.fastRemove(ary.slice(), "F");
-        asr.deepEqual(res3.sort(), ["B", "D", "H", "J"]);
-
-        var res4 = Arrays.fastRemove(ary.slice(), "J");
-        asr.deepEqual(res4.sort(), ["B", "D", "F", "H"]);
-    });
-
-
-    test("fastRemoveIndex", function fastRemoveIndexTest() {
-        var ary = ["B", "D", "F", "H", "J"];
-
-        var res1 = Arrays.fastRemoveIndex(ary.slice(), 0);
-        asr.deepEqual(res1.sort(), ["D", "F", "H", "J"]);
-
-        var res2 = Arrays.fastRemoveIndex(ary.slice(), 2);
         asr.deepEqual(res2.sort(), ["B", "D", "H", "J"]);
 
-        var res3 = Arrays.fastRemoveIndex(ary.slice(), 4);
-        asr.deepEqual(res3.sort(), ["B", "D", "F", "H"]);
+        var res3 = Arrays.fastRemove(ary.slice(), "H");
+        asr.deepEqual(res3.sort(), ["B", "B", "D", "J"]);
+
+        var res4 = Arrays.fastRemove(ary.slice(), "J");
+        asr.deepEqual(res4.sort(), ["B", "B", "D", "H"]);
     });
 
 
-    test("filterSplit", function filterSplitTest() {
+    test("fastRemoveIndex", () => {
+        var ary = ["B", "D", "F", "H", "J"];
+
+        var res = Arrays.fastRemoveIndex(ary.slice(), -1);
+        asr.deepEqual(res.sort(), ["B", "D", "F", "H", "J"]);
+
+        res = Arrays.fastRemoveIndex(ary.slice(), 999);
+        asr.deepEqual(res.sort(), ["B", "D", "F", "H", "J"]);
+
+        res = Arrays.fastRemoveIndex(ary.slice(), 0);
+        asr.deepEqual(res.sort(), ["D", "F", "H", "J"]);
+
+        res = Arrays.fastRemoveIndex(ary.slice(), 0);
+        asr.deepEqual(res.sort(), ["D", "F", "H", "J"]);
+
+        res = Arrays.fastRemoveIndex(ary.slice(), 0);
+        asr.deepEqual(res.sort(), ["D", "F", "H", "J"]);
+
+        res = Arrays.fastRemoveIndex(ary.slice(), 2);
+        asr.deepEqual(res.sort(), ["B", "D", "H", "J"]);
+
+        res = Arrays.fastRemoveIndex(ary.slice(), 4);
+        asr.deepEqual(res.sort(), ["B", "D", "F", "H"]);
+    });
+
+
+    test("filterSplit", () => {
         var res1 = Arrays.filterSplit([1, 2, 3, 4, 5], function (value, idx, ary) { return value % 2 == 0; });
         var expected1 = { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] };
         asr.deepEqual(res1, expected1);
     });
 
 
-    test("findMatchingsProp", function findMatchingPropsTest() {
+    test("findMatchingsProp", () => {
         var res = Arrays.findMatchingProps([{ name: "billy", value: 5 }, { name: "sam", value: 5 }, { name: "overhill", value: 3 }], "value", 5);
         var expect = [{ name: "billy", value: 5 }, { name: "sam", value: 5 }];
 
@@ -252,7 +264,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("first", function firstTest() {
+    test("first", () => {
         var ary = [{ key: 27, value: "A" }, { key: 46, value: "B" }, { key: 84, value: "C" }, { key: 84, value: "D" }];
         var expect = { key: 84, value: "C" };
 
@@ -268,7 +280,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("firstProp", function firstPropTest() {
+    test("firstProp", () => {
         var res2 = Arrays.firstProp([{ name: "billy", value: 5 }, { name: "sam", value: 5 }], "value", 5);
         asr.deepEqual(res2, { name: "billy", value: 5 });
 
@@ -281,7 +293,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("getIfOneItem", function getIfOneItemTest() {
+    test("getIfOneItem", () => {
         asr.equal(Arrays.getIfOneItem(null), null);
         asr.equal(Arrays.getIfOneItem(21), 21);
         asr.equal(Arrays.getIfOneItem([null]), null);
@@ -291,7 +303,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("hasItems", function hasItemsTest() {
+    test("hasItems", () => {
         var ary1 = [1];
         var ary0: number[] = [];
         var aryNull = null;
@@ -302,7 +314,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("indexOfProp", function indexOfPropTest() {
+    test("indexOfProp", () => {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
 
         asr.equal(Arrays.indexOfProp(ary, "id", "D"), 1);
@@ -316,7 +328,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("isOneItem", function isOneItemTest() {
+    test("isOneItem", () => {
         asr.equal(Arrays.isOneItem(null), true);
         asr.equal(Arrays.isOneItem(21), true);
         asr.equal(Arrays.isOneItem([null]), true);
@@ -326,7 +338,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("last", function lastTest() {
+    test("last", () => {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
 
         var res = Arrays.last(ary, (t1, t2) => t1.id == "D");
@@ -334,7 +346,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("lastIndexOfProp", function lastIndexOfPropTest() {
+    test("lastIndexOfProp", () => {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
 
         var res = Arrays.lastIndexOfProp(ary, "id", "D");
@@ -342,7 +354,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("looseEqual", function looseEqualTest() {
+    test("looseEqual", () => {
         var res1 = Arrays.looseEqual([26, "Alpha", 5], [5, 26, "Alpha"]);
         asr.equal(res1, true);
 
@@ -351,7 +363,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("map", function mapTest() {
+    test("map", () => {
         var ary = [1, 2, 3, 4, 5, 6];
 
         var res1 = Arrays.map(ary, (v, i) => v + i);
@@ -369,7 +381,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("mapFilter", function mapFilterTest() {
+    test("mapFilter", () => {
         var ary = [1, 2, 3, 4, 5, 6];
 
         var res = Arrays.mapFilter(ary, (val, res) => res.isValid = (val % 2 === 1));
@@ -386,14 +398,14 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("mapFilterNotNull", function mapFilterNotNullTest() {
+    test("mapFilterNotNull", () => {
         var ary = [1, 2, "B", null, undefined, "C"];
         var res = Arrays.mapFilterNotNull(ary, (t) => t);
         asr.deepEqual(res, [1, 2, "B", "C"]);
     });
 
 
-    test("max", function maxTest() {
+    test("max", () => {
         asr.equal(Arrays.max([NaN, 0, -0]), 0);
         asr.equal(Arrays.max([null, undefined, -2]), -2);
         asr.equal(Arrays.max([-1, 0, -2]), 0);
@@ -402,7 +414,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("maxValueIndex", function maxValueIndexTest() {
+    test("maxValueIndex", () => {
         asr.equal(Arrays.maxValueIndex([NaN, 0, -0]), 1);
         asr.equal(Arrays.maxValueIndex([null, undefined, -2]), 2);
         asr.equal(Arrays.maxValueIndex([-1, 0, -2]), 1);
@@ -411,7 +423,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("min", function minTest() {
+    test("min", () => {
         asr.equal(Arrays.min([NaN, 0, -0]), 0);
         asr.equal(Arrays.min([null, undefined, 2]), 2);
         asr.equal(Arrays.min([1, 0, 2]), 0);
@@ -420,7 +432,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("minValueIndex", function minValueIndexTest() {
+    test("minValueIndex", () => {
         asr.equal(Arrays.minValueIndex([NaN, 0, -0]), 1);
         asr.equal(Arrays.minValueIndex([null, undefined, 2]), 2);
         asr.equal(Arrays.minValueIndex([1, 0, 2]), 1);
@@ -429,7 +441,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("pluck", function pluckTest() {
+    test("pluck", () => {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
 
         var res = Arrays.pluck(ary, "id");
@@ -449,7 +461,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("removeAll", function removeAllTest() {
+    test("removeAll", () => {
         var res1 = Arrays.removeAll([2, 5, 3, 1, 4, 5], [5, 1]);
         asr.deepEqual(res1.sort(numSort), [2, 3, 4, 5]);
 
@@ -461,7 +473,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("removeIndex", function removeIndexTest() {
+    test("removeIndex", () => {
         var ary = [11, 12];
         asr.strictEqual(Arrays.removeIndex(ary, -1), ary);
 
@@ -476,7 +488,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("removeValue", function removeValueTest() {
+    test("removeValue", () => {
         var ary1 = ["A", "B", "C", "D"];
         var val1 = Arrays.removeValue(ary1, "B");
         asr.deepEqual(ary1, ["A", "C", "D"]);
@@ -494,7 +506,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("setAllProp", function setAllPropTest() {
+    test("setAllProp", () => {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
         var expect = [{ id: 1 }, { id: 1 }, { id: 1 }, { id: 1 }];
 
@@ -503,7 +515,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("sortNumeric", function sortNumericTest() {
+    test("sortNumeric", () => {
         var ary = [5, 2, 3, 1, 4];
 
         var res1 = Arrays.sortNumeric(ary.slice());
@@ -517,7 +529,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("splice", function spliceTest() {
+    test("splice", () => {
         var res = Arrays.splice([0, 1, 1, 5], [10, 15, 20], 2, 1);
         asr.deepEqual(res, [0, 1, 10, 15, 20, 5]);
 
@@ -564,7 +576,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("sum", function sumTest() {
+    test("sum", () => {
         var ary1 = [1, 2, 3, 4];
         equalNum(Arrays.sum(ary1), 10);
         equalNum(Arrays.sum(ary1, true), 10);
@@ -577,7 +589,7 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("swap", function swapTest() {
+    test("swap", () => {
         var res = Arrays.swap(["A", "B", "C", "D"], 0, 1);
         asr.deepEqual(res, ["B", "A", "C", "D"]);
 
@@ -595,33 +607,55 @@ suite("Arrays", function ArraysTest() {
     });
 
 
-    test("toMap", function toMapTest() {
-        var res = Arrays.toMap(<{ s: string; t: number }[]>[{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "s");
+    test("toMap", () => {
+        var res = Arrays.toMap(<{ s: string; t: number }[]>[{ s: "A", t: 0 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "s");
         asr.deepEqual(res, {
+            A: { s: "A", t: 0 },
+            B: { s: "B", t: 1 },
+            C: { s: "C", t: 2 }
+        });
+
+        var res2 = Arrays.toMap(<{ s: string; t: number }[]>[{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "s", false); // allow duplicates
+        asr.deepEqual(res2, {
             A: { s: "A", t: 1 },
             B: { s: "B", t: 1 },
             C: { s: "C", t: 2 }
         });
 
-        var res2 = Arrays.toMap(<{ s: string; t: number }[]>[{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "t");
-        asr.deepEqual(res2, {
-            0: { s: "A", t: 0 },
-            1: { s: "B", t: 1 },
-            2: { s: "C", t: 2 }
+        var res3 = Arrays.toMap(<{ readonly [index: number]: string }[]>["AB", "BBC", "C"], 0);
+        asr.deepEqual(res3, {
+            A: "AB",
+            B: "BBC",
+            C: "C",
         });
 
-        var res3 = Arrays.toMap(<{ readonly [index: number]: string }[]>["ABC", "AAB", "ABA", "BBC"], 0);
-        asr.deepEqual(res3, {
-            A: "ABA",
-            B: "BBC"
-        });
+        asr.throws(() => Arrays.toMap([{ k: "A" }, { k: "A" }], "k"));
 
         asr.deepEqual(Arrays.toMap([], <never><any>""), {});
         asr.deepEqual(Arrays.toMap(null, <never><any>""), {});
     });
 
 
-    test("union", function unionTest() {
+    test("groupBy", () => {
+        var ary = [{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 2 }, { s: "C", t: 3 }, { s: "C", t: 5 }];
+
+        var grouping = Arrays.groupBy(ary, "s");
+        asr.deepEqual(grouping, {
+            "A": [{ s: "A", t: 0 }, { s: "A", t: 1 }],
+            "B": [{ s: "B", t: 2 }],
+            "C": [{ s: "C", t: 3 }, { s: "C", t: 5 }],
+        });
+
+        var grouping2 = Arrays.groupBy([{ k: "A", v: 10 }, { k: "A", v: 12 }, { k: "B", v: 15 }, { k: "C", v: 24 }, { k: "C", v: 42 }], "k");
+        asr.deepEqual(grouping2, {
+            A: [{ k: "A", v: 10 }, { k: "A", v: 12 }],
+            B: [{ k: "B", v: 15 }],
+            C: [{ k: "C", v: 24 }, { k: "C", v: 42 }]
+        });
+    });
+
+
+    test("union", () => {
         var ary1 = ["A", "B", "C", "D", "1"];
         var ary2 = ["B", "C", "D", "2"];
 

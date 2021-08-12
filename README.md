@@ -27,6 +27,7 @@ Includes functions for manipulating an array like a list:
 * sortNumeric()
 * swap()
 * toMap()
+* groupBy()
 * union()
 * max(), min(), sum()
 Comparison:

@@ -353,7 +353,7 @@ var Arrays;
     Arrays.fastRemove = fastRemove;
     function fastRemoveIndex(ary, index) {
         var aryLen = 0;
-        if (ary == null || (aryLen = ary.length) === 0) {
+        if (ary == null || (aryLen = ary.length) === 0 || index < 0 || index >= aryLen) {
             return ary;
         }
         if (aryLen > 1) {
@@ -376,9 +376,6 @@ var Arrays;
     function filterSplit(ary, filterFunc) {
         if (ary == null) {
             return toBiFilterResult([], [], []);
-        }
-        if (typeof filterFunc !== "function") {
-            throw new Error("incorrect parameter 'filterFunc', must be a 'function(value: E, index: number, array: E[]): boolean'");
         }
         var matching = [];
         var notMatching = [];
@@ -699,9 +696,6 @@ var Arrays;
         if (ary == null) {
             return [];
         }
-        if (typeof mapFilterFunc !== "function") {
-            throw new Error("incorrect parameter 'mapFilterFunc', must be a 'function(value, dstOut: { value; isValid }): void'");
-        }
         var results = [];
         var nil = {};
         var dstOut = { value: nil, isValid: false };
@@ -726,9 +720,6 @@ var Arrays;
     function mapFilterNotNull(ary, mapFunc) {
         if (ary == null) {
             return [];
-        }
-        if (typeof mapFunc !== "function") {
-            throw new Error("incorrect parameter 'mapFilterFunc', must be a 'function(value): Object'");
         }
         var results = [];
         for (var i = 0, size = ary.length; i < size; i++) {
@@ -906,16 +897,50 @@ var Arrays;
         return ary;
     }
     Arrays.swap = swap;
-    function toMap(ary, prop) {
+    function toMap(ary, prop, throwIfDuplicates) {
+        if (throwIfDuplicates === void 0) { throwIfDuplicates = true; }
         if (ary == null) {
             return {};
         }
         return Array.prototype.reduce.call(ary, function (map, itm) {
-            map[itm[prop]] = itm;
+            var key = itm[prop];
+            if (throwIfDuplicates && key in map) {
+                throw new Error("duplicate toMap() key mapping found for '" + key + "', existing value: '" + map[key] + "', duplicate value: '" + itm + "'");
+            }
+            map[key] = itm;
             return map;
         }, {});
     }
     Arrays.toMap = toMap;
+    /** Group an array into a map of arrays grouped by a property name.
+     * For example: Arrays.groupBy([{ k: "A", v: 10 }, { k: "A", v: 12 }, { k: "B", v: 15 }, { k: "C", v: 24 }, { k: "C", v: 42 }], "k")
+     * returns: {
+     *   A: [{ k: "A", v: 10 }, { k: "A", v: 12 }],
+     *   B: [{ k: "B", v: 15 }],
+     *   C: [{ k: "C", v: 24 }, { k: "C", v: 42 }]
+     * }
+     * @param ary the array of items
+     * @param funcOrProp a property name or function which returns a string to map 'ary' items to the key to group them by
+     */
+    function groupBy(ary, funcOrProp) {
+        if (typeof funcOrProp === "function") {
+            return ary.reduce(function (map, item, idx, ary) {
+                var key = funcOrProp(item, idx, ary);
+                var bucket = map[key] || (map[key] = []);
+                bucket.push(item);
+                return map;
+            }, {});
+        }
+        else {
+            return ary.reduce(function (map, item) {
+                var key = item[funcOrProp];
+                var bucket = map[key] || (map[key] = []);
+                bucket.push(item);
+                return map;
+            }, {});
+        }
+    }
+    Arrays.groupBy = groupBy;
     /** Return elements that exist in two arrays.
      * For example: Arrays.union([1, 2, 3, 4, 5, "A"], [1, 2, 4, "A"])
      * returns: [1, 2, 4, "A"]

@@ -3,33 +3,33 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var chai = require("chai");
 var Arrays = require("../../utils/Arrays");
 var asr = chai.assert;
-suite("Arrays", function ArraysTest() {
+suite("Arrays", function () {
     var numSort = function (a, b) { return a - b; };
     var equalNum = function (act, exp, msg) {
         if (act === exp || (isNaN(act) && isNaN(exp)))
             return;
         asr.equal(act, exp, msg);
     };
-    test("addAll", function addAllTest() {
+    test("addAll", function () {
         var ary1 = [1, 2, 4];
         var ary2 = [8, 16];
         var res = Arrays.addAll(ary1.slice(), ary2.slice());
         asr.deepEqual(res, [1, 2, 4, 8, 16]);
     });
-    test("addAllTransform", function addAllTransformTest() {
+    test("addAllTransform", function () {
         var ary1 = [{ id: 1 }, { id: 2 }, { id: 4 }];
         var ary2 = ['{"id": 8}', '{"id": 16}'];
         var res = Arrays.addAllTransform(ary1.slice(), ary2.slice(), function (t) { return JSON.parse(t); });
         asr.deepEqual(res, [{ id: 1 }, { id: 2 }, { id: 4 }, { id: 8 }, { id: 16 }]);
     });
-    test("asArray", function asArrayTest() {
+    test("asArray", function () {
         var obj1 = { name: "A" };
         var res = Arrays.asArray(obj1);
         asr.deepEqual(res, [obj1]);
         var res = Arrays.asArray([obj1]);
         asr.deepEqual(res, [obj1]);
     });
-    test("binarySearch", function binarySearchTest() {
+    test("binarySearch", function () {
         var ary1 = [{ p: 2 }, { p: 4 }, { p: 6 }, { p: 8 }, { p: 10 }];
         var idx1 = Arrays.binarySearch(ary1, "p", 8);
         asr.equal(idx1, 3);
@@ -40,13 +40,13 @@ suite("Arrays", function ArraysTest() {
         var idx1 = Arrays.binarySearch(ary1, "p", 11);
         asr.equal(idx1, -6);
     });
-    test("clear", function clearTest() {
+    test("clear", function () {
         var ary = [1, 2, 4];
         Arrays.clear(ary);
         asr.equal(ary.pop(), undefined);
         asr.equal(ary.length, 0);
     });
-    test("concat", function concatTest() {
+    test("concat", function () {
         var ary1 = [{ p: "B" }, { p: "D" }, { p: "F" }];
         var ary2 = [{ p: "H" }, { p: "J" }];
         var ary1And2 = [{ p: "B" }, { p: "D" }, { p: "F" }, { p: "H" }, { p: "J" }];
@@ -57,7 +57,7 @@ suite("Arrays", function ArraysTest() {
         asr.deepEqual(Arrays.concat([11], null), [11]);
         asr.deepEqual(Arrays.concat(null, ['A', 'B']), ['A', 'B']);
     });
-    test("containsAll", function containsAllTest() {
+    test("containsAll", function () {
         var ary = ["B", "D", "F", "H", "J"];
         var searchObjs1 = ["B", "D", "H"];
         var res1 = Arrays.containsAll(ary, searchObjs1);
@@ -69,7 +69,7 @@ suite("Arrays", function ArraysTest() {
         var res3 = Arrays.containsAll(ary, searchObjs3);
         asr.equal(res3, true);
     });
-    test("containsAny", function containsAnyTest() {
+    test("containsAny", function () {
         var ary = ["B", "D", "F", "H", "J"];
         var searchObjs1 = ["B", "Z"];
         var res1 = Arrays.containsAny(ary, searchObjs1);
@@ -84,14 +84,14 @@ suite("Arrays", function ArraysTest() {
         var res4 = Arrays.containsAny(ary, searchObjs4);
         asr.equal(res4, false);
     });
-    test("count", function countTest() {
+    test("count", function () {
         var ary = [1, 2, 3, 4, 5];
         var res1 = Arrays.count(ary, function (i) { return i % 2 === 0; });
         asr.equal(2, res1);
         var res2 = Arrays.count(ary, function (i) { return i % 2 === 1; });
         asr.equal(3, res2);
     });
-    test("diff", function diffTest() {
+    test("diff", function () {
         var res = Arrays.diff([1, 2, 3], [2, 4]);
         asr.deepEqual(res.sort(numSort), [1, 3, 4]);
         // duplicate values in input are treated as unique
@@ -100,21 +100,21 @@ suite("Arrays", function ArraysTest() {
         var res3 = Arrays.diff([1, 4], []);
         asr.deepEqual(res3.sort(numSort), [1, 4]);
     });
-    test("diffParts", function diffPartsTest() {
+    test("diffParts", function () {
         var res = Arrays.diffParts([1, 2, 3], [2, 4]);
         asr.deepEqual(res, { added: [4], removed: [1, 3] });
         // duplicate values in input are treated as unique
         var res2 = Arrays.diffParts([1, 1, 2, 5, 6], [3, 3, 4, 5]);
         asr.deepEqual(res2, { added: [3, 3, 4], removed: [1, 1, 2, 6] });
     });
-    test("diffPartsCustomEquality", function diffPartsCustomEqualityTest() {
+    test("diffPartsCustomEquality", function () {
         var res = Arrays.diffPartsCustomEquality([{ n: 1, h: "A" }, { n: 2, h: "B" }, { n: 3, h: "C" }], [{ n: 2, h: "D" }, { n: 4, h: "E" }], function (a, b) { return a.n === b.n; });
         asr.deepEqual(res, { added: [{ n: 4, h: "E" }], removed: [{ n: 1, h: "A" }, { n: 3, h: "C" }] });
         // duplicate values in input are treated as unique
         var res2 = Arrays.diffParts([1, 1, 2, 5, 6], [3, 3, 4, 5]);
         asr.deepEqual(res2, { added: [3, 3, 4], removed: [1, 1, 2, 6] });
     });
-    test("distinct", function distinctTest() {
+    test("distinct", function () {
         var ary1 = ["B", "D", "D", "A", "F", "A"];
         var aryDistinct1 = ["B", "D", "A", "F"];
         asr.deepEqual(Arrays.distinct(ary1), aryDistinct1);
@@ -132,7 +132,7 @@ suite("Arrays", function ArraysTest() {
         asr.notDeepEqual(Arrays.distinct(ary3, "ap"), aryDistinct3);
         asr.deepEqual(Arrays.distinct([]), []);
     });
-    test("equal", function equalTest() {
+    test("equal", function () {
         var res1 = Arrays.equal(["A", 23, true], ["A", 23, true]);
         asr.equal(res1, true);
         var res2 = Arrays.equal(["A", 23, true], ["A", 13]);
@@ -142,37 +142,45 @@ suite("Arrays", function ArraysTest() {
         var res4 = Arrays.equal([], []);
         asr.equal(res4, true);
     });
-    test("fastRemove", function fastRemoveTest() {
-        var ary = ["B", "D", "F", "H", "J"];
+    test("fastRemove", function () {
+        var ary = ["B", "D", "H", "B", "J"];
         var res1 = Arrays.fastRemove(ary.slice(), "A");
-        asr.deepEqual(res1, ["B", "D", "F", "H", "J"]);
+        asr.deepEqual(res1, ["B", "D", "H", "B", "J"]);
         var res2 = Arrays.fastRemove(ary.slice(), "B");
-        asr.deepEqual(res2.sort(), ["D", "F", "H", "J"]);
-        var res3 = Arrays.fastRemove(ary.slice(), "F");
-        asr.deepEqual(res3.sort(), ["B", "D", "H", "J"]);
-        var res4 = Arrays.fastRemove(ary.slice(), "J");
-        asr.deepEqual(res4.sort(), ["B", "D", "F", "H"]);
-    });
-    test("fastRemoveIndex", function fastRemoveIndexTest() {
-        var ary = ["B", "D", "F", "H", "J"];
-        var res1 = Arrays.fastRemoveIndex(ary.slice(), 0);
-        asr.deepEqual(res1.sort(), ["D", "F", "H", "J"]);
-        var res2 = Arrays.fastRemoveIndex(ary.slice(), 2);
         asr.deepEqual(res2.sort(), ["B", "D", "H", "J"]);
-        var res3 = Arrays.fastRemoveIndex(ary.slice(), 4);
-        asr.deepEqual(res3.sort(), ["B", "D", "F", "H"]);
+        var res3 = Arrays.fastRemove(ary.slice(), "H");
+        asr.deepEqual(res3.sort(), ["B", "B", "D", "J"]);
+        var res4 = Arrays.fastRemove(ary.slice(), "J");
+        asr.deepEqual(res4.sort(), ["B", "B", "D", "H"]);
     });
-    test("filterSplit", function filterSplitTest() {
+    test("fastRemoveIndex", function () {
+        var ary = ["B", "D", "F", "H", "J"];
+        var res = Arrays.fastRemoveIndex(ary.slice(), -1);
+        asr.deepEqual(res.sort(), ["B", "D", "F", "H", "J"]);
+        res = Arrays.fastRemoveIndex(ary.slice(), 999);
+        asr.deepEqual(res.sort(), ["B", "D", "F", "H", "J"]);
+        res = Arrays.fastRemoveIndex(ary.slice(), 0);
+        asr.deepEqual(res.sort(), ["D", "F", "H", "J"]);
+        res = Arrays.fastRemoveIndex(ary.slice(), 0);
+        asr.deepEqual(res.sort(), ["D", "F", "H", "J"]);
+        res = Arrays.fastRemoveIndex(ary.slice(), 0);
+        asr.deepEqual(res.sort(), ["D", "F", "H", "J"]);
+        res = Arrays.fastRemoveIndex(ary.slice(), 2);
+        asr.deepEqual(res.sort(), ["B", "D", "H", "J"]);
+        res = Arrays.fastRemoveIndex(ary.slice(), 4);
+        asr.deepEqual(res.sort(), ["B", "D", "F", "H"]);
+    });
+    test("filterSplit", function () {
         var res1 = Arrays.filterSplit([1, 2, 3, 4, 5], function (value, idx, ary) { return value % 2 == 0; });
         var expected1 = { all: [1, 2, 3, 4, 5], matching: [2, 4], notMatching: [1, 3, 5] };
         asr.deepEqual(res1, expected1);
     });
-    test("findMatchingsProp", function findMatchingPropsTest() {
+    test("findMatchingsProp", function () {
         var res = Arrays.findMatchingProps([{ name: "billy", value: 5 }, { name: "sam", value: 5 }, { name: "overhill", value: 3 }], "value", 5);
         var expect = [{ name: "billy", value: 5 }, { name: "sam", value: 5 }];
         asr.deepEqual(res, expect);
     });
-    test("first", function firstTest() {
+    test("first", function () {
         var ary = [{ key: 27, value: "A" }, { key: 46, value: "B" }, { key: 84, value: "C" }, { key: 84, value: "D" }];
         var expect = { key: 84, value: "C" };
         var res1 = Arrays.first(ary, function (obj) { return obj.key === 84; }, false);
@@ -182,7 +190,7 @@ suite("Arrays", function ArraysTest() {
         asr.equal(res2, ary2[1]);
         asr.throws(function () { return Arrays.first(ary, function (obj) { return obj.key === 84; }, true); });
     });
-    test("firstProp", function firstPropTest() {
+    test("firstProp", function () {
         var res2 = Arrays.firstProp([{ name: "billy", value: 5 }, { name: "sam", value: 5 }], "value", 5);
         asr.deepEqual(res2, { name: "billy", value: 5 });
         var ary1 = [{ name: "billy", value: 4 }, { name: "sam", value: 5 }, { name: "will", value: 5 }];
@@ -190,7 +198,7 @@ suite("Arrays", function ArraysTest() {
         asr.deepEqual(res1, { name: "sam", value: 5 });
         asr.throws(function () { return Arrays.firstProp(ary1, "value", 5, true); });
     });
-    test("getIfOneItem", function getIfOneItemTest() {
+    test("getIfOneItem", function () {
         asr.equal(Arrays.getIfOneItem(null), null);
         asr.equal(Arrays.getIfOneItem(21), 21);
         asr.equal(Arrays.getIfOneItem([null]), null);
@@ -198,7 +206,7 @@ suite("Arrays", function ArraysTest() {
         asr.equal(Arrays.getIfOneItem([]), null);
         asr.equal(Arrays.getIfOneItem([1, 2]), null);
     });
-    test("hasItems", function hasItemsTest() {
+    test("hasItems", function () {
         var ary1 = [1];
         var ary0 = [];
         var aryNull = null;
@@ -206,7 +214,7 @@ suite("Arrays", function ArraysTest() {
         asr.equal(Arrays.hasAny(ary0), false);
         asr.equal(Arrays.hasAny(aryNull), false);
     });
-    test("indexOfProp", function indexOfPropTest() {
+    test("indexOfProp", function () {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
         asr.equal(Arrays.indexOfProp(ary, "id", "D"), 1);
         asr.equal(Arrays.indexOfProp(ary, "id", "F"), 3);
@@ -217,7 +225,7 @@ suite("Arrays", function ArraysTest() {
         asr.equal(Arrays.indexOfProp(ary, "id", "B", -2), -1);
         asr.equal(Arrays.indexOfProp(ary, "id", "B", -5), 0);
     });
-    test("isOneItem", function isOneItemTest() {
+    test("isOneItem", function () {
         asr.equal(Arrays.isOneItem(null), true);
         asr.equal(Arrays.isOneItem(21), true);
         asr.equal(Arrays.isOneItem([null]), true);
@@ -225,23 +233,23 @@ suite("Arrays", function ArraysTest() {
         asr.equal(Arrays.isOneItem([]), false);
         asr.equal(Arrays.isOneItem([1, 2]), false);
     });
-    test("last", function lastTest() {
+    test("last", function () {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
         var res = Arrays.last(ary, function (t1, t2) { return t1.id == "D"; });
         asr.equal(res, ary[2]);
     });
-    test("lastIndexOfProp", function lastIndexOfPropTest() {
+    test("lastIndexOfProp", function () {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
         var res = Arrays.lastIndexOfProp(ary, "id", "D");
         asr.equal(res, 2);
     });
-    test("looseEqual", function looseEqualTest() {
+    test("looseEqual", function () {
         var res1 = Arrays.looseEqual([26, "Alpha", 5], [5, 26, "Alpha"]);
         asr.equal(res1, true);
         var res2 = Arrays.looseEqual([34, "A", "QA"], [7, 34, "A"]);
         asr.equal(res2, false);
     });
-    test("map", function mapTest() {
+    test("map", function () {
         var ary = [1, 2, 3, 4, 5, 6];
         var res1 = Arrays.map(ary, function (v, i) { return v + i; });
         asr.deepEqual(res1, [1, 3, 5, 7, 9, 11]);
@@ -253,7 +261,7 @@ suite("Arrays", function ArraysTest() {
         var res4 = Arrays.map(null, function () { return null; });
         asr.deepEqual(res4, []);
     });
-    test("mapFilter", function mapFilterTest() {
+    test("mapFilter", function () {
         var ary = [1, 2, 3, 4, 5, 6];
         var res = Arrays.mapFilter(ary, function (val, res) { return res.isValid = (val % 2 === 1); });
         asr.deepEqual(res, [1, 3, 5]);
@@ -265,40 +273,40 @@ suite("Arrays", function ArraysTest() {
         });
         asr.deepEqual(res2, ['a', 'b', 'c', 'c', 'a', 'b']);
     });
-    test("mapFilterNotNull", function mapFilterNotNullTest() {
+    test("mapFilterNotNull", function () {
         var ary = [1, 2, "B", null, undefined, "C"];
         var res = Arrays.mapFilterNotNull(ary, function (t) { return t; });
         asr.deepEqual(res, [1, 2, "B", "C"]);
     });
-    test("max", function maxTest() {
+    test("max", function () {
         asr.equal(Arrays.max([NaN, 0, -0]), 0);
         asr.equal(Arrays.max([null, undefined, -2]), -2);
         asr.equal(Arrays.max([-1, 0, -2]), 0);
         asr.equal(Arrays.max([0, 2, 4]), 4);
         asr.equal(Arrays.max([5, 5]), 5);
     });
-    test("maxValueIndex", function maxValueIndexTest() {
+    test("maxValueIndex", function () {
         asr.equal(Arrays.maxValueIndex([NaN, 0, -0]), 1);
         asr.equal(Arrays.maxValueIndex([null, undefined, -2]), 2);
         asr.equal(Arrays.maxValueIndex([-1, 0, -2]), 1);
         asr.equal(Arrays.maxValueIndex([0, 2, 4]), 2);
         asr.equal(Arrays.maxValueIndex([5, 5]), 0);
     });
-    test("min", function minTest() {
+    test("min", function () {
         asr.equal(Arrays.min([NaN, 0, -0]), 0);
         asr.equal(Arrays.min([null, undefined, 2]), 2);
         asr.equal(Arrays.min([1, 0, 2]), 0);
         asr.equal(Arrays.min([-2, 2, 4]), -2);
         asr.equal(Arrays.min([-5, -5]), -5);
     });
-    test("minValueIndex", function minValueIndexTest() {
+    test("minValueIndex", function () {
         asr.equal(Arrays.minValueIndex([NaN, 0, -0]), 1);
         asr.equal(Arrays.minValueIndex([null, undefined, 2]), 2);
         asr.equal(Arrays.minValueIndex([1, 0, 2]), 1);
         asr.equal(Arrays.minValueIndex([-2, 2, 4]), 0);
         asr.equal(Arrays.minValueIndex([-5, -5]), 0);
     });
-    test("pluck", function pluckTest() {
+    test("pluck", function () {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
         var res = Arrays.pluck(ary, "id");
         asr.deepEqual(res, ["B", "D", "D", "F"]);
@@ -311,7 +319,7 @@ suite("Arrays", function ArraysTest() {
         asr.deepEqual(Arrays.pluck([], 0), []);
         asr.deepEqual(Arrays.pluck(null, 0), []);
     });
-    test("removeAll", function removeAllTest() {
+    test("removeAll", function () {
         var res1 = Arrays.removeAll([2, 5, 3, 1, 4, 5], [5, 1]);
         asr.deepEqual(res1.sort(numSort), [2, 3, 4, 5]);
         var res2 = Arrays.removeAll([2, 3, 1, 3, 2], [2, 2, 3], true);
@@ -319,7 +327,7 @@ suite("Arrays", function ArraysTest() {
         var res2 = Arrays.removeAll([2, 1], null);
         asr.deepEqual(res2.sort(numSort), [1, 2]);
     });
-    test("removeIndex", function removeIndexTest() {
+    test("removeIndex", function () {
         var ary = [11, 12];
         asr.strictEqual(Arrays.removeIndex(ary, -1), ary);
         asr.deepEqual(Arrays.removeIndex([], -1), []);
@@ -330,7 +338,7 @@ suite("Arrays", function ArraysTest() {
         asr.deepEqual(Arrays.removeIndex(["Alpha", "Beta", "Gamma"], 1), ["Alpha", "Gamma"]);
         asr.deepEqual(Arrays.removeIndex(["Alpha", "Beta", "Gamma"], 2), ["Alpha", "Beta"]);
     });
-    test("removeValue", function removeValueTest() {
+    test("removeValue", function () {
         var ary1 = ["A", "B", "C", "D"];
         var val1 = Arrays.removeValue(ary1, "B");
         asr.deepEqual(ary1, ["A", "C", "D"]);
@@ -344,13 +352,13 @@ suite("Arrays", function ArraysTest() {
         asr.deepEqual(ary3, ["1", 2, 4, "5"]);
         asr.equal(val3, 2);
     });
-    test("setAllProp", function setAllPropTest() {
+    test("setAllProp", function () {
         var ary = [{ id: "B" }, { id: "D" }, { id: "D" }, { id: "F" }];
         var expect = [{ id: 1 }, { id: 1 }, { id: 1 }, { id: 1 }];
         Arrays.setAllProp(ary, "id", 1);
         asr.deepEqual(ary, expect);
     });
-    test("sortNumeric", function sortNumericTest() {
+    test("sortNumeric", function () {
         var ary = [5, 2, 3, 1, 4];
         var res1 = Arrays.sortNumeric(ary.slice());
         asr.deepEqual(res1, [1, 2, 3, 4, 5]);
@@ -359,7 +367,7 @@ suite("Arrays", function ArraysTest() {
         var res3 = Arrays.sortNumeric([1, 1]);
         asr.deepEqual(res3, [1, 1]);
     });
-    test("splice", function spliceTest() {
+    test("splice", function () {
         var res = Arrays.splice([0, 1, 1, 5], [10, 15, 20], 2, 1);
         asr.deepEqual(res, [0, 1, 10, 15, 20, 5]);
         var res2 = Arrays.splice([2, 3], [0, 1], 0, 0);
@@ -393,7 +401,7 @@ suite("Arrays", function ArraysTest() {
         // the original array is not modified
         asr.deepEqual(in1, [6, 7]);
     });
-    test("sum", function sumTest() {
+    test("sum", function () {
         var ary1 = [1, 2, 3, 4];
         equalNum(Arrays.sum(ary1), 10);
         equalNum(Arrays.sum(ary1, true), 10);
@@ -403,7 +411,7 @@ suite("Arrays", function ArraysTest() {
         equalNum(Arrays.sum(ary2, true), 6);
         equalNum(Arrays.sum(ary2, false), NaN);
     });
-    test("swap", function swapTest() {
+    test("swap", function () {
         var res = Arrays.swap(["A", "B", "C", "D"], 0, 1);
         asr.deepEqual(res, ["B", "A", "C", "D"]);
         var res = Arrays.swap(["A", "B", "C", "D"], 1, 2);
@@ -415,28 +423,45 @@ suite("Arrays", function ArraysTest() {
         var res = Arrays.swap(["A", "B", "C", "D"], 0, 2);
         asr.deepEqual(res, ["C", "B", "A", "D"]);
     });
-    test("toMap", function toMapTest() {
-        var res = Arrays.toMap([{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "s");
+    test("toMap", function () {
+        var res = Arrays.toMap([{ s: "A", t: 0 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "s");
         asr.deepEqual(res, {
+            A: { s: "A", t: 0 },
+            B: { s: "B", t: 1 },
+            C: { s: "C", t: 2 }
+        });
+        var res2 = Arrays.toMap([{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "s", false); // allow duplicates
+        asr.deepEqual(res2, {
             A: { s: "A", t: 1 },
             B: { s: "B", t: 1 },
             C: { s: "C", t: 2 }
         });
-        var res2 = Arrays.toMap([{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 1 }, { s: "C", t: 2 }], "t");
-        asr.deepEqual(res2, {
-            0: { s: "A", t: 0 },
-            1: { s: "B", t: 1 },
-            2: { s: "C", t: 2 }
-        });
-        var res3 = Arrays.toMap(["ABC", "AAB", "ABA", "BBC"], 0);
+        var res3 = Arrays.toMap(["AB", "BBC", "C"], 0);
         asr.deepEqual(res3, {
-            A: "ABA",
-            B: "BBC"
+            A: "AB",
+            B: "BBC",
+            C: "C",
         });
+        asr.throws(function () { return Arrays.toMap([{ k: "A" }, { k: "A" }], "k"); });
         asr.deepEqual(Arrays.toMap([], ""), {});
         asr.deepEqual(Arrays.toMap(null, ""), {});
     });
-    test("union", function unionTest() {
+    test("groupBy", function () {
+        var ary = [{ s: "A", t: 0 }, { s: "A", t: 1 }, { s: "B", t: 2 }, { s: "C", t: 3 }, { s: "C", t: 5 }];
+        var grouping = Arrays.groupBy(ary, "s");
+        asr.deepEqual(grouping, {
+            "A": [{ s: "A", t: 0 }, { s: "A", t: 1 }],
+            "B": [{ s: "B", t: 2 }],
+            "C": [{ s: "C", t: 3 }, { s: "C", t: 5 }],
+        });
+        var grouping2 = Arrays.groupBy([{ k: "A", v: 10 }, { k: "A", v: 12 }, { k: "B", v: 15 }, { k: "C", v: 24 }, { k: "C", v: 42 }], "k");
+        asr.deepEqual(grouping2, {
+            A: [{ k: "A", v: 10 }, { k: "A", v: 12 }],
+            B: [{ k: "B", v: 15 }],
+            C: [{ k: "C", v: 24 }, { k: "C", v: 42 }]
+        });
+    });
+    test("union", function () {
         var ary1 = ["A", "B", "C", "D", "1"];
         var ary2 = ["B", "C", "D", "2"];
         var aryUnion = Arrays.union(ary1, ary2);
