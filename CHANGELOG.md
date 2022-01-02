@@ -4,6 +4,12 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
+### [0.22.0](N/A) - 2022-01-02
+#### Changed
+* Update to TypeScript 4.4
+
+
+--------
 ### [0.21.2](N/A) - 2021-08-11
 #### Added
 * `Arrays.groupBy()` which maps an array to a map of arrays grouped by a property name
