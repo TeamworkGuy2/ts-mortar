@@ -7,23 +7,39 @@ var asr = chai.assert;
 
 suite("Strings", function StringsTest() {
 
-    test("isNullOrEmpty", function isNullOrEmptyTest() {
-        asr.equal(Strings.isNullOrEmpty(""), true);
-        asr.equal(Strings.isNullOrEmpty(null), true);
-        asr.equal(Strings.isNullOrEmpty(" "), false);
-        asr.equal(Strings.isNullOrEmpty("abc"), false);
+    test("isNullOrEmpty", function () {
+        asr.isTrue(Strings.isNullOrEmpty(""));
+        asr.isTrue(Strings.isNullOrEmpty(null));
+        asr.isFalse(Strings.isNullOrEmpty(" "));
+        asr.isFalse(Strings.isNullOrEmpty("abc"));
     });
 
 
-    test("isNullOrWhiteSpace", function isNullOrWhiteSpaceTest() {
-        asr.equal(Strings.isNullOrWhiteSpace(""), true);
-        asr.equal(Strings.isNullOrWhiteSpace(null), true);
-        asr.equal(Strings.isNullOrWhiteSpace(" "), true);
-        asr.equal(Strings.isNullOrWhiteSpace("abc"), false);
+    test("isNullOrWhiteSpace", function () {
+        asr.isTrue(Strings.isNullOrWhiteSpace(""));
+        asr.isTrue(Strings.isNullOrWhiteSpace(null));
+        asr.isTrue(Strings.isNullOrWhiteSpace(" "));
+        asr.isFalse(Strings.isNullOrWhiteSpace("abc"));
     });
 
 
-    test("isCharAtDigit", function isCharAtDigitTest() {
+    test("notNullOrEmpty", function () {
+        asr.isFalse(Strings.notNullOrEmpty(""));
+        asr.isFalse(Strings.notNullOrEmpty(null));
+        asr.isTrue(Strings.notNullOrEmpty(" "));
+        asr.isTrue(Strings.notNullOrEmpty("abc"));
+    });
+
+
+    test("notNullOrWhiteSpace", function () {
+        asr.isFalse(Strings.notNullOrWhiteSpace(""));
+        asr.isFalse(Strings.notNullOrWhiteSpace(null));
+        asr.isFalse(Strings.notNullOrWhiteSpace(" "));
+        asr.isTrue(Strings.notNullOrWhiteSpace("abc"));
+    });
+
+
+    test("isCharAtDigit", function () {
         asr.isTrue (Strings.isCharAtDigit("1.2%", 0));
         asr.isFalse(Strings.isCharAtDigit("1.2%", 1));
         asr.isTrue (Strings.isCharAtDigit("1.2%", 2));
@@ -40,7 +56,7 @@ suite("Strings", function StringsTest() {
     });
 
 
-    test("isDigit", function isDigitTest() {
+    test("isDigit", function () {
         asr.isTrue(Strings.isDigit("5"));
         asr.isTrue(Strings.isDigit("123"));
         asr.isTrue(Strings.isDigit("0"));
@@ -53,7 +69,7 @@ suite("Strings", function StringsTest() {
     });
 
 
-    test("isCharAtUpperCase", function isCharAtUpperCaseTest() {
+    test("isCharAtUpperCase", function () {
         asr.isTrue (Strings.isCharAtUpperCase("AbCd", 0));
         asr.isFalse(Strings.isCharAtUpperCase("AbCd", 1));
         asr.isTrue (Strings.isCharAtUpperCase("AbCd", 2));
@@ -66,7 +82,7 @@ suite("Strings", function StringsTest() {
     });
 
 
-    test("isCharAtLowerCase", function isCharAtLowerCaseTest() {
+    test("isCharAtLowerCase", function () {
         asr.isTrue (Strings.isCharAtLowerCase("aBcD", 0));
         asr.isFalse(Strings.isCharAtLowerCase("aBcD", 1));
         asr.isTrue (Strings.isCharAtLowerCase("aBcD", 2));
@@ -79,7 +95,7 @@ suite("Strings", function StringsTest() {
     });
 
 
-    test("truncate", function truncateTest() {
+    test("truncate", function () {
         asr.equal(Strings.truncate("123"  , 4, "..."), "123");
         asr.equal(Strings.truncate("1234" , 4, "..."), "1234");
         asr.equal(Strings.truncate("12345", 4, "..."), "1...");
@@ -93,7 +109,7 @@ suite("Strings", function StringsTest() {
     });
 
 
-    test("looseEqual", function looseEqualTest() {
+    test("looseEqual", function () {
         asr.equal(Strings.looseEqual(" Abc", "ABC"), true);
         asr.equal(Strings.looseEqual(" abc", "ABC\t"), true);
         asr.equal(Strings.looseEqual(" \n\n", "\t"), true);
@@ -101,7 +117,7 @@ suite("Strings", function StringsTest() {
     });
 
 
-    test("padStart", function padStartTest() {
+    test("padStart", function () {
         asr.equal(Strings.padStart(123, 5, '0'), "00123");
         asr.equal(Strings.padStart(123, 6, '0'), "000123");
         asr.equal(Strings.padStart(123, 3, '0'), "123");
@@ -113,7 +129,7 @@ suite("Strings", function StringsTest() {
     });
 
 
-    test("padEnd", function padEndTest() {
+    test("padEnd", function () {
         asr.equal(Strings.padEnd(1.2, 5, " "), "1.2  ");
         asr.equal(Strings.padEnd(1.2, 6, "-"), "1.2---");
         asr.equal(Strings.padEnd(1.2, 3, "-"), "1.2");
@@ -121,7 +137,7 @@ suite("Strings", function StringsTest() {
     });
 
 
-    test("removeLeading", function removeLeadingTest() {
+    test("removeLeading", function () {
         var res1 = Strings.removeLeading("stubstubAlpha", "stub", true);
         asr.equal(res1, "Alpha");
 
@@ -133,7 +149,7 @@ suite("Strings", function StringsTest() {
     });
 
 
-    test("removeTrailing", function removeTrailingTest() {
+    test("removeTrailing", function () {
         var res1 = Strings.removeTrailing("alphaPiePiePie", "Pie", true);
         asr.equal(res1, "alpha");
 
@@ -145,7 +161,7 @@ suite("Strings", function StringsTest() {
     });
 
 
-    test("replaceAll", function replaceAllTest() {
+    test("replaceAll", function () {
         var res1 = Strings.replaceAll("cat in the hat", "at", "ab");
         asr.equal(res1, "cab in the hab");
 

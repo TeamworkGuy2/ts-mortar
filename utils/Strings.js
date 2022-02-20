@@ -21,6 +21,23 @@ var Strings;
         return str == null || str.trim().length === 0;
     }
     Strings.isNullOrWhiteSpace = isNullOrWhiteSpace;
+    /** Check that a string is NOT null nor empty
+     * @param str the string to check
+     * @returns true if the 'str' is not null and not empty, false if null or empty
+     */
+    function notNullOrEmpty(str) {
+        return str != null && str.length > 0;
+    }
+    Strings.notNullOrEmpty = notNullOrEmpty;
+    /** Check that a string is NOT null nor empty nor contains only whitespace
+     * @param str the string to check
+     * @returns true if the 'str' is not null, not empty, nor contains only whitespace characters,
+     * false otherwise
+     */
+    function notNullOrWhiteSpace(str) {
+        return str != null && str.trim().length > 0;
+    }
+    Strings.notNullOrWhiteSpace = notNullOrWhiteSpace;
     /** Check if a character at a specific index in a string is a digit
      * @param str the string to get the character from
      * @param i the index of the character

@@ -23,6 +23,25 @@ module Strings {
     }
 
 
+    /** Check that a string is NOT null nor empty
+     * @param str the string to check
+     * @returns true if the 'str' is not null and not empty, false if null or empty
+     */
+    export function notNullOrEmpty(str: string | null | undefined): str is string {
+        return str != null && str.length > 0;
+    }
+
+
+    /** Check that a string is NOT null nor empty nor contains only whitespace
+     * @param str the string to check
+     * @returns true if the 'str' is not null, not empty, nor contains only whitespace characters,
+     * false otherwise
+     */
+    export function notNullOrWhiteSpace(str: string | null | undefined): str is string {
+        return str != null && str.trim().length > 0;
+    }
+
+
     /** Check if a character at a specific index in a string is a digit
      * @param str the string to get the character from
      * @param i the index of the character

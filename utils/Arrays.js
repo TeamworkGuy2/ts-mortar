@@ -399,17 +399,6 @@ var Arrays;
             notMatching: notMatching
         };
     }
-    /** Search for objects in an array containing a property matching a given input property.
-     * For example: Arrays.findAllProp([ {name: "billy", value: 5}, {name: "sam", value: 5}, {name: "overhill", value: 3} ], "value", 5)
-     * returns: {name: "billy", value: 5}, {name: "sam", value: 5}
-     * because the matching object has a property "value" with a value of 5
-     *
-     * @param ary the array to search
-     * @param propName the name of the property to search for on each object
-     * @param propValue the property value to compare
-     * @returns an array of objects containing properties named 'propName' with values equal to 'propValue',
-     * returns a new empty array if no matching object was found
-     */
     function findMatchingProps(ary, propName, propValue) {
         if (ary == null || propName == null || propValue === undefined) {
             return null;
@@ -489,18 +478,6 @@ var Arrays;
         return -1;
     }
     Arrays.lastIndex = lastIndex;
-    /** Search for an object in an array containing a property matching a given input property.
-     * Optional: throw an exception if more than one result is found.
-     * For example: Arrays.firstProp([ {name: "billy", value: 4}, {name: "sam", value: 5}, {name: "will", value: 5} ], "value", 5)
-     * returns: {name: "sam", value: 5}
-     * Or example: Arrays.firstProp([ {name: "billy", value: 4}, {name: "sam", value: 4}, {name: "will", value: 5} ], "value", 5, true)
-     * throws an error because the value appears more than once and the 'ensureOne' parameter = true
-     *
-     * @param ary the array of values to search
-     * @param propName the name of the property  to search for on each object
-     * @param propValue the property value to compare
-     * @returns the first (lowest index) matching value from the input array, or null if a result cannot be found
-     */
     function firstProp(ary, propName, propValue, ensureOne) {
         if (ensureOne === void 0) { ensureOne = false; }
         if (ary == null || propName == null) {
@@ -519,6 +496,16 @@ var Arrays;
                     }
                 }
                 resultCount++;
+                if (ensureOne && resultCount > 1) {
+                    break;
+                }
+            }
+        }
+        if (ensureOne) {
+            if (resultCount === 0) {
+                throw new Error("found no results for '" + propName + "'='" + propValue + "', expected to find one");
+            }
+            else if (resultCount > 1) {
                 throw new Error("found multiple results for '" + propName + "'='" + propValue + "', expected to find one");
             }
         }

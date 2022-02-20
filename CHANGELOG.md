@@ -4,7 +4,20 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.22.0](N/A) - 2022-01-02
+### [0.22.1](N/A) - 2022-02-20
+#### Added
+* `Strings.notNullOrEmpty()` and `notNullOrWhiteSpace()`
+
+#### Changed
+* `Arrays.findMatchingProps()` overload to ensure non-null array is returned when input 'ary' is not null
+* `Arrays.firstProp()` overload to ensure non-null value is returned when input 'ary' is not null and 'ensureOne' is true
+
+#### Fixed
+* `Arrays.firstProp()` `ensureOne` parameter not working correctly, added unit test
+
+
+--------
+### [0.22.0](https://github.com/TeamworkGuy2/ts-mortar/commit/3a9563ed7d74b79bcc4dbe277ab8d515bd0a99e6) - 2022-01-02
 #### Changed
 * Update to TypeScript 4.4
 

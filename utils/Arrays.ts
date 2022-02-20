@@ -471,6 +471,8 @@ module Arrays {
      * @returns an array of objects containing properties named 'propName' with values equal to 'propValue',
      * returns a new empty array if no matching object was found
      */
+    export function findMatchingProps<E, K extends keyof E>(ary: E[] | ArrayLike<E>, propName: K, propValue: E[K]): E[];
+    export function findMatchingProps<E, K extends keyof E>(ary: E[] | ArrayLike<E> | null | undefined, propName: K, propValue: E[K]): E[] | null;
     export function findMatchingProps<E, K extends keyof E>(ary: E[] | ArrayLike<E> | null | undefined, propName: K, propValue: E[K]): E[] | null {
         if (ary == null || propName == null || propValue === undefined) { return null; }
         var res: E[] = [];
@@ -503,7 +505,7 @@ module Arrays {
      */
     export function firstIndex<E>(ary: E[] | ArrayLike<E> | null | undefined, filter: (value: E, index: number, array: E[]) => boolean, ensureOne: boolean = false): number {
         if (ary == null || filter == null) { return -1; }
-        var resultIdx: number = -1;
+        var resultIdx = -1;
         var resultCount = 0;
 
         for (var i = 0, size = ary.length; i < size; i++) {
@@ -560,8 +562,11 @@ module Arrays {
      * @param ary the array of values to search
      * @param propName the name of the property  to search for on each object
      * @param propValue the property value to compare
+     * @param ensureOne ensure that one result is found and returned, throw an error if zero results are found or if multiple results are found
      * @returns the first (lowest index) matching value from the input array, or null if a result cannot be found
      */
+    export function firstProp<E, K extends keyof E>(ary: E[] | ArrayLike<E>, propName: K, propValue: E[K], ensureOne: true): E;
+    export function firstProp<E, K extends keyof E>(ary: E[] | ArrayLike<E> | null | undefined, propName: K, propValue: E[K], ensureOne?: boolean): E | null;
     export function firstProp<E, K extends keyof E>(ary: E[] | ArrayLike<E> | null | undefined, propName: K, propValue: E[K], ensureOne: boolean = false): E | null {
         if (ary == null || propName == null) { return null; }
         var result: E | null = null;
@@ -578,6 +583,17 @@ module Arrays {
                     }
                 }
                 resultCount++;
+                if (ensureOne && resultCount > 1) {
+                    break;
+                }
+            }
+        }
+
+        if (ensureOne) {
+            if (resultCount === 0) {
+                throw new Error("found no results for '" + propName + "'='" + propValue + "', expected to find one");
+            }
+            else if (resultCount > 1) {
                 throw new Error("found multiple results for '" + propName + "'='" + propValue + "', expected to find one");
             }
         }

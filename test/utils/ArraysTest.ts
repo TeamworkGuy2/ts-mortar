@@ -258,9 +258,10 @@ suite("Arrays", () => {
 
     test("findMatchingsProp", () => {
         var res = Arrays.findMatchingProps([{ name: "billy", value: 5 }, { name: "sam", value: 5 }, { name: "overhill", value: 3 }], "value", 5);
-        var expect = [{ name: "billy", value: 5 }, { name: "sam", value: 5 }];
+        asr.deepEqual(res, [{ name: "billy", value: 5 }, { name: "sam", value: 5 }]);
 
-        asr.deepEqual(res, expect);
+        var res2 = Arrays.findMatchingProps(<any[]>[], "value", 5);
+        asr.deepEqual(res2, []);
     });
 
 
@@ -281,13 +282,18 @@ suite("Arrays", () => {
 
 
     test("firstProp", () => {
-        var res2 = Arrays.firstProp([{ name: "billy", value: 5 }, { name: "sam", value: 5 }], "value", 5);
-        asr.deepEqual(res2, { name: "billy", value: 5 });
+        var res1 = Arrays.firstProp([{ name: "billy", value: 5 }, { name: "sam", value: 5 }], "value", 5);
+        asr.deepEqual(res1, { name: "billy", value: 5 });
+
+        var res2 = Arrays.firstProp([{ name: "billy", value: 4 }, { name: "sam", value: 5 }], "value", 4, true);
+        asr.deepEqual(res2, { name: "billy", value: 4 });
 
         var ary1 = [{ name: "billy", value: 4 }, { name: "sam", value: 5 }, { name: "will", value: 5 }];
 
-        var res1 = Arrays.firstProp(ary1, "value", 5, false);
-        asr.deepEqual(res1, { name: "sam", value: 5 });
+        var res3 = Arrays.firstProp(ary1, "value", 5, false);
+        asr.deepEqual(res3, { name: "sam", value: 5 });
+
+        asr.throws(() => Arrays.firstProp(<typeof ary1>[], "value", 5, true));
 
         asr.throws(() => Arrays.firstProp(ary1, "value", 5, true));
     });
